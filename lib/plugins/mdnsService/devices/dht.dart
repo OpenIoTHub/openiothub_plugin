@@ -1,8 +1,10 @@
 //这个模型是用来展示数据量的模型，比如：温度，湿度，光照强度
-import 'package:flutter/material.dart';
 import 'dart:convert';
+
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:openiothub_models/models/portService.dart';
+import 'package:openiothub_grpc_api/pb/service.pb.dart';
+import 'package:openiothub_grpc_api/pb/service.pbgrpc.dart';
 import 'package:openiothub_plugin/plugins/mdnsService/commWidgets/info.dart';
 import 'package:openiothub_plugin/plugins/mdnsService/commWidgets/uploadOTA.dart';
 

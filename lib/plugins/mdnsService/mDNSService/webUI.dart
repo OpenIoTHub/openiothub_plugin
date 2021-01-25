@@ -2,11 +2,11 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:openiothub_grpc_api/pb/service.pb.dart';
+import 'package:openiothub_grpc_api/pb/service.pbgrpc.dart';
+import 'package:openiothub_plugin/plugins/mdnsService/commWidgets/info.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:webview_flutter/webview_flutter.dart';
-import 'package:openiothub_models/models/portService.dart';
-import 'package:openiothub_plugin/plugins/mdnsService/commWidgets/info.dart';
-import 'package:webdav/webdav.dart';
 
 class WebPage extends StatefulWidget {
   WebPage({Key key, this.serviceInfo}) : super(key: key);

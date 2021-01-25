@@ -1,11 +1,11 @@
 //oneKeySwitch:https://github.com/iotdevice/esp8266-switch
-import 'package:flutter/material.dart';
 import 'dart:convert';
+
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:openiothub_constants/constants/Config.dart';
-import 'package:openiothub_models/models/portService.dart';
+import 'package:openiothub_grpc_api/pb/service.pb.dart';
+import 'package:openiothub_grpc_api/pb/service.pbgrpc.dart';
 import 'package:openiothub_plugin/plugins/mdnsService/commWidgets/info.dart';
-import 'package:openiothub_plugin/plugins/mdnsService/commWidgets/uploadOTA.dart';
 
 class OneKeySwitchPage extends StatefulWidget {
   OneKeySwitchPage({Key key, this.device}) : super(key: key);
@@ -18,8 +18,6 @@ class OneKeySwitchPage extends StatefulWidget {
 }
 
 class _OneKeySwitchPageState extends State<OneKeySwitchPage> {
-  static const Color onColor = Colors.green;
-  static const Color offColor = Colors.red;
   String ledBottonStatus = "off";
 
   @override
@@ -61,7 +59,7 @@ class _OneKeySwitchPageState extends State<OneKeySwitchPage> {
               children: <Widget>[
                 IconButton(
                   icon: Icon(Icons.power_settings_new),
-                  color: ledBottonStatus == "on" ? onColor : offColor,
+                  color: ledBottonStatus == "on" ? Colors.green : Colors.red,
                   iconSize: 100.0,
                   onPressed: () {
                     _changeSwitchStatus();

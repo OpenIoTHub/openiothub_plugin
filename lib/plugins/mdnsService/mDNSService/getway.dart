@@ -1,16 +1,14 @@
-import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:openiothub_api/api/GateWay/GatewayLoginManager.dart';
 import 'package:gateway_grpc_api/pb/service.pb.dart';
 import 'package:gateway_grpc_api/pb/service.pbgrpc.dart';
+import 'package:openiothub_api/api/GateWay/GatewayLoginManager.dart';
 import 'package:openiothub_api/api/OpenIoTHub/SessionApi.dart';
-
-import 'package:openiothub_models/models/portService.dart';
-import 'package:openiothub_plugin/plugins/mdnsService/commWidgets/info.dart';
 import 'package:openiothub_api/utils/utils.dart';
 import 'package:openiothub_grpc_api/pb/service.pb.dart';
+import 'package:openiothub_grpc_api/pb/service.pbgrpc.dart';
+import 'package:openiothub_plugin/plugins/mdnsService/commWidgets/info.dart';
 // import 'package:shared_preferences/shared_preferences.dart';
 
 class Gateway extends StatefulWidget {

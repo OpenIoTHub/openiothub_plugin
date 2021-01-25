@@ -1,11 +1,11 @@
 //PhicommTC1A1Plugin:https://github.com/iotdevice/phicomm_dc1
-import 'package:flutter/material.dart';
 import 'dart:convert';
+
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:openiothub_constants/constants/Config.dart';
-import 'package:openiothub_models/models/portService.dart';
+import 'package:openiothub_grpc_api/pb/service.pb.dart';
+import 'package:openiothub_grpc_api/pb/service.pbgrpc.dart';
 import 'package:openiothub_plugin/plugins/mdnsService/commWidgets/info.dart';
-import 'package:openiothub_plugin/plugins/mdnsService/commWidgets/uploadOTA.dart';
 
 class PhicommTC1A1PluginPage extends StatefulWidget {
   PhicommTC1A1PluginPage({Key key, this.device}) : super(key: key);
@@ -18,9 +18,6 @@ class PhicommTC1A1PluginPage extends StatefulWidget {
 }
 
 class _PhicommTC1A1PluginPageState extends State<PhicommTC1A1PluginPage> {
-  static const Color onColor = Colors.green;
-  static const Color offColor = Colors.red;
-
   static const String slot0 = "slot0";
   static const String slot1 = "slot1";
 

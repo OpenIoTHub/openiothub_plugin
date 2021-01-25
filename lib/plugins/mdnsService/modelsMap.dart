@@ -1,4 +1,6 @@
-import 'package:openiothub_models/models/portService.dart';
+import 'package:openiothub_grpc_api/pb/service.pb.dart';
+import 'package:openiothub_grpc_api/pb/service.pbgrpc.dart';
+
 import './components.dart';
 
 //TODO：为每一个模型添加图标信息

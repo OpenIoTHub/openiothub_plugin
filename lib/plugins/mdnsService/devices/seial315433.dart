@@ -1,7 +1,8 @@
 //Serial315433:https://github.com/iotdevice/serial-315-433
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:openiothub_models/models/portService.dart';
+import 'package:openiothub_grpc_api/pb/service.pb.dart';
+import 'package:openiothub_grpc_api/pb/service.pbgrpc.dart';
 import 'package:openiothub_plugin/plugins/mdnsService/commWidgets/info.dart';
 import 'package:openiothub_plugin/plugins/mdnsService/commWidgets/uploadOTA.dart';
 
