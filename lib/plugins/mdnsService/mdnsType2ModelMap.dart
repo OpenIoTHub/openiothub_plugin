@@ -34,102 +34,23 @@ static  PortService get basePortService {
   //TODO：后续将会自动添加到Info.plist
   static Map<String, PortService> modelsMap = Map.from({
     //    OpenIoTHub网关模型
-    Config.mdnsGatewayService: () {
-      PortService portService = PortService.create();
-      portService.isLocal = true;
-      portService.ip = "127.0.0.1";
-      portService.port = 80;
-      portService.info.addAll({
-        "name": "网关",
-        "model": Gateway.modelName,
-        "mac": "",
-        "id": "",
-        "author": "Farry",
-        "email": "newfarry@126.com",
-        "home-page": "https://github.com/OpenIoTHub",
-        "firmware-respository": "https://github.com/OpenIoTHub/gateway-go",
-        "firmware-version": "version",
-      });
-      return portService;
-    },
+    Config.mdnsGatewayService: getPortServiceByNameModel("云易连网关", Gateway.modelName),
     //    web UI,http使用web方式打开服务的模型
-    "_http._tcp": () {
-      PortService portService = PortService.create();
-      portService.isLocal = true;
-      portService.ip = "127.0.0.1";
-      portService.port = 80;
-      portService.info.addAll({
-        "name": "Http服务",
-        "model": WebPage.modelName,
-        "mac": "",
-        "id": "",
-        "author": "Farry",
-        "email": "newfarry@126.com",
-        "home-page": "https://github.com/OpenIoTHub",
-        "firmware-respository": "https://github.com/OpenIoTHub",
-        "firmware-version": "version",
-      });
-      return portService;
-    },
+    "_http._tcp": getPortServiceByNameModel("Http服务", WebPage.modelName),
     //    web UI,http使用web方式打开服务的模型
-    "_CGI._tcp": () {
-      PortService portService = PortService.create();
-      portService.isLocal = true;
-      portService.ip = "127.0.0.1";
-      portService.port = 80;
-      portService.info.addAll({
-        "name": "CGI Http服务",
-        "model": WebPage.modelName,
-        "mac": "",
-        "id": "",
-        "author": "Farry",
-        "email": "newfarry@126.com",
-        "home-page": "https://github.com/OpenIoTHub",
-        "firmware-respository": "https://github.com/OpenIoTHub",
-        "firmware-version": "version",
-      });
-      return portService;
-    },
+    "_CGI._tcp": getPortServiceByNameModel("CGI Http服务", WebPage.modelName),
     //    web UI,homeassistant使用web方式打开服务的模型
-    "_home-assistant._tcp": () {
-      PortService portService = PortService.create();
-      portService.isLocal = true;
-      portService.ip = "127.0.0.1";
-      portService.port = 80;
-      portService.info.addAll({
-        "name": "HomeAssistant",
-        "model": WebPage.modelName,
-        "mac": "",
-        "id": "",
-        "author": "Farry",
-        "email": "newfarry@126.com",
-        "home-page": "https://www.home-assistant.io",
-        "firmware-respository":
-            "https://github.com/home-assistant/home-assistant",
-        "firmware-version": "version",
-      });
-      return portService;
-    },
+    "_home-assistant._tcp": getPortServiceByNameModel("HomeAssistant", WebPage.modelName),
     //    vnc远程桌面模型
-    "_rfb._tcp": () {
-      PortService portService = PortService.create();
-      portService.isLocal = true;
-      portService.ip = "127.0.0.1";
-      portService.port = 80;
-      portService.info.addAll({
-        "name": "VNC RFB远程桌面",
-        "model": VNCWebPage.modelName,
-        "mac": "",
-        "id": "",
-        "author": "Farry",
-        "email": "newfarry@126.com",
-        "home-page": "https://github.com/OpenIoTHub",
-        "firmware-respository": "https://github.com/OpenIoTHub/OpenIoTHub",
-        "firmware-version": "version",
-      });
-      return portService;
-    },
+    "_rfb._tcp":  getPortServiceByNameModel("VNC RFB远程桌面", VNCWebPage.modelName),
   });
+
+  static PortService getPortServiceByNameModel(String name, model) {
+    PortService portService = basePortService;
+    portService.info["name"] = name;
+    portService.info["model"] = model;
+    return portService;
+  }
 
   static List<String> getAllmDnsServiceType() {
     List<String> keys = [Config.mdnsIoTDeviceService];
