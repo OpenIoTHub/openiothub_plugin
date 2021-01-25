@@ -19,7 +19,7 @@ class MDNS2ModelsMap {
     "firmware-version": "version",
   };
 
-  PortService get basePortService {
+static  PortService get basePortService {
     PortService portService = PortService.create();
     portService.isLocal = true;
     portService.ip = "127.0.0.1";
