@@ -7,10 +7,12 @@ export './devices/phicommDC1Plugin.dart';
 export './devices/phicommTC1A1Plugin.dart';
 export './devices/rgbaLed.dart';
 export './devices/seial315433.dart';
+//Service
 export './mDNSService/VNCRFBWebPage.dart';
 export './mDNSService/aria2c.dart';
 export './mDNSService/getway.dart';
 export './mDNSService/mdnsResponser.dart';
+export './mDNSService/videoPlayer.dart';
 export './mDNSService/webDAV.dart';
 //mDNSService https://github.com/mDNSService
 export './mDNSService/webUI.dart';

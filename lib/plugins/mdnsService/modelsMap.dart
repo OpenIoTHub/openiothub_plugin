@@ -86,5 +86,10 @@ class ModelsMap {
         serviceInfo: serviceInfo,
       );
     },
+    VideoPlayer.modelName: (PortService serviceInfo) {
+      return VideoPlayer(
+        serviceInfo: serviceInfo,
+      );
+    },
   });
 }

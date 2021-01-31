@@ -12,6 +12,7 @@ dependencies:
   flutter:
     sdk: flutter
   #  app内嵌网页浏览器
+  flutter_vlc_player: ^2.0.0
   webview_flutter: ^0.3.19+9
   #  打开url
   url_launcher: ^5.0.2
