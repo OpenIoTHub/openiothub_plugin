@@ -17,6 +17,7 @@ class _VideoPlayerState extends State<VideoPlayer> {
   @override
   void initState() {
     url = "${widget.serviceInfo.info["scheme"]}://${widget.serviceInfo.ip}:${widget.serviceInfo.port}${widget.serviceInfo.info["path"]}";
+    print("url:$url");
     controller = VlcPlayerController(onInit: (){controller.play();});
     super.initState();
   }
