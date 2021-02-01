@@ -14,6 +14,8 @@ class InfoPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //设备信息
+    final List _std_key = ["name", "model", "mac", "id", "author",
+      "email", "home-page", "firmware-respository", "firmware-version"];
     final List _result = [];
     _result.add("设备名称:${portService.info["name"]}");
     _result.add("设备型号:${portService.info["model"].replaceAll("#", ".")}");
@@ -26,6 +28,12 @@ class InfoPage extends StatelessWidget {
     _result.add("固件版本:${portService.info["firmware-version"]}");
     _result.add("本网设备:${portService.isLocal ? "是" : "不是"}");
     _result.add("设备地址:http://${portService.ip}:${portService.port}");
+
+    portService.info.forEach((key, value) {
+      if(!_std_key.contains(key)){
+        _result.add("${key}:${value}");
+      }
+    });
 
     final tiles = _result.map(
       (pair) {
