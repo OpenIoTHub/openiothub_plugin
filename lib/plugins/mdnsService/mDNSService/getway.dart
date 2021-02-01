@@ -247,13 +247,13 @@ class GatewayState extends State<Gateway> {
                     title: Text("登录结果"),
                     content: Text("登录成功！现在可以获取访问Token来访问本内网了！"),
                     actions: <Widget>[
-                      FlatButton(
+                      TextButton(
                         child: Text("取消"),
                         onPressed: () {
                           Navigator.of(context).pop();
                         },
                       ),
-                      FlatButton(
+                      TextButton(
                         child: Text("添加内网"),
                         onPressed: () {
                           addToMySessionList().then((_) {
@@ -269,7 +269,7 @@ class GatewayState extends State<Gateway> {
                     title: Text("登录结果"),
                     content: Text("登录失败：${loginResponse.message}"),
                     actions: <Widget>[
-                      FlatButton(
+                      TextButton(
                         child: Text("确定"),
                         onPressed: () {
                           Navigator.of(context).pop();
@@ -284,13 +284,13 @@ class GatewayState extends State<Gateway> {
                   title: Text("登录服务器错误"),
                   content: Text(exception.toString()),
                   actions: <Widget>[
-                    FlatButton(
+                    TextButton(
                       child: Text("取消"),
                       onPressed: () {
                         Navigator.of(context).pop();
                       },
                     ),
-                    FlatButton(
+                    TextButton(
                       child: Text("确认"),
                       onPressed: () {
                         Navigator.of(context).pop();
@@ -310,13 +310,13 @@ class GatewayState extends State<Gateway> {
                   title: Text("本内网访问Token"),
                   content: TextFormField(initialValue: token.value),
                   actions: <Widget>[
-                    FlatButton(
+                    TextButton(
                       child: Text("取消"),
                       onPressed: () {
                         Navigator.of(context).pop();
                       },
                     ),
-                    FlatButton(
+                    TextButton(
                       child: Text("复制到剪切板"),
                       onPressed: () {
                         Clipboard.setData(ClipboardData(text: token.value));
@@ -331,13 +331,13 @@ class GatewayState extends State<Gateway> {
                   title: Text("获取Token出现错误！"),
                   content: Text(e.toString()),
                   actions: <Widget>[
-                    FlatButton(
+                    TextButton(
                       child: Text("取消"),
                       onPressed: () {
                         Navigator.of(context).pop();
                       },
                     ),
-                    FlatButton(
+                    TextButton(
                       child: Text("确认"),
                       onPressed: () {
                         Navigator.of(context).pop();

@@ -68,7 +68,7 @@ class _UploadOTAPageState extends State<UploadOTAPage> {
 //              ),
 //            ),
 //            actions: <Widget>[
-//              FlatButton(
+//              TextButton(
 //                child: Text("确定"),
 //                onPressed: () {
 //                  Navigator.of(context).pop();
@@ -99,7 +99,7 @@ class _UploadOTAPageState extends State<UploadOTAPage> {
 //              ),
 //            ),
 //            actions: <Widget>[
-//              FlatButton(
+//              TextButton(
 //                child: Text("确定"),
 //                onPressed: () {
 //                  Navigator.of(context).pop();
@@ -122,7 +122,7 @@ class _UploadOTAPageState extends State<UploadOTAPage> {
 //              ),
 //            ),
 //            actions: <Widget>[
-//              FlatButton(
+//              TextButton(
 //                child: Text("确定"),
 //                onPressed: () {
 //                  Navigator.of(context).pop();

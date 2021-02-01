@@ -169,13 +169,13 @@ class _LightLevelPageState extends State<LightLevelPage> {
                       ],
                     )),
                 actions: <Widget>[
-                  FlatButton(
+                  TextButton(
                     child: Text("取消"),
                     onPressed: () {
                       Navigator.of(context).pop();
                     },
                   ),
-                  FlatButton(
+                  TextButton(
                     child: Text("修改"),
                     onPressed: () async {
                       try {
@@ -224,7 +224,7 @@ class _LightLevelPageState extends State<LightLevelPage> {
                           "http://${widget.device.ip}:${widget.device.port}/update",
                     )),
                 actions: <Widget>[
-                  FlatButton(
+                  TextButton(
                     child: Text("取消"),
                     onPressed: () {
                       Navigator.of(context).pop();

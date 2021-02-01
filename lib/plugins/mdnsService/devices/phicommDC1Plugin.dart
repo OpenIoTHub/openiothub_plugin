@@ -239,13 +239,13 @@ class _PhicommDC1PluginPageState extends State<PhicommDC1PluginPage> {
                       ],
                     )),
                 actions: <Widget>[
-                  FlatButton(
+                  TextButton(
                     child: Text("取消"),
                     onPressed: () {
                       Navigator.of(context).pop();
                     },
                   ),
-                  FlatButton(
+                  TextButton(
                     child: Text("修改"),
                     onPressed: () async {
                       try {
@@ -294,7 +294,7 @@ class _PhicommDC1PluginPageState extends State<PhicommDC1PluginPage> {
                           "http://${widget.device.ip}:${widget.device.port}/update",
                     )),
                 actions: <Widget>[
-                  FlatButton(
+                  TextButton(
                     child: Text("取消"),
                     onPressed: () {
                       Navigator.of(context).pop();

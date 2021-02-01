@@ -140,13 +140,13 @@ class OpenWithChoice extends StatelessWidget {
                           ],
                         ),
                         actions: <Widget>[
-                          FlatButton(
+                          TextButton(
                             child: Text("取消"),
                             onPressed: () {
                               Navigator.of(ctx).pop();
                             },
                           ),
-                          FlatButton(
+                          TextButton(
                             child: Text("连接"),
                             onPressed: () {
                               Navigator.push(ctx,
@@ -182,7 +182,7 @@ class OpenWithChoice extends StatelessWidget {
             } else {
               Navigator.push(ctx, MaterialPageRoute(builder: (ctx) {
                 return Scaffold(
-                  appBar: AppBar(title: new Text("网页浏览器"), actions: <Widget>[
+                  appBar: AppBar(title: Text("网页浏览器"), actions: <Widget>[
                     IconButton(
                         icon: Icon(
                           Icons.open_in_browser,

@@ -111,13 +111,13 @@ class _Serial315433PageState extends State<Serial315433Page> {
                   ],
                 ),
                 actions: <Widget>[
-                  FlatButton(
+                  TextButton(
                     child: Text("取消"),
                     onPressed: () {
                       Navigator.of(context).pop();
                     },
                   ),
-                  FlatButton(
+                  TextButton(
                     child: Text("修改"),
                     onPressed: () async {
                       try {
@@ -173,7 +173,7 @@ class _Serial315433PageState extends State<Serial315433Page> {
                           "http://${widget.device.ip}:${widget.device.port}/update",
                     )),
                 actions: <Widget>[
-                  FlatButton(
+                  TextButton(
                     child: Text("取消"),
                     onPressed: () {
                       Navigator.of(context).pop();

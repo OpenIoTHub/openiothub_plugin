@@ -175,13 +175,13 @@ class _DHTPageState extends State<DHTPage> {
                       ],
                     )),
                 actions: <Widget>[
-                  FlatButton(
+                  TextButton(
                     child: Text("取消"),
                     onPressed: () {
                       Navigator.of(context).pop();
                     },
                   ),
-                  FlatButton(
+                  TextButton(
                     child: Text("修改"),
                     onPressed: () async {
                       try {
@@ -230,7 +230,7 @@ class _DHTPageState extends State<DHTPage> {
                           "http://${widget.device.ip}:${widget.device.port}/update",
                     )),
                 actions: <Widget>[
-                  FlatButton(
+                  TextButton(
                     child: Text("取消"),
                     onPressed: () {
                       Navigator.of(context).pop();

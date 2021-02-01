@@ -23,7 +23,7 @@ class _WebPageState extends State<WebPage> {
   Widget build(BuildContext context) {
 //    解决退出没有断连的问题
     return Scaffold(
-        appBar: new AppBar(title: new Text("网页浏览器"), actions: <Widget>[
+        appBar: AppBar(title: Text("网页浏览器"), actions: <Widget>[
           IconButton(
               icon: Icon(
                 Icons.info,

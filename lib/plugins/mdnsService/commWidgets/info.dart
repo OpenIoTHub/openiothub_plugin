@@ -70,13 +70,13 @@ class InfoPage extends StatelessWidget {
                               ],
                             ),
                             actions: <Widget>[
-                              FlatButton(
+                              TextButton(
                                 child: Text("取消"),
                                 onPressed: () {
                                   Navigator.of(context).pop();
                                 },
                               ),
-                              FlatButton(
+                              TextButton(
                                 child: Text("修改"),
                                 onPressed: () async {
                                   await rename(portService.info["id"],

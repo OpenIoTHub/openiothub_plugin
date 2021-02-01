@@ -118,7 +118,7 @@ class _WebDAVPageState extends State<WebDAVPage> {
   _openWithWeb(String url) async {
     Navigator.push(context, MaterialPageRoute(builder: (ctx) {
       return Scaffold(
-        appBar: AppBar(title: new Text("网页浏览器"), actions: <Widget>[
+        appBar: AppBar(title: Text("网页浏览器"), actions: <Widget>[
           IconButton(
               icon: Icon(
                 Icons.open_in_browser,

@@ -114,13 +114,13 @@ class _OneKeySwitchPageState extends State<OneKeySwitchPage> {
                   ],
                 ),
                 actions: <Widget>[
-                  FlatButton(
+                  TextButton(
                     child: Text("取消"),
                     onPressed: () {
                       Navigator.of(context).pop();
                     },
                   ),
-                  FlatButton(
+                  TextButton(
                     child: Text("修改"),
                     onPressed: () async {
                       try {
