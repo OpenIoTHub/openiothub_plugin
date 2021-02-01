@@ -16,7 +16,17 @@ class _VideoPlayerState extends State<VideoPlayer> {
   String url ;
   @override
   void initState() {
-    url = "${widget.serviceInfo.info["scheme"]}://${widget.serviceInfo.ip}:${widget.serviceInfo.port}${widget.serviceInfo.info["path"]}";
+    if (!widget.serviceInfo.info.containsKey("username") ||
+        widget.serviceInfo.info["username"] == "" ||
+        widget.serviceInfo.info["username"] == null) {
+      url = "${widget.serviceInfo.info["scheme"]}://" +
+    "${widget.serviceInfo.ip}:${widget.serviceInfo.port}${widget.serviceInfo.info["path"]}";
+    } else {
+      url = "${widget.serviceInfo.info["scheme"]}://" +
+          widget.serviceInfo.info["username"] + ":" + widget.serviceInfo.info["password"] + "@"
+    "${widget.serviceInfo.ip}:${widget.serviceInfo.port}${widget.serviceInfo.info["path"]}";
+    }
+
     print("url:$url");
     controller = VlcPlayerController(onInit: (){controller.play();});
     super.initState();
@@ -26,6 +36,7 @@ class _VideoPlayerState extends State<VideoPlayer> {
     return
       Scaffold(
         appBar: AppBar(
+          title: Text(widget.serviceInfo.info["name"]),
           actions: <Widget>[
             IconButton(
                 icon: Icon(
