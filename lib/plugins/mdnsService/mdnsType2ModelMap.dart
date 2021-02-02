@@ -19,7 +19,7 @@ class MDNS2ModelsMap {
     "firmware-version": "version",
   };
 
-static  PortService get basePortService {
+  static PortService get basePortService {
     PortService portService = PortService.create();
     portService.isLocal = true;
     portService.ip = "127.0.0.1";
@@ -34,15 +34,17 @@ static  PortService get basePortService {
   //TODO：后续将会自动添加到Info.plist
   static Map<String, PortService> modelsMap = Map.from({
     //    OpenIoTHub网关模型
-    Config.mdnsGatewayService: getPortServiceByNameModel("云易连网关", Gateway.modelName),
+    Config.mdnsGatewayService:
+        getPortServiceByNameModel("云易连网关", Gateway.modelName),
     //    web UI,http使用web方式打开服务的模型
     "_http._tcp": getPortServiceByNameModel("Http服务", WebPage.modelName),
     //    web UI,http使用web方式打开服务的模型
     "_CGI._tcp": getPortServiceByNameModel("CGI Http服务", WebPage.modelName),
     //    web UI,homeassistant使用web方式打开服务的模型
-    "_home-assistant._tcp": getPortServiceByNameModel("HomeAssistant", WebPage.modelName),
+    "_home-assistant._tcp":
+        getPortServiceByNameModel("HomeAssistant", WebPage.modelName),
     //    vnc远程桌面模型
-    "_rfb._tcp":  getPortServiceByNameModel("VNC RFB远程桌面", VNCWebPage.modelName),
+    "_rfb._tcp": getPortServiceByNameModel("VNC RFB远程桌面", VNCWebPage.modelName),
   });
 
   static PortService getPortServiceByNameModel(String name, model) {
