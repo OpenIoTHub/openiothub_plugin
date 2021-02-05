@@ -374,7 +374,7 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
 
   _doCmd(String cmd) async {
     String url =
-        "http://${widget.device.ip}:${widget.device.port}/do-cmd?key=$cmd";
+        "http://${widget.device.ip}:${widget.device.port}/do-cmd?cmd=$cmd";
     http.Response response;
     try {
       response = await http.get(url).timeout(const Duration(seconds: 2));
