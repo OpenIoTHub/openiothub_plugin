@@ -7,6 +7,7 @@ export './devices/phicommDC1Plugin.dart';
 export './devices/phicommTC1A1Plugin.dart';
 export './devices/rgbaLed.dart';
 export './devices/seial315433.dart';
+export './devices/phicommR1Controler.dart';
 //Service
 export './mDNSService/VNCRFBWebPage.dart';
 export './mDNSService/aria2c.dart';

@@ -48,6 +48,12 @@ class ModelsMap {
         device: device,
       );
     },
+    //    斐讯R1音箱
+    PhicommR1ControlerPage.modelName: (PortService device) {
+      return PhicommR1ControlerPage(
+        device: device,
+      );
+    },
     //    串口转TCP
     UART2TCPPage.modelName: (PortService device) {
       return UART2TCPPage(

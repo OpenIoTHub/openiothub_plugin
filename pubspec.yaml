@@ -20,6 +20,7 @@ dependencies:
   shared_preferences: ^0.5.7+2
   #  颜色选择器
   flutter_colorpicker: ^0.3.2
+  fluttertoast: ^7.1.6
   webdav:
     git: https://github.com/OpenIoTHub/dart-webdav
   openiothub_constants:
