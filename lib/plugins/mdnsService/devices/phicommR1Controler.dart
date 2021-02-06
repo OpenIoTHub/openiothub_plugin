@@ -407,7 +407,7 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
     // );
 
     FilePickerResult path = await FilePicker.platform.pickFiles(
-      allowedExtensions: ['apk'],
+      // allowedExtensions: ['apk'],
     );
 
     if(path == null) {
