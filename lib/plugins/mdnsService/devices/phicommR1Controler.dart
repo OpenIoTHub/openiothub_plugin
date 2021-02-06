@@ -393,7 +393,7 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
 
   _installApk() async {
     var dio = Dio();
-    Directory rootPath = await getExternalStorageDirectory();
+    Directory rootPath = await getDownloadsDirectory();
     String path = await FilesystemPicker.open(
       title: '选择安卓apk程序',
       context: context,
