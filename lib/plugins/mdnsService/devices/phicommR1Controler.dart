@@ -1,4 +1,9 @@
 //PhicommR1Controler:https://github.com/IoTDevice/phicomm-r1-controler
+import 'dart:io';
+
+import 'package:dio/dio.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:filesystem_picker/filesystem_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
@@ -322,6 +327,7 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
                 )
               ],
             ),
+          //TODO  原厂配网和非原厂配网
           ]),
     );
   }
@@ -386,13 +392,31 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
   }
 
   _installApk() async {
+    var dio = Dio();
+    Directory rootPath = await getExternalStorageDirectory();
+    String path = await FilesystemPicker.open(
+      title: '选择安卓apk程序',
+      context: context,
+      rootDirectory: rootPath,
+      fsType: FilesystemType.all,
+      folderIconColor: Colors.teal,
+      allowedExtensions: ['.apk'],
+      fileTileSelectMode: FileTileSelectMode.wholeTile,
+    );
+    if(path == null) {
+      Fluttertoast.showToast(msg: "User canceled the picker");
+      return;
+    }
     String url =
         "http://${widget.device.ip}:${widget.device.port}/install-apk";
-    http.Response response;
+    Response response;
     try {
-      //TODO 安装apk
-      response = await http.get(url).timeout(const Duration(seconds: 2));
-      Fluttertoast.showToast(msg: response.body);
+      //安装apk
+      FormData formData = FormData.fromMap({
+        "file": await MultipartFile.fromFile(path,filename: "android.apk"),
+      });
+      response = await dio.post(url, data: formData);
+      Fluttertoast.showToast(msg: response.toString());
     } catch (e) {
       print(e.toString());
       return;
