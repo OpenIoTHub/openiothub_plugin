@@ -2,8 +2,10 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:filesystem_picker/filesystem_picker.dart';
+
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
@@ -393,28 +395,31 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
 
   _installApk() async {
     var dio = Dio();
-    Directory rootPath = await getApplicationSupportDirectory();
-    String path = await FilesystemPicker.open(
-      title: '选择安卓apk程序',
-      context: context,
-      rootDirectory: rootPath,
-      fsType: FilesystemType.all,
-      folderIconColor: Colors.teal,
-      allowedExtensions: [],
-      fileTileSelectMode: FileTileSelectMode.wholeTile,
-    );
+    // Directory rootPath = await getApplicationSupportDirectory();
+    // String path = await FilesystemPicker.open(
+    //   title: '选择安卓apk程序',
+    //   context: context,
+    //   rootDirectory: rootPath,
+    //   fsType: FilesystemType.all,
+    //   folderIconColor: Colors.teal,
+    //   allowedExtensions: [],
+    //   fileTileSelectMode: FileTileSelectMode.wholeTile,
+    // );
+
+    FilePickerResult path = await FilePicker.platform.pickFiles();
+
     if(path == null) {
       Fluttertoast.showToast(msg: "User canceled the picker");
       return;
     }
-    Fluttertoast.showToast(msg: rootPath.path);
+    Fluttertoast.showToast(msg: path.files.single.path);
     String url =
         "http://${widget.device.ip}:${widget.device.port}/install-apk";
     Response response;
     try {
       //安装apk
       FormData formData = FormData.fromMap({
-        "file": await MultipartFile.fromFile(path,filename: "android.apk"),
+        "file": await MultipartFile.fromFile(path.files.single.path,filename: "android.apk"),
       });
       response = await dio.post(url, data: formData);
       Fluttertoast.showToast(msg: response.toString());
