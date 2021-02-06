@@ -95,12 +95,10 @@ packages:
   file_picker:
     dependency: "direct main"
     description:
-      path: "."
-      ref: HEAD
-      resolved-ref: "74a797bd5d783e618b1d95196f70a8409d36fdaa"
-      url: "https://gitee.com/OpenIoThub/flutter_file_picker"
-    source: git
-    version: "2.1.6"
+      name: file_picker
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "2.0.8+1"
   filesystem_picker:
     dependency: "direct main"
     description:
