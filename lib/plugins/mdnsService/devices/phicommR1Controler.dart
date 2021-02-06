@@ -406,7 +406,9 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
     //   fileTileSelectMode: FileTileSelectMode.wholeTile,
     // );
 
-    FilePickerResult path = await FilePicker.platform.pickFiles();
+    FilePickerResult path = await FilePicker.platform.pickFiles(
+      allowedExtensions: ['apk'],
+    );
 
     if(path == null) {
       Fluttertoast.showToast(msg: "User canceled the picker");
@@ -419,7 +421,7 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
     try {
       //安装apk
       FormData formData = FormData.fromMap({
-        "file": await MultipartFile.fromFile(path.files.single.path,filename: "android.apk"),
+        "android.apk": await MultipartFile.fromFile(path.files.single.path,filename: "android.apk"),
       });
       response = await dio.post(url, data: formData);
       Fluttertoast.showToast(msg: response.toString());
