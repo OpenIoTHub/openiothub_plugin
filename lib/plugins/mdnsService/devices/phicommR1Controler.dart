@@ -400,7 +400,7 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
       rootDirectory: rootPath,
       fsType: FilesystemType.all,
       folderIconColor: Colors.teal,
-      allowedExtensions: ['.apk'],
+      // allowedExtensions: ['.apk'],
       fileTileSelectMode: FileTileSelectMode.wholeTile,
     );
     if(path == null) {
