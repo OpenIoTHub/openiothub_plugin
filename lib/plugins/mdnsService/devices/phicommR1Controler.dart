@@ -393,7 +393,7 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
 
   _installApk() async {
     var dio = Dio();
-    Directory rootPath = await getDownloadsDirectory();
+    Directory rootPath = await getExternalStorageDirectory();
     String path = await FilesystemPicker.open(
       title: '选择安卓apk程序',
       context: context,
@@ -407,6 +407,7 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
       Fluttertoast.showToast(msg: "User canceled the picker");
       return;
     }
+    Fluttertoast.showToast(msg: rootPath.path);
     String url =
         "http://${widget.device.ip}:${widget.device.port}/install-apk";
     Response response;
