@@ -97,7 +97,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "05233bf71171739dfb59928ba94561c1d92c5e39"
+      resolved-ref: "74a797bd5d783e618b1d95196f70a8409d36fdaa"
       url: "https://gitee.com/OpenIoThub/flutter_file_picker"
     source: git
     version: "2.1.6"
