@@ -527,7 +527,7 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
       Fluttertoast.showToast(msg: response.body);
       Map<String, dynamic> body = jsonDecode(response.body);
       setState(() {
-        _listPackages = body['result'];
+        _listPackages = List<String>.from(body['result']);
       });
     } catch (e) {
       print(e.toString());
