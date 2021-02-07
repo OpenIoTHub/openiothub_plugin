@@ -1,12 +1,8 @@
 //PhicommR1Controler:https://github.com/IoTDevice/phicomm-r1-controler
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:filesystem_picker/filesystem_picker.dart';
-
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
@@ -278,9 +274,7 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Text("媒体播放控制:")
-              ],
+              children: <Widget>[Text("媒体播放控制:")],
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -433,12 +427,34 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                TextButton(onPressed: (){
-                  _getInstalledPackages();
-                }, child: Text("刷新软件包列表")),
+                TextButton(
+                    onPressed: () {
+                      _getInstalledPackages();
+                    },
+                    child: Text("刷新软件包列表")),
               ],
             ),
-          //TODO  原厂配网和非原厂配网
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                TextButton(
+                    onPressed: () {
+                      _doCmd("settings put global bluetooth_on 1");
+                    },
+                    child: Text("打开蓝牙")),
+                TextButton(
+                    onPressed: () {
+                      _doCmd("settings put global bluetooth_on 0");
+                    },
+                    child: Text("关闭蓝牙")),
+                TextButton(
+                    onPressed: () {
+                      _getBluetoothStatus();
+                    },
+                    child: Text("获取蓝牙状态")),
+              ],
+            ),
+            //TODO  原厂配网和非原厂配网
           ]),
     );
   }
@@ -480,12 +496,32 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
         "http://${widget.device.ip}:${widget.device.port}/do-cmd?cmd=/system/bin/pm uninstall $package";
     http.Response response;
     try {
-      response = await http.get(url).timeout(const Duration(seconds: 2));
-      print(response.body);
+      showDialog(
+          context: context,
+          builder: (_) => AlertDialog(
+              title: Text("确认卸载软件包:"),
+              content: Text("请确认"),
+              actions: <Widget>[
+                TextButton(
+                  child: Text("取消"),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+                TextButton(
+                  child: Text("确认"),
+                  onPressed: () async {
+                    response = await http.get(url).timeout(const Duration(seconds: 2));
+                    print(response.body);
+                    Navigator.of(context).pop();
+                  },
+                )
+              ]));
     } catch (e) {
       print(e.toString());
       return;
     }
+    _getInstalledPackages();
   }
 
   _showImage() async {
@@ -518,13 +554,28 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
     }
   }
 
+  _getBluetoothStatus() async {
+    String url =
+        "http://${widget.device.ip}:${widget.device.port}/do-cmd?cmd=settings get global bluetooth_on";
+    http.Response response;
+    try {
+      response = await http.get(url).timeout(const Duration(seconds: 2));
+      Fluttertoast.showToast(msg: response.body);
+      Map<String, dynamic> body = jsonDecode(response.body);
+      Fluttertoast.showToast(msg: body['result'].toString());;
+    } catch (e) {
+      print(e.toString());
+      return;
+    }
+  }
+
   _getInstalledPackages() async {
     String url =
         "http://${widget.device.ip}:${widget.device.port}/list-packages";
     http.Response response;
     try {
       response = await http.get(url).timeout(const Duration(seconds: 7));
-      Fluttertoast.showToast(msg: response.body);
+      // Fluttertoast.showToast(msg: response.body);
       Map<String, dynamic> body = jsonDecode(response.body);
       setState(() {
         _listPackages = List<String>.from(body['result']);
@@ -537,33 +588,22 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
 
   _installApk() async {
     var dio = Dio();
-    // Directory rootPath = await getApplicationSupportDirectory();
-    // String path = await FilesystemPicker.open(
-    //   title: '选择安卓apk程序',
-    //   context: context,
-    //   rootDirectory: rootPath,
-    //   fsType: FilesystemType.all,
-    //   folderIconColor: Colors.teal,
-    //   allowedExtensions: [],
-    //   fileTileSelectMode: FileTileSelectMode.wholeTile,
-    // );
-
     FilePickerResult path = await FilePicker.platform.pickFiles(
-      // allowedExtensions: ['apk'],
-    );
+        // allowedExtensions: ['apk'],
+        );
 
-    if(path == null) {
+    if (path == null) {
       Fluttertoast.showToast(msg: "User canceled the picker");
       return;
     }
     Fluttertoast.showToast(msg: path.files.single.path);
-    String url =
-        "http://${widget.device.ip}:${widget.device.port}/install-apk";
+    String url = "http://${widget.device.ip}:${widget.device.port}/install-apk";
     Response response;
     try {
       //安装apk
       FormData formData = FormData.fromMap({
-        "android.apk": await MultipartFile.fromFile(path.files.single.path,filename: "android.apk"),
+        "android.apk": await MultipartFile.fromFile(path.files.single.path,
+            filename: "android.apk"),
       });
       response = await dio.post(url, data: formData);
       Fluttertoast.showToast(msg: response.toString());
@@ -571,6 +611,7 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
       print(e.toString());
       return;
     }
+    _getInstalledPackages();
   }
 
   List<DropdownMenuItem<int>> _getModesList() {
