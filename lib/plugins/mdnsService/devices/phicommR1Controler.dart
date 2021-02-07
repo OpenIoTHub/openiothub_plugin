@@ -275,6 +275,82 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
+                Text("媒体播放控制:"),
+                // 86: "多媒体键 停止",
+                TextButton(
+                  child: Text("停止"),
+                  onPressed: () {
+                    _Keyevent(86);
+                  },
+                ),
+                // 87: "多媒体键 下一首",
+                TextButton(
+                  child: Text("下一首"),
+                  onPressed: () {
+                    _Keyevent(87);
+                  },
+                ),
+                // 88: "多媒体键 上一首",
+                TextButton(
+                  child: Text("上一首"),
+                  onPressed: () {
+                    _Keyevent(88);
+                  },
+                ),
+                // 89: "多媒体键 快退",
+                TextButton(
+                  child: Text("快退"),
+                  onPressed: () {
+                    _Keyevent(89);
+                  },
+                ),
+                // 90: "多媒体键 快进",
+                TextButton(
+                  child: Text("快进"),
+                  onPressed: () {
+                    _Keyevent(90);
+                  },
+                ),
+                // 126: "多媒体键 播放",
+                TextButton(
+                  child: Text("播放"),
+                  onPressed: () {
+                    _Keyevent(126);
+                  },
+                ),
+                // 127: "多媒体键 暂停",
+                TextButton(
+                  child: Text("暂停"),
+                  onPressed: () {
+                    _Keyevent(127);
+                  },
+                ),
+                // 128: "多媒体键 关闭",
+                TextButton(
+                  child: Text("下一首"),
+                  onPressed: () {
+                    _Keyevent(128);
+                  },
+                ),
+                // 129: "多媒体键 弹出",
+                TextButton(
+                  child: Text("关闭"),
+                  onPressed: () {
+                    _Keyevent(129);
+                  },
+                ),
+                // 130: "多媒体键 录音",
+                TextButton(
+                  child: Text("录音"),
+                  onPressed: () {
+                    _Keyevent(130);
+                  },
+                ),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
                 TextButton(
                   child: Text("查看屏幕截图"),
                   onPressed: () {
