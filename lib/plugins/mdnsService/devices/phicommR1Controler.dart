@@ -274,6 +274,28 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Text("关机/重启:"),
+                IconButton(
+                  icon: Icon(Icons.power_settings_new),
+                  color: Colors.red,
+                  iconSize: 100.0,
+                  onPressed: () {
+                    _doCmd("shutdown");
+                  },
+                ),
+                IconButton(
+                  icon: Icon(Icons.autorenew),
+                  color: Colors.yellow,
+                  iconSize: 100.0,
+                  onPressed: () {
+                    _doCmd("reboot");
+                  },
+                ),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[Text("媒体播放控制:")],
             ),
             Row(
@@ -416,7 +438,7 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Text("安装的包:"),
+                Text("选择需要卸载的软件:"),
                 DropdownButton<String>(
                   value: _currentPackage,
                   onChanged: _removePackage,
