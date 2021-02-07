@@ -526,7 +526,7 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
       response = await http.get(url).timeout(const Duration(seconds: 7));
       Fluttertoast.showToast(msg: response.body);
       setState(() {
-        _listPackages = jsonDecode(response.body)["result"];
+        _listPackages = jsonDecode(response.body).result;
       });
     } catch (e) {
       print(e.toString());
