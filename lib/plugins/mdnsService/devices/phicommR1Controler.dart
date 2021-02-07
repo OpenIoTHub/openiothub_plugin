@@ -28,6 +28,8 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
   static const int _off = 164;
   static const int _down = 25;
   int _currentKey = 1;
+  String _currentPackage;
+  List<String> _listPackages = [];
   TextEditingController _cmd_controller =
       TextEditingController.fromValue(TextEditingValue(text: ""));
   static const Map<int, String> keyevents = {
@@ -220,6 +222,7 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
   @override
   void initState() {
     super.initState();
+    _getInstalledPackages();
     print("init iot devie List");
   }
 
@@ -281,7 +284,6 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Text("媒体播放控制:"),
                 // 86: "多媒体键 停止",
                 TextButton(
                   child: Text("停止"),
@@ -416,6 +418,17 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
                 )
               ],
             ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Text("安装的包:"),
+                DropdownButton<String>(
+                  value: _currentPackage,
+                  onChanged: _removePackage,
+                  items: _getInstalledPackages(),
+                ),
+              ],
+            ),
           //TODO  原厂配网和非原厂配网
           ]),
     );
@@ -450,6 +463,23 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
     }
   }
 
+  _removePackage(String package) async {
+    setState(() {
+      _currentPackage = package;
+    });
+    package = package.replaceAll("package:", "");
+    String url =
+        "http://${widget.device.ip}:${widget.device.port}/do-cmd?cmd=/system/bin/pm uninstall $package";
+    http.Response response;
+    try {
+      response = await http.get(url).timeout(const Duration(seconds: 2));
+      print(response.body);
+    } catch (e) {
+      print(e.toString());
+      return;
+    }
+  }
+
   _showImage() async {
     showDialog(
         context: context,
@@ -474,6 +504,22 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
     try {
       response = await http.get(url).timeout(const Duration(seconds: 2));
       Fluttertoast.showToast(msg: response.body);
+    } catch (e) {
+      print(e.toString());
+      return;
+    }
+  }
+
+  _getInstalledPackages() async {
+    String url =
+        "http://${widget.device.ip}:${widget.device.port}/do-cmd?cmd=/system/bin/pm list packages";
+    http.Response response;
+    try {
+      response = await http.get(url).timeout(const Duration(seconds: 2));
+      Fluttertoast.showToast(msg: response.body);
+      setState(() {
+        _listPackages = response.body.split("\\r\\n");
+      });
     } catch (e) {
       print(e.toString());
       return;
@@ -523,6 +569,17 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
     keyevents.forEach((int k, String v) {
       l.add(DropdownMenuItem<int>(
         value: k,
+        child: Text(v),
+      ));
+    });
+    return l;
+  }
+
+  List<DropdownMenuItem<String>> _getPackagesList() {
+    List<DropdownMenuItem<String>> l = [];
+    _listPackages.forEach((String v) {
+      l.add(DropdownMenuItem<String>(
+        value: v,
         child: Text(v),
       ));
     });
