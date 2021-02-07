@@ -29,7 +29,7 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
   static const int _off = 164;
   static const int _down = 25;
   int _currentKey = 1;
-  String _currentPackage = "android";
+  String _currentPackage = "package:android";
   List<String> _listPackages = [];
   TextEditingController _cmd_controller =
       TextEditingController.fromValue(TextEditingValue(text: ""));
@@ -465,9 +465,9 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
   }
 
   _removePackage(String package) async {
-    setState(() {
-      _currentPackage = package;
-    });
+    // setState(() {
+    //   _currentPackage = package;
+    // });
     package = package.replaceAll("package:", "");
     String url =
         "http://${widget.device.ip}:${widget.device.port}/do-cmd?cmd=/system/bin/pm uninstall $package";
