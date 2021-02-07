@@ -275,6 +275,12 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
+                Text("媒体播放控制:")
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
                 Text("媒体播放控制:"),
                 // 86: "多媒体键 停止",
                 TextButton(
@@ -304,6 +310,11 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
                     _Keyevent(89);
                   },
                 ),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
                 // 90: "多媒体键 快进",
                 TextButton(
                   child: Text("快进"),
