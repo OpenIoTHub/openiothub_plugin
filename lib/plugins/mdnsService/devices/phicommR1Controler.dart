@@ -29,7 +29,7 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
   static const int _off = 164;
   static const int _down = 25;
   int _currentKey = 1;
-  String _currentPackage = "package:android";
+  String _currentPackage = "android";
   List<String> _listPackages = [];
   TextEditingController _cmd_controller =
       TextEditingController.fromValue(TextEditingValue(text: ""));
@@ -419,17 +419,17 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
                 )
               ],
             ),
-            // Row(
-            //   mainAxisAlignment: MainAxisAlignment.center,
-            //   children: <Widget>[
-            //     Text("安装的包:"),
-            //     DropdownButton<String>(
-            //       value: _currentPackage,
-            //       onChanged: _removePackage,
-            //       items: _getInstalledPackages(),
-            //     ),
-            //   ],
-            // ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Text("安装的包:"),
+                DropdownButton<String>(
+                  value: _currentPackage,
+                  onChanged: _removePackage,
+                  items: _getPackagesList(),
+                ),
+              ],
+            ),
           //TODO  原厂配网和非原厂配网
           ]),
     );
@@ -465,10 +465,9 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
   }
 
   _removePackage(String package) async {
-    // setState(() {
-    //   _currentPackage = package;
-    // });
-    package = package.replaceAll("package:", "");
+    setState(() {
+      _currentPackage = package;
+    });
     String url =
         "http://${widget.device.ip}:${widget.device.port}/do-cmd?cmd=/system/bin/pm uninstall $package";
     http.Response response;
@@ -513,13 +512,13 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
 
   _getInstalledPackages() async {
     String url =
-        "http://${widget.device.ip}:${widget.device.port}/do-cmd?cmd=/system/bin/pm list packages";
+        "http://${widget.device.ip}:${widget.device.port}/list-packages";
     http.Response response;
     try {
       response = await http.get(url).timeout(const Duration(seconds: 2));
       Fluttertoast.showToast(msg: response.body);
       setState(() {
-        _listPackages = jsonDecode(response.body)["result"].split("\\r\\n");
+        _listPackages = jsonDecode(response.body)["result"];
       });
     } catch (e) {
       print(e.toString());
