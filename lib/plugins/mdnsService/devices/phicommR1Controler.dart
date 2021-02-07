@@ -419,17 +419,17 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
                 )
               ],
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Text("安装的包:"),
-                DropdownButton<String>(
-                  value: _currentPackage,
-                  onChanged: _removePackage,
-                  items: _getInstalledPackages(),
-                ),
-              ],
-            ),
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.center,
+            //   children: <Widget>[
+            //     Text("安装的包:"),
+            //     DropdownButton<String>(
+            //       value: _currentPackage,
+            //       onChanged: _removePackage,
+            //       items: _getInstalledPackages(),
+            //     ),
+            //   ],
+            // ),
           //TODO  原厂配网和非原厂配网
           ]),
     );
