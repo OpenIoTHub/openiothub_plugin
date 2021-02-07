@@ -440,11 +440,13 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
                 TextButton(
                     onPressed: () {
                       _doCmd("settings put global bluetooth_on 1");
+                      _doCmd("svc bluetooth enable");
                     },
                     child: Text("打开蓝牙")),
                 TextButton(
                     onPressed: () {
                       _doCmd("settings put global bluetooth_on 0");
+                      _doCmd("svc bluetooth disable");
                     },
                     child: Text("关闭蓝牙")),
                 TextButton(
