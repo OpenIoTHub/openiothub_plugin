@@ -245,6 +245,28 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
+                Text("关机/重启:"),
+                IconButton(
+                  icon: Icon(Icons.power_settings_new),
+                  color: Colors.red,
+                  iconSize: 100.0,
+                  onPressed: () {
+                    _doCmd("shutdown");
+                  },
+                ),
+                IconButton(
+                  icon: Icon(Icons.autorenew),
+                  color: Colors.yellow,
+                  iconSize: 100.0,
+                  onPressed: () {
+                    _doCmd("reboot");
+                  },
+                ),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
                 Text("音量控制:"),
                 IconButton(
                   icon: Icon(Icons.volume_down),
@@ -268,28 +290,6 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
                   iconSize: 100.0,
                   onPressed: () {
                     _Keyevent(_up);
-                  },
-                ),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Text("关机/重启:"),
-                IconButton(
-                  icon: Icon(Icons.power_settings_new),
-                  color: Colors.red,
-                  iconSize: 100.0,
-                  onPressed: () {
-                    _doCmd("shutdown");
-                  },
-                ),
-                IconButton(
-                  icon: Icon(Icons.autorenew),
-                  color: Colors.yellow,
-                  iconSize: 100.0,
-                  onPressed: () {
-                    _doCmd("reboot");
                   },
                 ),
               ],
@@ -523,24 +523,26 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
       showDialog(
           context: context,
           builder: (_) => AlertDialog(
-              title: Text("确认卸载软件包:"),
-              content: Text("请确认"),
-              actions: <Widget>[
-                TextButton(
-                  child: Text("取消"),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                ),
-                TextButton(
-                  child: Text("确认"),
-                  onPressed: () async {
-                    response = await http.get(url).timeout(const Duration(seconds: 2));
-                    print(response.body);
-                    Navigator.of(context).pop();
-                  },
-                )
-              ]));
+                  title: Text("确认卸载软件包:"),
+                  content: Text("请确认"),
+                  actions: <Widget>[
+                    TextButton(
+                      child: Text("取消"),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                    TextButton(
+                      child: Text("确认"),
+                      onPressed: () async {
+                        response = await http
+                            .get(url)
+                            .timeout(const Duration(seconds: 2));
+                        print(response.body);
+                        Navigator.of(context).pop();
+                      },
+                    )
+                  ]));
     } catch (e) {
       print(e.toString());
       return;
@@ -586,7 +588,8 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
       response = await http.get(url).timeout(const Duration(seconds: 2));
       Fluttertoast.showToast(msg: response.body);
       Map<String, dynamic> body = jsonDecode(response.body);
-      Fluttertoast.showToast(msg: body['result'].toString());;
+      Fluttertoast.showToast(msg: body['result'].toString());
+      ;
     } catch (e) {
       print(e.toString());
       return;
