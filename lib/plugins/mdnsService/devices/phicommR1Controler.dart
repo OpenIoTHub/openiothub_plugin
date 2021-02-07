@@ -222,7 +222,7 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
   @override
   void initState() {
     super.initState();
-    _getInstalledPackages();
+    // _getInstalledPackages();
     print("init iot devie List");
   }
 
