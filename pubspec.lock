@@ -98,7 +98,7 @@ packages:
       name: file_picker
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "2.0.8+1"
+    version: "2.1.5+1"
   filesystem_picker:
     dependency: "direct main"
     description:
