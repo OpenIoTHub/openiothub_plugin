@@ -430,6 +430,14 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
                 ),
               ],
             ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                TextButton(onPressed: (){
+                  _getInstalledPackages();
+                }, child: Text("刷新软件包列表")),
+              ],
+            ),
           //TODO  原厂配网和非原厂配网
           ]),
     );
@@ -515,7 +523,7 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
         "http://${widget.device.ip}:${widget.device.port}/list-packages";
     http.Response response;
     try {
-      response = await http.get(url).timeout(const Duration(seconds: 2));
+      response = await http.get(url).timeout(const Duration(seconds: 7));
       Fluttertoast.showToast(msg: response.body);
       setState(() {
         _listPackages = jsonDecode(response.body)["result"];
