@@ -312,11 +312,6 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
                     _Keyevent(89);
                   },
                 ),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
                 // 90: "多媒体键 快进",
                 TextButton(
                   child: Text("快进"),
@@ -324,6 +319,11 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
                     _Keyevent(90);
                   },
                 ),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
                 // 126: "多媒体键 播放",
                 TextButton(
                   child: Text("播放"),
@@ -340,14 +340,14 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
                 ),
                 // 128: "多媒体键 关闭",
                 TextButton(
-                  child: Text("下一首"),
+                  child: Text("关闭"),
                   onPressed: () {
                     _Keyevent(128);
                   },
                 ),
                 // 129: "多媒体键 弹出",
                 TextButton(
-                  child: Text("关闭"),
+                  child: Text("弹出"),
                   onPressed: () {
                     _Keyevent(129);
                   },
