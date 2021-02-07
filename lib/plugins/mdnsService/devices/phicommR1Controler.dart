@@ -1,4 +1,5 @@
 //PhicommR1Controler:https://github.com/IoTDevice/phicomm-r1-controler
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
@@ -28,7 +29,7 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
   static const int _off = 164;
   static const int _down = 25;
   int _currentKey = 1;
-  String _currentPackage;
+  String _currentPackage = "android";
   List<String> _listPackages = [];
   TextEditingController _cmd_controller =
       TextEditingController.fromValue(TextEditingValue(text: ""));
@@ -222,7 +223,7 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
   @override
   void initState() {
     super.initState();
-    // _getInstalledPackages();
+    _getInstalledPackages();
     print("init iot devie List");
   }
 
@@ -418,17 +419,17 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
                 )
               ],
             ),
-            // Row(
-            //   mainAxisAlignment: MainAxisAlignment.center,
-            //   children: <Widget>[
-            //     Text("安装的包:"),
-            //     DropdownButton<String>(
-            //       value: _currentPackage,
-            //       onChanged: _removePackage,
-            //       items: _getInstalledPackages(),
-            //     ),
-            //   ],
-            // ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Text("安装的包:"),
+                DropdownButton<String>(
+                  value: _currentPackage,
+                  onChanged: _removePackage,
+                  items: _getInstalledPackages(),
+                ),
+              ],
+            ),
           //TODO  原厂配网和非原厂配网
           ]),
     );
@@ -518,7 +519,7 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
       response = await http.get(url).timeout(const Duration(seconds: 2));
       Fluttertoast.showToast(msg: response.body);
       setState(() {
-        _listPackages = response.body.split("\\r\\n");
+        _listPackages = jsonDecode(response.body)["result"].split("\\r\\n");
       });
     } catch (e) {
       print(e.toString());
