@@ -26,6 +26,7 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
   static const int _down = 25;
   int _currentKey = 1;
   String _currentPackage = "android";
+  String _screenUrl;
   List<String> _listPackages = [];
   TextEditingController _cmd_controller =
       TextEditingController.fromValue(TextEditingValue(text: ""));
@@ -551,12 +552,86 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
   }
 
   _showImage() async {
+    _refresh_screen();
     showDialog(
         context: context,
         builder: (_) => AlertDialog(
                 title: Text("屏幕截图:"),
-                content: Image.network(
-                    "http://${widget.device.ip}:${widget.device.port}/get-image?time=${DateTime.now().millisecondsSinceEpoch}"),
+                content: Container(
+                  child: Column(
+                    children: <Widget>[
+                      Row(
+                        children: <Widget>[
+                          Image.network(_screenUrl),
+                        ],
+                      ),
+                      // 19: "导航键向上",
+                      // 20: "导航键向下",
+                      // 21: "导航键向左",
+                      // 22: "导航键向右",
+                      // 23: "导航键确定键",
+                      Row(
+                        children: <Widget>[
+                          IconButton(
+                              icon: Icon(Icons.arrow_drop_up),
+                              onPressed: () {
+                                _Keyevent(19);
+                                _refresh_screen();
+                              }),
+                        ],
+                      ),
+                      Row(
+                        children: <Widget>[
+                          IconButton(
+                              icon: Icon(Icons.arrow_left),
+                              onPressed: () {
+                                _Keyevent(21);
+                                _refresh_screen();
+                              }),
+                          IconButton(
+                              icon: Icon(Icons.adjust),
+                              onPressed: () {
+                                _Keyevent(23);
+                                _refresh_screen();
+                              }),
+                          IconButton(
+                              icon: Icon(Icons.arrow_right),
+                              onPressed: () {
+                                _Keyevent(22);
+                                _refresh_screen();
+                              }),
+                        ],
+                      ),
+                      Row(
+                        children: <Widget>[
+                          IconButton(
+                              icon: Icon(Icons.arrow_drop_down),
+                              onPressed: () {
+                                _Keyevent(20);
+                                _refresh_screen();
+                              }),
+                        ],
+                      ),
+                      Row(
+                        children: <Widget>[
+                          TextButton(child: Text("返回"), onPressed: () {
+                            _Keyevent(4);
+                            _refresh_screen();
+                          }),
+                          TextButton(child: Text("桌面"), onPressed: () {
+                            _Keyevent(3);
+                            _refresh_screen();
+                          }),
+                          TextButton(
+                              child: Text("刷新显示屏"),
+                              onPressed: () {
+                                _refresh_screen();
+                              }),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
                 actions: <Widget>[
                   TextButton(
                     child: Text("确认"),
@@ -639,6 +714,13 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
       return;
     }
     _getInstalledPackages();
+  }
+
+  _refresh_screen() {
+    setState(() {
+      _screenUrl =
+          "http://${widget.device.ip}:${widget.device.port}/get-image?time=${DateTime.now().millisecondsSinceEpoch}";
+    });
   }
 
   List<DropdownMenuItem<int>> _getModesList() {
