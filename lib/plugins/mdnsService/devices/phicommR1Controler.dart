@@ -571,6 +571,7 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
                       // 22: "导航键向右",
                       // 23: "导航键确定键",
                       Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                           IconButton(
                               icon: Icon(Icons.arrow_drop_up),
@@ -581,6 +582,7 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
                         ],
                       ),
                       Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                           IconButton(
                               icon: Icon(Icons.arrow_left),
@@ -603,6 +605,7 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
                         ],
                       ),
                       Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                           IconButton(
                               icon: Icon(Icons.arrow_drop_down),
