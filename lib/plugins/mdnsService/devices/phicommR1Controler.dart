@@ -26,7 +26,6 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
   static const int _down = 25;
   int _currentKey = 1;
   String _currentPackage = "android";
-  String _screenUrl;
   List<String> _listPackages = [];
   TextEditingController _cmd_controller =
       TextEditingController.fromValue(TextEditingValue(text: ""));
@@ -556,11 +555,13 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
         context: context,
         builder: (context) {
           return StatefulBuilder(builder: (context, state) {
+            String _screenUrl = "http://${widget.device.ip}:${widget.device.port}/get-image?time=${DateTime.now().millisecondsSinceEpoch}";
             return AlertDialog(
                 title: Text("屏幕截图:"),
                 content: Container(
                   child: Column(
                     children: <Widget>[
+                      Text(_screenUrl),
                       Row(
                         children: <Widget>[
                           Image.network(_screenUrl),
@@ -748,13 +749,6 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
       return;
     }
     _getInstalledPackages();
-  }
-
-  _refresh_screen() {
-    setState(() {
-      _screenUrl =
-          "http://${widget.device.ip}:${widget.device.port}/get-image?time=${DateTime.now().millisecondsSinceEpoch}";
-    });
   }
 
   List<DropdownMenuItem<int>> _getModesList() {
