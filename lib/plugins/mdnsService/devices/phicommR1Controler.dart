@@ -552,10 +552,11 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
   }
 
   _showImage() async {
-    _refresh_screen();
     showDialog(
         context: context,
-        builder: (_) => AlertDialog(
+        builder: (context) {
+          return StatefulBuilder(builder: (context, state) {
+            return AlertDialog(
                 title: Text("屏幕截图:"),
                 content: Container(
                   child: Column(
@@ -577,7 +578,10 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
                               icon: Icon(Icons.arrow_drop_up),
                               onPressed: () {
                                 _Keyevent(19);
-                                _refresh_screen();
+                                setState(() {
+                                  _screenUrl =
+                                      "http://${widget.device.ip}:${widget.device.port}/get-image?time=${DateTime.now().millisecondsSinceEpoch}";
+                                });
                               }),
                         ],
                       ),
@@ -588,19 +592,28 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
                               icon: Icon(Icons.arrow_left),
                               onPressed: () {
                                 _Keyevent(21);
-                                _refresh_screen();
+                                setState(() {
+                                  _screenUrl =
+                                      "http://${widget.device.ip}:${widget.device.port}/get-image?time=${DateTime.now().millisecondsSinceEpoch}";
+                                });
                               }),
                           IconButton(
                               icon: Icon(Icons.adjust),
                               onPressed: () {
                                 _Keyevent(23);
-                                _refresh_screen();
+                                setState(() {
+                                  _screenUrl =
+                                      "http://${widget.device.ip}:${widget.device.port}/get-image?time=${DateTime.now().millisecondsSinceEpoch}";
+                                });
                               }),
                           IconButton(
                               icon: Icon(Icons.arrow_right),
                               onPressed: () {
                                 _Keyevent(22);
-                                _refresh_screen();
+                                setState(() {
+                                  _screenUrl =
+                                      "http://${widget.device.ip}:${widget.device.port}/get-image?time=${DateTime.now().millisecondsSinceEpoch}";
+                                });
                               }),
                         ],
                       ),
@@ -611,24 +624,40 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
                               icon: Icon(Icons.arrow_drop_down),
                               onPressed: () {
                                 _Keyevent(20);
-                                _refresh_screen();
+                                setState(() {
+                                  _screenUrl =
+                                      "http://${widget.device.ip}:${widget.device.port}/get-image?time=${DateTime.now().millisecondsSinceEpoch}";
+                                });
                               }),
                         ],
                       ),
                       Row(
                         children: <Widget>[
-                          TextButton(child: Text("返回"), onPressed: () {
-                            _Keyevent(4);
-                            _refresh_screen();
-                          }),
-                          TextButton(child: Text("桌面"), onPressed: () {
-                            _Keyevent(3);
-                            _refresh_screen();
-                          }),
+                          TextButton(
+                              child: Text("返回"),
+                              onPressed: () {
+                                _Keyevent(4);
+                                setState(() {
+                                  _screenUrl =
+                                      "http://${widget.device.ip}:${widget.device.port}/get-image?time=${DateTime.now().millisecondsSinceEpoch}";
+                                });
+                              }),
+                          TextButton(
+                              child: Text("桌面"),
+                              onPressed: () {
+                                _Keyevent(3);
+                                setState(() {
+                                  _screenUrl =
+                                      "http://${widget.device.ip}:${widget.device.port}/get-image?time=${DateTime.now().millisecondsSinceEpoch}";
+                                });
+                              }),
                           TextButton(
                               child: Text("刷新显示屏"),
                               onPressed: () {
-                                _refresh_screen();
+                                setState(() {
+                                  _screenUrl =
+                                      "http://${widget.device.ip}:${widget.device.port}/get-image?time=${DateTime.now().millisecondsSinceEpoch}";
+                                });
                               }),
                         ],
                       ),
@@ -642,7 +671,9 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
                       Navigator.of(context).pop();
                     },
                   )
-                ]));
+                ]);
+          });
+        });
   }
 
   _doCmd(String cmd) async {
