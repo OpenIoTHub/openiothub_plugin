@@ -579,7 +579,7 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
                               icon: Icon(Icons.arrow_drop_up),
                               onPressed: () {
                                 _Keyevent(19);
-                                setState(() {
+                                state(() {
                                   _screenUrl =
                                       "http://${widget.device.ip}:${widget.device.port}/get-image?time=${DateTime.now().millisecondsSinceEpoch}";
                                 });
@@ -593,7 +593,7 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
                               icon: Icon(Icons.arrow_left),
                               onPressed: () {
                                 _Keyevent(21);
-                                setState(() {
+                                state(() {
                                   _screenUrl =
                                       "http://${widget.device.ip}:${widget.device.port}/get-image?time=${DateTime.now().millisecondsSinceEpoch}";
                                 });
@@ -602,7 +602,7 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
                               icon: Icon(Icons.adjust),
                               onPressed: () {
                                 _Keyevent(23);
-                                setState(() {
+                                state(() {
                                   _screenUrl =
                                       "http://${widget.device.ip}:${widget.device.port}/get-image?time=${DateTime.now().millisecondsSinceEpoch}";
                                 });
@@ -611,7 +611,7 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
                               icon: Icon(Icons.arrow_right),
                               onPressed: () {
                                 _Keyevent(22);
-                                setState(() {
+                                state(() {
                                   _screenUrl =
                                       "http://${widget.device.ip}:${widget.device.port}/get-image?time=${DateTime.now().millisecondsSinceEpoch}";
                                 });
@@ -625,7 +625,7 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
                               icon: Icon(Icons.arrow_drop_down),
                               onPressed: () {
                                 _Keyevent(20);
-                                setState(() {
+                                state(() {
                                   _screenUrl =
                                       "http://${widget.device.ip}:${widget.device.port}/get-image?time=${DateTime.now().millisecondsSinceEpoch}";
                                 });
@@ -638,7 +638,7 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
                               child: Text("返回"),
                               onPressed: () {
                                 _Keyevent(4);
-                                setState(() {
+                                state(() {
                                   _screenUrl =
                                       "http://${widget.device.ip}:${widget.device.port}/get-image?time=${DateTime.now().millisecondsSinceEpoch}";
                                 });
@@ -647,7 +647,7 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
                               child: Text("桌面"),
                               onPressed: () {
                                 _Keyevent(3);
-                                setState(() {
+                                state(() {
                                   _screenUrl =
                                       "http://${widget.device.ip}:${widget.device.port}/get-image?time=${DateTime.now().millisecondsSinceEpoch}";
                                 });
@@ -655,7 +655,7 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
                           TextButton(
                               child: Text("刷新显示屏"),
                               onPressed: () {
-                                setState(() {
+                                state(() {
                                   _screenUrl =
                                       "http://${widget.device.ip}:${widget.device.port}/get-image?time=${DateTime.now().millisecondsSinceEpoch}";
                                 });
