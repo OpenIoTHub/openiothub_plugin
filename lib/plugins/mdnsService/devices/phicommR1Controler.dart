@@ -561,12 +561,7 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
                 content: Container(
                   child: Column(
                     children: <Widget>[
-                      Text(_screenUrl),
-                      Row(
-                        children: <Widget>[
-                          Image.network(_screenUrl),
-                        ],
-                      ),
+                      Image.network(_screenUrl),
                       // 19: "导航键向上",
                       // 20: "导航键向下",
                       // 21: "导航键向左",
