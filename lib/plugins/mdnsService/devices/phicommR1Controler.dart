@@ -251,7 +251,7 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
                   color: Colors.red,
                   // iconSize: 100.0,
                   onPressed: () {
-                    _doCmd("kill-server");
+                    _doAdbCmd("kill-server");
                   },
                 ),
                 IconButton(
@@ -259,7 +259,7 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
                   color: Colors.green,
                   // iconSize: 100.0,
                   onPressed: () {
-                    _doCmd("start-server");
+                    _doAdbCmd("start-server");
                   },
                 ),
                 IconButton(
@@ -267,7 +267,7 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
                   color: Colors.greenAccent,
                   // iconSize: 100.0,
                   onPressed: () {
-                    _doCmd("reconnect offline");
+                    _doAdbCmd("reconnect offline");
                   },
                 ),
               ],
