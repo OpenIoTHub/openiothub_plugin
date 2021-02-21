@@ -241,9 +241,10 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
               }),
         ],
       ),
-      body: Column(
-          // mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
+      body: SingleChildScrollView(
+          child: Column(
+              // mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
@@ -527,7 +528,7 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
               ],
             ),
             //TODO  原厂配网和非原厂配网
-          ]),
+          ])),
     );
   }
 
