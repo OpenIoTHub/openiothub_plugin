@@ -245,11 +245,41 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
+                Text("adb操作(kill/start/reconnect):"),
+                IconButton(
+                  icon: Icon(Icons.power_settings_new),
+                  color: Colors.red,
+                  // iconSize: 100.0,
+                  onPressed: () {
+                    _doCmd("kill-server");
+                  },
+                ),
+                IconButton(
+                  icon: Icon(Icons.power_settings_new),
+                  color: Colors.green,
+                  // iconSize: 100.0,
+                  onPressed: () {
+                    _doCmd("start-server");
+                  },
+                ),
+                IconButton(
+                  icon: Icon(Icons.autorenew),
+                  color: Colors.greenAccent,
+                  // iconSize: 100.0,
+                  onPressed: () {
+                    _doCmd("reconnect offline");
+                  },
+                ),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
                 Text("关机/重启:"),
                 IconButton(
                   icon: Icon(Icons.power_settings_new),
                   color: Colors.red,
-                  iconSize: 100.0,
+                  // iconSize: 100.0,
                   onPressed: () {
                     _doCmd("shutdown");
                   },
@@ -257,7 +287,7 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
                 IconButton(
                   icon: Icon(Icons.autorenew),
                   color: Colors.yellow,
-                  iconSize: 100.0,
+                  // iconSize: 100.0,
                   onPressed: () {
                     _doCmd("reboot");
                   },
@@ -271,7 +301,7 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
                 IconButton(
                   icon: Icon(Icons.volume_down),
                   color: Colors.cyan,
-                  iconSize: 100.0,
+                  // iconSize: 100.0,
                   onPressed: () {
                     _Keyevent(_down);
                   },
@@ -279,7 +309,7 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
                 IconButton(
                   icon: Icon(Icons.volume_off),
                   color: Colors.red,
-                  iconSize: 100.0,
+                  // iconSize: 100.0,
                   onPressed: () {
                     _Keyevent(_off);
                   },
@@ -287,7 +317,7 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
                 IconButton(
                   icon: Icon(Icons.volume_up),
                   color: Colors.orange,
-                  iconSize: 100.0,
+                  // iconSize: 100.0,
                   onPressed: () {
                     _Keyevent(_up);
                   },
@@ -675,6 +705,19 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
   _doCmd(String cmd) async {
     String url =
         "http://${widget.device.ip}:${widget.device.port}/do-cmd?cmd=$cmd";
+    http.Response response;
+    try {
+      response = await http.get(url).timeout(const Duration(seconds: 2));
+      Fluttertoast.showToast(msg: response.body);
+    } catch (e) {
+      print(e.toString());
+      return;
+    }
+  }
+
+  _doAdbCmd(String cmd) async {
+    String url =
+        "http://${widget.device.ip}:${widget.device.port}/do-adb-cmd?cmd=$cmd";
     http.Response response;
     try {
       response = await http.get(url).timeout(const Duration(seconds: 2));
