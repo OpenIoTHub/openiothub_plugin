@@ -607,7 +607,7 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
                 "http://${widget.device.ip}:${widget.device.port}/get-image?time=${DateTime.now().millisecondsSinceEpoch}";
             return AlertDialog(
                 title: Text("屏幕截图:"),
-                content: Container(
+                content: SingleChildScrollView(
                   child: Column(
                     children: <Widget>[
                       Image.network(_screenUrl),
