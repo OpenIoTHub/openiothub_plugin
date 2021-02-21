@@ -29,6 +29,8 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
   List<String> _listPackages = [];
   TextEditingController _cmd_controller =
       TextEditingController.fromValue(TextEditingValue(text: ""));
+  TextEditingController _adb_cmd_controller =
+      TextEditingController.fromValue(TextEditingValue(text: ""));
   static const Map<int, String> keyevents = {
     1: "按键 Soft Left",
     2: "按键 Soft Right",
@@ -249,7 +251,6 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
                 IconButton(
                   icon: Icon(Icons.power_settings_new),
                   color: Colors.red,
-                  // iconSize: 100.0,
                   onPressed: () {
                     _doAdbCmd("kill-server");
                   },
@@ -257,7 +258,6 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
                 IconButton(
                   icon: Icon(Icons.power_settings_new),
                   color: Colors.green,
-                  // iconSize: 100.0,
                   onPressed: () {
                     _doAdbCmd("start-server");
                   },
@@ -265,7 +265,6 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
                 IconButton(
                   icon: Icon(Icons.autorenew),
                   color: Colors.greenAccent,
-                  // iconSize: 100.0,
                   onPressed: () {
                     _doAdbCmd("reconnect offline");
                   },
@@ -279,7 +278,6 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
                 IconButton(
                   icon: Icon(Icons.power_settings_new),
                   color: Colors.red,
-                  // iconSize: 100.0,
                   onPressed: () {
                     _doCmd("shutdown");
                   },
@@ -287,7 +285,6 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
                 IconButton(
                   icon: Icon(Icons.autorenew),
                   color: Colors.yellow,
-                  // iconSize: 100.0,
                   onPressed: () {
                     _doCmd("reboot");
                   },
@@ -301,7 +298,6 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
                 IconButton(
                   icon: Icon(Icons.volume_down),
                   color: Colors.cyan,
-                  // iconSize: 100.0,
                   onPressed: () {
                     _Keyevent(_down);
                   },
@@ -309,7 +305,6 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
                 IconButton(
                   icon: Icon(Icons.volume_off),
                   color: Colors.red,
-                  // iconSize: 100.0,
                   onPressed: () {
                     _Keyevent(_off);
                   },
@@ -317,7 +312,6 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
                 IconButton(
                   icon: Icon(Icons.volume_up),
                   color: Colors.orange,
-                  // iconSize: 100.0,
                   onPressed: () {
                     _Keyevent(_up);
                   },
@@ -436,9 +430,33 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 TextButton(
-                  child: Text("开始执行上述命令"),
+                  child: Text("开始执行上述命令到安卓"),
                   onPressed: () {
                     _doCmd(_cmd_controller.text);
+                  },
+                )
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                TextFormField(
+                  controller: _adb_cmd_controller,
+                  decoration: InputDecoration(
+                    contentPadding: EdgeInsets.all(10.0),
+                    labelText: '请输入需要执行adb命令的参数，如:kill-server',
+                    helperText: 'adb cmd args',
+                  ),
+                ),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                TextButton(
+                  child: Text("开始执行上述adb命令"),
+                  onPressed: () {
+                    _doAdbCmd(_adb_cmd_controller.text);
                   },
                 )
               ],
@@ -585,7 +603,8 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
         context: context,
         builder: (context) {
           return StatefulBuilder(builder: (context, state) {
-            String _screenUrl = "http://${widget.device.ip}:${widget.device.port}/get-image?time=${DateTime.now().millisecondsSinceEpoch}";
+            String _screenUrl =
+                "http://${widget.device.ip}:${widget.device.port}/get-image?time=${DateTime.now().millisecondsSinceEpoch}";
             return AlertDialog(
                 title: Text("屏幕截图:"),
                 content: Container(
