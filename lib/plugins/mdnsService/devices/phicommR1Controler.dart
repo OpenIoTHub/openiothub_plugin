@@ -623,9 +623,11 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
                               icon: Icon(Icons.arrow_drop_up),
                               onPressed: () {
                                 _Keyevent(19);
-                                state(() {
-                                  _screenUrl =
-                                      "http://${widget.device.ip}:${widget.device.port}/get-image?time=${DateTime.now().millisecondsSinceEpoch}";
+                                Future.delayed(const Duration(seconds: 1), () {
+                                  state(() {
+                                    _screenUrl =
+                                        "http://${widget.device.ip}:${widget.device.port}/get-image?time=${DateTime.now().millisecondsSinceEpoch}";
+                                  });
                                 });
                               }),
                         ],
@@ -637,27 +639,33 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
                               icon: Icon(Icons.arrow_left),
                               onPressed: () {
                                 _Keyevent(21);
-                                state(() {
-                                  _screenUrl =
-                                      "http://${widget.device.ip}:${widget.device.port}/get-image?time=${DateTime.now().millisecondsSinceEpoch}";
+                                Future.delayed(const Duration(seconds: 1), () {
+                                  state(() {
+                                    _screenUrl =
+                                        "http://${widget.device.ip}:${widget.device.port}/get-image?time=${DateTime.now().millisecondsSinceEpoch}";
+                                  });
                                 });
                               }),
                           IconButton(
                               icon: Icon(Icons.adjust),
                               onPressed: () {
                                 _Keyevent(23);
-                                state(() {
-                                  _screenUrl =
-                                      "http://${widget.device.ip}:${widget.device.port}/get-image?time=${DateTime.now().millisecondsSinceEpoch}";
+                                Future.delayed(const Duration(seconds: 1), () {
+                                  state(() {
+                                    _screenUrl =
+                                        "http://${widget.device.ip}:${widget.device.port}/get-image?time=${DateTime.now().millisecondsSinceEpoch}";
+                                  });
                                 });
                               }),
                           IconButton(
                               icon: Icon(Icons.arrow_right),
                               onPressed: () {
                                 _Keyevent(22);
-                                state(() {
-                                  _screenUrl =
-                                      "http://${widget.device.ip}:${widget.device.port}/get-image?time=${DateTime.now().millisecondsSinceEpoch}";
+                                Future.delayed(const Duration(seconds: 1), () {
+                                  state(() {
+                                    _screenUrl =
+                                        "http://${widget.device.ip}:${widget.device.port}/get-image?time=${DateTime.now().millisecondsSinceEpoch}";
+                                  });
                                 });
                               }),
                         ],
@@ -669,9 +677,11 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
                               icon: Icon(Icons.arrow_drop_down),
                               onPressed: () {
                                 _Keyevent(20);
-                                state(() {
-                                  _screenUrl =
-                                      "http://${widget.device.ip}:${widget.device.port}/get-image?time=${DateTime.now().millisecondsSinceEpoch}";
+                                Future.delayed(const Duration(seconds: 1), () {
+                                  state(() {
+                                    _screenUrl =
+                                        "http://${widget.device.ip}:${widget.device.port}/get-image?time=${DateTime.now().millisecondsSinceEpoch}";
+                                  });
                                 });
                               }),
                         ],
@@ -682,18 +692,22 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
                               child: Text("返回"),
                               onPressed: () {
                                 _Keyevent(4);
-                                state(() {
-                                  _screenUrl =
-                                      "http://${widget.device.ip}:${widget.device.port}/get-image?time=${DateTime.now().millisecondsSinceEpoch}";
+                                Future.delayed(const Duration(seconds: 1), () {
+                                  state(() {
+                                    _screenUrl =
+                                        "http://${widget.device.ip}:${widget.device.port}/get-image?time=${DateTime.now().millisecondsSinceEpoch}";
+                                  });
                                 });
                               }),
                           TextButton(
                               child: Text("桌面"),
                               onPressed: () {
                                 _Keyevent(3);
-                                state(() {
-                                  _screenUrl =
-                                      "http://${widget.device.ip}:${widget.device.port}/get-image?time=${DateTime.now().millisecondsSinceEpoch}";
+                                Future.delayed(const Duration(seconds: 1), () {
+                                  state(() {
+                                    _screenUrl =
+                                        "http://${widget.device.ip}:${widget.device.port}/get-image?time=${DateTime.now().millisecondsSinceEpoch}";
+                                  });
                                 });
                               }),
                           TextButton(
