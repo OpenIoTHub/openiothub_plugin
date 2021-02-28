@@ -611,7 +611,24 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
                 content: SingleChildScrollView(
                   child: Column(
                     children: <Widget>[
-                      Image.network(_screenUrl),
+                      GestureDetector(
+                        child: Image.network(_screenUrl),
+                          onTapDown: (TapDownDetails details) {
+                            Fluttertoast.showToast(msg: "onTapDown:$details");
+                          },
+                          onVerticalDragStart: (DragStartDetails details) {
+                            Fluttertoast.showToast(msg: "onVerticalDragStart:$details");
+                          },
+                          onVerticalDragEnd: (DragEndDetails details) {
+                            Fluttertoast.showToast(msg: "onVerticalDragEnd:$details");
+                          },
+                          onHorizontalDragStart: (DragStartDetails details) {
+                            Fluttertoast.showToast(msg: "onHorizontalDragStart:$details");
+                          },
+                          onHorizontalDragEnd: (DragEndDetails details) {
+                            Fluttertoast.showToast(msg: "onHorizontalDragEnd:$details");
+                          },
+                      ),
                       // 19: "导航键向上",
                       // 20: "导航键向下",
                       // 21: "导航键向左",
@@ -771,7 +788,6 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
       Fluttertoast.showToast(msg: response.body);
       Map<String, dynamic> body = jsonDecode(response.body);
       Fluttertoast.showToast(msg: body['result'].toString());
-      ;
     } catch (e) {
       print(e.toString());
       return;
