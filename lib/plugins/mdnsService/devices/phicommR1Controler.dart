@@ -614,7 +614,7 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
                       GestureDetector(
                         child: Image.network(_screenUrl),
                           onTapDown: (TapDownDetails details) {
-                            Fluttertoast.showToast(msg: "onTapDown:$details");
+                            Fluttertoast.showToast(msg: "onTapDown:${details.globalPosition},${details.localPosition},${details.kind}");
                           },
                           onVerticalDragStart: (DragStartDetails details) {
                             Fluttertoast.showToast(msg: "onVerticalDragStart:$details");
