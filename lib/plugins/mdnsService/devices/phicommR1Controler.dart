@@ -612,13 +612,11 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
                   child: Column(
                     children: <Widget>[
                       GestureDetector(
-                        child: Image.network(_screenUrl),
+                        child: Image.network(_screenUrl,width: 360,height: 240,),
                         onTapDown: (TapDownDetails details) {
-                          RenderObject renderObject = context.findRenderObject();
-                          Size size = renderObject.paintBounds.size;
                           Fluttertoast.showToast(
                               msg:
-                                  "size:${size}onTapDown:${details.globalPosition},${details.localPosition},${details.kind}");
+                                  "onTapDown:${details.globalPosition},${details.localPosition},${details.kind}");
                         },
                         onVerticalDragStart: (DragStartDetails details) {
                           Fluttertoast.showToast(
