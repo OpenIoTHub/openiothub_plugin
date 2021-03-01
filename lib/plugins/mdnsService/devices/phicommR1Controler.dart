@@ -613,21 +613,29 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
                     children: <Widget>[
                       GestureDetector(
                         child: Image.network(_screenUrl),
-                          onTapDown: (TapDownDetails details) {
-                            Fluttertoast.showToast(msg: "onTapDown:${details.globalPosition},${details.localPosition},${details.kind}");
-                          },
-                          onVerticalDragStart: (DragStartDetails details) {
-                            Fluttertoast.showToast(msg: "onVerticalDragStart:$details");
-                          },
-                          onVerticalDragEnd: (DragEndDetails details) {
-                            Fluttertoast.showToast(msg: "onVerticalDragEnd:$details");
-                          },
-                          onHorizontalDragStart: (DragStartDetails details) {
-                            Fluttertoast.showToast(msg: "onHorizontalDragStart:$details");
-                          },
-                          onHorizontalDragEnd: (DragEndDetails details) {
-                            Fluttertoast.showToast(msg: "onHorizontalDragEnd:$details");
-                          },
+                        onTapDown: (TapDownDetails details) {
+                          RenderObject renderObject = context.findRenderObject();
+                          Size size = renderObject.paintBounds.size;
+                          Fluttertoast.showToast(
+                              msg:
+                                  "size:${size}onTapDown:${details.globalPosition},${details.localPosition},${details.kind}");
+                        },
+                        onVerticalDragStart: (DragStartDetails details) {
+                          Fluttertoast.showToast(
+                              msg: "onVerticalDragStart:$details");
+                        },
+                        onVerticalDragEnd: (DragEndDetails details) {
+                          Fluttertoast.showToast(
+                              msg: "onVerticalDragEnd:$details");
+                        },
+                        onHorizontalDragStart: (DragStartDetails details) {
+                          Fluttertoast.showToast(
+                              msg: "onHorizontalDragStart:$details");
+                        },
+                        onHorizontalDragEnd: (DragEndDetails details) {
+                          Fluttertoast.showToast(
+                              msg: "onHorizontalDragEnd:$details");
+                        },
                       ),
                       // 19: "导航键向上",
                       // 20: "导航键向下",
