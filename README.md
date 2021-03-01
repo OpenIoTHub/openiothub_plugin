@@ -1,6 +1,6 @@
 # openiothub_plugin
 
-openiothub_plugin
+### 云易连APP的UI部分插件，通过添加UI插件以支持更多的[物联网设备](./lib/plugins/mdnsService/devices)和[私有云服务](./lib/plugins/mdnsService/mDNSService)
 
 ## Getting Started
 
