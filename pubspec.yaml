@@ -31,12 +31,6 @@ dependencies:
     git: https://github.com/OpenIoTHub/openiothub_constants
   openiothub_api:
     git: https://github.com/OpenIoTHub/openiothub_api
-  openiothub_grpc_api:
-    git: https://github.com/OpenIoTHub/openiothub-grpc-api
-  server_grpc_api:
-    git: https://github.com/OpenIoTHub/server-grpc-api
-  gateway_grpc_api:
-    git: https://github.com/OpenIoTHub/gateway-grpc-api
 
 dev_dependencies:
   flutter_test:
