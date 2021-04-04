@@ -24,6 +24,12 @@ class ModelsMap {
         device: device,
       );
     },
+    //    斐讯TC1 A1   插排
+    "com#iotserv#devices#phicomm_tc1_a1": (PortService device) {
+      return PhicommTC1A1PluginPage(
+        device: device,
+      );
+    },
 //    DHT11,DTH22系列传感器
     DHTPage.modelName: (PortService device) {
       return DHTPage(
