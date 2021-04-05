@@ -10,6 +10,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  http: ^0.12.0
   #  app内嵌网页浏览器
   flutter_vlc_player: ^2.0.0
   webview_flutter: ^0.3.19+9
@@ -27,6 +28,9 @@ dependencies:
   webdav: ^1.0.8-dev
   openiothub_constants: ^0.0.1
   openiothub_api: ^0.0.1
+  openiothub_grpc_api: ^0.0.1
+  server_grpc_api: ^0.0.1
+  gateway_grpc_api: ^0.0.1
 
 dev_dependencies:
   flutter_test:
