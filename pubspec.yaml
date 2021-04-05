@@ -24,7 +24,7 @@ dependencies:
   filesystem_picker: ^1.0.3
   path_provider: ^1.6.27
   dio: ^3.0.10
-  webdav: ^0.0.1
+  webdav: ^1.0.8-dev
   openiothub_constants: ^0.0.1
   openiothub_api: ^0.0.1
 

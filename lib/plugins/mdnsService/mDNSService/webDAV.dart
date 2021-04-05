@@ -50,7 +50,7 @@ class _WebDAVPageState extends State<WebDAVPage> {
             title: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
-                Text(pair.displayName),
+                Text(pair.name),
               ],
             ),
           ),
@@ -92,7 +92,7 @@ class _WebDAVPageState extends State<WebDAVPage> {
     Client webDAV = Client(widget.serviceInfo.ip, "", "", "/",
         protocol: "http", port: widget.serviceInfo.port);
     try {
-      List<FileInfo> listFileRst = await webDAV.ls(pathHistory.last);
+      List<FileInfo> listFileRst = await webDAV.ls();
       print("listFileRst:$listFileRst");
       setState(() {
         listFile = listFileRst;

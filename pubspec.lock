@@ -159,12 +159,10 @@ packages:
   gateway_grpc_api:
     dependency: transitive
     description:
-      path: "."
-      ref: HEAD
-      resolved-ref: "93cceaa39a9726cc0a5bf6f317ab474472414c71"
-      url: "https://github.com/OpenIoTHub/gateway-grpc-api"
-    source: git
-    version: "1.0.0"
+      name: gateway_grpc_api
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.0.1"
   googleapis_auth:
     dependency: transitive
     description:
@@ -224,30 +222,24 @@ packages:
   openiothub_api:
     dependency: "direct main"
     description:
-      path: "."
-      ref: HEAD
-      resolved-ref: "9656ee9492135f6d873afeab46afa4a64e90c90e"
-      url: "https://github.com/OpenIoTHub/openiothub_api"
-    source: git
+      name: openiothub_api
+      url: "https://pub.flutter-io.cn"
+    source: hosted
     version: "0.0.1"
   openiothub_constants:
     dependency: "direct main"
     description:
-      path: "."
-      ref: HEAD
-      resolved-ref: "9445228b8a6951c78a9696131778e6da527b4ae6"
-      url: "https://github.com/OpenIoTHub/openiothub_constants"
-    source: git
-    version: "0.0.1"
+      name: openiothub_constants
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.0.2"
   openiothub_grpc_api:
     dependency: transitive
     description:
-      path: "."
-      ref: HEAD
-      resolved-ref: "1a094d3b8d1ad4c0c71627081599bf4d4e7e9191"
-      url: "https://github.com/OpenIoTHub/openiothub-grpc-api"
-    source: git
-    version: "1.0.0"
+      name: openiothub_grpc_api
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.0.1"
   path:
     dependency: transitive
     description:
@@ -261,7 +253,7 @@ packages:
       name: path_provider
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "1.6.27"
+    version: "1.6.28"
   path_provider_linux:
     dependency: transitive
     description:
@@ -324,7 +316,7 @@ packages:
       name: process
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "4.1.0"
+    version: "4.2.1"
   protobuf:
     dependency: transitive
     description:
@@ -342,12 +334,10 @@ packages:
   server_grpc_api:
     dependency: transitive
     description:
-      path: "."
-      ref: HEAD
-      resolved-ref: "145d1d08bb8c631f29b89237ffb52c5513456aee"
-      url: "https://github.com/OpenIoTHub/server-grpc-api"
-    source: git
-    version: "1.0.0"
+      name: server_grpc_api
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.0.1"
   shared_preferences:
     dependency: "direct main"
     description:
@@ -503,12 +493,10 @@ packages:
   webdav:
     dependency: "direct main"
     description:
-      path: "."
-      ref: HEAD
-      resolved-ref: b57fdab0fa896d104141f284d529a356292ada57
-      url: "https://github.com/OpenIoTHub/dart-webdav"
-    source: git
-    version: "1.0.6-dev"
+      name: webdav
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "1.0.8-dev"
   webview_flutter:
     dependency: "direct main"
     description:
@@ -522,7 +510,7 @@ packages:
       name: win32
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "2.0.0"
+    version: "2.0.5"
   xdg_directories:
     dependency: transitive
     description:
@@ -538,5 +526,5 @@ packages:
     source: hosted
     version: "3.7.0"
 sdks:
-  dart: ">=2.12.0-259.9.beta <3.0.0"
+  dart: ">=2.12.0 <3.0.0"
   flutter: ">=1.22.0"

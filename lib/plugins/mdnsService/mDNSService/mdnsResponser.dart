@@ -38,7 +38,7 @@ class _MDNSResponserPageState extends State<MDNSResponserPage> {
             title: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
-                Text(pair.displayName),
+                Text("TODO"),
               ],
             ),
           ),
