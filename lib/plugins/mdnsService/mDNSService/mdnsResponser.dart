@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:openiothub_grpc_api/pb/service.pb.dart';
 import 'package:openiothub_grpc_api/pb/service.pbgrpc.dart';
 import 'package:openiothub_plugin/plugins/mdnsService/commWidgets/info.dart';
-import 'package:webdav/webdav.dart';
 
 //手动注册一些端口到mdns的声明，用于接入一些传统的设备或者服务或者帮助一些不方便注册mdns的设备或服务注册
 //需要选择模型和输入相关配置参数
@@ -19,37 +18,9 @@ class MDNSResponserPage extends StatefulWidget {
 
 class _MDNSResponserPageState extends State<MDNSResponserPage> {
   List<String> pathHistory = ["/"];
-  List<FileInfo> listFile = [];
 
   @override
   Widget build(BuildContext context) {
-    final tiles = listFile.map(
-      (pair) {
-        return InkWell(
-          onTap: () {
-            if (pair.isDirectory) {
-              pathHistory.add(pair.path);
-            }
-          },
-          child: ListTile(
-            leading: pair.isDirectory
-                ? Icon(Icons.folder_open, color: Colors.black)
-                : Icon(Icons.insert_drive_file),
-            title: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                Text("TODO"),
-              ],
-            ),
-          ),
-        );
-      },
-    );
-
-    final divided = ListTile.divideTiles(
-      context: context,
-      tiles: tiles,
-    ).toList();
     return Scaffold(
       appBar: AppBar(
         title: Text(pathHistory.last),
@@ -70,7 +41,7 @@ class _MDNSResponserPageState extends State<MDNSResponserPage> {
               }),
         ],
       ),
-      body: ListView(children: divided),
+      body: ListView(children: null),
     );
   }
 

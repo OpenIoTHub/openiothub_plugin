@@ -81,11 +81,11 @@ class ModelsMap {
       );
     },
     //    webDAV文件
-    WebDAVPage.modelName: (PortService serviceInfo) {
-      return WebDAVPage(
-        serviceInfo: serviceInfo,
-      );
-    },
+    // WebDAVPage.modelName: (PortService serviceInfo) {
+    //   return WebDAVPage(
+    //     serviceInfo: serviceInfo,
+    //   );
+    // },
     //    gateway网关
     Gateway.modelName: (PortService serviceInfo) {
       return Gateway(
