@@ -1,4 +1,4 @@
-import 'package:openiothub_constants/constants/Config.dart';
+import 'package:openiothub_constants/openiothub_constants.dart';
 import 'package:openiothub_grpc_api/pb/service.pb.dart';
 import 'package:openiothub_grpc_api/pb/service.pbgrpc.dart';
 
