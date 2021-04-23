@@ -11,10 +11,10 @@ import 'package:openiothub_plugin/plugins/mdnsService/commWidgets/info.dart';
 // import 'package:shared_preferences/shared_preferences.dart';
 
 class Gateway extends StatefulWidget {
-  Gateway({Key key, this.serviceInfo}) : super(key: key);
+  Gateway({Key key, this.device}) : super(key: key);
 
   static final String modelName = "com.iotserv.services.gateway";
-  final PortService serviceInfo;
+  final PortService device;
 
   @override
   createState() => GatewayState();
@@ -39,7 +39,7 @@ class GatewayState extends State<Gateway> {
   Future<void> initState() {
     super.initState();
     setState(() {
-      _LastId_controller.text = widget.serviceInfo.info["id"];
+      _LastId_controller.text = widget.device.info["id"];
     });
   }
 
@@ -237,7 +237,7 @@ class GatewayState extends State<Gateway> {
 
       LoginResponse loginResponse =
           await GatewayLoginManager.LoginServerByServerInfo(
-              serverInfo, widget.serviceInfo.ip, widget.serviceInfo.port);
+              serverInfo, widget.device.ip, widget.device.port);
 //    自动添加到我的列表
       if (loginResponse.loginStatus) {
         showDialog(
@@ -302,7 +302,7 @@ class GatewayState extends State<Gateway> {
   seeToken() async {
     try {
       Token token = await GatewayLoginManager.GetOpenIoTHubToken(
-          widget.serviceInfo.ip, widget.serviceInfo.port);
+          widget.device.ip, widget.device.port);
       showDialog(
           context: context,
           builder: (_) => AlertDialog(
@@ -348,7 +348,7 @@ class GatewayState extends State<Gateway> {
 
   Future addToMySessionList() async {
     Token token = await GatewayLoginManager.GetOpenIoTHubToken(
-        widget.serviceInfo.ip, widget.serviceInfo.port);
+        widget.device.ip, widget.device.port);
     SessionConfig config = SessionConfig();
     config.token = token.value;
     config.description = '我的网络';
@@ -370,7 +370,7 @@ class GatewayState extends State<Gateway> {
       MaterialPageRoute(
         builder: (context) {
           return InfoPage(
-            portService: widget.serviceInfo,
+            portService: widget.device,
           );
         },
       ),

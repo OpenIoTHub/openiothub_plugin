@@ -69,38 +69,43 @@ class ModelsMap {
 
     //
     //    web UI,使用web方式打开服务的模型
-    WebPage.modelName: (PortService serviceInfo) {
+    WebPage.modelName: (PortService device) {
       return WebPage(
-        serviceInfo: serviceInfo,
+        device: device,
       );
     },
     //    https://github.com/qlwz/esp_dc1 暂时使用web方式打开
-    "com.94qing.devices.esp_dc1": (PortService serviceInfo) {
+    "com.94qing.devices.esp_dc1": (PortService device) {
       return WebPage(
-        serviceInfo: serviceInfo,
+        device: device,
       );
     },
     //    webDAV文件
-    // WebDAVPage.modelName: (PortService serviceInfo) {
+    // WebDAVPage.modelName: (PortService device) {
     //   return WebDAVPage(
-    //     serviceInfo: serviceInfo,
+    //     device: device,
     //   );
     // },
     //    gateway网关
-    Gateway.modelName: (PortService serviceInfo) {
+    Gateway.modelName: (PortService device) {
       return Gateway(
-        serviceInfo: serviceInfo,
+        device: device,
       );
     },
     //    VNC MacOS可测试
-    VNCWebPage.modelName: (PortService serviceInfo) {
+    VNCWebPage.modelName: (PortService device) {
       return VNCWebPage(
-        serviceInfo: serviceInfo,
+        device: device,
       );
     },
-    VideoPlayer.modelName: (PortService serviceInfo) {
+    VideoPlayer.modelName: (PortService device) {
       return VideoPlayer(
-        serviceInfo: serviceInfo,
+        device: device,
+      );
+    },
+    MqttPhicommDC1PluginPage.modelName: (PortService device) {
+      return MqttPhicommDC1PluginPage(
+        device: device,
       );
     },
   });

@@ -9,10 +9,10 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class WebPage extends StatefulWidget {
-  WebPage({Key key, this.serviceInfo}) : super(key: key);
+  WebPage({Key key, this.device}) : super(key: key);
 
   static final String modelName = "com.iotserv.services.web";
-  final PortService serviceInfo;
+  final PortService device;
 
   @override
   _WebPageState createState() => _WebPageState();
@@ -39,13 +39,13 @@ class _WebPageState extends State<WebPage> {
               ),
               onPressed: () {
                 _launchURL(
-                    "http://${widget.serviceInfo.ip}:${widget.serviceInfo.port}");
+                    "http://${widget.device.ip}:${widget.device.port}");
               })
         ]),
         body: Builder(builder: (BuildContext context) {
           return WebView(
               initialUrl:
-                  "http://${widget.serviceInfo.ip}:${widget.serviceInfo.port}",
+                  "http://${widget.device.ip}:${widget.device.port}",
               javascriptMode: JavascriptMode.unrestricted);
         }));
   }
@@ -57,7 +57,7 @@ class _WebPageState extends State<WebPage> {
       MaterialPageRoute(
         builder: (context) {
           return InfoPage(
-            portService: widget.serviceInfo,
+            portService: widget.device,
           );
         },
       ),
@@ -69,9 +69,9 @@ class _WebPageState extends State<WebPage> {
     super.initState();
     if (Platform.isIOS) {
       Navigator.of(context).pop();
-      _launchURL('http://${widget.serviceInfo.ip}:${widget.serviceInfo.port}');
+      _launchURL('http://${widget.device.ip}:${widget.device.port}');
     } else {
-      _launchURL('http://${widget.serviceInfo.ip}:${widget.serviceInfo.port}');
+      _launchURL('http://${widget.device.ip}:${widget.device.port}');
     }
   }
 

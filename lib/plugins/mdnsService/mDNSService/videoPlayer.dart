@@ -5,9 +5,9 @@ import 'package:openiothub_grpc_api/pb/service.pbgrpc.dart';
 import 'package:openiothub_plugin/plugins/mdnsService/commWidgets/info.dart';
 
 class VideoPlayer extends StatefulWidget {
-  VideoPlayer({Key key, this.serviceInfo}) : super(key: key);
+  VideoPlayer({Key key, this.device}) : super(key: key);
   static final String modelName = "com.iotserv.services.vlc.player";
-  final PortService serviceInfo;
+  final PortService device;
 
   @override
   _VideoPlayerState createState() => _VideoPlayerState();
@@ -20,18 +20,18 @@ class _VideoPlayerState extends State<VideoPlayer> {
 
   @override
   void initState() {
-    if (!widget.serviceInfo.info.containsKey("username") ||
-        widget.serviceInfo.info["username"] == "" ||
-        widget.serviceInfo.info["username"] == null) {
-      url = "${widget.serviceInfo.info["scheme"]}://" +
-          "${widget.serviceInfo.ip}:${widget.serviceInfo.port}${widget.serviceInfo.info["path"]}";
+    if (!widget.device.info.containsKey("username") ||
+        widget.device.info["username"] == "" ||
+        widget.device.info["username"] == null) {
+      url = "${widget.device.info["scheme"]}://" +
+          "${widget.device.ip}:${widget.device.port}${widget.device.info["path"]}";
     } else {
-      url = "${widget.serviceInfo.info["scheme"]}://" +
-          widget.serviceInfo.info["username"] +
+      url = "${widget.device.info["scheme"]}://" +
+          widget.device.info["username"] +
           ":" +
-          widget.serviceInfo.info["password"] +
+          widget.device.info["password"] +
           "@"
-              "${widget.serviceInfo.ip}:${widget.serviceInfo.port}${widget.serviceInfo.info["path"]}";
+              "${widget.device.ip}:${widget.device.port}${widget.device.info["path"]}";
     }
 
     print("url:$url");
@@ -51,7 +51,7 @@ class _VideoPlayerState extends State<VideoPlayer> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.serviceInfo.info["name"]),
+        title: Text(widget.device.info["name"]),
         actions: <Widget>[
           IconButton(
               icon: Icon(
@@ -80,7 +80,7 @@ class _VideoPlayerState extends State<VideoPlayer> {
       MaterialPageRoute(
         builder: (context) {
           return InfoPage(
-            portService: widget.serviceInfo,
+            portService: widget.device,
           );
         },
       ),

@@ -7,10 +7,10 @@ import 'package:openiothub_plugin/plugins/mdnsService/commWidgets/info.dart';
 //手动注册一些端口到mdns的声明，用于接入一些传统的设备或者服务或者帮助一些不方便注册mdns的设备或服务注册
 //需要选择模型和输入相关配置参数
 class MDNSResponserPage extends StatefulWidget {
-  MDNSResponserPage({Key key, this.serviceInfo}) : super(key: key);
+  MDNSResponserPage({Key key, this.device}) : super(key: key);
 
   static final String modelName = "com.iotserv.services.mdnsResponser";
-  final PortService serviceInfo;
+  final PortService device;
 
   @override
   _MDNSResponserPageState createState() => _MDNSResponserPageState();
@@ -51,7 +51,7 @@ class _MDNSResponserPageState extends State<MDNSResponserPage> {
       MaterialPageRoute(
         builder: (context) {
           return InfoPage(
-            portService: widget.serviceInfo,
+            portService: widget.device,
           );
         },
       ),

@@ -10,7 +10,7 @@
 * 将创建的页面在[modelsMap.dart](./lib/plugins/mdnsService/modelsMap.dart)中的map里面注册(map的key是设备或者模型的名称，值是页面)
 
 #### 例如：
-创建一个[oneKeySwitch.dart](./lib/plugins/mdnsService/devices/oneKeySwitch.dart)页面  
+创建一个[oneKeySwitch.dart](lib/plugins/mdnsService/devices/local/oneKeySwitch.dart)页面  
 然后在[components.dart](./lib/plugins/mdnsService/components.dart#L5)引入  
 然后在[modelsMap.dart](./lib/plugins/mdnsService/modelsMap.dart#L9)中注册
 
