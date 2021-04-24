@@ -9,8 +9,7 @@ import 'package:openiothub_plugin/plugins/mdnsService/commWidgets/info.dart';
 
 class MqttPhicommDC1PluginPage extends StatefulWidget {
   MqttPhicommDC1PluginPage({Key key, this.device}) : super(key: key);
-
-  static final String modelName = "com.iotserv.devices.mqtt.phicomm_dc1";
+  static final String modelName = "com.iotserv.devices.mqtt.zDC1";
   final PortService device;
 
   @override
