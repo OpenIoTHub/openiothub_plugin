@@ -36,7 +36,8 @@ class InfoPage extends StatelessWidget {
     _result.add("固件程序:${portService.info["firmware-respository"]}");
     _result.add("固件版本:${portService.info["firmware-version"]}");
     _result.add("本网设备:${portService.isLocal ? "是" : "不是"}");
-    _result.add("设备地址:http://${portService.ip}:${portService.port}");
+    _result.add("设备地址:${portService.ip}");
+    _result.add("设备端口:${portService.port}");
 
     portService.info.forEach((key, value) {
       if (!_std_key.contains(key)) {
