@@ -1,4 +1,4 @@
-//MqttPhicommDC1Plugin:https://github.com/iotdevice/phicomm_dc1
+//MqttPhicommDC1plug_:https://github.com/iotdevice/phicomm_dc1
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -17,75 +17,50 @@ class MqttPhicommDC1PluginPage extends StatefulWidget {
 }
 
 class _MqttPhicommDC1PluginPageState extends State<MqttPhicommDC1PluginPage> {
-  static const String logLed = "logLed";
-  static const String wifiLed = "wifiLed";
-
-  static const String plugin4 = "plugin4";
-  static const String plugin5 = "plugin5";
-  static const String plugin6 = "plugin6";
-
   //  总开关
-  static const String plugin7 = "plugin7";
+  static const String plug_0 = "plug_0";
 
-  static const String Voltage = "Voltage";
+  static const String plug_1 = "plug_1";
+  static const String plug_2 = "plug_2";
+  static const String plug_3 = "plug_2";
+
+  static const String Power = "Power";
   static const String Current = "Current";
-  static const String ActivePower = "ActivePower";
-  static const String ApparentPower = "ApparentPower";
-  static const String ReactivePower = "ReactivePower";
-  static const String PowerFactor = "PowerFactor";
-  static const String Energy = "Energy";
+  static const String Voltage = "Voltage";
 
   List<String> _switchKeyList = [
-    logLed,
-    wifiLed,
-    plugin7,
-    plugin6,
-    plugin5,
-    plugin4
+    plug_0,
+    plug_1,
+    plug_2,
+    plug_3
   ];
   List<String> _valueKeyList = [
+    Power,
     Voltage,
-    Current,
-    ActivePower,
-    ApparentPower,
-    ReactivePower,
-    PowerFactor,
-    Energy
+    Current
   ];
 
 //  bool _logLedStatus = true;
 //  bool _wifiLedStatus = true;
 //  bool _primarySwitchStatus = true;
   Map<String, dynamic> _status = Map.from({
-    logLed: true,
-    wifiLed: true,
-    plugin4: true,
-    plugin5: true,
-    plugin6: true,
-    plugin7: true,
+    plug_0: 0,
+    plug_1: 0,
+    plug_2: 0,
+    plug_3: 0,
+    Power: 0.0,
     Voltage: 0.0,
     Current: 0.0,
-    ActivePower: 0.0,
-    ApparentPower: 0.0,
-    ReactivePower: 0.0,
-    PowerFactor: 0.0,
-    Energy: 0.0,
   });
 
   Map<String, String> _realName = Map.from({
-    logLed: "Logo灯",
-    wifiLed: "WIFI灯",
-    plugin7: "总开关",
-    plugin6: "第一个插口",
-    plugin5: "第二个插口",
-    plugin4: "第三个插口",
+    plug_0: "总开关",
+    plug_1: "第一个插口",
+    plug_2: "第二个插口",
+    plug_3: "第三个插口",
+    Power: "功率",
     Voltage: "电压",
     Current: "电流",
-    ActivePower: "有功功率",
-    ApparentPower: "视在功率",
-    ReactivePower: "无功功率",
-    PowerFactor: "功率因数",
-    Energy: "用电量",
   });
 
   @override
@@ -103,12 +78,10 @@ class _MqttPhicommDC1PluginPageState extends State<MqttPhicommDC1PluginPage> {
     final tiles = _result.map(
       (pair) {
         switch (pair) {
-          case logLed:
-          case plugin7:
-          case wifiLed:
-          case plugin6:
-          case plugin5:
-          case plugin4:
+          case plug_0:
+          case plug_1:
+          case plug_2:
+          case plug_3:
             return ListTile(
               title: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
