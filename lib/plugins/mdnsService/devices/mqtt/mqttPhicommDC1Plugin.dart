@@ -22,7 +22,6 @@ class MqttPhicommDC1PluginPage extends StatefulWidget {
 
 class _MqttPhicommDC1PluginPageState extends State<MqttPhicommDC1PluginPage> {
   MqttServerClient client;
-  final builder = MqttPayloadBuilder();
   String topic_sensor;
   String topic_state;
 
@@ -182,7 +181,9 @@ class _MqttPhicommDC1PluginPageState extends State<MqttPhicommDC1PluginPage> {
       c.forEach((MqttReceivedMessage<MqttMessage> element) {
         final recMess = element.payload as MqttPublishMessage;
         final pt = MqttUtilities.bytesToStringAsString(recMess.payload.message);
-        Fluttertoast.showToast(msg: 'EXAMPLE::Change notification:: topic is <${c[0].topic}>, payload is <-- $pt -->');
+        Fluttertoast.showToast(
+            msg:
+                'EXAMPLE::Change notification:: topic is <${c[0].topic}>, payload is <-- $pt -->');
         //  TODO 通过获取的消息更新状态
         Map<String, dynamic> m = jsonDecode(pt);
         _switchKeyList.forEach((String key) {
@@ -217,11 +218,11 @@ class _MqttPhicommDC1PluginPageState extends State<MqttPhicommDC1PluginPage> {
   }
 
   _changeSwitchStatus(String name, bool value) async {
-    client.publishMessage(
-        "device/zdc1/${widget.device.info["mac"]}/set",
-        MqttQos.atLeastOnce,
-        '{"mac":"${widget.device.info["mac"]}","$name":{"on":${value ? 1 : 0}}}'
-            .codeUnits);
+    final builder = MqttPayloadBuilder();
+    builder.addString(
+        '{"mac":"${widget.device.info["mac"]}","$name":{"on":${value ? 1 : 0}}}');
+    client.publishMessage("device/zdc1/${widget.device.info["mac"]}/set",
+        MqttQos.atLeastOnce, builder.payload);
   }
 
   //mqtt的调用函数
