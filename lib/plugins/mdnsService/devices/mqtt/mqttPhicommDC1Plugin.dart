@@ -33,12 +33,12 @@ class _MqttPhicommDC1PluginPageState extends State<MqttPhicommDC1PluginPage> {
   static const String plug_2 = "plug_2";
   static const String plug_3 = "plug_2";
 
-  static const String Power = "Power";
-  static const String Current = "Current";
-  static const String Voltage = "Voltage";
+  static const String power = "power";
+  static const String current = "current";
+  static const String voltage = "voltage";
 
   List<String> _switchKeyList = [plug_0, plug_1, plug_2, plug_3];
-  List<String> _valueKeyList = [Power, Voltage, Current];
+  List<String> _valueKeyList = [power, voltage, current];
 
 //  bool _logLedStatus = true;
 //  bool _wifiLedStatus = true;
@@ -48,9 +48,9 @@ class _MqttPhicommDC1PluginPageState extends State<MqttPhicommDC1PluginPage> {
     plug_1: 0,
     plug_2: 0,
     plug_3: 0,
-    Power: 0.0,
-    Voltage: 0.0,
-    Current: 0.0,
+    power: 0.0,
+    voltage: 0.0,
+    current: 0.0,
   });
 
   Map<String, String> _realName = Map.from({
@@ -58,9 +58,9 @@ class _MqttPhicommDC1PluginPageState extends State<MqttPhicommDC1PluginPage> {
     plug_1: "第一个插口",
     plug_2: "第二个插口",
     plug_3: "第三个插口",
-    Power: "功率",
-    Voltage: "电压",
-    Current: "电流",
+    power: "功率",
+    voltage: "电压",
+    current: "电流",
   });
 
   @override
@@ -182,8 +182,7 @@ class _MqttPhicommDC1PluginPageState extends State<MqttPhicommDC1PluginPage> {
       c.forEach((MqttReceivedMessage<MqttMessage> element) {
         final recMess = element.payload as MqttPublishMessage;
         final pt = MqttUtilities.bytesToStringAsString(recMess.payload.message);
-        print(
-            'EXAMPLE::Change notification:: topic is <${c[0].topic}>, payload is <-- $pt -->');
+        Fluttertoast.showToast(msg: 'EXAMPLE::Change notification:: topic is <${c[0].topic}>, payload is <-- $pt -->');
         //  TODO 通过获取的消息更新状态
         Map<String, dynamic> m = jsonDecode(pt);
         _switchKeyList.forEach((String key) {
@@ -196,7 +195,7 @@ class _MqttPhicommDC1PluginPageState extends State<MqttPhicommDC1PluginPage> {
         _valueKeyList.forEach((String key) {
           if (m.containsKey(key)) {
             setState(() {
-              _status[key] = m[key.toLowerCase()];
+              _status[key] = m[key];
             });
           }
         });
