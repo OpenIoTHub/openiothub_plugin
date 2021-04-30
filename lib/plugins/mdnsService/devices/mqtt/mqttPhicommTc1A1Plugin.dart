@@ -1,4 +1,4 @@
-//MqttPhicommDC1plug_:https://gitee.com/a2633063/zDC1
+//MqttPhicommTc1A1plug_:https://gitee.com/a2633063/zTC1
 import 'dart:convert';
 import 'dart:io';
 
@@ -10,17 +10,17 @@ import 'package:openiothub_grpc_api/pb/service.pb.dart';
 import 'package:openiothub_grpc_api/pb/service.pbgrpc.dart';
 import 'package:openiothub_plugin/plugins/mdnsService/commWidgets/info.dart';
 
-class MqttPhicommDC1PluginPage extends StatefulWidget {
-  MqttPhicommDC1PluginPage({Key key, this.device}) : super(key: key);
-  static final String modelName = "com.iotserv.devices.mqtt.zDC1";
+class MqttPhicommTc1A1PluginPage extends StatefulWidget {
+  MqttPhicommTc1A1PluginPage({Key key, this.device}) : super(key: key);
+  static final String modelName = "com.iotserv.devices.mqtt.zTC1";
   final PortService device;
 
   @override
-  _MqttPhicommDC1PluginPageState createState() =>
-      _MqttPhicommDC1PluginPageState();
+  _MqttPhicommTc1A1PluginPageState createState() =>
+      _MqttPhicommTc1A1PluginPageState();
 }
 
-class _MqttPhicommDC1PluginPageState extends State<MqttPhicommDC1PluginPage> {
+class _MqttPhicommTc1A1PluginPageState extends State<MqttPhicommTc1A1PluginPage> {
   MqttServerClient client;
   String topic_sensor;
   String topic_state;
@@ -31,13 +31,14 @@ class _MqttPhicommDC1PluginPageState extends State<MqttPhicommDC1PluginPage> {
   static const String plug_1 = "plug_1";
   static const String plug_2 = "plug_2";
   static const String plug_3 = "plug_3";
+  static const String plug_4 = "plug_4";
+  static const String plug_5 = "plug_5";
 
   static const String power = "power";
-  static const String current = "current";
-  static const String voltage = "voltage";
+  static const String total_time = "total_time";
 
-  List<String> _switchKeyList = [plug_0, plug_1, plug_2, plug_3];
-  List<String> _valueKeyList = [power, voltage, current];
+  List<String> _switchKeyList = [plug_0, plug_1, plug_2, plug_3, plug_4, plug_5];
+  List<String> _valueKeyList = [power, total_time];
 
 //  bool _logLedStatus = true;
 //  bool _wifiLedStatus = true;
@@ -47,32 +48,33 @@ class _MqttPhicommDC1PluginPageState extends State<MqttPhicommDC1PluginPage> {
     plug_1: 0,
     plug_2: 0,
     plug_3: 0,
+    plug_4: 0,
+    plug_5: 0,
     power: 0.0,
-    voltage: 0.0,
-    current: 0.0,
+    total_time: 0,
   });
 
   Map<String, String> _realName = Map.from({
-    plug_0: "总开关",
-    plug_1: "第一个插口",
-    plug_2: "第二个插口",
-    plug_3: "第三个插口",
+    plug_0: "插槽1",
+    plug_1: "插槽2",
+    plug_2: "插槽3",
+    plug_3: "插槽4",
+    plug_4: "插槽5",
+    plug_5: "插槽6",
     power: "功率",
-    voltage: "电压",
-    current: "电流",
+    total_time: "累计运行时长",
   });
 
   Map<String, String> _unit = Map.from({
     power: "W",
-    voltage: "V",
-    current: "A",
+    total_time: "秒",
   });
 
   @override
   void initState() {
     super.initState();
-    topic_sensor = "device/zdc1/${widget.device.info["mac"]}/sensor";
-    topic_state = "device/zdc1/${widget.device.info["mac"]}/state";
+    topic_sensor = "device/ztc1/${widget.device.info["mac"]}/sensor";
+    topic_state = "device/ztc1/${widget.device.info["mac"]}/state";
     _initMqtt();
     print("init iot devie List");
   }
@@ -97,6 +99,8 @@ class _MqttPhicommDC1PluginPageState extends State<MqttPhicommDC1PluginPage> {
           case plug_1:
           case plug_2:
           case plug_3:
+          case plug_4:
+          case plug_5:
             return ListTile(
               title: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -228,7 +232,7 @@ class _MqttPhicommDC1PluginPageState extends State<MqttPhicommDC1PluginPage> {
     final builder = MqttPayloadBuilder();
     builder.addString(
         '{"mac":"${widget.device.info["mac"]}","$name":{"on":${value ? 1 : 0}}}');
-    client.publishMessage("device/zdc1/${widget.device.info["mac"]}/set",
+    client.publishMessage("device/ztc1/${widget.device.info["mac"]}/set",
         MqttQos.atLeastOnce, builder.payload);
   }
 

@@ -18,3 +18,4 @@ export './mDNSService/videoPlayer.dart';
 export './mDNSService/webUI.dart';
 //MQTT Device
 export './devices/mqtt/mqttPhicommDC1Plugin.dart';
+export './devices/mqtt/mqttPhicommTc1A1Plugin.dart';
