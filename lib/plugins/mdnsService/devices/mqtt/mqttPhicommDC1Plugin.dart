@@ -147,11 +147,12 @@ class _MqttPhicommDC1PluginPageState extends State<MqttPhicommDC1PluginPage> {
   }
 
   _initMqtt() async {
-    client = MqttServerClient(
-        "${widget.device.ip}:${widget.device.port}",
+    client = MqttServerClient.withPort(
+        widget.device.ip,
         widget.device.info.containsKey("client-id")
             ? widget.device.info["client-id"]
-            : "");
+            : "",
+        widget.device.port);
     client.logging(on: true);
     client.keepAlivePeriod = 60;
     client.onDisconnected = onDisconnected;
