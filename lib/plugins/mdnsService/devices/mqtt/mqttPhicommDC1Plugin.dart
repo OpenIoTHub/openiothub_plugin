@@ -62,6 +62,12 @@ class _MqttPhicommDC1PluginPageState extends State<MqttPhicommDC1PluginPage> {
     current: "电流",
   });
 
+  Map<String, String> _unit = Map.from({
+    power: "W",
+    voltage: "V",
+    current: "A",
+  });
+
   @override
   void initState() {
     super.initState();
@@ -116,6 +122,7 @@ class _MqttPhicommDC1PluginPageState extends State<MqttPhicommDC1PluginPage> {
                   Text(_realName[pair]),
                   Text(":"),
                   Text(_status[pair].toString()),
+                  Text(_unit[pair]),
                 ],
               ),
             );
@@ -173,7 +180,7 @@ class _MqttPhicommDC1PluginPageState extends State<MqttPhicommDC1PluginPage> {
       Fluttertoast.showToast(msg: "SocketException:$e");
       client.disconnect();
     }
-    //TODO QoS
+    //QoS
     client.subscribe(topic_sensor, MqttQos.atMostOnce);
     client.subscribe(topic_state, MqttQos.atMostOnce);
 
@@ -205,7 +212,7 @@ class _MqttPhicommDC1PluginPageState extends State<MqttPhicommDC1PluginPage> {
   }
 
   _info() async {
-    // TODO 设备信息
+    // 设备信息
     await Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) {
