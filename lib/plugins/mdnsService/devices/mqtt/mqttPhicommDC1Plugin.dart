@@ -98,8 +98,8 @@ class _MqttPhicommDC1PluginPageState extends State<MqttPhicommDC1PluginPage> {
                 children: <Widget>[
                   Text(_realName[pair]),
                   Switch(
-                    onChanged: (_) {
-                      _changeSwitchStatus(pair);
+                    onChanged: (bool value) {
+                      _changeSwitchStatus(pair, value);
                     },
                     value: _status[pair] == 1,
                     activeColor: Colors.green,
@@ -216,11 +216,11 @@ class _MqttPhicommDC1PluginPageState extends State<MqttPhicommDC1PluginPage> {
     );
   }
 
-  _changeSwitchStatus(String name) async {
+  _changeSwitchStatus(String name, bool value) async {
     client.publishMessage(
         "device/zdc1/${widget.device.info["mac"]}/set",
-        MqttQos.exactlyOnce,
-        '{"mac":"${widget.device.info["mac"]}","$name":{"on":${_status[name] == 1 ? 0 : 1}}}'
+        MqttQos.atLeastOnce,
+        '{"mac":"${widget.device.info["mac"]}","$name":{"on":${value ? 1 : 0}}}'
             .codeUnits);
   }
 
