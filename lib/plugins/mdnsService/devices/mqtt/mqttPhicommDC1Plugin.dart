@@ -1,13 +1,11 @@
 //MqttPhicommDC1plug_:https://github.com/iotdevice/phicomm_dc1
 import 'dart:convert';
-import 'dart:async';
 import 'dart:io';
 
+import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:mqtt5_client/mqtt5_client.dart';
 import 'package:mqtt5_client/mqtt5_server_client.dart';
-import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:openiothub_grpc_api/pb/service.pb.dart';
 import 'package:openiothub_grpc_api/pb/service.pbgrpc.dart';
 import 'package:openiothub_plugin/plugins/mdnsService/commWidgets/info.dart';
@@ -18,13 +16,16 @@ class MqttPhicommDC1PluginPage extends StatefulWidget {
   final PortService device;
 
   @override
-  _MqttPhicommDC1PluginPageState createState() => _MqttPhicommDC1PluginPageState();
+  _MqttPhicommDC1PluginPageState createState() =>
+      _MqttPhicommDC1PluginPageState();
 }
 
 class _MqttPhicommDC1PluginPageState extends State<MqttPhicommDC1PluginPage> {
   MqttServerClient client;
   final builder = MqttPayloadBuilder();
-  static const topic = 'test/lol';
+  String topic_sensor;
+  String topic_state;
+
   //  总开关
   static const String plug_0 = "plug_0";
 
@@ -36,17 +37,8 @@ class _MqttPhicommDC1PluginPageState extends State<MqttPhicommDC1PluginPage> {
   static const String Current = "Current";
   static const String Voltage = "Voltage";
 
-  List<String> _switchKeyList = [
-    plug_0,
-    plug_1,
-    plug_2,
-    plug_3
-  ];
-  List<String> _valueKeyList = [
-    Power,
-    Voltage,
-    Current
-  ];
+  List<String> _switchKeyList = [plug_0, plug_1, plug_2, plug_3];
+  List<String> _valueKeyList = [Power, Voltage, Current];
 
 //  bool _logLedStatus = true;
 //  bool _wifiLedStatus = true;
@@ -74,13 +66,16 @@ class _MqttPhicommDC1PluginPageState extends State<MqttPhicommDC1PluginPage> {
   @override
   void initState() {
     super.initState();
+    topic_sensor = "device/zdc1/${widget.device.info["mac"]}/sensor";
+    topic_state = "device/zdc1/${widget.device.info["mac"]}/state";
     _initMqtt();
     print("init iot devie List");
   }
 
   @override
   void dispose() {
-    client.unsubscribeStringTopic(topic);
+    client.unsubscribeStringTopic(topic_sensor);
+    client.unsubscribeStringTopic(topic_state);
     client.disconnect();
     super.dispose();
   }
@@ -106,7 +101,7 @@ class _MqttPhicommDC1PluginPageState extends State<MqttPhicommDC1PluginPage> {
                     onChanged: (_) {
                       _changeSwitchStatus(pair);
                     },
-                    value: _status[pair],
+                    value: _status[pair] == 1,
                     activeColor: Colors.green,
                     inactiveThumbColor: Colors.red,
                   ),
@@ -152,8 +147,12 @@ class _MqttPhicommDC1PluginPageState extends State<MqttPhicommDC1PluginPage> {
   }
 
   _initMqtt() async {
-    client = MqttServerClient("${widget.device.ip}:${widget.device.port}", widget.device.info.containsKey("client-id")?widget.device.info["client-id"]:"");
-    client.logging(on: false);
+    client = MqttServerClient(
+        "${widget.device.ip}:${widget.device.port}",
+        widget.device.info.containsKey("client-id")
+            ? widget.device.info["client-id"]
+            : "");
+    client.logging(on: true);
     client.keepAlivePeriod = 60;
     client.onDisconnected = onDisconnected;
     client.onConnected = onConnected;
@@ -165,15 +164,18 @@ class _MqttPhicommDC1PluginPageState extends State<MqttPhicommDC1PluginPage> {
     client.connectionMessage = connMess;
     try {
       //用户名密码
-      await client.connect(widget.device.info["username"], widget.device.info["password"]);
+      await client.connect(
+          widget.device.info["username"], widget.device.info["password"]);
     } on MqttNoConnectionException catch (e) {
+      Fluttertoast.showToast(msg: "MqttNoConnectionException:$e");
       client.disconnect();
     } on SocketException catch (e) {
+      Fluttertoast.showToast(msg: "SocketException:$e");
       client.disconnect();
     }
     //TODO QoS
-    client.subscribe("device/zdc1/${widget.device.info["mac"]}/sensor", MqttQos.exactlyOnce);
-    client.subscribe("device/zdc1/${widget.device.info["mac"]}/state", MqttQos.exactlyOnce);
+    client.subscribe(topic_sensor, MqttQos.atMostOnce);
+    client.subscribe(topic_state, MqttQos.atMostOnce);
 
     client.updates.listen((List<MqttReceivedMessage<MqttMessage>> c) {
       c.forEach((MqttReceivedMessage<MqttMessage> element) {
@@ -181,7 +183,7 @@ class _MqttPhicommDC1PluginPageState extends State<MqttPhicommDC1PluginPage> {
         final pt = MqttUtilities.bytesToStringAsString(recMess.payload.message);
         print(
             'EXAMPLE::Change notification:: topic is <${c[0].topic}>, payload is <-- $pt -->');
-      //  TODO 通过获取的消息更新状态
+        //  TODO 通过获取的消息更新状态
         Map<String, dynamic> m = jsonDecode(pt);
         _switchKeyList.forEach((String key) {
           if (m.containsKey(key)) {
@@ -215,27 +217,34 @@ class _MqttPhicommDC1PluginPageState extends State<MqttPhicommDC1PluginPage> {
   }
 
   _changeSwitchStatus(String name) async {
-    client.publishMessage("device/zdc1/${widget.device.info["mac"]}/set", MqttQos.exactlyOnce, '{"mac":"${widget.device.info["mac"]}","$name":{"on":${_status[name]?0:1}}}'.codeUnits);
+    client.publishMessage(
+        "device/zdc1/${widget.device.info["mac"]}/set",
+        MqttQos.exactlyOnce,
+        '{"mac":"${widget.device.info["mac"]}","$name":{"on":${_status[name] ? 0 : 1}}}'
+            .codeUnits);
   }
 
   //mqtt的调用函数
   /// The subscribed callback
   void onSubscribed(MqttSubscription subscription) {
-    Fluttertoast.showToast(msg:"onSubscribed:${subscription.topic}");
+    Fluttertoast.showToast(msg: "onSubscribed:${subscription.topic}");
   }
 
   /// The unsolicited disconnect callback
   void onDisconnected() {
-    Fluttertoast.showToast(msg:"onDisconnected");
-    }
+    Fluttertoast.showToast(msg: "onDisconnected");
+  }
 
   /// The successful connect callback
   void onConnected() {
-    Fluttertoast.showToast(msg: 'EXAMPLE::OnConnected client callback - Client connection was successful');
+    Fluttertoast.showToast(
+        msg:
+            'EXAMPLE::OnConnected client callback - Client connection was successful');
   }
 
   /// Pong callback
   void pong() {
-    Fluttertoast.showToast(msg: 'EXAMPLE::Ping response client callback invoked');
+    Fluttertoast.showToast(
+        msg: 'EXAMPLE::Ping response client callback invoked');
   }
 }
