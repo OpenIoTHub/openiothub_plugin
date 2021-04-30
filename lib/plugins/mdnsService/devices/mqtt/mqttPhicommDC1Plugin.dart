@@ -30,7 +30,7 @@ class _MqttPhicommDC1PluginPageState extends State<MqttPhicommDC1PluginPage> {
 
   static const String plug_1 = "plug_1";
   static const String plug_2 = "plug_2";
-  static const String plug_3 = "plug_2";
+  static const String plug_3 = "plug_3";
 
   static const String power = "power";
   static const String current = "current";
@@ -181,10 +181,10 @@ class _MqttPhicommDC1PluginPageState extends State<MqttPhicommDC1PluginPage> {
       c.forEach((MqttReceivedMessage<MqttMessage> element) {
         final recMess = element.payload as MqttPublishMessage;
         final pt = MqttUtilities.bytesToStringAsString(recMess.payload.message);
-        Fluttertoast.showToast(
-            msg:
-                'EXAMPLE::Change notification:: topic is <${c[0].topic}>, payload is <-- $pt -->');
-        //  TODO 通过获取的消息更新状态
+        // Fluttertoast.showToast(
+        //     msg:
+        //         'EXAMPLE::Change notification:: topic is <${c[0].topic}>, payload is <-- $pt -->');
+        //  通过获取的消息更新状态
         Map<String, dynamic> m = jsonDecode(pt);
         _switchKeyList.forEach((String key) {
           if (m.containsKey(key)) {
