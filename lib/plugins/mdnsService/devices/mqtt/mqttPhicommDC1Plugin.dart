@@ -220,7 +220,7 @@ class _MqttPhicommDC1PluginPageState extends State<MqttPhicommDC1PluginPage> {
     client.publishMessage(
         "device/zdc1/${widget.device.info["mac"]}/set",
         MqttQos.exactlyOnce,
-        '{"mac":"${widget.device.info["mac"]}","$name":{"on":${_status[name] ? 0 : 1}}}'
+        '{"mac":"${widget.device.info["mac"]}","$name":{"on":${_status[name] == 1 ? 0 : 1}}}'
             .codeUnits);
   }
 
