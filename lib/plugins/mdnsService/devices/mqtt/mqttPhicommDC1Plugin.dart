@@ -1,6 +1,11 @@
 //MqttPhicommDC1plug_:https://github.com/iotdevice/phicomm_dc1
 import 'dart:convert';
+import 'dart:async';
+import 'dart:io';
 
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:mqtt5_client/mqtt5_client.dart';
+import 'package:mqtt5_client/mqtt5_server_client.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:openiothub_grpc_api/pb/service.pb.dart';
@@ -17,6 +22,9 @@ class MqttPhicommDC1PluginPage extends StatefulWidget {
 }
 
 class _MqttPhicommDC1PluginPageState extends State<MqttPhicommDC1PluginPage> {
+  MqttServerClient client;
+  final builder = MqttPayloadBuilder();
+  static const topic = 'test/lol';
   //  总开关
   static const String plug_0 = "plug_0";
 
@@ -66,8 +74,15 @@ class _MqttPhicommDC1PluginPageState extends State<MqttPhicommDC1PluginPage> {
   @override
   void initState() {
     super.initState();
-    _getCurrentStatus();
+    _initMqtt();
     print("init iot devie List");
+  }
+
+  @override
+  void dispose() {
+    client.unsubscribeStringTopic(topic);
+    client.disconnect();
+    super.dispose();
   }
 
   @override
@@ -124,14 +139,6 @@ class _MqttPhicommDC1PluginPageState extends State<MqttPhicommDC1PluginPage> {
         actions: <Widget>[
           IconButton(
               icon: Icon(
-                Icons.refresh,
-                color: Colors.white,
-              ),
-              onPressed: () {
-                _getCurrentStatus();
-              }),
-          IconButton(
-              icon: Icon(
                 Icons.info,
                 color: Colors.white,
               ),
@@ -144,32 +151,54 @@ class _MqttPhicommDC1PluginPageState extends State<MqttPhicommDC1PluginPage> {
     );
   }
 
-  _getCurrentStatus() async {
-    String url = "http://${widget.device.ip}:${widget.device.port}/status";
-    http.Response response;
+  _initMqtt() async {
+    client = MqttServerClient("${widget.device.ip}:${widget.device.port}", widget.device.info.containsKey("client-id")?widget.device.info["client-id"]:"");
+    client.logging(on: false);
+    client.keepAlivePeriod = 60;
+    client.onDisconnected = onDisconnected;
+    client.onConnected = onConnected;
+    client.onSubscribed = onSubscribed;
+    client.pongCallback = pong;
+    final connMess = MqttConnectMessage()
+        .withClientIdentifier(widget.device.info["client-id"])
+        .startClean();
+    client.connectionMessage = connMess;
     try {
-      response = await http.get(url).timeout(const Duration(seconds: 2));
-      print(response.body);
-    } catch (e) {
-      print(e.toString());
-      return;
+      //用户名密码
+      await client.connect(widget.device.info["username"], widget.device.info["password"]);
+    } on MqttNoConnectionException catch (e) {
+      client.disconnect();
+    } on SocketException catch (e) {
+      client.disconnect();
     }
-//    同步状态到界面
-    if (response.statusCode == 200) {
-      _switchKeyList.forEach((switchValue) {
-        setState(() {
-          _status[switchValue] =
-              jsonDecode(response.body)[switchValue] == 1 ? true : false;
+    //TODO QoS
+    client.subscribe("device/zdc1/${widget.device.info["mac"]}/sensor", MqttQos.exactlyOnce);
+    client.subscribe("device/zdc1/${widget.device.info["mac"]}/state", MqttQos.exactlyOnce);
+
+    client.updates.listen((List<MqttReceivedMessage<MqttMessage>> c) {
+      c.forEach((MqttReceivedMessage<MqttMessage> element) {
+        final recMess = element.payload as MqttPublishMessage;
+        final pt = MqttUtilities.bytesToStringAsString(recMess.payload.message);
+        print(
+            'EXAMPLE::Change notification:: topic is <${c[0].topic}>, payload is <-- $pt -->');
+      //  TODO 通过获取的消息更新状态
+        Map<String, dynamic> m = jsonDecode(pt);
+        _switchKeyList.forEach((String key) {
+          if (m.containsKey(key)) {
+            setState(() {
+              _status[key] = m[key]["on"];
+            });
+          }
+        });
+        _valueKeyList.forEach((String key) {
+          if (m.containsKey(key)) {
+            setState(() {
+              _status[key] = m[key.toLowerCase()];
+            });
+          }
         });
       });
-      _valueKeyList.forEach((value) {
-        setState(() {
-          _status[value] = jsonDecode(response.body)[value];
-        });
-      });
-    } else {
-      print("获取状态失败！");
-    }
+    });
   }
 
   _info() async {
@@ -186,20 +215,27 @@ class _MqttPhicommDC1PluginPageState extends State<MqttPhicommDC1PluginPage> {
   }
 
   _changeSwitchStatus(String name) async {
-    String url;
-    if (_status[name]) {
-      url = "http://${widget.device.ip}:${widget.device.port}/switch?off=$name";
-    } else {
-      url = "http://${widget.device.ip}:${widget.device.port}/switch?on=$name";
+    client.publishMessage("device/zdc1/${widget.device.info["mac"]}/set", MqttQos.exactlyOnce, '{"mac":"${widget.device.info["mac"]}","$name":{"on":${_status[name]?0:1}}}'.codeUnits);
+  }
+
+  //mqtt的调用函数
+  /// The subscribed callback
+  void onSubscribed(MqttSubscription subscription) {
+    Fluttertoast.showToast(msg:"onSubscribed:${subscription.topic}");
+  }
+
+  /// The unsolicited disconnect callback
+  void onDisconnected() {
+    Fluttertoast.showToast(msg:"onDisconnected");
     }
-    http.Response response;
-    try {
-      response = await http.get(url).timeout(const Duration(seconds: 2));
-      print(response.body);
-    } catch (e) {
-      print(e.toString());
-      return;
-    }
-    _getCurrentStatus();
+
+  /// The successful connect callback
+  void onConnected() {
+    Fluttertoast.showToast(msg: 'EXAMPLE::OnConnected client callback - Client connection was successful');
+  }
+
+  /// Pong callback
+  void pong() {
+    Fluttertoast.showToast(msg: 'EXAMPLE::Ping response client callback invoked');
   }
 }
