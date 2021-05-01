@@ -159,12 +159,15 @@ class _MqttPhicommDC1PluginPageState extends State<MqttPhicommDC1PluginPage> {
             ? widget.device.info["client-id"]
             : "",
         widget.device.port);
+    client.autoReconnect = true;
     client.logging(on: true);
     client.keepAlivePeriod = 60;
     client.onDisconnected = onDisconnected;
     client.onConnected = onConnected;
     client.onSubscribed = onSubscribed;
     client.pongCallback = pong;
+    client.onAutoReconnect = onAutoReconnect;
+    client.onAutoReconnected = onAutoReconnected;
     final connMess = MqttConnectMessage()
         .withClientIdentifier(widget.device.info["client-id"])
         .startClean();
@@ -234,25 +237,35 @@ class _MqttPhicommDC1PluginPageState extends State<MqttPhicommDC1PluginPage> {
 
   //mqtt的调用函数
   /// The subscribed callback
-  void onSubscribed(MqttSubscription subscription) {
+  void onSubscribed(MqttSubscription subscription) async {
     Fluttertoast.showToast(msg: "onSubscribed:${subscription.topic}");
   }
 
   /// The unsolicited disconnect callback
-  void onDisconnected() {
+  void onDisconnected() async {
     Fluttertoast.showToast(msg: "onDisconnected");
   }
 
   /// The successful connect callback
-  void onConnected() {
+  void onConnected() async {
     Fluttertoast.showToast(
         msg:
             'EXAMPLE::OnConnected client callback - Client connection was successful');
   }
 
   /// Pong callback
-  void pong() {
+  void pong() async {
     Fluttertoast.showToast(
         msg: 'EXAMPLE::Ping response client callback invoked');
+  }
+
+  void onAutoReconnect() {
+    Fluttertoast.showToast(
+        msg: '重连mqtt...');
+  }
+
+  void onAutoReconnected() {
+    Fluttertoast.showToast(
+        msg: '重连mqtt服务器成功！');
   }
 }

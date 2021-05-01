@@ -163,12 +163,15 @@ class _MqttPhicommTc1A1PluginPageState extends State<MqttPhicommTc1A1PluginPage>
             ? widget.device.info["client-id"]
             : "",
         widget.device.port);
+    client.autoReconnect = true;
     client.logging(on: true);
     client.keepAlivePeriod = 60;
     client.onDisconnected = onDisconnected;
     client.onConnected = onConnected;
     client.onSubscribed = onSubscribed;
     client.pongCallback = pong;
+    client.onAutoReconnect = onAutoReconnect;
+    client.onAutoReconnected = onAutoReconnected;
     final connMess = MqttConnectMessage()
         .withClientIdentifier(widget.device.info["client-id"])
         .startClean();
@@ -258,5 +261,15 @@ class _MqttPhicommTc1A1PluginPageState extends State<MqttPhicommTc1A1PluginPage>
   void pong() {
     Fluttertoast.showToast(
         msg: 'EXAMPLE::Ping response client callback invoked');
+  }
+
+  void onAutoReconnect() {
+    Fluttertoast.showToast(
+        msg: '重连mqtt...');
+  }
+
+  void onAutoReconnected() {
+    Fluttertoast.showToast(
+        msg: '重连mqtt服务器成功！');
   }
 }
