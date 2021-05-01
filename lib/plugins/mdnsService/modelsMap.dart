@@ -103,13 +103,13 @@ class ModelsMap {
         device: device,
       );
     },
-    MqttPhicommDC1PluginPage.modelName: (PortService device) {
-      return MqttPhicommDC1PluginPage(
+    MqttPhicommzDC1PluginPage.modelName: (PortService device) {
+      return MqttPhicommzDC1PluginPage(
         device: device,
       );
     },
-    MqttPhicommTc1A1PluginPage.modelName: (PortService device) {
-      return MqttPhicommTc1A1PluginPage(
+    MqttPhicommzTc1A1PluginPage.modelName: (PortService device) {
+      return MqttPhicommzTc1A1PluginPage(
         device: device,
       );
     },

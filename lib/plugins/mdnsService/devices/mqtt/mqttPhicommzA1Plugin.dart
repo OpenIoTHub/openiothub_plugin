@@ -1,8 +1,9 @@
-//MqttPhicommDC1plug_:https://gitee.com/a2633063/zDC1
+//MqttPhicommzA1plug_:https://gitee.com/a2633063/zA1
 import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_seekbar/flutter_seekbar.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:mqtt5_client/mqtt5_client.dart';
 import 'package:mqtt5_client/mqtt5_server_client.dart';
@@ -10,76 +11,49 @@ import 'package:openiothub_grpc_api/pb/service.pb.dart';
 import 'package:openiothub_grpc_api/pb/service.pbgrpc.dart';
 import 'package:openiothub_plugin/plugins/mdnsService/commWidgets/info.dart';
 
-class MqttPhicommDC1PluginPage extends StatefulWidget {
-  MqttPhicommDC1PluginPage({Key key, this.device}) : super(key: key);
-  static final String modelName = "com.iotserv.devices.mqtt.zDC1";
+class MqttPhicommzA1PluginPage extends StatefulWidget {
+  MqttPhicommzA1PluginPage({Key key, this.device}) : super(key: key);
+  static final String modelName = "com.iotserv.devices.mqtt.zA1";
   final PortService device;
 
   @override
-  _MqttPhicommDC1PluginPageState createState() =>
-      _MqttPhicommDC1PluginPageState();
+  _MqttPhicommzA1PluginPageState createState() =>
+      _MqttPhicommzA1PluginPageState();
 }
 
-class _MqttPhicommDC1PluginPageState extends State<MqttPhicommDC1PluginPage> {
+class _MqttPhicommzA1PluginPageState extends State<MqttPhicommzA1PluginPage> {
   MqttServerClient client;
-  String topic_sensor;
   String topic_state;
+  String topic_set;
 
   //  总开关
-  static const String plug_0 = "plug_0";
+  static const String on = "on";
 
-  static const String plug_1 = "plug_1";
-  static const String plug_2 = "plug_2";
-  static const String plug_3 = "plug_3";
+  static const String speed = "speed";
 
-  static const String power = "power";
-  static const String current = "current";
-  static const String voltage = "voltage";
+  List<String> _keyList = [on, speed];
 
-  List<String> _switchKeyList = [plug_0, plug_1, plug_2, plug_3];
-  List<String> _valueKeyList = [power, voltage, current];
-
-//  bool _logLedStatus = true;
-//  bool _wifiLedStatus = true;
-//  bool _primarySwitchStatus = true;
   Map<String, dynamic> _status = Map.from({
-    plug_0: 0,
-    plug_1: 0,
-    plug_2: 0,
-    plug_3: 0,
-    power: 0.0,
-    voltage: 0.0,
-    current: 0.0,
+    on: 0,
+    speed: 0,
   });
 
   Map<String, String> _realName = Map.from({
-    plug_0: "总开关",
-    plug_1: "第一个插口",
-    plug_2: "第二个插口",
-    plug_3: "第三个插口",
-    power: "功率",
-    voltage: "电压",
-    current: "电流",
-  });
-
-  Map<String, String> _unit = Map.from({
-    power: "W",
-    voltage: "V",
-    current: "A",
+    on: "开关",
+    speed: "速度",
   });
 
   @override
   void initState() {
     super.initState();
-    topic_sensor = "device/zdc1/${widget.device.info["mac"]}/sensor";
-    topic_state = "device/zdc1/${widget.device.info["mac"]}/state";
+    topic_state = "device/za1/${widget.device.info["mac"]}/state";
+    topic_set = "device/za1/${widget.device.info["mac"]}/set";
     _initMqtt();
     print("init iot devie List");
   }
 
   @override
   void dispose() {
-    client.unsubscribeStringTopic(topic_sensor);
     client.unsubscribeStringTopic(topic_state);
     client.disconnect();
     super.dispose();
@@ -88,15 +62,11 @@ class _MqttPhicommDC1PluginPageState extends State<MqttPhicommDC1PluginPage> {
   @override
   Widget build(BuildContext context) {
     final List _result = [];
-    _result.addAll(_switchKeyList);
-    _result.addAll(_valueKeyList);
+    _result.addAll(_keyList);
     final tiles = _result.map(
       (pair) {
         switch (pair) {
-          case plug_0:
-          case plug_1:
-          case plug_2:
-          case plug_3:
+          case on:
             return ListTile(
               title: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -114,15 +84,26 @@ class _MqttPhicommDC1PluginPageState extends State<MqttPhicommDC1PluginPage> {
               ),
             );
             break;
-          default:
+          case speed:
             return ListTile(
               title: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Text(_realName[pair]),
-                  Text(":"),
-                  Text(_status[pair].toString()),
-                  Text(_unit[pair]),
+                  SeekBar(
+                      indicatorRadius: 0.0,
+                      progresseight: 5,
+                      hideBubble: false,
+                      alwaysShowBubble: true,
+                      bubbleRadius: 14,
+                      bubbleColor: Colors.purple,
+                      bubbleTextColor: Colors.white,
+                      bubbleTextSize: 14,
+                      bubbleMargin: 4,
+                      bubbleInCenter: true,
+                      onValueChanged: (v) {
+                        _changeProgressStatus(pair, v.value.toInt());
+                      }),
                 ],
               ),
             );
@@ -184,7 +165,6 @@ class _MqttPhicommDC1PluginPageState extends State<MqttPhicommDC1PluginPage> {
       client.disconnect();
     }
     //QoS
-    client.subscribe(topic_sensor, MqttQos.atMostOnce);
     client.subscribe(topic_state, MqttQos.atMostOnce);
 
     client.updates.listen((List<MqttReceivedMessage<MqttMessage>> c) {
@@ -196,14 +176,7 @@ class _MqttPhicommDC1PluginPageState extends State<MqttPhicommDC1PluginPage> {
         //         'EXAMPLE::Change notification:: topic is <${c[0].topic}>, payload is <-- $pt -->');
         //  通过获取的消息更新状态
         Map<String, dynamic> m = jsonDecode(pt);
-        _switchKeyList.forEach((String key) {
-          if (m.containsKey(key)) {
-            setState(() {
-              _status[key] = m[key]["on"];
-            });
-          }
-        });
-        _valueKeyList.forEach((String key) {
+        _keyList.forEach((String key) {
           if (m.containsKey(key)) {
             setState(() {
               _status[key] = m[key];
@@ -230,42 +203,46 @@ class _MqttPhicommDC1PluginPageState extends State<MqttPhicommDC1PluginPage> {
   _changeSwitchStatus(String name, bool value) async {
     final builder = MqttPayloadBuilder();
     builder.addString(
-        '{"mac":"${widget.device.info["mac"]}","$name":{"on":${value ? 1 : 0}}}');
-    client.publishMessage("device/zdc1/${widget.device.info["mac"]}/set",
-        MqttQos.atLeastOnce, builder.payload);
+        '{"mac":"${widget.device.info["mac"]}","$name":${value ? 1 : 0}}');
+    client.publishMessage(topic_set, MqttQos.atLeastOnce, builder.payload);
+  }
+
+  _changeProgressStatus(String name, int value) async {
+    final builder = MqttPayloadBuilder();
+    builder.addString(
+        '{"mac":"${widget.device.info["mac"]}","$name":${value}}');
+    client.publishMessage(topic_set, MqttQos.atLeastOnce, builder.payload);
   }
 
   //mqtt的调用函数
   /// The subscribed callback
-  void onSubscribed(MqttSubscription subscription) async {
+  void onSubscribed(MqttSubscription subscription) {
     Fluttertoast.showToast(msg: "onSubscribed:${subscription.topic}");
   }
 
   /// The unsolicited disconnect callback
-  void onDisconnected() async {
+  void onDisconnected() {
     Fluttertoast.showToast(msg: "onDisconnected");
   }
 
   /// The successful connect callback
-  void onConnected() async {
+  void onConnected() {
     Fluttertoast.showToast(
         msg:
             'EXAMPLE::OnConnected client callback - Client connection was successful');
   }
 
   /// Pong callback
-  void pong() async {
+  void pong() {
     Fluttertoast.showToast(
         msg: 'EXAMPLE::Ping response client callback invoked');
   }
 
   void onAutoReconnect() {
-    Fluttertoast.showToast(
-        msg: '重连mqtt...');
+    Fluttertoast.showToast(msg: '重连mqtt...');
   }
 
   void onAutoReconnected() {
-    Fluttertoast.showToast(
-        msg: '重连mqtt服务器成功！');
+    Fluttertoast.showToast(msg: '重连mqtt服务器成功！');
   }
 }

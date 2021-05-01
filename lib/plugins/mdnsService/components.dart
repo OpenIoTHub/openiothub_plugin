@@ -17,5 +17,5 @@ export './mDNSService/videoPlayer.dart';
 //mDNSService https://github.com/mDNSService
 export './mDNSService/webUI.dart';
 //MQTT Device
-export './devices/mqtt/mqttPhicommDC1Plugin.dart';
-export './devices/mqtt/mqttPhicommTc1A1Plugin.dart';
+export './devices/mqtt/mqttPhicommzDC1Plugin.dart';
+export './devices/mqtt/mqttPhicommzTc1A1Plugin.dart';

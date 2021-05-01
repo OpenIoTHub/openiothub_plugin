@@ -1,4 +1,4 @@
-//MqttPhicommTc1A1plug_:https://gitee.com/a2633063/zTC1
+//MqttPhicommzDC1plug_:https://gitee.com/a2633063/zDC1
 import 'dart:convert';
 import 'dart:io';
 
@@ -10,17 +10,17 @@ import 'package:openiothub_grpc_api/pb/service.pb.dart';
 import 'package:openiothub_grpc_api/pb/service.pbgrpc.dart';
 import 'package:openiothub_plugin/plugins/mdnsService/commWidgets/info.dart';
 
-class MqttPhicommTc1A1PluginPage extends StatefulWidget {
-  MqttPhicommTc1A1PluginPage({Key key, this.device}) : super(key: key);
-  static final String modelName = "com.iotserv.devices.mqtt.zTC1";
+class MqttPhicommzDC1PluginPage extends StatefulWidget {
+  MqttPhicommzDC1PluginPage({Key key, this.device}) : super(key: key);
+  static final String modelName = "com.iotserv.devices.mqtt.zDC1";
   final PortService device;
 
   @override
-  _MqttPhicommTc1A1PluginPageState createState() =>
-      _MqttPhicommTc1A1PluginPageState();
+  _MqttPhicommzDC1PluginPageState createState() =>
+      _MqttPhicommzDC1PluginPageState();
 }
 
-class _MqttPhicommTc1A1PluginPageState extends State<MqttPhicommTc1A1PluginPage> {
+class _MqttPhicommzDC1PluginPageState extends State<MqttPhicommzDC1PluginPage> {
   MqttServerClient client;
   String topic_sensor;
   String topic_state;
@@ -31,14 +31,13 @@ class _MqttPhicommTc1A1PluginPageState extends State<MqttPhicommTc1A1PluginPage>
   static const String plug_1 = "plug_1";
   static const String plug_2 = "plug_2";
   static const String plug_3 = "plug_3";
-  static const String plug_4 = "plug_4";
-  static const String plug_5 = "plug_5";
 
   static const String power = "power";
-  static const String total_time = "total_time";
+  static const String current = "current";
+  static const String voltage = "voltage";
 
-  List<String> _switchKeyList = [plug_0, plug_1, plug_2, plug_3, plug_4, plug_5];
-  List<String> _valueKeyList = [power, total_time];
+  List<String> _switchKeyList = [plug_0, plug_1, plug_2, plug_3];
+  List<String> _valueKeyList = [power, voltage, current];
 
 //  bool _logLedStatus = true;
 //  bool _wifiLedStatus = true;
@@ -48,33 +47,32 @@ class _MqttPhicommTc1A1PluginPageState extends State<MqttPhicommTc1A1PluginPage>
     plug_1: 0,
     plug_2: 0,
     plug_3: 0,
-    plug_4: 0,
-    plug_5: 0,
     power: 0.0,
-    total_time: 0,
+    voltage: 0.0,
+    current: 0.0,
   });
 
   Map<String, String> _realName = Map.from({
-    plug_0: "插槽1",
-    plug_1: "插槽2",
-    plug_2: "插槽3",
-    plug_3: "插槽4",
-    plug_4: "插槽5",
-    plug_5: "插槽6",
+    plug_0: "总开关",
+    plug_1: "第一个插口",
+    plug_2: "第二个插口",
+    plug_3: "第三个插口",
     power: "功率",
-    total_time: "累计运行时长",
+    voltage: "电压",
+    current: "电流",
   });
 
   Map<String, String> _unit = Map.from({
     power: "W",
-    total_time: "秒",
+    voltage: "V",
+    current: "A",
   });
 
   @override
   void initState() {
     super.initState();
-    topic_sensor = "device/ztc1/${widget.device.info["mac"]}/sensor";
-    topic_state = "device/ztc1/${widget.device.info["mac"]}/state";
+    topic_sensor = "device/zdc1/${widget.device.info["mac"]}/sensor";
+    topic_state = "device/zdc1/${widget.device.info["mac"]}/state";
     _initMqtt();
     print("init iot devie List");
   }
@@ -99,8 +97,6 @@ class _MqttPhicommTc1A1PluginPageState extends State<MqttPhicommTc1A1PluginPage>
           case plug_1:
           case plug_2:
           case plug_3:
-          case plug_4:
-          case plug_5:
             return ListTile(
               title: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -235,30 +231,30 @@ class _MqttPhicommTc1A1PluginPageState extends State<MqttPhicommTc1A1PluginPage>
     final builder = MqttPayloadBuilder();
     builder.addString(
         '{"mac":"${widget.device.info["mac"]}","$name":{"on":${value ? 1 : 0}}}');
-    client.publishMessage("device/ztc1/${widget.device.info["mac"]}/set",
+    client.publishMessage("device/zdc1/${widget.device.info["mac"]}/set",
         MqttQos.atLeastOnce, builder.payload);
   }
 
   //mqtt的调用函数
   /// The subscribed callback
-  void onSubscribed(MqttSubscription subscription) {
+  void onSubscribed(MqttSubscription subscription) async {
     Fluttertoast.showToast(msg: "onSubscribed:${subscription.topic}");
   }
 
   /// The unsolicited disconnect callback
-  void onDisconnected() {
+  void onDisconnected() async {
     Fluttertoast.showToast(msg: "onDisconnected");
   }
 
   /// The successful connect callback
-  void onConnected() {
+  void onConnected() async {
     Fluttertoast.showToast(
         msg:
             'EXAMPLE::OnConnected client callback - Client connection was successful');
   }
 
   /// Pong callback
-  void pong() {
+  void pong() async {
     Fluttertoast.showToast(
         msg: 'EXAMPLE::Ping response client callback invoked');
   }
