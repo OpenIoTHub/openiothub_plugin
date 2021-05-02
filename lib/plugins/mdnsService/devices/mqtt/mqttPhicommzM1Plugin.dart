@@ -11,17 +11,17 @@ import 'package:openiothub_grpc_api/pb/service.pb.dart';
 import 'package:openiothub_grpc_api/pb/service.pbgrpc.dart';
 import 'package:openiothub_plugin/plugins/mdnsService/commWidgets/info.dart';
 
-class MqttPhicommzTc1A1PluginPage extends StatefulWidget {
-  MqttPhicommzTc1A1PluginPage({Key key, this.device}) : super(key: key);
+class MqttPhicommzM1PluginPage extends StatefulWidget {
+  MqttPhicommzM1PluginPage({Key key, this.device}) : super(key: key);
   static final String modelName = "com.iotserv.devices.mqtt.zM1";
   final PortService device;
 
   @override
-  _MqttPhicommzTc1A1PluginPageState createState() =>
-      _MqttPhicommzTc1A1PluginPageState();
+  _MqttPhicommzM1PluginPageState createState() =>
+      _MqttPhicommzM1PluginPageState();
 }
 
-class _MqttPhicommzTc1A1PluginPageState extends State<MqttPhicommzTc1A1PluginPage> {
+class _MqttPhicommzM1PluginPageState extends State<MqttPhicommzM1PluginPage> {
   MqttServerClient client;
   String topic_sensor;
   String topic_set;

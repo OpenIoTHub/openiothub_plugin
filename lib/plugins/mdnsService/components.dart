@@ -19,3 +19,5 @@ export './mDNSService/webUI.dart';
 //MQTT Device
 export './devices/mqtt/mqttPhicommzDC1Plugin.dart';
 export './devices/mqtt/mqttPhicommzTc1A1Plugin.dart';
+export './devices/mqtt/mqttPhicommzA1Plugin.dart';
+export './devices/mqtt/mqttPhicommzM1Plugin.dart';

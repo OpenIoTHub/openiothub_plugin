@@ -113,5 +113,15 @@ class ModelsMap {
         device: device,
       );
     },
+    MqttPhicommzA1PluginPage.modelName: (PortService device) {
+      return MqttPhicommzA1PluginPage(
+        device: device,
+      );
+    },
+    MqttPhicommzM1PluginPage.modelName: (PortService device) {
+      return MqttPhicommzM1PluginPage(
+        device: device,
+      );
+    },
   });
 }
