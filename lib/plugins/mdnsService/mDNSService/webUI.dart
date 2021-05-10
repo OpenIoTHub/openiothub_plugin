@@ -32,15 +32,15 @@ class _WebPageState extends State<WebPage> {
               onPressed: () {
                 _info();
               }),
-          IconButton(
-              icon: Icon(
-                Icons.open_in_browser,
-                color: Colors.white,
-              ),
-              onPressed: () {
-                _launchURL(
-                    "http://${widget.device.ip}:${widget.device.port}");
-              })
+          // IconButton(
+          //     icon: Icon(
+          //       Icons.open_in_browser,
+          //       color: Colors.white,
+          //     ),
+          //     onPressed: () {
+          //       _launchURL(
+          //           "http://${widget.device.ip}:${widget.device.port}");
+          //     })
         ]),
         body: Builder(builder: (BuildContext context) {
           return WebView(
@@ -67,12 +67,12 @@ class _WebPageState extends State<WebPage> {
   @override
   void initState() {
     super.initState();
-    if (Platform.isIOS) {
-      Navigator.of(context).pop();
-      _launchURL('http://${widget.device.ip}:${widget.device.port}');
-    } else {
-      _launchURL('http://${widget.device.ip}:${widget.device.port}');
-    }
+    // if (Platform.isIOS) {
+    //   Navigator.of(context).pop();
+    //   _launchURL('http://${widget.device.ip}:${widget.device.port}');
+    // } else {
+    //   _launchURL('http://${widget.device.ip}:${widget.device.port}');
+    // }
   }
 
   _launchURL(String url) async {
