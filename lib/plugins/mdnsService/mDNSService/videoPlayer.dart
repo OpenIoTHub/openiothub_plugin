@@ -35,16 +35,19 @@ class _VideoPlayerState extends State<VideoPlayer> {
     }
 
     print("url:$url");
-    _videoPlayerController = VlcPlayerController(onInit: () {
-      _videoPlayerController.play();
-    });
+    _videoPlayerController = VlcPlayerController.network(
+      url,
+      hwAcc: HwAcc.FULL,
+      autoPlay: true,
+      options: VlcPlayerOptions(),
+    );
     super.initState();
   }
 
   @override
-  void dispose() {
-    _videoPlayerController.dispose();
+  Future<void> dispose() {
     super.dispose();
+    _videoPlayerController.stopRendererScanning();
   }
 
   @override
@@ -67,11 +70,10 @@ class _VideoPlayerState extends State<VideoPlayer> {
         child: VlcPlayer(
           controller: _videoPlayerController,
           aspectRatio: 16 / 9,
-          url: url,
           placeholder: Center(child: CircularProgressIndicator()),
         ),
       ),
-    );
+      );
   }
 
   _info() async {
