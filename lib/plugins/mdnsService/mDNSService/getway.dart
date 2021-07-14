@@ -32,7 +32,7 @@ class GatewayState extends State<Gateway> {
     "firmware-respository",
     "firmware-version"
   ];
-  final List _result = [];
+  final List<String> _result = [];
   List<Widget> tilesList;
 
   @override
@@ -126,19 +126,27 @@ class GatewayState extends State<Gateway> {
               widget.device.ip, widget.device.port);
       if (!loginResponse.loginStatus) {
         setState(() {
-          tilesList.add(MaterialButton(
-              onPressed: () {
-                _addToMyAccount();
-              },
-              child: Text("添加本网关到我的账号")));
+          tilesList.add(ListTile(
+            title: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  MaterialButton(
+                      onPressed: () {
+                        _addToMyAccount();
+                      },
+                      child: Text("添加本网关到我的账号",style: TextStyle(color: Colors.green),))
+                ]),
+          ));
         });
       } else {
         setState(() {
-          tilesList.add(MaterialButton(
-              onPressed: () {
-                _addToMyAccount();
-              },
-              child: Text("本网关已经被其他用户添加")));
+          tilesList.add(ListTile(
+            title: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text("本网关已经被其他用户添加",style: TextStyle(color: Colors.red),)
+                ]),
+          ));
         });
       }
     } catch (exception) {
