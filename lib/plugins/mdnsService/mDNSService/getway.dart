@@ -93,6 +93,7 @@ class GatewayState extends State<Gateway> {
     config.description = name;
     try {
       await SessionApi.createOneSession(config);
+      Fluttertoast.showToast(msg: "添加网关成功！");
     } catch (exception) {
       Fluttertoast.showToast(msg: "登录失败：${exception}");
     }
@@ -111,7 +112,11 @@ class GatewayState extends State<Gateway> {
 //    自动添加到我的列表
       if (loginResponse.loginStatus) {
         //将网关映射到本机
-        _addToMySessionList(gatewayInfo.openIoTHubJwt, gatewayInfo.name);
+        _addToMySessionList(gatewayInfo.openIoTHubJwt, gatewayInfo.name).then((value) {
+          if(Navigator.of(context).canPop()){
+            Navigator.of(context).pop();
+          }
+        });
       }
     } catch (exception) {
       Fluttertoast.showToast(msg: "登录失败：${exception}");
