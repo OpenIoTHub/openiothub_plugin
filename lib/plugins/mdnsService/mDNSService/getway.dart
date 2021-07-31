@@ -3,11 +3,14 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:gateway_grpc_api/pb/service.pb.dart';
 import 'package:gateway_grpc_api/pb/service.pbgrpc.dart';
 import 'package:iot_manager_grpc_api/pb/gatewayManager.pb.dart';
+import 'package:iot_manager_grpc_api/pb/serverManager.pb.dart';
 import 'package:openiothub_api/api/GateWay/GatewayLoginManager.dart';
 import 'package:openiothub_api/api/OpenIoTHub/SessionApi.dart';
 import 'package:openiothub_api/openiothub_api.dart';
+import 'package:openiothub_constants/constants/Constants.dart';
 import 'package:openiothub_grpc_api/pb/service.pb.dart';
 import 'package:openiothub_grpc_api/pb/service.pbgrpc.dart';
+import 'package:openiothub_plugin/plugins/mdnsService/commWidgets/info.dart';
 
 class Gateway extends StatefulWidget {
   Gateway({Key key, this.device}) : super(key: key);
@@ -20,67 +23,71 @@ class Gateway extends StatefulWidget {
 }
 
 class GatewayState extends State<Gateway> {
-  //设备信息
-  final List _std_key = [
-    "name",
-    "model",
-    "mac",
-    "id",
-    "author",
-    "email",
-    "home-page",
-    "firmware-respository",
-    "firmware-version"
-  ];
-  final List<String> _result = [];
-  List<Widget> tilesList;
+  //是否可以添加 true：可以添加 false：不可以添加
+  bool _addable = true;
+  List<ServerInfo> _availableServerList = [];
 
   @override
   Future<void> initState() {
-    _result.add("设备名称:${widget.device.info["name"]}");
-    _result.add("设备型号:${widget.device.info["model"].replaceAll("#", ".")}");
-    _result.add("物理地址:${widget.device.info["mac"]}");
-    _result.add("id:${widget.device.info["id"]}");
-    _result.add("固件作者:${widget.device.info["author"]}");
-    _result.add("邮件:${widget.device.info["email"]}");
-    _result.add("主页:${widget.device.info["home-page"]}");
-    _result.add("固件程序:${widget.device.info["firmware-respository"]}");
-    _result.add("固件版本:${widget.device.info["firmware-version"]}");
-    _result.add("本网设备:${widget.device.isLocal ? "是" : "不是"}");
-    _result.add("设备地址:${widget.device.ip}");
-    _result.add("设备端口:${widget.device.port}");
-
-    widget.device.info.forEach((key, value) {
-      if (!_std_key.contains(key)) {
-        _result.add("${key}:${value}");
-      }
-    });
-
-    var tiles = _result.map(
-      (pair) {
-        return ListTile(
-          title: Text(
-            pair,
-          ),
-        );
-      },
-    );
-    tilesList = tiles.toList();
-    //判断这个网关是否已经被其他人添加
+    _listAvailableServer();
     _checkAddable();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    final tiles = _availableServerList.map(
+          (pair) {
+        var listItemContent = Padding(
+          padding: const EdgeInsets.fromLTRB(10.0, 15.0, 10.0, 15.0),
+          child: Row(
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.fromLTRB(0.0, 0.0, 10.0, 0.0),
+                child: Icon(Icons.send_rounded),
+              ),
+              Expanded(
+                  child: Text(
+                    "${pair.name}(${pair.serverHost})",
+                    style: Constants.titleTextStyle,
+                  )),
+              Constants.rightArrowIcon
+            ],
+          ),
+        );
+        return InkWell(
+          onTap: () {
+            _confirmAdd(pair);
+          },
+          child: listItemContent,
+        );
+      },
+    );
     final divided = ListTile.divideTiles(
       context: context,
-      tiles: tilesList,
+      tiles: tiles,
     ).toList();
     return Scaffold(
         appBar: AppBar(
-          title: Text("网关"),
-          actions: <Widget>[],
+          title: Text("选择本网关需要连接的服务器"),
+          actions: <Widget>[
+            IconButton(
+                icon: Icon(
+                  Icons.info,
+                  color: Colors.white,
+                ),
+                onPressed: () {
+                  _info();
+                }),
+            IconButton(
+              icon: Icon(
+                Icons.refresh,
+                color: Colors.white,
+              ),
+              onPressed: () {
+                //刷新端口列表
+                _listAvailableServer();
+              }),],
         ),
         body: ListView(
           children: divided,
@@ -99,12 +106,38 @@ class GatewayState extends State<Gateway> {
     }
   }
 
+  _confirmAdd(ServerInfo serverInfo) {
+    if (!_addable) {
+      Fluttertoast.showToast(msg: "该网关已经被其他用户添加，请联系该网关管理员或者清空网关配置并重启网关");
+      return;
+    }
+    showDialog(
+        context: context,
+        builder: (_) => AlertDialog(
+            title: Text("确认添加本网关到此服务器？"),
+            content: Text("${serverInfo.serverHost}"),
+            actions: <Widget>[
+              TextButton(
+                child: Text("取消"),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+              TextButton(
+                child: Text("添加"),
+                onPressed: () {
+                  _addToMyAccount(serverInfo);
+                },
+              )
+            ]));
+  }
+
   //已经确认过可以添加，添加到我的账号
-  _addToMyAccount() async {
+  _addToMyAccount(ServerInfo serverInfo) async {
     try {
       // 从服务器自动生成一个网关
       GatewayInfo gatewayInfo =
-          await GatewayManager.GenerateOneGatewayWithDefaultServer();
+          await GatewayManager.GenerateOneGatewayWithServerUuid(serverInfo.uuid);
       //使用网关信息将网关登录到服务器
       LoginResponse loginResponse =
           await GatewayLoginManager.LoginServerByToken(
@@ -119,8 +152,15 @@ class GatewayState extends State<Gateway> {
         });
       }
     } catch (exception) {
-      Fluttertoast.showToast(msg: "登录失败：${exception}");
+      Fluttertoast.showToast(msg: "添加网关失败：${exception}");
     }
+  }
+
+  Future<void> _listAvailableServer() async {
+    ServerInfoList serverInfoList = await ServerManager.GetAllServer();
+    setState(() {
+      _availableServerList = serverInfoList.serverInfoList;
+    });
   }
 
   //获取网关的登录状态判断是否可以被新用户添加
@@ -129,33 +169,22 @@ class GatewayState extends State<Gateway> {
       LoginResponse loginResponse =
           await GatewayLoginManager.CheckGatewayLoginStatus(
               widget.device.ip, widget.device.port);
-      if (!loginResponse.loginStatus) {
-        setState(() {
-          tilesList.add(ListTile(
-            title: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  MaterialButton(
-                      onPressed: () {
-                        _addToMyAccount();
-                      },
-                      child: Text("添加本网关到我的账号",style: TextStyle(color: Colors.green),))
-                ]),
-          ));
-        });
-      } else {
-        setState(() {
-          tilesList.add(ListTile(
-            title: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Text("本网关已经被其他用户添加",style: TextStyle(color: Colors.red),)
-                ]),
-          ));
-        });
-      }
+      _addable = !loginResponse.loginStatus;
     } catch (exception) {
       Fluttertoast.showToast(msg: "获取网关的登录状态异常：$exception");
     }
+  }
+
+  _info() async {
+    // TODO 设备信息
+    await Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) {
+          return InfoPage(
+            portService: widget.device,
+          );
+        },
+      ),
+    );
   }
 }
