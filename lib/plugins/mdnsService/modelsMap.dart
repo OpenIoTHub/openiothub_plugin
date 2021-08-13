@@ -92,6 +92,12 @@ class ModelsMap {
         device: device,
       );
     },
+    //    onvif摄像头管理工具
+    OvifManagerPage.modelName: (PortService device) {
+      return OvifManagerPage(
+        device: device,
+      );
+    },
     //    VNC MacOS可测试
     VNCWebPage.modelName: (PortService device) {
       return VNCWebPage(

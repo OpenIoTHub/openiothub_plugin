@@ -13,6 +13,7 @@ export './mDNSService/VNCRFBWebPage.dart';
 export './mDNSService/aria2c.dart';
 export './mDNSService/getway.dart';
 export './mDNSService/mdnsResponser.dart';
+export './mDNSService/onvifManager.dart';
 export './mDNSService/videoPlayer.dart';
 //mDNSService https://github.com/mDNSService
 export './mDNSService/webUI.dart';

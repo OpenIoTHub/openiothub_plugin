@@ -91,7 +91,7 @@ packages:
       name: file_picker
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "3.0.3"
+    version: "3.0.4"
   filesystem_picker:
     dependency: "direct main"
     description:
@@ -211,7 +211,7 @@ packages:
       name: iot_manager_grpc_api
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "0.0.2+33"
+    version: "0.0.2+34"
   js:
     dependency: transitive
     description:
@@ -246,7 +246,7 @@ packages:
       name: openiothub_api
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "0.0.2+46"
+    version: "0.0.2+47"
   openiothub_constants:
     dependency: "direct main"
     description:
@@ -260,7 +260,7 @@ packages:
       name: openiothub_grpc_api
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "0.0.1+12"
+    version: "0.0.1+13"
   path:
     dependency: transitive
     description:

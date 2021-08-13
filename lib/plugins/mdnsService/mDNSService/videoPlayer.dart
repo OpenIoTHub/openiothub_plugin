@@ -20,7 +20,9 @@ class _VideoPlayerState extends State<VideoPlayer> {
 
   @override
   void initState() {
-    if (!widget.device.info.containsKey("username") ||
+    if (widget.device.info.containsKey("url")){
+      url = widget.device.info["url"];
+    } else if (!widget.device.info.containsKey("username") ||
         widget.device.info["username"] == "" ||
         widget.device.info["username"] == null) {
       url = "${widget.device.info["scheme"]}://" +
