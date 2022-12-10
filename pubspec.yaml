@@ -1,6 +1,6 @@
 name: openiothub_plugin
 description: openiothub_plugin
-version: 0.0.2+36
+version: 0.0.2+38
 homepage: https://github.com/OpenIoTHub
 
 environment:
@@ -12,7 +12,7 @@ dependencies:
     sdk: flutter
   http: ^0.12.0
   #  app内嵌网页浏览器
-  flutter_vlc_player: ^6.0.2
+  flutter_vlc_player: ^6.0.5
   webview_flutter: ^0.3.19+9
   #  打开url
   url_launcher: ^5.0.2
@@ -20,13 +20,13 @@ dependencies:
   shared_preferences: ^0.5.7+2
   #  颜色选择器
   flutter_colorpicker: ^0.3.2
-  fluttertoast: ^7.1.6
+  fluttertoast: ^8.0.8
   file_picker: ^3.0.3
   filesystem_picker: ^1.0.3
   path_provider: ^2.0.2
   dio: ^3.0.10
   openiothub_constants: ^0.0.1
-  openiothub_api: ^0.0.2+17
+  openiothub_api: ^0.0.2+47
   openiothub_grpc_api: ^0.0.1
   gateway_grpc_api: ^0.0.1
   iot_manager_grpc_api: ^0.0.1

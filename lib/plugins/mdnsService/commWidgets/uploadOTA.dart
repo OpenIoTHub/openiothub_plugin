@@ -30,7 +30,7 @@ class _UploadOTAPageState extends State<UploadOTAPage> {
                   ),
                 ),
                 Container(height: 10),
-                RaisedButton(
+                TextButton(
                   child: Text('开始更新'),
                   onPressed: () {
                     _UploadBinFile(_url_controller.text);
