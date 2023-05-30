@@ -11,7 +11,7 @@ import 'package:openiothub_plugin/plugins/mdnsService/commWidgets/info.dart';
 //手动注册一些端口到mdns的声明，用于接入一些传统的设备或者服务或者帮助一些不方便注册mdns的设备或服务注册
 //需要选择模型和输入相关配置参数
 class OvifManagerPage extends StatefulWidget {
-  OvifManagerPage({Key key, this.device}) : super(key: key);
+  OvifManagerPage({required Key key, required this.device}) : super(key: key);
 
   static final String modelName = "com.iotserv.services.OnvifCameraManager";
   final PortService device;
@@ -104,6 +104,7 @@ class _OvifManagerPageState extends State<OvifManagerPage> {
         builder: (context) {
           return InfoPage(
             portService: widget.device,
+            key: UniqueKey(),
           );
         },
       ),
@@ -114,7 +115,7 @@ class _OvifManagerPageState extends State<OvifManagerPage> {
     String url = "http://${widget.device.ip}:${widget.device.port}/list";
     http.Response response;
     try {
-      response = await http.get(url).timeout(const Duration(seconds: 2));
+      response = await http.get(url as Uri).timeout(const Duration(seconds: 2));
       print(response.body);
       Map<String, dynamic> rst = jsonDecode(response.body);
       if (rst["Code"] != 0) {
@@ -129,7 +130,7 @@ class _OvifManagerPageState extends State<OvifManagerPage> {
     }
   }
 
-  Future _comfirmDeleteDevice(String XAddr) {
+  _comfirmDeleteDevice(String XAddr) {
     showDialog(
         context: context,
         builder: (_) => AlertDialog(
@@ -145,7 +146,8 @@ class _OvifManagerPageState extends State<OvifManagerPage> {
                   TextButton(
                     child: Text("删除"),
                     onPressed: () {
-                      _deleteOneDevice(XAddr).then((value) => Navigator.of(context).pop());
+                      _deleteOneDevice(XAddr)
+                          .then((value) => Navigator.of(context).pop());
                     },
                   )
                 ]));
@@ -156,7 +158,7 @@ class _OvifManagerPageState extends State<OvifManagerPage> {
         "http://${widget.device.ip}:${widget.device.port}/delete?XAddr=$XAddr";
     http.Response response;
     try {
-      response = await http.get(url).timeout(const Duration(seconds: 2));
+      response = await http.get(url as Uri).timeout(const Duration(seconds: 2));
       print(response.body);
       _getList();
     } catch (e) {
@@ -222,8 +224,11 @@ class _OvifManagerPageState extends State<OvifManagerPage> {
                   TextButton(
                     child: Text("添加"),
                     onPressed: () {
-                      _addOneDevice(_Name_controller.text, _XAddr_controller.text,
-                              _UserName_controller.text, _Password_controller.text)
+                      _addOneDevice(
+                              _Name_controller.text,
+                              _XAddr_controller.text,
+                              _UserName_controller.text,
+                              _Password_controller.text)
                           .then((restlt) {
                         Navigator.of(context).pop();
                       });
@@ -237,7 +242,7 @@ class _OvifManagerPageState extends State<OvifManagerPage> {
         "http://${widget.device.ip}:${widget.device.port}/add?Name=$Name&XAddr=$XAddr&UserName=$UserName&Password=$Password";
     http.Response response;
     try {
-      response = await http.get(url).timeout(const Duration(seconds: 2));
+      response = await http.get(url as Uri).timeout(const Duration(seconds: 2));
       print(response.body);
       _getList();
     } catch (e) {

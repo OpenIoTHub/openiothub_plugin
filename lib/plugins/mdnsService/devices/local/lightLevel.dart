@@ -9,7 +9,7 @@ import 'package:openiothub_plugin/plugins/mdnsService/commWidgets/info.dart';
 import 'package:openiothub_plugin/plugins/mdnsService/commWidgets/uploadOTA.dart';
 
 class LightLevelPage extends StatefulWidget {
-  LightLevelPage({Key key, this.device}) : super(key: key);
+  LightLevelPage({required Key key, required this.device}) : super(key: key);
 
   static final String modelName = "com.iotserv.devices.lightLevel";
   final PortService device;
@@ -56,10 +56,10 @@ class _LightLevelPageState extends State<LightLevelPage> {
               title: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Text(_realName[pair]),
+                  Text(_realName[pair]!),
                   Text(":"),
                   Text(_status[pair].toString()),
-                  Text(_units[pair])
+                  Text(_units[pair]!)
                 ],
               ),
             );
@@ -69,7 +69,7 @@ class _LightLevelPageState extends State<LightLevelPage> {
               title: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Text(_realName[pair]),
+                  Text(_realName[pair]!),
                   Text(":"),
                   Text(_status[pair].toString()),
                 ],
@@ -85,7 +85,7 @@ class _LightLevelPageState extends State<LightLevelPage> {
     ).toList();
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.device.info["name"]),
+        title: Text(widget.device.info["name"]!),
         actions: <Widget>[
           IconButton(
               icon: Icon(
@@ -129,7 +129,7 @@ class _LightLevelPageState extends State<LightLevelPage> {
     String url = "http://${widget.device.ip}:${widget.device.port}/status";
     http.Response response;
     try {
-      response = await http.get(url).timeout(const Duration(seconds: 2));
+      response = await http.get(url as Uri).timeout(const Duration(seconds: 2));
       print(response.body);
     } catch (e) {
       print(e.toString());
@@ -150,7 +150,7 @@ class _LightLevelPageState extends State<LightLevelPage> {
   _setting() async {
     // TODO 设备设置
     TextEditingController _name_controller = TextEditingController.fromValue(
-        TextEditingValue(text: widget.device.info["name"]));
+        TextEditingValue(text: widget.device.info["name"]!));
     return showDialog(
         context: context,
         builder: (_) => AlertDialog(
@@ -182,7 +182,7 @@ class _LightLevelPageState extends State<LightLevelPage> {
                         String url =
                             "http://${widget.device.ip}:${widget.device.port}/rename?name=${_name_controller.text}";
                         http
-                            .get(url)
+                            .get(url as Uri)
                             .timeout(const Duration(seconds: 2))
                             .then((_) {
                           setState(() {
@@ -206,6 +206,7 @@ class _LightLevelPageState extends State<LightLevelPage> {
         builder: (context) {
           return InfoPage(
             portService: widget.device,
+            key: UniqueKey(),
           );
         },
       ),
@@ -222,6 +223,7 @@ class _LightLevelPageState extends State<LightLevelPage> {
                     child: UploadOTAPage(
                       url:
                           "http://${widget.device.ip}:${widget.device.port}/update",
+                      key: UniqueKey(),
                     )),
                 actions: <Widget>[
                   TextButton(

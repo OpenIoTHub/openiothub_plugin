@@ -9,7 +9,7 @@ import 'package:openiothub_grpc_api/pb/service.pbgrpc.dart';
 import 'package:openiothub_plugin/plugins/mdnsService/commWidgets/info.dart';
 
 class UART2TCPPage extends StatefulWidget {
-  UART2TCPPage({Key key, this.device}) : super(key: key);
+  UART2TCPPage({required Key key, required this.device}) : super(key: key);
 
   static final String modelName = "com.iotserv.devices.UART2TCP";
   final PortService device;
@@ -19,7 +19,7 @@ class UART2TCPPage extends StatefulWidget {
 }
 
 class UART2TCPStatus extends State<UART2TCPPage> with TickerProviderStateMixin {
-  Socket uartSockt;
+  late Socket uartSockt;
   final List<Msg> _messages = <Msg>[];
   final TextEditingController _textController = TextEditingController();
   bool _isWriting = false;
@@ -37,7 +37,7 @@ class UART2TCPStatus extends State<UART2TCPPage> with TickerProviderStateMixin {
   Widget build(BuildContext ctx) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.device.info["name"]),
+        title: Text(widget.device.info["name"]!),
         actions: <Widget>[
           IconButton(
               icon: Icon(
@@ -68,7 +68,7 @@ class UART2TCPStatus extends State<UART2TCPPage> with TickerProviderStateMixin {
 
   Widget _buildComposer() {
     return IconTheme(
-      data: IconThemeData(color: Theme.of(context).accentColor),
+      data: IconThemeData(color: Theme.of(context).primaryColor),
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 2.0),
         child: Row(
@@ -136,6 +136,7 @@ class UART2TCPStatus extends State<UART2TCPPage> with TickerProviderStateMixin {
         builder: (context) {
           return InfoPage(
             portService: widget.device,
+            key: UniqueKey(),
           );
         },
       ),
@@ -144,7 +145,7 @@ class UART2TCPStatus extends State<UART2TCPPage> with TickerProviderStateMixin {
 }
 
 class Msg extends StatelessWidget {
-  Msg({this.me, this.txt, this.animationController});
+  Msg({required this.me, required this.txt, required this.animationController});
 
   bool me = true;
   final String txt;

@@ -1,17 +1,12 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:iot_manager_grpc_api/pb/mqttDeviceManager.pbgrpc.dart';
 import 'package:openiothub_api/openiothub_api.dart';
-import 'package:openiothub_constants/openiothub_constants.dart';
 import 'package:openiothub_grpc_api/pb/service.pb.dart';
 import 'package:openiothub_grpc_api/pb/service.pbgrpc.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:iot_manager_grpc_api/pb/common.pb.dart';
-import 'package:iot_manager_grpc_api/pb/mqttDeviceManager.pbgrpc.dart';
 
 class InfoPage extends StatelessWidget {
-  InfoPage({Key key, this.portService}) : super(key: key);
+  InfoPage({required Key key, required this.portService}) : super(key: key);
   PortService portService;
 
   // This widget is the root of your application.
@@ -31,7 +26,7 @@ class InfoPage extends StatelessWidget {
     ];
     final List _result = [];
     _result.add("设备名称:${portService.info["name"]}");
-    _result.add("设备型号:${portService.info["model"].replaceAll("#", ".")}");
+    _result.add("设备型号:${portService.info["model"]!.replaceAll("#", ".")}");
     _result.add("物理地址:${portService.info["mac"]}");
     _result.add("id:${portService.info["id"]}");
     _result.add("固件作者:${portService.info["author"]}");
@@ -95,7 +90,7 @@ class InfoPage extends StatelessWidget {
   _renameDialog(BuildContext context) async {
     TextEditingController _new_name_controller =
         TextEditingController.fromValue(
-            TextEditingValue(text: portService.info["name"]));
+            TextEditingValue(text: portService.info["name"]!));
     showDialog(
         context: context,
         builder: (_) => AlertDialog(
@@ -123,7 +118,7 @@ class InfoPage extends StatelessWidget {
                     child: Text("修改"),
                     onPressed: () async {
                       await _rename(
-                          portService.info["id"], _new_name_controller.text);
+                          portService.info["id"]!, _new_name_controller.text);
                       Navigator.of(context).pop();
                     },
                   )
@@ -141,34 +136,34 @@ _deleteDialog(BuildContext context, PortService portService) async {
   showDialog(
       context: context,
       builder: (_) => AlertDialog(
-          title: Text("删除设备："),
-          content: ListView(
-            children: <Widget>[
-              Text("确认删除本设备？"),
-            ],
-          ),
-          actions: <Widget>[
-            TextButton(
-              child: Text("取消"),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            TextButton(
-              child: Text("删除"),
-              onPressed: () async {
-                await _delete(context, portService);
-                Navigator.of(context).pop();
-              },
-            )
-          ])).then((restlt) {
+              title: Text("删除设备："),
+              content: ListView(
+                children: <Widget>[
+                  Text("确认删除本设备？"),
+                ],
+              ),
+              actions: <Widget>[
+                TextButton(
+                  child: Text("取消"),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+                TextButton(
+                  child: Text("删除"),
+                  onPressed: () async {
+                    await _delete(context, portService);
+                    Navigator.of(context).pop();
+                  },
+                )
+              ])).then((restlt) {
     Navigator.of(context).pop();
   });
 }
 
 _delete(BuildContext context, PortService portService) async {
   MqttDeviceInfo mqttDeviceInfo = MqttDeviceInfo();
-  mqttDeviceInfo.deviceId = portService.info["id"];
+  mqttDeviceInfo.deviceId = portService.info["id"]!;
   await MqttDeviceManager.DelMqttDevice(mqttDeviceInfo);
   Fluttertoast.showToast(msg: "删除成功!");
 }

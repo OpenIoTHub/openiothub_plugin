@@ -6,7 +6,7 @@ import 'package:openiothub_grpc_api/pb/service.pbgrpc.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class Aria2Page extends StatefulWidget {
-  Aria2Page({Key key, this.device}) : super(key: key);
+  Aria2Page({required Key key, required this.device}) : super(key: key);
   static final String modelName = "com.iotserv.services.aria2c";
   final PortService device;
 
@@ -17,15 +17,27 @@ class Aria2Page extends StatefulWidget {
 class Aria2PageState extends State<Aria2Page> {
   @override
   Widget build(BuildContext context) {
-    return WebView(
-      initialUrl:
-          "http://${Config.webStaticIp}:${Config.webStaticPort}/web/open/aria2/index.html",
-      javascriptMode: JavascriptMode.unrestricted,
-      onWebViewCreated: (WebViewController webViewController) {
-        String jsCode =
-            "window.localStorage.setItem(\'AriaNg.Options\', \'{\"language\":\"zh_Hans\",\"title\":\"\${downspeed}, \${upspeed} - \${title}\",\"titleRefreshInterval\":5000,\"browserNotification\":false,\"rpcAlias\":\"\",\"rpcHost\":\"${widget.device.ip}\",\"rpcPort\":\"${widget.device.port}\",\"rpcInterface\":\"jsonrpc\",\"protocol\":\"http\",\"httpMethod\":\"POST\",\"secret\":\"\",\"extendRpcServers\":[],\"globalStatRefreshInterval\":1000,\"downloadTaskRefreshInterval\":1000,\"rpcListDisplayOrder\":\"recentlyUsed\",\"afterCreatingNewTask\":\"task-list\",\"removeOldTaskAfterRetrying\":false,\"afterRetryingTask\":\"task-list-downloading\",\"displayOrder\":\"default:asc\",\"fileListDisplayOrder\":\"default:asc\",\"peerListDisplayOrder\":\"default:asc\"}\');location.reload();";
-        webViewController.evaluateJavascript(jsCode);
-      },
-    );
+    String jsCode =
+        "window.localStorage.setItem(\'AriaNg.Options\', \'{\"language\":\"zh_Hans\",\"title\":\"\${downspeed}, \${upspeed} - \${title}\",\"titleRefreshInterval\":5000,\"browserNotification\":false,\"rpcAlias\":\"\",\"rpcHost\":\"${widget.device.ip}\",\"rpcPort\":\"${widget.device.port}\",\"rpcInterface\":\"jsonrpc\",\"protocol\":\"http\",\"httpMethod\":\"POST\",\"secret\":\"\",\"extendRpcServers\":[],\"globalStatRefreshInterval\":1000,\"downloadTaskRefreshInterval\":1000,\"rpcListDisplayOrder\":\"recentlyUsed\",\"afterCreatingNewTask\":\"task-list\",\"removeOldTaskAfterRetrying\":false,\"afterRetryingTask\":\"task-list-downloading\",\"displayOrder\":\"default:asc\",\"fileListDisplayOrder\":\"default:asc\",\"peerListDisplayOrder\":\"default:asc\"}\');location.reload();";
+    WebViewController controller = WebViewController()
+      ..setJavaScriptMode(JavaScriptMode.unrestricted)
+      ..setBackgroundColor(const Color(0x00000000))
+      ..setNavigationDelegate(
+        NavigationDelegate(
+          onProgress: (int progress) {
+            // Update loading bar.
+          },
+          onPageStarted: (String url) {},
+          onPageFinished: (String url) {},
+          onWebResourceError: (WebResourceError error) {},
+          onNavigationRequest: (NavigationRequest request) {
+            return NavigationDecision.navigate;
+          },
+        ),
+      )
+      ..loadRequest(Uri.parse(
+          "http://${Config.webStaticIp}:${Config.webStaticPort}/web/open/aria2/index.html"));
+    controller.runJavaScript(jsCode);
+    return WebViewWidget(controller: controller);
   }
 }

@@ -1,26 +1,42 @@
-name: Publish to Pub.dev
+# .github/workflows/publish.yml
+name: Publish to pub.dev
 
 on:
   push:
     tags:
-      - '*'
+      # must align with the tag-pattern configured on pub.dev, often just replace
+      #  with [0-9]+.[0-9]+.[0-9]+*
+      - 'v[0-9]+.[0-9]+.[0-9]+*' # tag-pattern on pub.dev: 'v'
+    # If you prefer tags like '1.2.3', without the 'v' prefix, then use:
+    # - '[0-9]+.[0-9]+.[0-9]+*' # tag-pattern on pub.dev: ''
+    # If your repository contains multiple packages consider a pattern like:
+    # - 'my_package_name-v[0-9]+.[0-9]+.[0-9]+*'
 
 jobs:
-  publishing:
+  publish:
+    name: Publish on pub.dev
     runs-on: ubuntu-latest
+
+    permissions:
+      id-token: write
+      contents: write
+
     steps:
-      # 拉取仓库代码
-      - name: "Checkout"
-        uses: actions/checkout@v2
-      - uses: subosito/flutter-action@v1
+      - name: Clone repository
+        uses: actions/checkout@v3
+
+      # This step adds the auth token for pub.dev
+      - name: Set up Dart
+        uses: dart-lang/setup-dart@v1
         with:
-          channel: 'stable'
-      - run: flutter pub get
-      # 发布插件
-      - name: Publish
-        uses: sakebook/actions-flutter-pub-publisher@v1.3.1
+          sdk: stable
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
         with:
-          credential: ${{ secrets.CREDENTIAL_JSON }}
-          flutter_package: true
-          skip_test: true
-          dry_run: false
+          channel: stable
+          cache: true
+
+      - name: Publish to pub.dev
+        id: pub_release
+        uses: leancodepl/mobile-tools/.github/actions/pub-release@pub-release-v1

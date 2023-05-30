@@ -8,7 +8,7 @@ import 'package:openiothub_plugin/plugins/mdnsService/commWidgets/info.dart';
 import 'package:openiothub_plugin/plugins/mdnsService/commWidgets/uploadOTA.dart';
 
 class RGBALedPage extends StatefulWidget {
-  RGBALedPage({Key key, this.device}) : super(key: key);
+  RGBALedPage({required Key key, required this.device}) : super(key: key);
 
   static final String modelName = "com.iotserv.devices.rgbaLed";
   final PortService device;
@@ -104,7 +104,7 @@ class _RGBALedPageState extends State<RGBALedPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.device.info["name"]),
+        title: Text(widget.device.info["name"]!),
         actions: <Widget>[
           IconButton(
               icon: Icon(
@@ -194,7 +194,7 @@ class _RGBALedPageState extends State<RGBALedPage> {
   _setting() async {
     // TODO 设备设置
     TextEditingController _name_controller = TextEditingController.fromValue(
-        TextEditingValue(text: widget.device.info["name"]));
+        TextEditingValue(text: widget.device.info["name"]!));
     return showDialog(
         context: context,
         builder: (_) => AlertDialog(
@@ -226,7 +226,7 @@ class _RGBALedPageState extends State<RGBALedPage> {
                         String url =
                             "http://${widget.device.ip}:${widget.device.port}/rename?name=${_name_controller.text}";
                         http
-                            .get(url)
+                            .get(url as Uri)
                             .timeout(const Duration(seconds: 2))
                             .then((_) {
                           setState(() {
@@ -250,6 +250,7 @@ class _RGBALedPageState extends State<RGBALedPage> {
         builder: (context) {
           return InfoPage(
             portService: widget.device,
+            key: UniqueKey(),
           );
         },
       ),
@@ -266,6 +267,7 @@ class _RGBALedPageState extends State<RGBALedPage> {
                     child: UploadOTAPage(
                       url:
                           "http://${widget.device.ip}:${widget.device.port}/update",
+                      key: UniqueKey(),
                     )),
                 actions: <Widget>[
                   TextButton(
@@ -285,7 +287,7 @@ class _RGBALedPageState extends State<RGBALedPage> {
       url = "http://${widget.device.ip}:${widget.device.port}/set?b=0";
     }
     try {
-      await http.get(url).timeout(const Duration(seconds: 2));
+      await http.get(url as Uri).timeout(const Duration(seconds: 2));
       setState(() {
         _status[color] = Color.fromARGB(_status[color].alpha == 0 ? 255 : 0,
             _status[color].red, _status[color].green, _status[color].blue);
@@ -304,7 +306,7 @@ class _RGBALedPageState extends State<RGBALedPage> {
     try {
       if (!_requsting) {
         _requsting = true;
-        await http.get(url).timeout(const Duration(seconds: 2));
+        await http.get(url as Uri).timeout(const Duration(seconds: 2));
         setState(() {
           _status[color] = c;
         });
@@ -330,13 +332,13 @@ class _RGBALedPageState extends State<RGBALedPage> {
     return l;
   }
 
-  _setMode(int newValue) async {
+  _setMode(int? newValue) async {
     String url =
         "http://${widget.device.ip}:${widget.device.port}/set?m=${newValue.toString()}";
     try {
-      await http.get(url).timeout(const Duration(seconds: 2));
+      await http.get(url as Uri).timeout(const Duration(seconds: 2));
       setState(() {
-        _currentModes = newValue;
+        _currentModes = newValue!;
       });
     } catch (e) {
       print(e.toString());
@@ -348,7 +350,7 @@ class _RGBALedPageState extends State<RGBALedPage> {
     String url =
         "http://${widget.device.ip}:${widget.device.port}/set?s=${cmd}";
     try {
-      await http.get(url).timeout(const Duration(seconds: 2));
+      await http.get(url as Uri).timeout(const Duration(seconds: 2));
     } catch (e) {
       print(e.toString());
       return;

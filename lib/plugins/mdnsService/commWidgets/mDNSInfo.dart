@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:openiothub_grpc_api/pb/service.pb.dart';
 
 class MDNSInfoPage extends StatelessWidget {
-  MDNSInfoPage({Key key, this.portConfig}) : super(key: key);
+  MDNSInfoPage({required Key key, required this.portConfig}) : super(key: key);
   PortConfig portConfig;
 
   // This widget is the root of your application.

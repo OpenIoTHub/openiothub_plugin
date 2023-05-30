@@ -12,7 +12,8 @@ import 'package:openiothub_grpc_api/pb/service.pbgrpc.dart';
 import 'package:openiothub_plugin/plugins/mdnsService/commWidgets/info.dart';
 
 class MqttPhicommzM1PluginPage extends StatefulWidget {
-  MqttPhicommzM1PluginPage({Key key, this.device}) : super(key: key);
+  MqttPhicommzM1PluginPage({required Key key, required this.device})
+      : super(key: key);
   static final String modelName = "com.iotserv.devices.mqtt.zM1";
   final PortService device;
 
@@ -22,9 +23,9 @@ class MqttPhicommzM1PluginPage extends StatefulWidget {
 }
 
 class _MqttPhicommzM1PluginPageState extends State<MqttPhicommzM1PluginPage> {
-  MqttServerClient client;
-  String topic_sensor;
-  String topic_set;
+  late MqttServerClient client;
+  late String topic_sensor;
+  late String topic_set;
 
   static const String brightness = "brightness";
   static const String temperature = "temperature";
@@ -42,29 +43,19 @@ class _MqttPhicommzM1PluginPageState extends State<MqttPhicommzM1PluginPage> {
     SectionTextModel(position: 4, text: '4', progressColor: Colors.amber),
   ];
 
-  Map<String, dynamic> _status = Map.from({
-    brightness:0,
-    temperature:0,
-    humidity:0,
-    pm25:0,
-    hcho:0
-  });
+  Map<String, dynamic> _status =
+      Map.from({brightness: 0, temperature: 0, humidity: 0, pm25: 0, hcho: 0});
 
   Map<String, String> _realName = Map.from({
-    brightness:"亮度",
-    temperature:"温度",
-    humidity:"湿度",
-    pm25:"PM2.5",
-    hcho:"甲醛"
+    brightness: "亮度",
+    temperature: "温度",
+    humidity: "湿度",
+    pm25: "PM2.5",
+    hcho: "甲醛"
   });
 
-  Map<String, String> _unit = Map.from({
-    brightness:"",
-    temperature:"",
-    humidity:"",
-    pm25:"",
-    hcho:""
-  });
+  Map<String, String> _unit = Map.from(
+      {brightness: "", temperature: "", humidity: "", pm25: "", hcho: ""});
 
   @override
   void initState() {
@@ -95,39 +86,40 @@ class _MqttPhicommzM1PluginPageState extends State<MqttPhicommzM1PluginPage> {
               title: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Text(_realName[pair]),
+                  Text(_realName[pair]!),
                   Text(":"),
-              SeekBar(
-                  indicatorRadius: 0.0,
-                  progresseight: 5,
-                  hideBubble: false,
-                  alwaysShowBubble: true,
-                  bubbleRadius: 14,
-                  bubbleColor: Colors.purple,
-                  bubbleTextColor: Colors.white,
-                  bubbleTextSize: 14,
-                  bubbleMargin: 4,
-                  bubbleInCenter: true,
-                  sectionTexts:sectionTexts,
-                  onValueChanged: (v) {
-                    _changeStatus(pair, v.value.toInt());
-                  }),
+                  SeekBar(
+                      indicatorRadius: 0.0,
+                      progresseight: 5,
+                      hideBubble: false,
+                      alwaysShowBubble: true,
+                      bubbleRadius: 14,
+                      bubbleColor: Colors.purple,
+                      bubbleTextColor: Colors.white,
+                      bubbleTextSize: 14,
+                      bubbleMargin: 4,
+                      bubbleInCenter: true,
+                      sectionTexts: sectionTexts,
+                      onValueChanged: (v) {
+                        _changeStatus(pair, v.value.toInt());
+                      }),
                 ],
               ),
             );
             break;
-          case temperature:
-          case humidity:
-          case pm25:
-          case hcho:
+          // case temperature:
+          // case humidity:
+          // case pm25:
+          // case hcho:
+          default:
             return ListTile(
               title: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Text(_realName[pair]),
+                  Text(_realName[pair]!),
                   Text(":"),
                   Text(_status[pair].toString()),
-                  Text(_unit[pair]),
+                  Text(_unit[pair]!),
                 ],
               ),
             );
@@ -141,7 +133,7 @@ class _MqttPhicommzM1PluginPageState extends State<MqttPhicommzM1PluginPage> {
     ).toList();
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.device.info["name"]),
+        title: Text(widget.device.info["name"]!),
         actions: <Widget>[
           IconButton(
               icon: Icon(
@@ -161,7 +153,7 @@ class _MqttPhicommzM1PluginPageState extends State<MqttPhicommzM1PluginPage> {
     client = MqttServerClient.withPort(
         widget.device.ip,
         widget.device.info.containsKey("client-id")
-            ? widget.device.info["client-id"]
+            ? widget.device.info["client-id"]!
             : "",
         widget.device.port);
     client.autoReconnect = true;
@@ -174,7 +166,7 @@ class _MqttPhicommzM1PluginPageState extends State<MqttPhicommzM1PluginPage> {
     client.onAutoReconnect = onAutoReconnect;
     client.onAutoReconnected = onAutoReconnected;
     final connMess = MqttConnectMessage()
-        .withClientIdentifier(widget.device.info["client-id"])
+        .withClientIdentifier(widget.device.info["client-id"]!)
         .startClean();
     client.connectionMessage = connMess;
     try {
@@ -195,7 +187,8 @@ class _MqttPhicommzM1PluginPageState extends State<MqttPhicommzM1PluginPage> {
     client.updates.listen((List<MqttReceivedMessage<MqttMessage>> c) {
       c.forEach((MqttReceivedMessage<MqttMessage> element) {
         final recMess = element.payload as MqttPublishMessage;
-        final pt = MqttUtilities.bytesToStringAsString(recMess.payload.message);
+        final pt =
+            MqttUtilities.bytesToStringAsString(recMess.payload.message!);
         // Fluttertoast.showToast(
         //     msg:
         //         'EXAMPLE::Change notification:: topic is <${c[0].topic}>, payload is <-- $pt -->');
@@ -219,6 +212,7 @@ class _MqttPhicommzM1PluginPageState extends State<MqttPhicommzM1PluginPage> {
         builder: (context) {
           return InfoPage(
             portService: widget.device,
+            key: UniqueKey(),
           );
         },
       ),
@@ -227,9 +221,9 @@ class _MqttPhicommzM1PluginPageState extends State<MqttPhicommzM1PluginPage> {
 
   _changeStatus(String name, int value) async {
     final builder = MqttPayloadBuilder();
-    builder.addString(
-        '{"mac":"${widget.device.info["mac"]}","$name":${value}}');
-    client.publishMessage(topic_set, MqttQos.atLeastOnce, builder.payload);
+    builder
+        .addString('{"mac":"${widget.device.info["mac"]}","$name":${value}}');
+    client.publishMessage(topic_set, MqttQos.atLeastOnce, builder.payload!);
   }
 
   //mqtt的调用函数
@@ -257,12 +251,10 @@ class _MqttPhicommzM1PluginPageState extends State<MqttPhicommzM1PluginPage> {
   }
 
   void onAutoReconnect() {
-    Fluttertoast.showToast(
-        msg: '重连mqtt...');
+    Fluttertoast.showToast(msg: '重连mqtt...');
   }
 
   void onAutoReconnected() {
-    Fluttertoast.showToast(
-        msg: '重连mqtt服务器成功！');
+    Fluttertoast.showToast(msg: '重连mqtt服务器成功！');
   }
 }

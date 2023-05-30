@@ -9,7 +9,8 @@ import 'package:openiothub_plugin/plugins/mdnsService/commWidgets/info.dart';
 import 'package:openiothub_plugin/plugins/mdnsService/commWidgets/uploadOTA.dart';
 
 class PhicommDC1PluginPage extends StatefulWidget {
-  PhicommDC1PluginPage({Key key, this.device}) : super(key: key);
+  PhicommDC1PluginPage({required Key key, required this.device})
+      : super(key: key);
 
   static final String modelName = "com.iotserv.devices.phicomm_dc1";
   final PortService device;
@@ -115,7 +116,7 @@ class _PhicommDC1PluginPageState extends State<PhicommDC1PluginPage> {
               title: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Text(_realName[pair]),
+                  Text(_realName[pair]!),
                   Switch(
                     onChanged: (_) {
                       _changeSwitchStatus(pair);
@@ -133,7 +134,7 @@ class _PhicommDC1PluginPageState extends State<PhicommDC1PluginPage> {
               title: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Text(_realName[pair]),
+                  Text(_realName[pair]!),
                   Text(":"),
                   Text(_status[pair].toString()),
                 ],
@@ -149,7 +150,7 @@ class _PhicommDC1PluginPageState extends State<PhicommDC1PluginPage> {
     ).toList();
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.device.info["name"]),
+        title: Text(widget.device.info["name"]!),
         actions: <Widget>[
           IconButton(
               icon: Icon(
@@ -193,7 +194,7 @@ class _PhicommDC1PluginPageState extends State<PhicommDC1PluginPage> {
     String url = "http://${widget.device.ip}:${widget.device.port}/status";
     http.Response response;
     try {
-      response = await http.get(url).timeout(const Duration(seconds: 2));
+      response = await http.get(url as Uri).timeout(const Duration(seconds: 2));
       print(response.body);
     } catch (e) {
       print(e.toString());
@@ -220,7 +221,7 @@ class _PhicommDC1PluginPageState extends State<PhicommDC1PluginPage> {
   _setting() async {
     // TODO 设备设置
     TextEditingController _name_controller = TextEditingController.fromValue(
-        TextEditingValue(text: widget.device.info["name"]));
+        TextEditingValue(text: widget.device.info["name"]!));
     return showDialog(
         context: context,
         builder: (_) => AlertDialog(
@@ -252,7 +253,7 @@ class _PhicommDC1PluginPageState extends State<PhicommDC1PluginPage> {
                         String url =
                             "http://${widget.device.ip}:${widget.device.port}/rename?name=${_name_controller.text}";
                         http
-                            .get(url)
+                            .get(url as Uri)
                             .timeout(const Duration(seconds: 2))
                             .then((_) {
                           setState(() {
@@ -276,6 +277,7 @@ class _PhicommDC1PluginPageState extends State<PhicommDC1PluginPage> {
         builder: (context) {
           return InfoPage(
             portService: widget.device,
+            key: UniqueKey(),
           );
         },
       ),
@@ -292,6 +294,7 @@ class _PhicommDC1PluginPageState extends State<PhicommDC1PluginPage> {
                     child: UploadOTAPage(
                       url:
                           "http://${widget.device.ip}:${widget.device.port}/update",
+                      key: UniqueKey(),
                     )),
                 actions: <Widget>[
                   TextButton(
@@ -312,7 +315,7 @@ class _PhicommDC1PluginPageState extends State<PhicommDC1PluginPage> {
     }
     http.Response response;
     try {
-      response = await http.get(url).timeout(const Duration(seconds: 2));
+      response = await http.get(url as Uri).timeout(const Duration(seconds: 2));
       print(response.body);
     } catch (e) {
       print(e.toString());

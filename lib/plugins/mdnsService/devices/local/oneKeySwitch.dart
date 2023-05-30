@@ -8,7 +8,7 @@ import 'package:openiothub_grpc_api/pb/service.pbgrpc.dart';
 import 'package:openiothub_plugin/plugins/mdnsService/commWidgets/info.dart';
 
 class OneKeySwitchPage extends StatefulWidget {
-  OneKeySwitchPage({Key key, this.device}) : super(key: key);
+  OneKeySwitchPage({required Key key, required this.device}) : super(key: key);
 
   static final String modelName = "com.iotserv.devices.one-key-switch";
   final PortService device;
@@ -81,7 +81,7 @@ class _OneKeySwitchPageState extends State<OneKeySwitchPage> {
     String url = "http://${widget.device.ip}:${widget.device.port}/status";
     http.Response response;
     try {
-      response = await http.get(url).timeout(const Duration(seconds: 2));
+      response = await http.get(url as Uri).timeout(const Duration(seconds: 2));
       print(response.body);
     } catch (e) {
       print(e.toString());
@@ -97,7 +97,7 @@ class _OneKeySwitchPageState extends State<OneKeySwitchPage> {
   _setting() async {
     // TODO 设备设置
     TextEditingController _name_controller = TextEditingController.fromValue(
-        TextEditingValue(text: widget.device.info["name"]));
+        TextEditingValue(text: widget.device.info["name"]!));
     return showDialog(
         context: context,
         builder: (_) => AlertDialog(
@@ -126,7 +126,9 @@ class _OneKeySwitchPageState extends State<OneKeySwitchPage> {
                       try {
                         String url =
                             "http://${widget.device.ip}:${widget.device.port}/rename?name=${_name_controller.text}";
-                        http.get(url).timeout(const Duration(seconds: 2));
+                        http
+                            .get(url as Uri)
+                            .timeout(const Duration(seconds: 2));
                       } catch (e) {
                         print(e.toString());
                         return;
@@ -144,6 +146,7 @@ class _OneKeySwitchPageState extends State<OneKeySwitchPage> {
         builder: (context) {
           return InfoPage(
             portService: widget.device,
+            key: UniqueKey(),
           );
         },
       ),
@@ -156,7 +159,7 @@ class _OneKeySwitchPageState extends State<OneKeySwitchPage> {
         "http://${widget.device.ip}:${widget.device.port}/led?status=${ledBottonStatus == "on" ? "off" : "on"}";
     http.Response response;
     try {
-      response = await http.get(url).timeout(const Duration(seconds: 2));
+      response = await http.get(url as Uri).timeout(const Duration(seconds: 2));
       print(response.body);
     } catch (e) {
       print(e.toString());

@@ -5,7 +5,7 @@ import 'package:openiothub_grpc_api/pb/service.pbgrpc.dart';
 import 'package:openiothub_plugin/plugins/mdnsService/commWidgets/info.dart';
 
 class VideoPlayer extends StatefulWidget {
-  VideoPlayer({Key key, this.device}) : super(key: key);
+  VideoPlayer({required Key key, required this.device}) : super(key: key);
   static final String modelName = "com.iotserv.services.vlc.player";
   final PortService device;
 
@@ -13,15 +13,14 @@ class VideoPlayer extends StatefulWidget {
   _VideoPlayerState createState() => _VideoPlayerState();
 }
 
-VlcPlayerController _videoPlayerController;
-
 class _VideoPlayerState extends State<VideoPlayer> {
-  String url;
+  late String url;
+  late VlcPlayerController _videoPlayerController;
 
   @override
   void initState() {
-    if (widget.device.info.containsKey("url")){
-      url = widget.device.info["url"];
+    if (widget.device.info.containsKey("url")) {
+      url = widget.device.info["url"]!;
     } else if (!widget.device.info.containsKey("username") ||
         widget.device.info["username"] == "" ||
         widget.device.info["username"] == null) {
@@ -29,9 +28,9 @@ class _VideoPlayerState extends State<VideoPlayer> {
           "${widget.device.ip}:${widget.device.port}${widget.device.info["path"]}";
     } else {
       url = "${widget.device.info["scheme"]}://" +
-          widget.device.info["username"] +
+          widget.device.info["username"]! +
           ":" +
-          widget.device.info["password"] +
+          widget.device.info["password"]! +
           "@"
               "${widget.device.ip}:${widget.device.port}${widget.device.info["path"]}";
     }
@@ -39,7 +38,7 @@ class _VideoPlayerState extends State<VideoPlayer> {
     print("url:$url");
     _videoPlayerController = VlcPlayerController.network(
       url,
-      hwAcc: HwAcc.FULL,
+      hwAcc: HwAcc.auto,
       autoPlay: true,
       options: VlcPlayerOptions(),
     );
@@ -47,7 +46,7 @@ class _VideoPlayerState extends State<VideoPlayer> {
   }
 
   @override
-  Future<void> dispose() {
+  Future<void> dispose() async {
     super.dispose();
     _videoPlayerController.stopRendererScanning();
   }
@@ -56,7 +55,7 @@ class _VideoPlayerState extends State<VideoPlayer> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.device.info["name"]),
+        title: Text(widget.device.info["name"]!),
         actions: <Widget>[
           IconButton(
               icon: Icon(
@@ -75,7 +74,7 @@ class _VideoPlayerState extends State<VideoPlayer> {
           placeholder: Center(child: CircularProgressIndicator()),
         ),
       ),
-      );
+    );
   }
 
   _info() async {
@@ -85,6 +84,7 @@ class _VideoPlayerState extends State<VideoPlayer> {
         builder: (context) {
           return InfoPage(
             portService: widget.device,
+            key: UniqueKey(),
           );
         },
       ),

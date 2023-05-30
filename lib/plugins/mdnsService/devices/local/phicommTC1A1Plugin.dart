@@ -8,7 +8,8 @@ import 'package:openiothub_grpc_api/pb/service.pbgrpc.dart';
 import 'package:openiothub_plugin/plugins/mdnsService/commWidgets/info.dart';
 
 class PhicommTC1A1PluginPage extends StatefulWidget {
-  PhicommTC1A1PluginPage({Key key, this.device}) : super(key: key);
+  PhicommTC1A1PluginPage({required Key key, required this.device})
+      : super(key: key);
 
   static final String modelName = "com.iotserv.devices.phicomm_tc1_a1";
   final PortService device;
@@ -80,7 +81,7 @@ class _PhicommTC1A1PluginPageState extends State<PhicommTC1A1PluginPage> {
               title: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Text(_realName[pair]),
+                  Text(_realName[pair]!),
                   Switch(
                     onChanged: (_) {
                       _status[pair] = !_status[pair];
@@ -99,7 +100,7 @@ class _PhicommTC1A1PluginPageState extends State<PhicommTC1A1PluginPage> {
               title: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Text(_realName[pair]),
+                  Text(_realName[pair]!),
                   Text(":"),
                   Text(_status[pair].toString()),
                   Text("W"),
@@ -116,7 +117,7 @@ class _PhicommTC1A1PluginPageState extends State<PhicommTC1A1PluginPage> {
     ).toList();
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.device.info["name"]),
+        title: Text(widget.device.info["name"]!),
         actions: <Widget>[
           IconButton(
               icon: Icon(
@@ -144,7 +145,7 @@ class _PhicommTC1A1PluginPageState extends State<PhicommTC1A1PluginPage> {
     String url = "http://${widget.device.ip}:${widget.device.port}/status";
     http.Response response;
     try {
-      response = await http.get(url).timeout(const Duration(seconds: 6));
+      response = await http.get(url as Uri).timeout(const Duration(seconds: 6));
     } catch (e) {
       print(e.toString());
       return;
@@ -176,6 +177,7 @@ class _PhicommTC1A1PluginPageState extends State<PhicommTC1A1PluginPage> {
         builder: (context) {
           return InfoPage(
             portService: widget.device,
+            key: UniqueKey(),
           );
         },
       ),
@@ -187,7 +189,7 @@ class _PhicommTC1A1PluginPageState extends State<PhicommTC1A1PluginPage> {
         "http://${widget.device.ip}:${widget.device.port}/switch?$slot0=${_status[slot0] ? 1 : 0}&$slot1=${_status[slot1] ? 1 : 0}&$slot2=${_status[slot2] ? 1 : 0}&$slot3=${_status[slot3] ? 1 : 0}&$slot4=${_status[slot4] ? 1 : 0}&$slot5=${_status[slot5] ? 1 : 0}";
     http.Response response;
     try {
-      response = await http.get(url).timeout(const Duration(seconds: 2));
+      response = await http.get(url as Uri).timeout(const Duration(seconds: 2));
       print(response.body);
     } catch (e) {
       print(e.toString());

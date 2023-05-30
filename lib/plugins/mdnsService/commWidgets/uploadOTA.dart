@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 class UploadOTAPage extends StatefulWidget {
-  UploadOTAPage({Key key, this.url}) : super(key: key);
-  String url;
+  UploadOTAPage({required Key key, this.url = ""}) : super(key: key);
+  String url = "";
 
   @override
   _UploadOTAPageState createState() => _UploadOTAPageState();

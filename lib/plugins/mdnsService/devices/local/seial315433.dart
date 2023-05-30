@@ -7,7 +7,7 @@ import 'package:openiothub_plugin/plugins/mdnsService/commWidgets/info.dart';
 import 'package:openiothub_plugin/plugins/mdnsService/commWidgets/uploadOTA.dart';
 
 class Serial315433Page extends StatefulWidget {
-  Serial315433Page({Key key, this.device}) : super(key: key);
+  Serial315433Page({required Key key, required this.device}) : super(key: key);
 
   static final String modelName = "com.iotserv.devices.serial-315-433";
   final PortService device;
@@ -30,7 +30,7 @@ class _Serial315433PageState extends State<Serial315433Page> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.device.info["name"]),
+        title: Text(widget.device.info["name"]!),
         actions: <Widget>[
           IconButton(
               icon: Icon(
@@ -94,7 +94,7 @@ class _Serial315433PageState extends State<Serial315433Page> {
   _setting() async {
     // TODO 设备设置
     TextEditingController _name_controller = TextEditingController.fromValue(
-        TextEditingValue(text: widget.device.info["name"]));
+        TextEditingValue(text: widget.device.info["name"]!));
     return showDialog(
         context: context,
         builder: (_) => AlertDialog(
@@ -123,7 +123,9 @@ class _Serial315433PageState extends State<Serial315433Page> {
                       try {
                         String url =
                             "http://${widget.device.ip}:${widget.device.port}/rename?name=${_name_controller.text}";
-                        await http.get(url).timeout(const Duration(seconds: 2));
+                        await http
+                            .get(url as Uri)
+                            .timeout(const Duration(seconds: 2));
                         widget.device.info["name"] = _name_controller.text;
                       } catch (e) {
                         print(e.toString());
@@ -142,6 +144,7 @@ class _Serial315433PageState extends State<Serial315433Page> {
         builder: (context) {
           return InfoPage(
             portService: widget.device,
+            key: UniqueKey(),
           );
         },
       ),
@@ -153,7 +156,7 @@ class _Serial315433PageState extends State<Serial315433Page> {
         "http://${widget.device.ip}:${widget.device.port}/botton?status=$cmd";
     http.Response response;
     try {
-      response = await http.get(url).timeout(const Duration(seconds: 2));
+      response = await http.get(url as Uri).timeout(const Duration(seconds: 2));
       print(response.body);
     } catch (e) {
       print(e.toString());
@@ -171,6 +174,7 @@ class _Serial315433PageState extends State<Serial315433Page> {
                     child: UploadOTAPage(
                       url:
                           "http://${widget.device.ip}:${widget.device.port}/update",
+                      key: UniqueKey(),
                     )),
                 actions: <Widget>[
                   TextButton(

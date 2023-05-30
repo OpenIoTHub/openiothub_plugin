@@ -4,8 +4,6 @@ import 'package:gateway_grpc_api/pb/service.pb.dart';
 import 'package:gateway_grpc_api/pb/service.pbgrpc.dart';
 import 'package:iot_manager_grpc_api/pb/gatewayManager.pb.dart';
 import 'package:iot_manager_grpc_api/pb/serverManager.pb.dart';
-import 'package:openiothub_api/api/GateWay/GatewayLoginManager.dart';
-import 'package:openiothub_api/api/OpenIoTHub/SessionApi.dart';
 import 'package:openiothub_api/openiothub_api.dart';
 import 'package:openiothub_constants/constants/Constants.dart';
 import 'package:openiothub_grpc_api/pb/service.pb.dart';
@@ -13,7 +11,7 @@ import 'package:openiothub_grpc_api/pb/service.pbgrpc.dart';
 import 'package:openiothub_plugin/plugins/mdnsService/commWidgets/info.dart';
 
 class Gateway extends StatefulWidget {
-  Gateway({Key key, this.device}) : super(key: key);
+  Gateway({required Key key, required this.device}) : super(key: key);
 
   static final String modelName = "com.iotserv.services.gateway";
   final PortService device;
@@ -28,7 +26,7 @@ class GatewayState extends State<Gateway> {
   List<ServerInfo> _availableServerList = [];
 
   @override
-  Future<void> initState() {
+  Future<void> initState() async {
     _listAvailableServer();
     _checkAddable();
     super.initState();
@@ -37,7 +35,7 @@ class GatewayState extends State<Gateway> {
   @override
   Widget build(BuildContext context) {
     final tiles = _availableServerList.map(
-          (pair) {
+      (pair) {
         var listItemContent = Padding(
           padding: const EdgeInsets.fromLTRB(10.0, 15.0, 10.0, 15.0),
           child: Row(
@@ -48,9 +46,9 @@ class GatewayState extends State<Gateway> {
               ),
               Expanded(
                   child: Text(
-                    "${pair.name}(${pair.serverHost})",
-                    style: Constants.titleTextStyle,
-                  )),
+                "${pair.name}(${pair.serverHost})",
+                style: Constants.titleTextStyle,
+              )),
               Constants.rightArrowIcon
             ],
           ),
@@ -80,14 +78,15 @@ class GatewayState extends State<Gateway> {
                   _info();
                 }),
             IconButton(
-              icon: Icon(
-                Icons.refresh,
-                color: Colors.white,
-              ),
-              onPressed: () {
-                //刷新端口列表
-                _listAvailableServer();
-              }),],
+                icon: Icon(
+                  Icons.refresh,
+                  color: Colors.white,
+                ),
+                onPressed: () {
+                  //刷新端口列表
+                  _listAvailableServer();
+                }),
+          ],
         ),
         body: ListView(
           children: divided,
@@ -114,22 +113,22 @@ class GatewayState extends State<Gateway> {
     showDialog(
         context: context,
         builder: (_) => AlertDialog(
-            title: Text("确认添加本网关到此服务器？"),
-            content: Text("${serverInfo.serverHost}"),
-            actions: <Widget>[
-              TextButton(
-                child: Text("取消"),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-              TextButton(
-                child: Text("添加"),
-                onPressed: () {
-                  _addToMyAccount(serverInfo);
-                },
-              )
-            ]));
+                title: Text("确认添加本网关到此服务器？"),
+                content: Text("${serverInfo.serverHost}"),
+                actions: <Widget>[
+                  TextButton(
+                    child: Text("取消"),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                  TextButton(
+                    child: Text("添加"),
+                    onPressed: () {
+                      _addToMyAccount(serverInfo);
+                    },
+                  )
+                ]));
   }
 
   //已经确认过可以添加，添加到我的账号
@@ -137,7 +136,8 @@ class GatewayState extends State<Gateway> {
     try {
       // 从服务器自动生成一个网关
       GatewayInfo gatewayInfo =
-          await GatewayManager.GenerateOneGatewayWithServerUuid(serverInfo.uuid);
+          await GatewayManager.GenerateOneGatewayWithServerUuid(
+              serverInfo.uuid);
       //使用网关信息将网关登录到服务器
       LoginResponse loginResponse =
           await GatewayLoginManager.LoginServerByToken(
@@ -145,8 +145,9 @@ class GatewayState extends State<Gateway> {
 //    自动添加到我的列表
       if (loginResponse.loginStatus) {
         //将网关映射到本机
-        _addToMySessionList(gatewayInfo.openIoTHubJwt, gatewayInfo.name).then((value) {
-          if(Navigator.of(context).canPop()){
+        _addToMySessionList(gatewayInfo.openIoTHubJwt, gatewayInfo.name)
+            .then((value) {
+          if (Navigator.of(context).canPop()) {
             Navigator.of(context).pop();
           }
         });
@@ -182,6 +183,7 @@ class GatewayState extends State<Gateway> {
         builder: (context) {
           return InfoPage(
             portService: widget.device,
+            key: UniqueKey(),
           );
         },
       ),

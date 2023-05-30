@@ -11,7 +11,8 @@ import 'package:openiothub_grpc_api/pb/service.pbgrpc.dart';
 import 'package:openiothub_plugin/plugins/mdnsService/commWidgets/info.dart';
 
 class PhicommR1ControlerPage extends StatefulWidget {
-  PhicommR1ControlerPage({Key key, this.device}) : super(key: key);
+  PhicommR1ControlerPage({required Key key, required this.device})
+      : super(key: key);
 
   static final String modelName = "com.iotserv.devices.phicomm-r1-controler";
   final PortService device;
@@ -229,7 +230,7 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.device.info["name"]),
+        title: Text(widget.device.info["name"]!),
         actions: <Widget>[
           IconButton(
               icon: Icon(
@@ -539,21 +540,22 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
         builder: (context) {
           return InfoPage(
             portService: widget.device,
+            key: UniqueKey(),
           );
         },
       ),
     );
   }
 
-  _Keyevent(int key) async {
+  _Keyevent(int? key) async {
     setState(() {
-      _currentKey = key;
+      _currentKey = key!;
     });
     String url =
         "http://${widget.device.ip}:${widget.device.port}/input-keyevent?key=$key";
     http.Response response;
     try {
-      response = await http.get(url).timeout(const Duration(seconds: 2));
+      response = await http.get(url as Uri).timeout(const Duration(seconds: 2));
       print(response.body);
     } catch (e) {
       print(e.toString());
@@ -561,9 +563,9 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
     }
   }
 
-  _removePackage(String package) async {
+  _removePackage(String? package) async {
     setState(() {
-      _currentPackage = package;
+      _currentPackage = package!;
     });
     String url =
         "http://${widget.device.ip}:${widget.device.port}/do-cmd?cmd=/system/bin/pm uninstall $package";
@@ -585,7 +587,7 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
                       child: Text("确认"),
                       onPressed: () async {
                         response = await http
-                            .get(url)
+                            .get(url as Uri)
                             .timeout(const Duration(seconds: 2));
                         print(response.body);
                         Navigator.of(context).pop();
@@ -612,7 +614,11 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
                   child: Column(
                     children: <Widget>[
                       GestureDetector(
-                        child: Image.network(_screenUrl,width: 360,height: 240,),
+                        child: Image.network(
+                          _screenUrl,
+                          width: 360,
+                          height: 240,
+                        ),
                         onTapDown: (TapDownDetails details) {
                           Fluttertoast.showToast(
                               msg:
@@ -764,7 +770,7 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
         "http://${widget.device.ip}:${widget.device.port}/do-cmd?cmd=$cmd";
     http.Response response;
     try {
-      response = await http.get(url).timeout(const Duration(seconds: 2));
+      response = await http.get(url as Uri).timeout(const Duration(seconds: 2));
       Fluttertoast.showToast(msg: response.body);
     } catch (e) {
       print(e.toString());
@@ -777,7 +783,7 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
         "http://${widget.device.ip}:${widget.device.port}/do-adb-cmd?cmd=$cmd";
     http.Response response;
     try {
-      response = await http.get(url).timeout(const Duration(seconds: 2));
+      response = await http.get(url as Uri).timeout(const Duration(seconds: 2));
       Fluttertoast.showToast(msg: response.body);
     } catch (e) {
       print(e.toString());
@@ -790,7 +796,7 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
         "http://${widget.device.ip}:${widget.device.port}/do-cmd?cmd=settings get global bluetooth_on";
     http.Response response;
     try {
-      response = await http.get(url).timeout(const Duration(seconds: 2));
+      response = await http.get(url as Uri).timeout(const Duration(seconds: 2));
       Fluttertoast.showToast(msg: response.body);
       Map<String, dynamic> body = jsonDecode(response.body);
       Fluttertoast.showToast(msg: body['result'].toString());
@@ -805,7 +811,7 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
         "http://${widget.device.ip}:${widget.device.port}/list-packages";
     http.Response response;
     try {
-      response = await http.get(url).timeout(const Duration(seconds: 7));
+      response = await http.get(url as Uri).timeout(const Duration(seconds: 7));
       // Fluttertoast.showToast(msg: response.body);
       Map<String, dynamic> body = jsonDecode(response.body);
       setState(() {
@@ -819,7 +825,7 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
 
   _installApk() async {
     var dio = Dio();
-    FilePickerResult path = await FilePicker.platform.pickFiles(
+    FilePickerResult? path = await FilePicker.platform.pickFiles(
         // allowedExtensions: ['apk'],
         );
 
@@ -827,13 +833,13 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
       Fluttertoast.showToast(msg: "User canceled the picker");
       return;
     }
-    Fluttertoast.showToast(msg: path.files.single.path);
+    Fluttertoast.showToast(msg: path.files.single.path!);
     String url = "http://${widget.device.ip}:${widget.device.port}/install-apk";
     Response response;
     try {
       //安装apk
       FormData formData = FormData.fromMap({
-        "android.apk": await MultipartFile.fromFile(path.files.single.path,
+        "android.apk": await MultipartFile.fromFile(path.files.single.path!,
             filename: "android.apk"),
       });
       response = await dio.post(url, data: formData);

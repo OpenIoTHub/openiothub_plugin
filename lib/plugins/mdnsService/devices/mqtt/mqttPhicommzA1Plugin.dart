@@ -12,7 +12,8 @@ import 'package:openiothub_grpc_api/pb/service.pbgrpc.dart';
 import 'package:openiothub_plugin/plugins/mdnsService/commWidgets/info.dart';
 
 class MqttPhicommzA1PluginPage extends StatefulWidget {
-  MqttPhicommzA1PluginPage({Key key, this.device}) : super(key: key);
+  MqttPhicommzA1PluginPage({required Key key, required this.device})
+      : super(key: key);
   static final String modelName = "com.iotserv.devices.mqtt.zA1";
   final PortService device;
 
@@ -22,9 +23,9 @@ class MqttPhicommzA1PluginPage extends StatefulWidget {
 }
 
 class _MqttPhicommzA1PluginPageState extends State<MqttPhicommzA1PluginPage> {
-  MqttServerClient client;
-  String topic_state;
-  String topic_set;
+  late MqttServerClient client;
+  late String topic_state;
+  late String topic_set;
 
   //  总开关
   static const String on = "on";
@@ -71,7 +72,7 @@ class _MqttPhicommzA1PluginPageState extends State<MqttPhicommzA1PluginPage> {
               title: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Text(_realName[pair]),
+                  Text(_realName[pair]!),
                   Switch(
                     onChanged: (bool value) {
                       _changeSwitchStatus(pair, value);
@@ -84,12 +85,12 @@ class _MqttPhicommzA1PluginPageState extends State<MqttPhicommzA1PluginPage> {
               ),
             );
             break;
-          case speed:
+          default:
             return ListTile(
               title: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Text(_realName[pair]),
+                  Text(_realName[pair]!),
                   SeekBar(
                       indicatorRadius: 0.0,
                       progresseight: 5,
@@ -117,7 +118,7 @@ class _MqttPhicommzA1PluginPageState extends State<MqttPhicommzA1PluginPage> {
     ).toList();
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.device.info["name"]),
+        title: Text(widget.device.info["name"]!),
         actions: <Widget>[
           IconButton(
               icon: Icon(
@@ -137,7 +138,7 @@ class _MqttPhicommzA1PluginPageState extends State<MqttPhicommzA1PluginPage> {
     client = MqttServerClient.withPort(
         widget.device.ip,
         widget.device.info.containsKey("client-id")
-            ? widget.device.info["client-id"]
+            ? widget.device.info["client-id"]!
             : "",
         widget.device.port);
     client.autoReconnect = true;
@@ -150,7 +151,7 @@ class _MqttPhicommzA1PluginPageState extends State<MqttPhicommzA1PluginPage> {
     client.onAutoReconnect = onAutoReconnect;
     client.onAutoReconnected = onAutoReconnected;
     final connMess = MqttConnectMessage()
-        .withClientIdentifier(widget.device.info["client-id"])
+        .withClientIdentifier(widget.device.info["client-id"]!)
         .startClean();
     client.connectionMessage = connMess;
     try {
@@ -170,7 +171,8 @@ class _MqttPhicommzA1PluginPageState extends State<MqttPhicommzA1PluginPage> {
     client.updates.listen((List<MqttReceivedMessage<MqttMessage>> c) {
       c.forEach((MqttReceivedMessage<MqttMessage> element) {
         final recMess = element.payload as MqttPublishMessage;
-        final pt = MqttUtilities.bytesToStringAsString(recMess.payload.message);
+        final pt =
+            MqttUtilities.bytesToStringAsString(recMess.payload.message!);
         // Fluttertoast.showToast(
         //     msg:
         //         'EXAMPLE::Change notification:: topic is <${c[0].topic}>, payload is <-- $pt -->');
@@ -194,6 +196,7 @@ class _MqttPhicommzA1PluginPageState extends State<MqttPhicommzA1PluginPage> {
         builder: (context) {
           return InfoPage(
             portService: widget.device,
+            key: UniqueKey(),
           );
         },
       ),
@@ -204,14 +207,14 @@ class _MqttPhicommzA1PluginPageState extends State<MqttPhicommzA1PluginPage> {
     final builder = MqttPayloadBuilder();
     builder.addString(
         '{"mac":"${widget.device.info["mac"]}","$name":${value ? 1 : 0}}');
-    client.publishMessage(topic_set, MqttQos.atLeastOnce, builder.payload);
+    client.publishMessage(topic_set, MqttQos.atLeastOnce, builder.payload!);
   }
 
   _changeProgressStatus(String name, int value) async {
     final builder = MqttPayloadBuilder();
-    builder.addString(
-        '{"mac":"${widget.device.info["mac"]}","$name":${value}}');
-    client.publishMessage(topic_set, MqttQos.atLeastOnce, builder.payload);
+    builder
+        .addString('{"mac":"${widget.device.info["mac"]}","$name":${value}}');
+    client.publishMessage(topic_set, MqttQos.atLeastOnce, builder.payload!);
   }
 
   //mqtt的调用函数

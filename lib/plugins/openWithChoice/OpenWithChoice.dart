@@ -104,6 +104,7 @@ class OpenWithChoice extends StatelessWidget {
             Navigator.push(ctx, MaterialPageRoute(builder: (ctx) {
               return Aria2Page(
                 localPort: portConfig.localProt,
+                key: UniqueKey(),
               );
             })).then((_) {
               Navigator.of(ctx).pop();
@@ -157,6 +158,7 @@ class OpenWithChoice extends StatelessWidget {
                                   userName: _username_controller.text,
                                   passWord: _password_controller.text,
                                   localPort: portConfig.localProt,
+                                  key: UniqueKey(),
                                 );
                               })).then((_) {
                                 Navigator.of(ctx).pop();
@@ -169,9 +171,11 @@ class OpenWithChoice extends StatelessWidget {
           } else if (title == 'VNC') {
             Navigator.push(ctx, MaterialPageRoute(builder: (ctx) {
               return VNCWebPage(
-                  runId: portConfig.device.runId,
-                  remoteIp: portConfig.device.addr,
-                  remotePort: portConfig.remotePort);
+                runId: portConfig.device.runId,
+                remoteIp: portConfig.device.addr,
+                remotePort: portConfig.remotePort,
+                key: UniqueKey(),
+              );
             })).then((_) {
               Navigator.of(ctx).pop();
             });
@@ -179,6 +183,24 @@ class OpenWithChoice extends StatelessWidget {
             if (Platform.isIOS) {
               _launchURL("http://${Config.webgRpcIp}:${portConfig.localProt}");
             } else {
+              WebViewController controller = WebViewController()
+                ..setJavaScriptMode(JavaScriptMode.unrestricted)
+                ..setBackgroundColor(const Color(0x00000000))
+                ..setNavigationDelegate(
+                  NavigationDelegate(
+                    onProgress: (int progress) {
+                      // Update loading bar.
+                    },
+                    onPageStarted: (String url) {},
+                    onPageFinished: (String url) {},
+                    onWebResourceError: (WebResourceError error) {},
+                    onNavigationRequest: (NavigationRequest request) {
+                      return NavigationDecision.navigate;
+                    },
+                  ),
+                )
+                ..loadRequest(Uri.parse(
+                    "http://${Config.webgRpcIp}:${portConfig.localProt}"));
               Navigator.push(ctx, MaterialPageRoute(builder: (ctx) {
                 return Scaffold(
                   appBar: AppBar(title: Text("网页浏览器"), actions: <Widget>[
@@ -192,10 +214,7 @@ class OpenWithChoice extends StatelessWidget {
                               "http://${Config.webgRpcIp}:${portConfig.localProt}");
                         })
                   ]),
-                  body: WebView(
-                      initialUrl:
-                          "http://${Config.webgRpcIp}:${portConfig.localProt}",
-                      javascriptMode: JavascriptMode.unrestricted),
+                  body: WebViewWidget(controller: controller),
                 );
               })).then((_) {
                 Navigator.of(ctx).pop();
@@ -237,5 +256,5 @@ class ListItem {
   String icon;
   String title;
 
-  ListItem({this.icon, this.title});
+  ListItem({required this.icon, required this.title});
 }

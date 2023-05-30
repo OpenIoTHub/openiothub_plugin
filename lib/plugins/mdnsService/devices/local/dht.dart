@@ -9,7 +9,7 @@ import 'package:openiothub_plugin/plugins/mdnsService/commWidgets/info.dart';
 import 'package:openiothub_plugin/plugins/mdnsService/commWidgets/uploadOTA.dart';
 
 class DHTPage extends StatefulWidget {
-  DHTPage({Key key, this.device}) : super(key: key);
+  DHTPage({required Key key, required this.device}) : super(key: key);
 
   static final String modelName = "com.iotserv.devices.dht";
   final PortService device;
@@ -62,10 +62,10 @@ class _DHTPageState extends State<DHTPage> {
               title: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Text(_realName[pair]),
+                  Text(_realName[pair]!),
                   Text(":"),
                   Text(_status[pair].toString()),
-                  Text(_units[pair])
+                  Text(_units[pair]!)
                 ],
               ),
             );
@@ -75,7 +75,7 @@ class _DHTPageState extends State<DHTPage> {
               title: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Text(_realName[pair]),
+                  Text(_realName[pair]!),
                   Text(":"),
                   Text(_status[pair].toString()),
                 ],
@@ -91,7 +91,7 @@ class _DHTPageState extends State<DHTPage> {
     ).toList();
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.device.info["name"]),
+        title: Text(widget.device.info["name"]!),
         actions: <Widget>[
           IconButton(
               icon: Icon(
@@ -135,7 +135,7 @@ class _DHTPageState extends State<DHTPage> {
     String url = "http://${widget.device.ip}:${widget.device.port}/status";
     http.Response response;
     try {
-      response = await http.get(url).timeout(const Duration(seconds: 2));
+      response = await http.get(url as Uri).timeout(const Duration(seconds: 2));
       print(response.body);
     } catch (e) {
       print(e.toString());
@@ -156,7 +156,7 @@ class _DHTPageState extends State<DHTPage> {
   _setting() async {
     // TODO 设备设置
     TextEditingController _name_controller = TextEditingController.fromValue(
-        TextEditingValue(text: widget.device.info["name"]));
+        TextEditingValue(text: widget.device.info["name"]!));
     return showDialog(
         context: context,
         builder: (_) => AlertDialog(
@@ -188,7 +188,7 @@ class _DHTPageState extends State<DHTPage> {
                         String url =
                             "http://${widget.device.ip}:${widget.device.port}/rename?name=${_name_controller.text}";
                         http
-                            .get(url)
+                            .get(url as Uri)
                             .timeout(const Duration(seconds: 2))
                             .then((_) {
                           setState(() {
@@ -212,6 +212,7 @@ class _DHTPageState extends State<DHTPage> {
         builder: (context) {
           return InfoPage(
             portService: widget.device,
+            key: GlobalKey(),
           );
         },
       ),
@@ -228,6 +229,7 @@ class _DHTPageState extends State<DHTPage> {
                     child: UploadOTAPage(
                       url:
                           "http://${widget.device.ip}:${widget.device.port}/update",
+                      key: UniqueKey(),
                     )),
                 actions: <Widget>[
                   TextButton(
