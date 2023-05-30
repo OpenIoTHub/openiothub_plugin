@@ -32,8 +32,7 @@ dependencies:
   iot_manager_grpc_api: ^1.0.0
 
   mqtt5_client: ^3.1.0
-  flutter_seekbar:
-    git: https://github.com/OpenIoTHub/flutter_seekbar.git
+  flutter_seekbar: ^1.0.0
 
 dev_dependencies:
   flutter_test:
