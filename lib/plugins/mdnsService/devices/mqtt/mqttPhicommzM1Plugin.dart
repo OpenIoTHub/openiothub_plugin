@@ -102,7 +102,7 @@ class _MqttPhicommzM1PluginPageState extends State<MqttPhicommzM1PluginPage> {
                       sectionTexts: sectionTexts,
                       onValueChanged: (v) {
                         _changeStatus(pair, v.value.toInt());
-                      }),
+                      }, key: UniqueKey(), backgroundColor: null, progressColor: null,),
                 ],
               ),
             );
