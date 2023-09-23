@@ -6,7 +6,8 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:openiothub_grpc_api/pb/service.pb.dart';
 import 'package:openiothub_grpc_api/pb/service.pbgrpc.dart';
-import 'package:openiothub_plugin/plugins/mdnsService/commWidgets/info.dart';
+
+import '../../../mdnsService/commWidgets/info.dart';
 
 class UART2TCPPage extends StatefulWidget {
   UART2TCPPage({required Key key, required this.device}) : super(key: key);

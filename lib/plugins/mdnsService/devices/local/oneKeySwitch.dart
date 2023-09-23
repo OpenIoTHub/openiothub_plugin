@@ -5,7 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:openiothub_grpc_api/pb/service.pb.dart';
 import 'package:openiothub_grpc_api/pb/service.pbgrpc.dart';
-import 'package:openiothub_plugin/plugins/mdnsService/commWidgets/info.dart';
+
+import '../../../mdnsService/commWidgets/info.dart';
 
 class OneKeySwitchPage extends StatefulWidget {
   OneKeySwitchPage({required Key key, required this.device}) : super(key: key);

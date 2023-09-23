@@ -6,7 +6,8 @@ import 'package:http/http.dart' as http;
 import 'package:openiothub_constants/openiothub_constants.dart';
 import 'package:openiothub_grpc_api/pb/service.pb.dart';
 import 'package:openiothub_grpc_api/pb/service.pbgrpc.dart';
-import 'package:openiothub_plugin/plugins/mdnsService/commWidgets/info.dart';
+
+import '../../mdnsService/commWidgets/info.dart';
 
 //手动注册一些端口到mdns的声明，用于接入一些传统的设备或者服务或者帮助一些不方便注册mdns的设备或服务注册
 //需要选择模型和输入相关配置参数

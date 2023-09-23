@@ -9,7 +9,8 @@ import 'package:mqtt5_client/mqtt5_client.dart';
 import 'package:mqtt5_client/mqtt5_server_client.dart';
 import 'package:openiothub_grpc_api/pb/service.pb.dart';
 import 'package:openiothub_grpc_api/pb/service.pbgrpc.dart';
-import 'package:openiothub_plugin/plugins/mdnsService/commWidgets/info.dart';
+
+import '../../commWidgets/info.dart';
 
 class MqttPhicommzM1PluginPage extends StatefulWidget {
   MqttPhicommzM1PluginPage({required Key key, required this.device})
@@ -89,20 +90,24 @@ class _MqttPhicommzM1PluginPageState extends State<MqttPhicommzM1PluginPage> {
                   Text(_realName[pair]!),
                   Text(":"),
                   SeekBar(
-                      indicatorRadius: 0.0,
-                      progresseight: 5,
-                      hideBubble: false,
-                      alwaysShowBubble: true,
-                      bubbleRadius: 14,
-                      bubbleColor: Colors.purple,
-                      bubbleTextColor: Colors.white,
-                      bubbleTextSize: 14,
-                      bubbleMargin: 4,
-                      bubbleInCenter: true,
-                      sectionTexts: sectionTexts,
-                      onValueChanged: (v) {
-                        _changeStatus(pair, v.value.toInt());
-                      }, key: UniqueKey(), backgroundColor: null, progressColor: null,),
+                    indicatorRadius: 0.0,
+                    progresseight: 5,
+                    hideBubble: false,
+                    alwaysShowBubble: true,
+                    bubbleRadius: 14,
+                    bubbleColor: Colors.purple,
+                    bubbleTextColor: Colors.white,
+                    bubbleTextSize: 14,
+                    bubbleMargin: 4,
+                    bubbleInCenter: true,
+                    sectionTexts: sectionTexts,
+                    onValueChanged: (v) {
+                      _changeStatus(pair, v.value.toInt());
+                    },
+                    key: UniqueKey(),
+                    backgroundColor: null,
+                    progressColor: null,
+                  ),
                 ],
               ),
             );

@@ -9,7 +9,8 @@ import 'package:mqtt5_client/mqtt5_client.dart';
 import 'package:mqtt5_client/mqtt5_server_client.dart';
 import 'package:openiothub_grpc_api/pb/service.pb.dart';
 import 'package:openiothub_grpc_api/pb/service.pbgrpc.dart';
-import 'package:openiothub_plugin/plugins/mdnsService/commWidgets/info.dart';
+
+import '../../../mdnsService/commWidgets/info.dart';
 
 class MqttPhicommzA1PluginPage extends StatefulWidget {
   MqttPhicommzA1PluginPage({required Key key, required this.device})

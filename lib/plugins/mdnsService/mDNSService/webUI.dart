@@ -2,9 +2,10 @@
 import 'package:flutter/material.dart';
 import 'package:openiothub_grpc_api/pb/service.pb.dart';
 import 'package:openiothub_grpc_api/pb/service.pbgrpc.dart';
-import 'package:openiothub_plugin/plugins/mdnsService/commWidgets/info.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:webview_flutter/webview_flutter.dart';
+
+import '../../mdnsService/commWidgets/info.dart';
 
 class WebPage extends StatefulWidget {
   WebPage({required Key key, required this.device}) : super(key: key);
