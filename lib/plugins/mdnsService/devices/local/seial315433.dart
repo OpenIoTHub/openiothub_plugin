@@ -52,7 +52,7 @@ class _Serial315433PageState extends State<Serial315433Page> {
           IconButton(
               icon: Icon(
                 Icons.info,
-                color: Colors.white,
+                color: Colors.green,
               ),
               onPressed: () {
                 _info();

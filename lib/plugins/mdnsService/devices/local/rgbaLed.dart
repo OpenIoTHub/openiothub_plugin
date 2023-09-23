@@ -126,7 +126,7 @@ class _RGBALedPageState extends State<RGBALedPage> {
           IconButton(
               icon: Icon(
                 Icons.info,
-                color: Colors.white,
+                color: Colors.green,
               ),
               onPressed: () {
                 _info();

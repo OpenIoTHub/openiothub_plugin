@@ -236,7 +236,7 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
           IconButton(
               icon: Icon(
                 Icons.info,
-                color: Colors.white,
+                color: Colors.green,
               ),
               onPressed: () {
                 _info();

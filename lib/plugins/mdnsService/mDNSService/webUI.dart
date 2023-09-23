@@ -47,7 +47,7 @@ class _WebPageState extends State<WebPage> {
           IconButton(
               icon: Icon(
                 Icons.info,
-                color: Colors.white,
+                color: Colors.green,
               ),
               onPressed: () {
                 _info();
@@ -55,7 +55,7 @@ class _WebPageState extends State<WebPage> {
           IconButton(
               icon: Icon(
                 Icons.open_in_browser,
-                color: Colors.white,
+                color: Colors.teal,
               ),
               onPressed: () {
                 _launchURL("http://${widget.device.ip}:${widget.device.port}");

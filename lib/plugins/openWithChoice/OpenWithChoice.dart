@@ -183,6 +183,7 @@ class OpenWithChoice extends StatelessWidget {
           } else if (title == 'Web') {
             if (Platform.isIOS || Platform.isWindows || Platform.isMacOS || Platform.isLinux) {
               _launchURL("http://${Config.webgRpcIp}:${portConfig.localProt}");
+              Navigator.of(ctx).pop();
             } else {
               WebViewController controller = WebViewController()
                 ..setJavaScriptMode(JavaScriptMode.unrestricted)
@@ -208,7 +209,7 @@ class OpenWithChoice extends StatelessWidget {
                     IconButton(
                         icon: Icon(
                           Icons.open_in_browser,
-                          color: Colors.white,
+                          color: Colors.teal,
                         ),
                         onPressed: () {
                           _launchURL(

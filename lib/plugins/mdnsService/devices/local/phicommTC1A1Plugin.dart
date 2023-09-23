@@ -131,7 +131,7 @@ class _PhicommTC1A1PluginPageState extends State<PhicommTC1A1PluginPage> {
           IconButton(
               icon: Icon(
                 Icons.info,
-                color: Colors.white,
+                color: Colors.green,
               ),
               onPressed: () {
                 _info();

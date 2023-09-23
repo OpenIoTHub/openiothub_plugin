@@ -45,7 +45,7 @@ class _OneKeySwitchPageState extends State<OneKeySwitchPage> {
           IconButton(
               icon: Icon(
                 Icons.info,
-                color: Colors.white,
+                color: Colors.green,
               ),
               onPressed: () {
                 _info();

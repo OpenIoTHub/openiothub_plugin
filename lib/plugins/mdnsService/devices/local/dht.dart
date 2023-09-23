@@ -121,7 +121,7 @@ class _DHTPageState extends State<DHTPage> {
           IconButton(
               icon: Icon(
                 Icons.info,
-                color: Colors.white,
+                color: Colors.green,
               ),
               onPressed: () {
                 _info();

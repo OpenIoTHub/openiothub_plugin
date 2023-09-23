@@ -115,7 +115,7 @@ class _LightLevelPageState extends State<LightLevelPage> {
           IconButton(
               icon: Icon(
                 Icons.info,
-                color: Colors.white,
+                color: Colors.green,
               ),
               onPressed: () {
                 _info();

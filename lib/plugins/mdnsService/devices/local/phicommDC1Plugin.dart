@@ -180,7 +180,7 @@ class _PhicommDC1PluginPageState extends State<PhicommDC1PluginPage> {
           IconButton(
               icon: Icon(
                 Icons.info,
-                color: Colors.white,
+                color: Colors.green,
               ),
               onPressed: () {
                 _info();

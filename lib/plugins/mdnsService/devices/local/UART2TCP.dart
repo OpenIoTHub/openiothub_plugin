@@ -43,7 +43,7 @@ class UART2TCPStatus extends State<UART2TCPPage> with TickerProviderStateMixin {
           IconButton(
               icon: Icon(
                 Icons.info,
-                color: Colors.white,
+                color: Colors.green,
               ),
               onPressed: () {
                 _info();
