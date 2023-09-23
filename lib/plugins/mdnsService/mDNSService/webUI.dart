@@ -1,8 +1,11 @@
 //这个模型是用来使用WebDAV的文件服务器来操作文件的
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:openiothub_grpc_api/pb/service.pb.dart';
 import 'package:openiothub_grpc_api/pb/service.pbgrpc.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 import '../../mdnsService/commWidgets/info.dart';
@@ -87,12 +90,17 @@ class _WebPageState extends State<WebPage> {
     // } else {
     //   _launchURL('http://${widget.device.ip}:${widget.device.port}');
     // }
+    if (Platform.isWindows || Platform.isMacOS || Platform.isLinux) {
+      var url = 'http://${widget.device.ip}:${widget.device.port}';
+      _launchURL(url);
+      return;
+    }
   }
 
   _launchURL(String url) async {
 //    await intent.launch();
-    if (await canLaunch(url)) {
-      await launch(url);
+    if (await canLaunchUrlString(url)) {
+      await launchUrlString(url);
     } else {
       print('Could not launch $url');
     }
