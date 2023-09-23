@@ -8,6 +8,7 @@ import 'package:openiothub_plugin/plugins/openWithChoice/aria2/Aria2Page.dart';
 import 'package:openiothub_plugin/plugins/openWithChoice/sshWeb/SSHWebPage.dart';
 import 'package:openiothub_plugin/plugins/openWithChoice/vncWeb/VNCWebPage.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class OpenWithChoice extends StatelessWidget {
@@ -180,7 +181,7 @@ class OpenWithChoice extends StatelessWidget {
               Navigator.of(ctx).pop();
             });
           } else if (title == 'Web') {
-            if (Platform.isIOS) {
+            if (Platform.isIOS || Platform.isWindows || Platform.isMacOS || Platform.isLinux) {
               _launchURL("http://${Config.webgRpcIp}:${portConfig.localProt}");
             } else {
               WebViewController controller = WebViewController()
@@ -244,8 +245,8 @@ class OpenWithChoice extends StatelessWidget {
   }
 
   _launchURL(String url) async {
-    if (await canLaunch(url)) {
-      await launch(url);
+    if (await canLaunchUrlString(url)) {
+      await launchUrlString(url);
     } else {
       print('Could not launch $url');
     }
