@@ -27,7 +27,7 @@ class GatewayState extends State<Gateway> {
   List<ServerInfo> _availableServerList = [];
 
   @override
-  Future<void> initState() async {
+  void initState() {
     _listAvailableServer();
     _checkAddable();
     super.initState();
