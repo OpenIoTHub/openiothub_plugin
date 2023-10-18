@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:oktoast/oktoast.dart';
 import 'package:iot_manager_grpc_api/pb/mqttDeviceManager.pbgrpc.dart';
 import 'package:openiothub_api/openiothub_api.dart';
 import 'package:openiothub_grpc_api/pb/service.pb.dart';
@@ -165,5 +165,5 @@ _delete(BuildContext context, PortService portService) async {
   MqttDeviceInfo mqttDeviceInfo = MqttDeviceInfo();
   mqttDeviceInfo.deviceId = portService.info["id"]!;
   await MqttDeviceManager.DelMqttDevice(mqttDeviceInfo);
-  Fluttertoast.showToast(msg: "删除成功!");
+  showToast("删除成功!");
 }

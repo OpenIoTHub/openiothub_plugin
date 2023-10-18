@@ -4,7 +4,7 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:oktoast/oktoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:openiothub_grpc_api/pb/service.pb.dart';
 import 'package:openiothub_grpc_api/pb/service.pbgrpc.dart';
@@ -621,25 +621,20 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
                           height: 240,
                         ),
                         onTapDown: (TapDownDetails details) {
-                          Fluttertoast.showToast(
-                              msg:
-                                  "onTapDown:${details.globalPosition},${details.localPosition},${details.kind}");
+                          showToast(
+                              "onTapDown:${details.globalPosition},${details.localPosition},${details.kind}");
                         },
                         onVerticalDragStart: (DragStartDetails details) {
-                          Fluttertoast.showToast(
-                              msg: "onVerticalDragStart:$details");
+                          showToast("onVerticalDragStart:$details");
                         },
                         onVerticalDragEnd: (DragEndDetails details) {
-                          Fluttertoast.showToast(
-                              msg: "onVerticalDragEnd:$details");
+                          showToast("onVerticalDragEnd:$details");
                         },
                         onHorizontalDragStart: (DragStartDetails details) {
-                          Fluttertoast.showToast(
-                              msg: "onHorizontalDragStart:$details");
+                          showToast("onHorizontalDragStart:$details");
                         },
                         onHorizontalDragEnd: (DragEndDetails details) {
-                          Fluttertoast.showToast(
-                              msg: "onHorizontalDragEnd:$details");
+                          showToast("onHorizontalDragEnd:$details");
                         },
                       ),
                       // 19: "导航键向上",
@@ -772,7 +767,7 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
     http.Response response;
     try {
       response = await http.get(url as Uri).timeout(const Duration(seconds: 2));
-      Fluttertoast.showToast(msg: response.body);
+      showToast(response.body);
     } catch (e) {
       print(e.toString());
       return;
@@ -785,7 +780,7 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
     http.Response response;
     try {
       response = await http.get(url as Uri).timeout(const Duration(seconds: 2));
-      Fluttertoast.showToast(msg: response.body);
+      showToast(response.body);
     } catch (e) {
       print(e.toString());
       return;
@@ -798,9 +793,9 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
     http.Response response;
     try {
       response = await http.get(url as Uri).timeout(const Duration(seconds: 2));
-      Fluttertoast.showToast(msg: response.body);
+      showToast(response.body);
       Map<String, dynamic> body = jsonDecode(response.body);
-      Fluttertoast.showToast(msg: body['result'].toString());
+      showToast(body['result'].toString());
     } catch (e) {
       print(e.toString());
       return;
@@ -831,10 +826,10 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
         );
 
     if (path == null) {
-      Fluttertoast.showToast(msg: "User canceled the picker");
+      showToast("User canceled the picker");
       return;
     }
-    Fluttertoast.showToast(msg: path.files.single.path!);
+    showToast(path.files.single.path!);
     String url = "http://${widget.device.ip}:${widget.device.port}/install-apk";
     Response response;
     try {
@@ -844,7 +839,7 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
             filename: "android.apk"),
       });
       response = await dio.post(url, data: formData);
-      Fluttertoast.showToast(msg: response.toString());
+      showToast(response.toString());
     } catch (e) {
       print(e.toString());
       return;

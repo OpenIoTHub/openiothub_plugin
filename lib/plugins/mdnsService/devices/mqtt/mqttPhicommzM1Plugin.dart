@@ -4,7 +4,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_seekbar/flutter_seekbar.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:oktoast/oktoast.dart';
 import 'package:mqtt5_client/mqtt5_client.dart';
 import 'package:mqtt5_client/mqtt5_server_client.dart';
 import 'package:openiothub_grpc_api/pb/service.pb.dart';
@@ -179,10 +179,10 @@ class _MqttPhicommzM1PluginPageState extends State<MqttPhicommzM1PluginPage> {
       await client.connect(
           widget.device.info["username"], widget.device.info["password"]);
     } on MqttNoConnectionException catch (e) {
-      Fluttertoast.showToast(msg: "MqttNoConnectionException:$e");
+      showToast("MqttNoConnectionException:$e");
       client.disconnect();
     } on SocketException catch (e) {
-      Fluttertoast.showToast(msg: "SocketException:$e");
+      showToast("SocketException:$e");
       client.disconnect();
     }
     //QoS
@@ -194,7 +194,7 @@ class _MqttPhicommzM1PluginPageState extends State<MqttPhicommzM1PluginPage> {
         final recMess = element.payload as MqttPublishMessage;
         final pt =
             MqttUtilities.bytesToStringAsString(recMess.payload.message!);
-        // Fluttertoast.showToast(
+        // showToast(
         //     msg:
         //         'EXAMPLE::Change notification:: topic is <${c[0].topic}>, payload is <-- $pt -->');
         //  通过获取的消息更新状态
@@ -234,32 +234,30 @@ class _MqttPhicommzM1PluginPageState extends State<MqttPhicommzM1PluginPage> {
   //mqtt的调用函数
   /// The subscribed callback
   void onSubscribed(MqttSubscription subscription) {
-    Fluttertoast.showToast(msg: "onSubscribed:${subscription.topic}");
+    showToast("onSubscribed:${subscription.topic}");
   }
 
   /// The unsolicited disconnect callback
   void onDisconnected() {
-    Fluttertoast.showToast(msg: "onDisconnected");
+    showToast("onDisconnected");
   }
 
   /// The successful connect callback
   void onConnected() {
-    Fluttertoast.showToast(
-        msg:
-            'EXAMPLE::OnConnected client callback - Client connection was successful');
+    showToast(
+        'EXAMPLE::OnConnected client callback - Client connection was successful');
   }
 
   /// Pong callback
   void pong() {
-    Fluttertoast.showToast(
-        msg: 'EXAMPLE::Ping response client callback invoked');
+    showToast('EXAMPLE::Ping response client callback invoked');
   }
 
   void onAutoReconnect() {
-    Fluttertoast.showToast(msg: '重连mqtt...');
+    showToast('重连mqtt...');
   }
 
   void onAutoReconnected() {
-    Fluttertoast.showToast(msg: '重连mqtt服务器成功！');
+    showToast('重连mqtt服务器成功！');
   }
 }

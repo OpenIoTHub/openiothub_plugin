@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:oktoast/oktoast.dart';
 import 'package:gateway_grpc_api/pb/service.pb.dart';
 import 'package:gateway_grpc_api/pb/service.pbgrpc.dart';
 import 'package:iot_manager_grpc_api/pb/gatewayManager.pb.dart';
@@ -100,15 +100,15 @@ class GatewayState extends State<Gateway> {
     config.description = name;
     try {
       await SessionApi.createOneSession(config);
-      Fluttertoast.showToast(msg: "添加网关成功！");
+      showToast("添加网关成功！");
     } catch (exception) {
-      Fluttertoast.showToast(msg: "登录失败：${exception}");
+      showToast("登录失败：${exception}");
     }
   }
 
   _confirmAdd(ServerInfo serverInfo) {
     if (!_addable) {
-      Fluttertoast.showToast(msg: "该网关已经被其他用户添加，请联系该网关管理员或者清空网关配置并重启网关");
+      showToast("该网关已经被其他用户添加，请联系该网关管理员或者清空网关配置并重启网关");
       return;
     }
     showDialog(
@@ -154,7 +154,7 @@ class GatewayState extends State<Gateway> {
         });
       }
     } catch (exception) {
-      Fluttertoast.showToast(msg: "添加网关失败：${exception}");
+      showToast("添加网关失败：${exception}");
     }
   }
 
@@ -173,7 +173,7 @@ class GatewayState extends State<Gateway> {
               widget.device.ip, widget.device.port);
       _addable = !loginResponse.loginStatus;
     } catch (exception) {
-      Fluttertoast.showToast(msg: "获取网关的登录状态异常：$exception");
+      showToast("获取网关的登录状态异常：$exception");
     }
   }
 

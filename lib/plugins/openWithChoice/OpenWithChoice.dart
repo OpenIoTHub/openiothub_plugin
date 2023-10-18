@@ -181,7 +181,10 @@ class OpenWithChoice extends StatelessWidget {
               Navigator.of(ctx).pop();
             });
           } else if (title == 'Web') {
-            if (Platform.isIOS || Platform.isWindows || Platform.isMacOS || Platform.isLinux) {
+            if (Platform.isIOS ||
+                Platform.isWindows ||
+                Platform.isMacOS ||
+                Platform.isLinux) {
               _launchURL("http://${Config.webgRpcIp}:${portConfig.localProt}");
               Navigator.of(ctx).pop();
             } else {
