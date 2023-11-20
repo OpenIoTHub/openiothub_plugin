@@ -2,8 +2,8 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:openiothub_constants/openiothub_constants.dart';
-import 'package:openiothub_grpc_api/pb/service.pb.dart';
-import 'package:openiothub_grpc_api/pb/service.pbgrpc.dart';
+import 'package:openiothub_grpc_api/proto/mobile/mobile.pb.dart';
+import 'package:openiothub_grpc_api/proto/mobile/mobile.pbgrpc.dart';
 import 'package:openiothub_plugin/plugins/openWithChoice/aria2/Aria2Page.dart';
 import 'package:openiothub_plugin/plugins/openWithChoice/sshWeb/SSHWebPage.dart';
 import 'package:openiothub_plugin/plugins/openWithChoice/vncWeb/VNCWebPage.dart';

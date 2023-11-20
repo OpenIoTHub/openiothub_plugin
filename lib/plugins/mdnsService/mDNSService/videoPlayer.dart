@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_vlc_player/flutter_vlc_player.dart';
-import 'package:openiothub_grpc_api/pb/service.pb.dart';
-import 'package:openiothub_grpc_api/pb/service.pbgrpc.dart';
+import 'package:openiothub_grpc_api/proto/mobile/mobile.pb.dart';
+import 'package:openiothub_grpc_api/proto/mobile/mobile.pbgrpc.dart';
 
 import '../../mdnsService/commWidgets/info.dart';
 

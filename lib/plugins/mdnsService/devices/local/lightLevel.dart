@@ -3,8 +3,8 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:openiothub_grpc_api/pb/service.pb.dart';
-import 'package:openiothub_grpc_api/pb/service.pbgrpc.dart';
+import 'package:openiothub_grpc_api/proto/mobile/mobile.pb.dart';
+import 'package:openiothub_grpc_api/proto/mobile/mobile.pbgrpc.dart';
 
 import '../../../mdnsService/commWidgets/info.dart';
 import '../../../mdnsService/commWidgets/uploadOTA.dart';

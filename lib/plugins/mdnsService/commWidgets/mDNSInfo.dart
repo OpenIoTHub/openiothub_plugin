@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:openiothub_grpc_api/pb/service.pb.dart';
+import 'package:openiothub_grpc_api/proto/mobile/mobile.pb.dart';
 
 class MDNSInfoPage extends StatelessWidget {
   MDNSInfoPage({required Key key, required this.portConfig}) : super(key: key);

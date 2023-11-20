@@ -53,10 +53,10 @@ packages:
     dependency: transitive
     description:
       name: collection
-      sha256: f092b211a4319e98e5ff58223576de6c2803db36221657b46c82574721240687
+      sha256: ee67cb0715911d28db6bf4af1026078bd6f0128b07a5f66fb2ed94ec6783c09a
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "1.17.2"
+    version: "1.18.0"
   convert:
     dependency: transitive
     description:
@@ -192,14 +192,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  gateway_grpc_api:
-    dependency: "direct main"
-    description:
-      name: gateway_grpc_api
-      sha256: b7dc1738837fb706bd7ee0a3d48074883b615bbd3ac0b839da73aa2f0b2f3728
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "1.0.0"
   googleapis_auth:
     dependency: transitive
     description:
@@ -220,10 +212,10 @@ packages:
     dependency: "direct main"
     description:
       name: http
-      sha256: "5895291c13fa8a3bd82e76d5627f69e0d85ca6a30dcac95c4ea19a5d555879c2"
+      sha256: "759d1a329847dd0f39226c688d3e06a6b8679668e350e2891a6474f8b4bb8525"
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "0.13.6"
+    version: "1.1.0"
   http2:
     dependency: transitive
     description:
@@ -240,14 +232,6 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "4.0.2"
-  iot_manager_grpc_api:
-    dependency: "direct main"
-    description:
-      name: iot_manager_grpc_api
-      sha256: "69987b2f57195e209acca095d3efc3ce2db4ce6e79bbc06aa0ab166909496e63"
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "1.0.0"
   js:
     dependency: transitive
     description:
@@ -276,10 +260,10 @@ packages:
     dependency: transitive
     description:
       name: meta
-      sha256: "3c74dbf8763d36539f114c799d8a2d87343b5067e9d796ca22b5eb8437090ee3"
+      sha256: a6e590c838b18133bb482a2745ad77c5bb7715fb0451209e1a7567d416678b8e
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "1.9.1"
+    version: "1.10.0"
   mqtt5_client:
     dependency: "direct main"
     description:
@@ -300,10 +284,10 @@ packages:
     dependency: "direct main"
     description:
       name: openiothub_api
-      sha256: "14c3063d20f53c0ba140add640a1e9da5dea347cea29045032158f19b1ba1ac7"
+      sha256: "1762bc973c5c4692bdaef956a4a9c7625a62af9e459cb04bed587192848f737e"
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "1.0.1+2"
+    version: "1.0.2+1"
   openiothub_constants:
     dependency: "direct main"
     description:
@@ -316,10 +300,10 @@ packages:
     dependency: "direct main"
     description:
       name: openiothub_grpc_api
-      sha256: "29378a2540e48b19c0c94d7c13612c96f14a40ef8b9e9a8ac7f2d638366a15f9"
+      sha256: "759a6d93c6e09efd49d83f32fab08362c94927627cf89958442d63f5814bd3a3"
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "1.0.0"
+    version: "1.1.0+1"
   path:
     dependency: transitive
     description:
@@ -404,18 +388,10 @@ packages:
     dependency: transitive
     description:
       name: protobuf
-      sha256: "01dd9bd0fa02548bf2ceee13545d4a0ec6046459d847b6b061d8a27237108a08"
+      sha256: "68645b24e0716782e58948f8467fd42a880f255096a821f9e7d0ec625b00c84d"
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "2.1.0"
-  server_grpc_api:
-    dependency: transitive
-    description:
-      name: server_grpc_api
-      sha256: "0a4eb949880e891ec3145c5dfa473725c3ede1c0f5787a0af79fc99c73801ced"
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "1.0.0"
+    version: "3.1.0"
   shared_preferences:
     dependency: "direct main"
     description:
@@ -489,18 +465,18 @@ packages:
     dependency: transitive
     description:
       name: stack_trace
-      sha256: c3c7d8edb15bee7f0f74debd4b9c5f3c2ea86766fe4178eb2a18eb30a0bdaed5
+      sha256: "73713990125a6d93122541237550ee3352a2d84baad52d375a4cad2eb9b7ce0b"
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "1.11.0"
+    version: "1.11.1"
   stream_channel:
     dependency: transitive
     description:
       name: stream_channel
-      sha256: "83615bee9045c1d322bbbd1ba209b7a749c2cbcdcb3fdd1df8eb488b3279c1c8"
+      sha256: ba2aa5d8cc609d96bbb2899c28934f9e1af5cddbd60a827822ea467161eb54e7
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "2.1.1"
+    version: "2.1.2"
   string_scanner:
     dependency: transitive
     description:
@@ -521,10 +497,10 @@ packages:
     dependency: transitive
     description:
       name: test_api
-      sha256: "75760ffd7786fffdfb9597c35c5b27eaeec82be8edfb6d71d32651128ed7aab8"
+      sha256: "5c2f730018264d276c20e4f1503fd1308dfbbae39ec8ee63c5236311ac06954b"
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "0.6.0"
+    version: "0.6.1"
   typed_data:
     dependency: transitive
     description:
@@ -617,10 +593,10 @@ packages:
     dependency: transitive
     description:
       name: web
-      sha256: dc8ccd225a2005c1be616fe02951e2e342092edf968cf0844220383757ef8f10
+      sha256: afe077240a270dcfd2aafe77602b4113645af95d0ad31128cc02bce5ac5d5152
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "0.1.4-beta"
+    version: "0.3.0"
   webview_flutter:
     dependency: "direct main"
     description:
@@ -670,5 +646,5 @@ packages:
     source: hosted
     version: "1.0.3"
 sdks:
-  dart: ">=3.1.0-185.0.dev <4.0.0"
+  dart: ">=3.2.0-194.0.dev <4.0.0"
   flutter: ">=3.7.0"

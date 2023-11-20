@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:openiothub_constants/openiothub_constants.dart';
-import 'package:openiothub_grpc_api/pb/service.pb.dart';
-import 'package:openiothub_grpc_api/pb/service.pbgrpc.dart';
+import 'package:openiothub_grpc_api/proto/mobile/mobile.pb.dart';
+import 'package:openiothub_grpc_api/proto/mobile/mobile.pbgrpc.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class Aria2Page extends StatefulWidget {

@@ -7,8 +7,8 @@ import 'package:flutter_seekbar/flutter_seekbar.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:mqtt5_client/mqtt5_client.dart';
 import 'package:mqtt5_client/mqtt5_server_client.dart';
-import 'package:openiothub_grpc_api/pb/service.pb.dart';
-import 'package:openiothub_grpc_api/pb/service.pbgrpc.dart';
+import 'package:openiothub_grpc_api/proto/mobile/mobile.pb.dart';
+import 'package:openiothub_grpc_api/proto/mobile/mobile.pbgrpc.dart';
 
 import '../../../mdnsService/commWidgets/info.dart';
 

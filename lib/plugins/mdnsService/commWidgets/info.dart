@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:oktoast/oktoast.dart';
-import 'package:iot_manager_grpc_api/pb/mqttDeviceManager.pbgrpc.dart';
+import 'package:openiothub_grpc_api/proto/manager/mqttDeviceManager.pbgrpc.dart';
 import 'package:openiothub_api/openiothub_api.dart';
-import 'package:openiothub_grpc_api/pb/service.pb.dart';
-import 'package:openiothub_grpc_api/pb/service.pbgrpc.dart';
+import 'package:openiothub_grpc_api/proto/mobile/mobile.pb.dart';
+import 'package:openiothub_grpc_api/proto/mobile/mobile.pbgrpc.dart';
 
 class InfoPage extends StatelessWidget {
   InfoPage({required Key key, required this.portService}) : super(key: key);
