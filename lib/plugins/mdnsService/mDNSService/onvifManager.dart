@@ -116,7 +116,7 @@ class _OvifManagerPageState extends State<OvifManagerPage> {
     String url = "http://${widget.device.ip}:${widget.device.port}/list";
     http.Response response;
     try {
-      response = await http.get(url as Uri).timeout(const Duration(seconds: 2));
+      response = await http.get(Uri.parse(url)).timeout(const Duration(seconds: 2));
       print(response.body);
       Map<String, dynamic> rst = jsonDecode(response.body);
       if (rst["Code"] != 0) {
@@ -159,7 +159,7 @@ class _OvifManagerPageState extends State<OvifManagerPage> {
         "http://${widget.device.ip}:${widget.device.port}/delete?XAddr=$XAddr";
     http.Response response;
     try {
-      response = await http.get(url as Uri).timeout(const Duration(seconds: 2));
+      response = await http.get(Uri.parse(url)).timeout(const Duration(seconds: 2));
       print(response.body);
       _getList();
     } catch (e) {
@@ -243,7 +243,7 @@ class _OvifManagerPageState extends State<OvifManagerPage> {
         "http://${widget.device.ip}:${widget.device.port}/add?Name=$Name&XAddr=$XAddr&UserName=$UserName&Password=$Password";
     http.Response response;
     try {
-      response = await http.get(url as Uri).timeout(const Duration(seconds: 2));
+      response = await http.get(Uri.parse(url)).timeout(const Duration(seconds: 2));
       print(response.body);
       _getList();
     } catch (e) {

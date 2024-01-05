@@ -54,8 +54,8 @@ class VNCWebPageState extends State<VNCWebPage> {
   }
 
   _launchURL(String url) async {
-    if (await canLaunchUrl(url as Uri)) {
-      await launchUrl(url as Uri);
+    if (await canLaunchUrl(Uri.parse(url))) {
+      await launchUrl(Uri.parse(url));
     } else {
       print('Could not launch $url');
     }

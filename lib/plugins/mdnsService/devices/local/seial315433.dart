@@ -125,7 +125,7 @@ class _Serial315433PageState extends State<Serial315433Page> {
                         String url =
                             "http://${widget.device.ip}:${widget.device.port}/rename?name=${_name_controller.text}";
                         await http
-                            .get(url as Uri)
+                            .get(Uri.parse(url))
                             .timeout(const Duration(seconds: 2));
                         widget.device.info["name"] = _name_controller.text;
                       } catch (e) {
@@ -157,7 +157,7 @@ class _Serial315433PageState extends State<Serial315433Page> {
         "http://${widget.device.ip}:${widget.device.port}/botton?status=$cmd";
     http.Response response;
     try {
-      response = await http.get(url as Uri).timeout(const Duration(seconds: 2));
+      response = await http.get(Uri.parse(url)).timeout(const Duration(seconds: 2));
       print(response.body);
     } catch (e) {
       print(e.toString());

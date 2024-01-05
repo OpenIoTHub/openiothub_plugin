@@ -1,3 +1,7 @@
+## [1.0.0+9]
+
+*fix url as Uri
+
 ## [1.0.0+8]
 
 * update grpc

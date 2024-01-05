@@ -556,7 +556,7 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
         "http://${widget.device.ip}:${widget.device.port}/input-keyevent?key=$key";
     http.Response response;
     try {
-      response = await http.get(url as Uri).timeout(const Duration(seconds: 2));
+      response = await http.get(Uri.parse(url)).timeout(const Duration(seconds: 2));
       print(response.body);
     } catch (e) {
       print(e.toString());
@@ -588,7 +588,7 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
                       child: Text("确认"),
                       onPressed: () async {
                         response = await http
-                            .get(url as Uri)
+                            .get(Uri.parse(url))
                             .timeout(const Duration(seconds: 2));
                         print(response.body);
                         Navigator.of(context).pop();
@@ -766,7 +766,7 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
         "http://${widget.device.ip}:${widget.device.port}/do-cmd?cmd=$cmd";
     http.Response response;
     try {
-      response = await http.get(url as Uri).timeout(const Duration(seconds: 2));
+      response = await http.get(Uri.parse(url)).timeout(const Duration(seconds: 2));
       showToast(response.body);
     } catch (e) {
       print(e.toString());
@@ -779,7 +779,7 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
         "http://${widget.device.ip}:${widget.device.port}/do-adb-cmd?cmd=$cmd";
     http.Response response;
     try {
-      response = await http.get(url as Uri).timeout(const Duration(seconds: 2));
+      response = await http.get(Uri.parse(url)).timeout(const Duration(seconds: 2));
       showToast(response.body);
     } catch (e) {
       print(e.toString());
@@ -792,7 +792,7 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
         "http://${widget.device.ip}:${widget.device.port}/do-cmd?cmd=settings get global bluetooth_on";
     http.Response response;
     try {
-      response = await http.get(url as Uri).timeout(const Duration(seconds: 2));
+      response = await http.get(Uri.parse(url)).timeout(const Duration(seconds: 2));
       showToast(response.body);
       Map<String, dynamic> body = jsonDecode(response.body);
       showToast(body['result'].toString());
@@ -807,7 +807,7 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
         "http://${widget.device.ip}:${widget.device.port}/list-packages";
     http.Response response;
     try {
-      response = await http.get(url as Uri).timeout(const Duration(seconds: 7));
+      response = await http.get(Uri.parse(url)).timeout(const Duration(seconds: 7));
       // Fluttertoast.showToast(msg: response.body);
       Map<String, dynamic> body = jsonDecode(response.body);
       setState(() {

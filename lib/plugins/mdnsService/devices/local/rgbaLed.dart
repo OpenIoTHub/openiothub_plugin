@@ -227,7 +227,7 @@ class _RGBALedPageState extends State<RGBALedPage> {
                         String url =
                             "http://${widget.device.ip}:${widget.device.port}/rename?name=${_name_controller.text}";
                         http
-                            .get(url as Uri)
+                            .get(Uri.parse(url))
                             .timeout(const Duration(seconds: 2))
                             .then((_) {
                           setState(() {
@@ -288,7 +288,7 @@ class _RGBALedPageState extends State<RGBALedPage> {
       url = "http://${widget.device.ip}:${widget.device.port}/set?b=0";
     }
     try {
-      await http.get(url as Uri).timeout(const Duration(seconds: 2));
+      await http.get(Uri.parse(url)).timeout(const Duration(seconds: 2));
       setState(() {
         _status[color] = Color.fromARGB(_status[color].alpha == 0 ? 255 : 0,
             _status[color].red, _status[color].green, _status[color].blue);
@@ -307,7 +307,7 @@ class _RGBALedPageState extends State<RGBALedPage> {
     try {
       if (!_requsting) {
         _requsting = true;
-        await http.get(url as Uri).timeout(const Duration(seconds: 2));
+        await http.get(Uri.parse(url)).timeout(const Duration(seconds: 2));
         setState(() {
           _status[color] = c;
         });
@@ -337,7 +337,7 @@ class _RGBALedPageState extends State<RGBALedPage> {
     String url =
         "http://${widget.device.ip}:${widget.device.port}/set?m=${newValue.toString()}";
     try {
-      await http.get(url as Uri).timeout(const Duration(seconds: 2));
+      await http.get(Uri.parse(url)).timeout(const Duration(seconds: 2));
       setState(() {
         _currentModes = newValue!;
       });
@@ -351,7 +351,7 @@ class _RGBALedPageState extends State<RGBALedPage> {
     String url =
         "http://${widget.device.ip}:${widget.device.port}/set?s=${cmd}";
     try {
-      await http.get(url as Uri).timeout(const Duration(seconds: 2));
+      await http.get(Uri.parse(url)).timeout(const Duration(seconds: 2));
     } catch (e) {
       print(e.toString());
       return;
