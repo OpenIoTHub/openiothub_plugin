@@ -1,3 +1,7 @@
+## [1.0.2]
+
+*upgrade lib
+
 ## [1.0.0+1]
 
 *upgrade lib
