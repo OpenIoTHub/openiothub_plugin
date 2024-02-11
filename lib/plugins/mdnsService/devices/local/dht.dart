@@ -97,7 +97,7 @@ class _DHTPageState extends State<DHTPage> {
           IconButton(
               icon: Icon(
                 Icons.refresh,
-                color: Colors.white,
+                // color: Colors.white,
               ),
               onPressed: () {
                 _getCurrentStatus();
@@ -105,7 +105,7 @@ class _DHTPageState extends State<DHTPage> {
           IconButton(
               icon: Icon(
                 Icons.settings,
-                color: Colors.white,
+                // color: Colors.white,
               ),
               onPressed: () {
                 _setting();
@@ -113,7 +113,7 @@ class _DHTPageState extends State<DHTPage> {
           IconButton(
               icon: Icon(
                 Icons.file_upload,
-                color: Colors.white,
+                // color: Colors.white,
               ),
               onPressed: () {
                 _ota();

@@ -29,7 +29,7 @@ class _MDNSResponserPageState extends State<MDNSResponserPage> {
           IconButton(
               icon: Icon(
                 Icons.refresh,
-                color: Colors.white,
+                // color: Colors.white,
               ),
               onPressed: () {}),
           IconButton(

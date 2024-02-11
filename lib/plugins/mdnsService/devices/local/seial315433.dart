@@ -36,7 +36,7 @@ class _Serial315433PageState extends State<Serial315433Page> {
           IconButton(
               icon: Icon(
                 Icons.settings,
-                color: Colors.white,
+                // color: Colors.white,
               ),
               onPressed: () {
                 _setting();
@@ -44,7 +44,7 @@ class _Serial315433PageState extends State<Serial315433Page> {
           IconButton(
               icon: Icon(
                 Icons.file_upload,
-                color: Colors.white,
+                // color: Colors.white,
               ),
               onPressed: () {
                 _ota();

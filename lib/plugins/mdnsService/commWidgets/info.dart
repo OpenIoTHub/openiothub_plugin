@@ -61,7 +61,7 @@ class InfoPage extends StatelessWidget {
       IconButton(
           icon: Icon(
             Icons.edit,
-            color: Colors.white,
+            // color: Colors.white,
           ),
           onPressed: () {
             _renameDialog(context);
@@ -72,7 +72,7 @@ class InfoPage extends StatelessWidget {
       actions.add(IconButton(
           icon: Icon(
             Icons.delete_forever,
-            color: Colors.white,
+            color: Colors.red,
           ),
           onPressed: () {
             _deleteDialog(context, portService);

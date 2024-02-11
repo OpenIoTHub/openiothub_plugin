@@ -123,7 +123,7 @@ class _PhicommTC1A1PluginPageState extends State<PhicommTC1A1PluginPage> {
           IconButton(
               icon: Icon(
                 Icons.refresh,
-                color: Colors.white,
+                // color: Colors.white,
               ),
               onPressed: () {
                 _getCurrentStatus();

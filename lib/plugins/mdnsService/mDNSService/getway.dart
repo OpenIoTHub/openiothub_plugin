@@ -81,7 +81,7 @@ class GatewayState extends State<Gateway> {
             IconButton(
                 icon: Icon(
                   Icons.refresh,
-                  color: Colors.white,
+                  // color: Colors.white,
                 ),
                 onPressed: () {
                   //刷新端口列表

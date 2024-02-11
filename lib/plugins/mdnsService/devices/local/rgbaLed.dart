@@ -110,7 +110,7 @@ class _RGBALedPageState extends State<RGBALedPage> {
           IconButton(
               icon: Icon(
                 Icons.settings,
-                color: Colors.white,
+                // color: Colors.white,
               ),
               onPressed: () {
                 _setting();
@@ -118,7 +118,7 @@ class _RGBALedPageState extends State<RGBALedPage> {
           IconButton(
               icon: Icon(
                 Icons.file_upload,
-                color: Colors.white,
+                // color: Colors.white,
               ),
               onPressed: () {
                 _ota();

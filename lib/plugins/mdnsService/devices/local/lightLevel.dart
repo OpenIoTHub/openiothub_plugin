@@ -91,7 +91,7 @@ class _LightLevelPageState extends State<LightLevelPage> {
           IconButton(
               icon: Icon(
                 Icons.refresh,
-                color: Colors.white,
+                // color: Colors.white,
               ),
               onPressed: () {
                 _getCurrentStatus();
@@ -99,7 +99,7 @@ class _LightLevelPageState extends State<LightLevelPage> {
           IconButton(
               icon: Icon(
                 Icons.settings,
-                color: Colors.white,
+                // color: Colors.white,
               ),
               onPressed: () {
                 _setting();
@@ -107,7 +107,7 @@ class _LightLevelPageState extends State<LightLevelPage> {
           IconButton(
               icon: Icon(
                 Icons.file_upload,
-                color: Colors.white,
+                // color: Colors.white,
               ),
               onPressed: () {
                 _ota();

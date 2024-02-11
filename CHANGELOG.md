@@ -1,3 +1,7 @@
+## [1.0.2+1]
+
+* Button color
+
 ## [1.0.2]
 
 *upgrade lib

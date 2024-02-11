@@ -143,7 +143,7 @@ class _MqttPhicommzM1PluginPageState extends State<MqttPhicommzM1PluginPage> {
           IconButton(
               icon: Icon(
                 Icons.info,
-                color: Colors.white,
+                // color: Colors.white,
               ),
               onPressed: () {
                 _info();

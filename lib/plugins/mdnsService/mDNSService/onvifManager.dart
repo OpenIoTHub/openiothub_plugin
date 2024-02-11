@@ -71,7 +71,7 @@ class _OvifManagerPageState extends State<OvifManagerPage> {
           IconButton(
               icon: Icon(
                 Icons.refresh,
-                color: Colors.white,
+                // color: Colors.white,
               ),
               onPressed: () {
                 _getList();
@@ -79,7 +79,7 @@ class _OvifManagerPageState extends State<OvifManagerPage> {
           IconButton(
               icon: Icon(
                 Icons.add_circle,
-                color: Colors.white,
+                // color: Colors.white,
               ),
               onPressed: () {
                 _addDeviceDialog();
