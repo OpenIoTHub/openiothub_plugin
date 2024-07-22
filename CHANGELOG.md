@@ -1,3 +1,7 @@
+## [1.0.2+3]
+
+* upgrade
+
 ## [1.0.2+2]
 
 * SSH Native xterm

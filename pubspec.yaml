@@ -1,11 +1,11 @@
 name: openiothub_plugin
 description: openiothub_plugin
-version: 1.0.2+2
+version: 1.0.2+3
 homepage: https://github.com/OpenIoTHub
 
 environment:
-  sdk: ^3.0.0
-  flutter: ">=1.17.0"
+  sdk: ">=3.0.0 <4.0.0"
+  flutter: ">=3.19.0"
 
 dependencies:
   flutter:
@@ -34,8 +34,8 @@ dependencies:
   mqtt5_client: ^4.0.2
   flutter_seekbar: ^1.0.0
   oktoast: ^3.3.2+1
-  xterm: ^3.5.0
-  dartssh2: ^2.8.2
+  xterm: ^4.0.0
+  dartssh2: ^2.5.0
 
 dev_dependencies:
   flutter_test:
