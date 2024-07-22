@@ -5,6 +5,7 @@ import 'package:openiothub_constants/openiothub_constants.dart';
 import 'package:openiothub_grpc_api/proto/mobile/mobile.pb.dart';
 import 'package:openiothub_grpc_api/proto/mobile/mobile.pbgrpc.dart';
 import 'package:openiothub_plugin/plugins/openWithChoice/aria2/Aria2Page.dart';
+import 'package:openiothub_plugin/plugins/openWithChoice/sshNative/SSHWebPage.dart';
 import 'package:openiothub_plugin/plugins/openWithChoice/sshWeb/SSHWebPage.dart';
 import 'package:openiothub_plugin/plugins/openWithChoice/vncWeb/VNCWebPage.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -152,7 +153,8 @@ class OpenWithChoice extends StatelessWidget {
                             onPressed: () {
                               Navigator.push(ctx,
                                   MaterialPageRoute(builder: (ctx) {
-                                return SSHWebPage(
+                                // return SSHWebPage(
+                                return SSHNativePage(
                                   runId: portConfig.device.runId,
                                   remoteIp: portConfig.device.addr,
                                   remotePort: portConfig.remotePort,
@@ -181,10 +183,7 @@ class OpenWithChoice extends StatelessWidget {
               Navigator.of(ctx).pop();
             });
           } else if (title == 'Web') {
-            if (Platform.isIOS ||
-                Platform.isWindows ||
-                Platform.isMacOS ||
-                Platform.isLinux) {
+            if (!Platform.isAndroid) {
               _launchURL("http://${Config.webgRpcIp}:${portConfig.localProt}");
               Navigator.of(ctx).pop();
             } else {

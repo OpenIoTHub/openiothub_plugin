@@ -1,3 +1,7 @@
+## [1.0.2+2]
+
+* SSH Native xterm
+
 ## [1.0.2+1]
 
 * Button color
