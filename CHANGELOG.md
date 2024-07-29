@@ -1,3 +1,7 @@
+## [1.0.2+5]
+
+* aria2 native page
+
 ## [1.0.2+4]
 
 * aria2 native page
