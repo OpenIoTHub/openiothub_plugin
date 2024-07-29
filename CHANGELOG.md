@@ -1,3 +1,7 @@
+## [1.0.2+8]
+
+* aria2 web page
+
 ## [1.0.2+7]
 
 * aria2 web page

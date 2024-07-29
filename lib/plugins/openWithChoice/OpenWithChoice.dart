@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:openiothub_constants/openiothub_constants.dart';
 import 'package:openiothub_grpc_api/proto/mobile/mobile.pb.dart';
 import 'package:openiothub_grpc_api/proto/mobile/mobile.pbgrpc.dart';
-import 'package:openiothub_plugin/plugins/openWithChoice/aria2Native/Aria2Page.dart';
 import 'package:openiothub_plugin/plugins/openWithChoice/aria2/Aria2Page.dart';
 import 'package:openiothub_plugin/plugins/openWithChoice/sshNative/SSHWebPage.dart';
 import 'package:openiothub_plugin/plugins/openWithChoice/vncWeb/VNCWebPage.dart';
