@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:openiothub_constants/openiothub_constants.dart';
@@ -36,7 +38,9 @@ class Aria2PageState extends State<Aria2Page> {
         ),
       )
       ..loadRequest(Uri.parse(initialUrl));
-    controller.runJavaScript(jsCode);
+    Future.delayed(Duration(seconds: 2), (){
+      controller.runJavaScript(jsCode);
+    });
     return WebViewWidget(controller: controller);
   }
 }
