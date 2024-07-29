@@ -77,8 +77,8 @@ class Model extends ChangeNotifier {
 }
 
 class Aria2NativePage extends StatefulWidget {
-  Aria2NativePage({super.key, this.servicePort = 6800});
-  int servicePort;
+  Aria2NativePage({super.key, this.localPort = 6800});
+  int localPort;
   @override
   State<Aria2NativePage> createState() => _Aria2NativePageState();
 }
@@ -94,7 +94,7 @@ class _Aria2NativePageState extends State<Aria2NativePage> {
   @override
   void initState() {
     (Connectivity().checkConnectivity());
-    _textEditController.value = TextEditingValue(text: 'ws://127.0.0.1:${widget.servicePort}/jsonrpc');
+    _textEditController.value = TextEditingValue(text: 'ws://127.0.0.1:${widget.localPort}/jsonrpc');
     super.initState();
   }
 
@@ -113,7 +113,7 @@ class _Aria2NativePageState extends State<Aria2NativePage> {
                     onPressed: () {
                       Navigator.push(context, MaterialPageRoute(builder: (ctx) {
                         return Aria2Page(
-                          localPort: widget.servicePort,
+                          localPort: widget.localPort,
                           key: UniqueKey(),
                         );
                       }));

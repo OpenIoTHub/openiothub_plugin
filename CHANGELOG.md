@@ -1,3 +1,7 @@
+## [1.0.2+6]
+
+* aria2 web page
+
 ## [1.0.2+5]
 
 * aria2 native page

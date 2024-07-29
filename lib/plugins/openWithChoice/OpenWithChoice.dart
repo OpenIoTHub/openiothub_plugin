@@ -5,6 +5,7 @@ import 'package:openiothub_constants/openiothub_constants.dart';
 import 'package:openiothub_grpc_api/proto/mobile/mobile.pb.dart';
 import 'package:openiothub_grpc_api/proto/mobile/mobile.pbgrpc.dart';
 import 'package:openiothub_plugin/plugins/openWithChoice/aria2Native/Aria2Page.dart';
+import 'package:openiothub_plugin/plugins/openWithChoice/aria2/Aria2Page.dart';
 import 'package:openiothub_plugin/plugins/openWithChoice/sshNative/SSHWebPage.dart';
 import 'package:openiothub_plugin/plugins/openWithChoice/vncWeb/VNCWebPage.dart';
 import 'package:url_launcher/url_launcher_string.dart';
@@ -102,8 +103,8 @@ class OpenWithChoice extends StatelessWidget {
           String title = item.title;
           if (title == 'Aria2') {
             Navigator.push(ctx, MaterialPageRoute(builder: (ctx) {
-              return Aria2NativePage(
-                servicePort: portConfig.localProt,
+              return Aria2Page(
+                localPort: portConfig.localProt,
                 key: UniqueKey(),
               );
             })).then((_) {
