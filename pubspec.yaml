@@ -1,6 +1,6 @@
 name: openiothub_plugin
 description: openiothub_plugin
-version: 1.0.2+8
+version: 1.0.2+9
 homepage: https://github.com/OpenIoTHub
 
 environment:
@@ -24,8 +24,8 @@ dependencies:
   #  颜色选择器
   flutter_colorpicker: ^1.0.3
 #  fluttertoast: ^8.0.8
-  file_picker: ^5.3.0
-  filesystem_picker: ^3.1.0
+  file_picker: ^8.0.0+1
+  filesystem_picker: ^4.1.0
   path_provider: ^2.0.2
   dio: ^5.1.2
   openiothub_constants: ^1.0.0
@@ -40,6 +40,7 @@ dependencies:
 #  ssh
   xterm: ^4.0.0
   dartssh2: ^2.5.0
+  tdesign_flutter: ^0.1.6
 
 dev_dependencies:
   flutter_test:

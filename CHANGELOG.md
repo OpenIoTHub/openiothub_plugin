@@ -1,3 +1,7 @@
+## [1.0.2+9]
+
+* flutter pub upgrade
+
 ## [1.0.2+8]
 
 * aria2 web page
