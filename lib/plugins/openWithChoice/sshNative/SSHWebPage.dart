@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:dartssh2/dartssh2.dart';
+import 'package:dartssh2_plus/dartssh2.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:openiothub_plugin/plugins/openWithChoice/sshNative/virtual_keyboard.dart';
 import 'package:xterm/xterm.dart';

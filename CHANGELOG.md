@@ -1,3 +1,7 @@
+## [1.0.2+10]
+
+* dartssh2_plus
+
 ## [1.0.2+9]
 
 * flutter pub upgrade
