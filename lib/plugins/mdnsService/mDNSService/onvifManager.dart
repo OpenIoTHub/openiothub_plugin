@@ -116,7 +116,8 @@ class _OvifManagerPageState extends State<OvifManagerPage> {
     String url = "http://${widget.device.ip}:${widget.device.port}/list";
     http.Response response;
     try {
-      response = await http.get(Uri.parse(url)).timeout(const Duration(seconds: 2));
+      response =
+          await http.get(Uri.parse(url)).timeout(const Duration(seconds: 2));
       print(response.body);
       Map<String, dynamic> rst = jsonDecode(response.body);
       if (rst["Code"] != 0) {
@@ -136,7 +137,9 @@ class _OvifManagerPageState extends State<OvifManagerPage> {
         context: context,
         builder: (_) => AlertDialog(
                 title: Text("确认"),
-                content: Text("确认删除此onvif设备？"),
+                content: SizedBox.expand(
+                  child: Text("确认删除此onvif设备？"),
+                ),
                 actions: <Widget>[
                   TextButton(
                     child: Text("取消"),
@@ -159,7 +162,8 @@ class _OvifManagerPageState extends State<OvifManagerPage> {
         "http://${widget.device.ip}:${widget.device.port}/delete?XAddr=$XAddr";
     http.Response response;
     try {
-      response = await http.get(Uri.parse(url)).timeout(const Duration(seconds: 2));
+      response =
+          await http.get(Uri.parse(url)).timeout(const Duration(seconds: 2));
       print(response.body);
       _getList();
     } catch (e) {
@@ -180,7 +184,9 @@ class _OvifManagerPageState extends State<OvifManagerPage> {
     return showDialog(
         context: context,
         builder: (_) => AlertDialog(
-                title: Text("添加Onvif摄像头："),
+                title: SizedBox.expand(
+                  child: Text("添加Onvif摄像头："),
+                ),
                 content: ListView(
                   children: <Widget>[
                     TextFormField(
@@ -243,7 +249,8 @@ class _OvifManagerPageState extends State<OvifManagerPage> {
         "http://${widget.device.ip}:${widget.device.port}/add?Name=$Name&XAddr=$XAddr&UserName=$UserName&Password=$Password";
     http.Response response;
     try {
-      response = await http.get(Uri.parse(url)).timeout(const Duration(seconds: 2));
+      response =
+          await http.get(Uri.parse(url)).timeout(const Duration(seconds: 2));
       print(response.body);
       _getList();
     } catch (e) {

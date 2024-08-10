@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:oktoast/oktoast.dart';
-import 'package:openiothub_grpc_api/proto/manager/mqttDeviceManager.pbgrpc.dart';
 import 'package:openiothub_api/openiothub_api.dart';
+import 'package:openiothub_grpc_api/proto/manager/mqttDeviceManager.pbgrpc.dart';
 import 'package:openiothub_grpc_api/proto/mobile/mobile.pb.dart';
 import 'package:openiothub_grpc_api/proto/mobile/mobile.pbgrpc.dart';
 
@@ -95,17 +95,19 @@ class InfoPage extends StatelessWidget {
         context: context,
         builder: (_) => AlertDialog(
                 title: Text("修改名称："),
-                content: ListView(
-                  children: <Widget>[
-                    TextFormField(
-                      controller: _new_name_controller,
-                      decoration: InputDecoration(
-                        contentPadding: EdgeInsets.all(10.0),
-                        labelText: '请输入新的名称',
-                        helperText: '名称',
-                      ),
-                    )
-                  ],
+                content: SizedBox.expand(
+                  child: ListView(
+                    children: <Widget>[
+                      TextFormField(
+                        controller: _new_name_controller,
+                        decoration: InputDecoration(
+                          contentPadding: EdgeInsets.all(10.0),
+                          labelText: '请输入新的名称',
+                          helperText: '名称',
+                        ),
+                      )
+                    ],
+                  ),
                 ),
                 actions: <Widget>[
                   TextButton(
@@ -137,10 +139,12 @@ _deleteDialog(BuildContext context, PortService portService) async {
       context: context,
       builder: (_) => AlertDialog(
               title: Text("删除设备："),
-              content: ListView(
-                children: <Widget>[
-                  Text("确认删除本设备？"),
-                ],
+              content: SizedBox.expand(
+                child: ListView(
+                  children: <Widget>[
+                    Text("确认删除本设备？"),
+                  ],
+                ),
               ),
               actions: <Widget>[
                 TextButton(

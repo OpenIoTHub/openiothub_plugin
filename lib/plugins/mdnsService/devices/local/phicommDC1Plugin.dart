@@ -195,7 +195,8 @@ class _PhicommDC1PluginPageState extends State<PhicommDC1PluginPage> {
     String url = "http://${widget.device.ip}:${widget.device.port}/status";
     http.Response response;
     try {
-      response = await http.get(Uri.parse(url)).timeout(const Duration(seconds: 2));
+      response =
+          await http.get(Uri.parse(url)).timeout(const Duration(seconds: 2));
       print(response.body);
     } catch (e) {
       print(e.toString());
@@ -227,19 +228,18 @@ class _PhicommDC1PluginPageState extends State<PhicommDC1PluginPage> {
         context: context,
         builder: (_) => AlertDialog(
                 title: Text("设置名称："),
-                content: Container(
-                    height: 150,
+                content: SizedBox.expand(
                     child: ListView(
-                      children: <Widget>[
-                        TextFormField(
-                          controller: _name_controller,
-                          decoration: InputDecoration(
-                            contentPadding: EdgeInsets.all(10.0),
-                            labelText: '名称',
-                          ),
-                        )
-                      ],
-                    )),
+                  children: <Widget>[
+                    TextFormField(
+                      controller: _name_controller,
+                      decoration: InputDecoration(
+                        contentPadding: EdgeInsets.all(10.0),
+                        labelText: '名称',
+                      ),
+                    )
+                  ],
+                )),
                 actions: <Widget>[
                   TextButton(
                     child: Text("取消"),
@@ -290,13 +290,12 @@ class _PhicommDC1PluginPageState extends State<PhicommDC1PluginPage> {
         context: context,
         builder: (_) => AlertDialog(
                 title: Text("升级固件："),
-                content: Container(
-                    height: 150,
+                content: SizedBox.expand(
                     child: UploadOTAPage(
-                      url:
-                          "http://${widget.device.ip}:${widget.device.port}/update",
-                      key: UniqueKey(),
-                    )),
+                  url:
+                      "http://${widget.device.ip}:${widget.device.port}/update",
+                  key: UniqueKey(),
+                )),
                 actions: <Widget>[
                   TextButton(
                     child: Text("取消"),
@@ -316,7 +315,8 @@ class _PhicommDC1PluginPageState extends State<PhicommDC1PluginPage> {
     }
     http.Response response;
     try {
-      response = await http.get(Uri.parse(url)).timeout(const Duration(seconds: 2));
+      response =
+          await http.get(Uri.parse(url)).timeout(const Duration(seconds: 2));
       print(response.body);
     } catch (e) {
       print(e.toString());

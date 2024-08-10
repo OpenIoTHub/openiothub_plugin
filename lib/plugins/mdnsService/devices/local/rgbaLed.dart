@@ -200,19 +200,18 @@ class _RGBALedPageState extends State<RGBALedPage> {
         context: context,
         builder: (_) => AlertDialog(
                 title: Text("设置名称："),
-                content: Container(
-                    height: 150,
+                content: SizedBox.expand(
                     child: ListView(
-                      children: <Widget>[
-                        TextFormField(
-                          controller: _name_controller,
-                          decoration: InputDecoration(
-                            contentPadding: EdgeInsets.all(10.0),
-                            labelText: '名称',
-                          ),
-                        )
-                      ],
-                    )),
+                  children: <Widget>[
+                    TextFormField(
+                      controller: _name_controller,
+                      decoration: InputDecoration(
+                        contentPadding: EdgeInsets.all(10.0),
+                        labelText: '名称',
+                      ),
+                    )
+                  ],
+                )),
                 actions: <Widget>[
                   TextButton(
                     child: Text("取消"),
@@ -263,13 +262,12 @@ class _RGBALedPageState extends State<RGBALedPage> {
         context: context,
         builder: (_) => AlertDialog(
                 title: Text("升级固件："),
-                content: Container(
-                    height: 150,
+                content: SizedBox.expand(
                     child: UploadOTAPage(
-                      url:
-                          "http://${widget.device.ip}:${widget.device.port}/update",
-                      key: UniqueKey(),
-                    )),
+                  url:
+                      "http://${widget.device.ip}:${widget.device.port}/update",
+                  key: UniqueKey(),
+                )),
                 actions: <Widget>[
                   TextButton(
                     child: Text("取消"),

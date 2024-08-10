@@ -1,11 +1,9 @@
 //Device https://github.com/iotdevice
 export './devices/mqtt/mqttPhicommzA1Plugin.dart';
-
 //MQTT Device
 export './devices/mqtt/mqttPhicommzDC1Plugin.dart';
 export './devices/mqtt/mqttPhicommzM1Plugin.dart';
 export './devices/mqtt/mqttPhicommzTc1A1Plugin.dart';
-
 //Service
 export './mDNSService/VNCRFBWebPage.dart';
 export './mDNSService/aria2c.dart';
@@ -13,7 +11,6 @@ export './mDNSService/getway.dart';
 export './mDNSService/mdnsResponser.dart';
 export './mDNSService/onvifManager.dart';
 export './mDNSService/videoPlayer.dart';
-
 //mDNSService https://github.com/mDNSService
 export './mDNSService/webUI.dart';
 export 'devices/local/UART2TCP.dart';

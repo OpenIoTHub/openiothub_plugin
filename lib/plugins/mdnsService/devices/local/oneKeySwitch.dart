@@ -82,7 +82,8 @@ class _OneKeySwitchPageState extends State<OneKeySwitchPage> {
     String url = "http://${widget.device.ip}:${widget.device.port}/status";
     http.Response response;
     try {
-      response = await http.get(Uri.parse(url)).timeout(const Duration(seconds: 2));
+      response =
+          await http.get(Uri.parse(url)).timeout(const Duration(seconds: 2));
       print(response.body);
     } catch (e) {
       print(e.toString());
@@ -103,16 +104,18 @@ class _OneKeySwitchPageState extends State<OneKeySwitchPage> {
         context: context,
         builder: (_) => AlertDialog(
                 title: Text("设置名称："),
-                content: ListView(
-                  children: <Widget>[
-                    TextFormField(
-                      controller: _name_controller,
-                      decoration: InputDecoration(
-                        contentPadding: EdgeInsets.all(10.0),
-                        labelText: '名称',
-                      ),
-                    )
-                  ],
+                content: SizedBox.expand(
+                  child: ListView(
+                    children: <Widget>[
+                      TextFormField(
+                        controller: _name_controller,
+                        decoration: InputDecoration(
+                          contentPadding: EdgeInsets.all(10.0),
+                          labelText: '名称',
+                        ),
+                      )
+                    ],
+                  ),
                 ),
                 actions: <Widget>[
                   TextButton(
@@ -160,7 +163,8 @@ class _OneKeySwitchPageState extends State<OneKeySwitchPage> {
         "http://${widget.device.ip}:${widget.device.port}/led?status=${ledBottonStatus == "on" ? "off" : "on"}";
     http.Response response;
     try {
-      response = await http.get(Uri.parse(url)).timeout(const Duration(seconds: 2));
+      response =
+          await http.get(Uri.parse(url)).timeout(const Duration(seconds: 2));
       print(response.body);
     } catch (e) {
       print(e.toString());

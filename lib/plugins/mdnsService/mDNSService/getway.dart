@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:oktoast/oktoast.dart';
+import 'package:openiothub_api/openiothub_api.dart';
+import 'package:openiothub_constants/constants/Constants.dart';
 import 'package:openiothub_grpc_api/proto/gateway/gateway.pb.dart';
 import 'package:openiothub_grpc_api/proto/gateway/gateway.pbgrpc.dart';
 import 'package:openiothub_grpc_api/proto/manager/gatewayManager.pb.dart';
 import 'package:openiothub_grpc_api/proto/manager/serverManager.pb.dart';
-import 'package:openiothub_api/openiothub_api.dart';
-import 'package:openiothub_constants/constants/Constants.dart';
 import 'package:openiothub_grpc_api/proto/mobile/mobile.pb.dart';
 import 'package:openiothub_grpc_api/proto/mobile/mobile.pbgrpc.dart';
 
@@ -115,7 +115,9 @@ class GatewayState extends State<Gateway> {
         context: context,
         builder: (_) => AlertDialog(
                 title: Text("确认添加本网关到此服务器？"),
-                content: Text("${serverInfo.serverHost}"),
+                content: SizedBox.expand(
+                  child: Text("${serverInfo.serverHost}"),
+                ),
                 actions: <Widget>[
                   TextButton(
                     child: Text("取消"),

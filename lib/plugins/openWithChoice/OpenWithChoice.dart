@@ -118,7 +118,8 @@ class OpenWithChoice extends StatelessWidget {
                 context: ctx,
                 builder: (_) => AlertDialog(
                         title: Text("输入linux登录信息："),
-                        content: ListView(
+                        content: SizedBox.expand(
+                            child: ListView(
                           children: <Widget>[
                             TextFormField(
                               controller: _username_controller,
@@ -138,7 +139,7 @@ class OpenWithChoice extends StatelessWidget {
                               obscureText: true,
                             )
                           ],
-                        ),
+                        )),
                         actions: <Widget>[
                           TextButton(
                             child: Text("取消"),

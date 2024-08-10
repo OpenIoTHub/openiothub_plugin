@@ -1,3 +1,7 @@
+## [1.0.2+11]
+
+* SizedBox.expand
+
 ## [1.0.2+10]
 
 * dartssh2_plus

@@ -4,8 +4,8 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:oktoast/oktoast.dart';
 import 'package:http/http.dart' as http;
+import 'package:oktoast/oktoast.dart';
 import 'package:openiothub_grpc_api/proto/mobile/mobile.pb.dart';
 import 'package:openiothub_grpc_api/proto/mobile/mobile.pbgrpc.dart';
 
@@ -556,7 +556,8 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
         "http://${widget.device.ip}:${widget.device.port}/input-keyevent?key=$key";
     http.Response response;
     try {
-      response = await http.get(Uri.parse(url)).timeout(const Duration(seconds: 2));
+      response =
+          await http.get(Uri.parse(url)).timeout(const Duration(seconds: 2));
       print(response.body);
     } catch (e) {
       print(e.toString());
@@ -576,7 +577,9 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
           context: context,
           builder: (_) => AlertDialog(
                   title: Text("确认卸载软件包:"),
-                  content: Text("请确认"),
+                  content: SizedBox.expand(
+                    child: Text("请确认"),
+                  ),
                   actions: <Widget>[
                     TextButton(
                       child: Text("取消"),
@@ -611,142 +614,151 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
                 "http://${widget.device.ip}:${widget.device.port}/get-image?time=${DateTime.now().millisecondsSinceEpoch}";
             return AlertDialog(
                 title: Text("屏幕截图:"),
-                content: SingleChildScrollView(
-                  child: Column(
-                    children: <Widget>[
-                      GestureDetector(
-                        child: Image.network(
-                          _screenUrl,
-                          width: 360,
-                          height: 240,
+                content: SizedBox.expand(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: <Widget>[
+                        GestureDetector(
+                          child: Image.network(
+                            _screenUrl,
+                            width: 360,
+                            height: 240,
+                          ),
+                          onTapDown: (TapDownDetails details) {
+                            showToast(
+                                "onTapDown:${details.globalPosition},${details.localPosition},${details.kind}");
+                          },
+                          onVerticalDragStart: (DragStartDetails details) {
+                            showToast("onVerticalDragStart:$details");
+                          },
+                          onVerticalDragEnd: (DragEndDetails details) {
+                            showToast("onVerticalDragEnd:$details");
+                          },
+                          onHorizontalDragStart: (DragStartDetails details) {
+                            showToast("onHorizontalDragStart:$details");
+                          },
+                          onHorizontalDragEnd: (DragEndDetails details) {
+                            showToast("onHorizontalDragEnd:$details");
+                          },
                         ),
-                        onTapDown: (TapDownDetails details) {
-                          showToast(
-                              "onTapDown:${details.globalPosition},${details.localPosition},${details.kind}");
-                        },
-                        onVerticalDragStart: (DragStartDetails details) {
-                          showToast("onVerticalDragStart:$details");
-                        },
-                        onVerticalDragEnd: (DragEndDetails details) {
-                          showToast("onVerticalDragEnd:$details");
-                        },
-                        onHorizontalDragStart: (DragStartDetails details) {
-                          showToast("onHorizontalDragStart:$details");
-                        },
-                        onHorizontalDragEnd: (DragEndDetails details) {
-                          showToast("onHorizontalDragEnd:$details");
-                        },
-                      ),
-                      // 19: "导航键向上",
-                      // 20: "导航键向下",
-                      // 21: "导航键向左",
-                      // 22: "导航键向右",
-                      // 23: "导航键确定键",
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          IconButton(
-                              icon: Icon(Icons.arrow_drop_up),
-                              onPressed: () {
-                                _Keyevent(19);
-                                Future.delayed(const Duration(seconds: 1), () {
+                        // 19: "导航键向上",
+                        // 20: "导航键向下",
+                        // 21: "导航键向左",
+                        // 22: "导航键向右",
+                        // 23: "导航键确定键",
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            IconButton(
+                                icon: Icon(Icons.arrow_drop_up),
+                                onPressed: () {
+                                  _Keyevent(19);
+                                  Future.delayed(const Duration(seconds: 1),
+                                      () {
+                                    state(() {
+                                      _screenUrl =
+                                          "http://${widget.device.ip}:${widget.device.port}/get-image?time=${DateTime.now().millisecondsSinceEpoch}";
+                                    });
+                                  });
+                                }),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            IconButton(
+                                icon: Icon(Icons.arrow_left),
+                                onPressed: () {
+                                  _Keyevent(21);
+                                  Future.delayed(const Duration(seconds: 1),
+                                      () {
+                                    state(() {
+                                      _screenUrl =
+                                          "http://${widget.device.ip}:${widget.device.port}/get-image?time=${DateTime.now().millisecondsSinceEpoch}";
+                                    });
+                                  });
+                                }),
+                            IconButton(
+                                icon: Icon(Icons.adjust),
+                                onPressed: () {
+                                  _Keyevent(23);
+                                  Future.delayed(const Duration(seconds: 1),
+                                      () {
+                                    state(() {
+                                      _screenUrl =
+                                          "http://${widget.device.ip}:${widget.device.port}/get-image?time=${DateTime.now().millisecondsSinceEpoch}";
+                                    });
+                                  });
+                                }),
+                            IconButton(
+                                icon: Icon(Icons.arrow_right),
+                                onPressed: () {
+                                  _Keyevent(22);
+                                  Future.delayed(const Duration(seconds: 1),
+                                      () {
+                                    state(() {
+                                      _screenUrl =
+                                          "http://${widget.device.ip}:${widget.device.port}/get-image?time=${DateTime.now().millisecondsSinceEpoch}";
+                                    });
+                                  });
+                                }),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            IconButton(
+                                icon: Icon(Icons.arrow_drop_down),
+                                onPressed: () {
+                                  _Keyevent(20);
+                                  Future.delayed(const Duration(seconds: 1),
+                                      () {
+                                    state(() {
+                                      _screenUrl =
+                                          "http://${widget.device.ip}:${widget.device.port}/get-image?time=${DateTime.now().millisecondsSinceEpoch}";
+                                    });
+                                  });
+                                }),
+                          ],
+                        ),
+                        Row(
+                          children: <Widget>[
+                            TextButton(
+                                child: Text("返回"),
+                                onPressed: () {
+                                  _Keyevent(4);
+                                  Future.delayed(const Duration(seconds: 1),
+                                      () {
+                                    state(() {
+                                      _screenUrl =
+                                          "http://${widget.device.ip}:${widget.device.port}/get-image?time=${DateTime.now().millisecondsSinceEpoch}";
+                                    });
+                                  });
+                                }),
+                            TextButton(
+                                child: Text("桌面"),
+                                onPressed: () {
+                                  _Keyevent(3);
+                                  Future.delayed(const Duration(seconds: 1),
+                                      () {
+                                    state(() {
+                                      _screenUrl =
+                                          "http://${widget.device.ip}:${widget.device.port}/get-image?time=${DateTime.now().millisecondsSinceEpoch}";
+                                    });
+                                  });
+                                }),
+                            TextButton(
+                                child: Text("刷新显示屏"),
+                                onPressed: () {
                                   state(() {
                                     _screenUrl =
                                         "http://${widget.device.ip}:${widget.device.port}/get-image?time=${DateTime.now().millisecondsSinceEpoch}";
                                   });
-                                });
-                              }),
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          IconButton(
-                              icon: Icon(Icons.arrow_left),
-                              onPressed: () {
-                                _Keyevent(21);
-                                Future.delayed(const Duration(seconds: 1), () {
-                                  state(() {
-                                    _screenUrl =
-                                        "http://${widget.device.ip}:${widget.device.port}/get-image?time=${DateTime.now().millisecondsSinceEpoch}";
-                                  });
-                                });
-                              }),
-                          IconButton(
-                              icon: Icon(Icons.adjust),
-                              onPressed: () {
-                                _Keyevent(23);
-                                Future.delayed(const Duration(seconds: 1), () {
-                                  state(() {
-                                    _screenUrl =
-                                        "http://${widget.device.ip}:${widget.device.port}/get-image?time=${DateTime.now().millisecondsSinceEpoch}";
-                                  });
-                                });
-                              }),
-                          IconButton(
-                              icon: Icon(Icons.arrow_right),
-                              onPressed: () {
-                                _Keyevent(22);
-                                Future.delayed(const Duration(seconds: 1), () {
-                                  state(() {
-                                    _screenUrl =
-                                        "http://${widget.device.ip}:${widget.device.port}/get-image?time=${DateTime.now().millisecondsSinceEpoch}";
-                                  });
-                                });
-                              }),
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          IconButton(
-                              icon: Icon(Icons.arrow_drop_down),
-                              onPressed: () {
-                                _Keyevent(20);
-                                Future.delayed(const Duration(seconds: 1), () {
-                                  state(() {
-                                    _screenUrl =
-                                        "http://${widget.device.ip}:${widget.device.port}/get-image?time=${DateTime.now().millisecondsSinceEpoch}";
-                                  });
-                                });
-                              }),
-                        ],
-                      ),
-                      Row(
-                        children: <Widget>[
-                          TextButton(
-                              child: Text("返回"),
-                              onPressed: () {
-                                _Keyevent(4);
-                                Future.delayed(const Duration(seconds: 1), () {
-                                  state(() {
-                                    _screenUrl =
-                                        "http://${widget.device.ip}:${widget.device.port}/get-image?time=${DateTime.now().millisecondsSinceEpoch}";
-                                  });
-                                });
-                              }),
-                          TextButton(
-                              child: Text("桌面"),
-                              onPressed: () {
-                                _Keyevent(3);
-                                Future.delayed(const Duration(seconds: 1), () {
-                                  state(() {
-                                    _screenUrl =
-                                        "http://${widget.device.ip}:${widget.device.port}/get-image?time=${DateTime.now().millisecondsSinceEpoch}";
-                                  });
-                                });
-                              }),
-                          TextButton(
-                              child: Text("刷新显示屏"),
-                              onPressed: () {
-                                state(() {
-                                  _screenUrl =
-                                      "http://${widget.device.ip}:${widget.device.port}/get-image?time=${DateTime.now().millisecondsSinceEpoch}";
-                                });
-                              }),
-                        ],
-                      ),
-                    ],
+                                }),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 actions: <Widget>[
@@ -766,7 +778,8 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
         "http://${widget.device.ip}:${widget.device.port}/do-cmd?cmd=$cmd";
     http.Response response;
     try {
-      response = await http.get(Uri.parse(url)).timeout(const Duration(seconds: 2));
+      response =
+          await http.get(Uri.parse(url)).timeout(const Duration(seconds: 2));
       showToast(response.body);
     } catch (e) {
       print(e.toString());
@@ -779,7 +792,8 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
         "http://${widget.device.ip}:${widget.device.port}/do-adb-cmd?cmd=$cmd";
     http.Response response;
     try {
-      response = await http.get(Uri.parse(url)).timeout(const Duration(seconds: 2));
+      response =
+          await http.get(Uri.parse(url)).timeout(const Duration(seconds: 2));
       showToast(response.body);
     } catch (e) {
       print(e.toString());
@@ -792,7 +806,8 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
         "http://${widget.device.ip}:${widget.device.port}/do-cmd?cmd=settings get global bluetooth_on";
     http.Response response;
     try {
-      response = await http.get(Uri.parse(url)).timeout(const Duration(seconds: 2));
+      response =
+          await http.get(Uri.parse(url)).timeout(const Duration(seconds: 2));
       showToast(response.body);
       Map<String, dynamic> body = jsonDecode(response.body);
       showToast(body['result'].toString());
@@ -807,7 +822,8 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
         "http://${widget.device.ip}:${widget.device.port}/list-packages";
     http.Response response;
     try {
-      response = await http.get(Uri.parse(url)).timeout(const Duration(seconds: 7));
+      response =
+          await http.get(Uri.parse(url)).timeout(const Duration(seconds: 7));
       // Fluttertoast.showToast(msg: response.body);
       Map<String, dynamic> body = jsonDecode(response.body);
       setState(() {
