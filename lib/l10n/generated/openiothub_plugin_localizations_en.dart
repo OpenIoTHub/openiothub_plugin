@@ -15,197 +15,200 @@ class OpenIoTHubPluginLocalizationsEn extends OpenIoTHubPluginLocalizations {
   String get rdp_remote_desktop => 'RDP remote desktop';
 
   @override
-  String get select_server_for_gateway => '选择本网关需要连接的服务器';
+  String get select_server_for_gateway => 'Select server for gateway';
 
   @override
-  String get add_gateway_success => '添加网关成功！';
+  String get add_gateway_success => 'Add gateway success！';
 
   @override
-  String get login_failed => '登录失败！';
+  String get login_failed => 'Login failed！';
 
   @override
-  String get add_gateway_failed => '添加网关失败！';
+  String get add_gateway_failed => 'Add gateway failed!';
 
   @override
-  String get gateway_already_added => '该网关已经被其他用户添加，请联系该网关管理员或者清空网关配置并重启网关';
+  String get gateway_already_added =>
+      'This gateway has been added by another user. Please contact the gateway administrator or clear the gateway configuration and restart the gateway';
 
   @override
-  String get confirm_gateway_connect_this_server => '确认添加本网关到此服务器？';
+  String get confirm_gateway_connect_this_server =>
+      'Are you sure to add this gateway to this server?';
 
   @override
-  String get get_gateway_login_status_failed => '获取网关的登录状态异常';
+  String get get_gateway_login_status_failed =>
+      'Get abnormal login status of gateway';
 
   @override
-  String get cancel => '取消';
+  String get cancel => 'Cancel';
 
   @override
-  String get add => '添加';
+  String get add => 'Add';
 
   @override
-  String get onvif_camera_manager => 'Onvif摄像头管理';
+  String get onvif_camera_manager => 'Onvif camera manager';
 
   @override
-  String get confirm => '确认';
+  String get confirm => 'Confirm';
 
   @override
-  String get delete => '删除';
+  String get delete => 'Delete';
 
   @override
-  String get confirm_delete_onvif_device => '确认删除此onvif设备？';
+  String get confirm_delete_onvif_device => 'Confirm delete onvif device?';
 
   @override
-  String get onvif_camera => 'Onvif摄像头';
+  String get onvif_camera => 'Onvif camera';
 
   @override
-  String get add_onvif_camera => '添加Onvif摄像头';
+  String get add_onvif_camera => 'Add onvif camera';
 
   @override
-  String get name => '名称';
+  String get name => 'Name';
 
   @override
-  String get custom_name => '自定义名称';
+  String get custom_name => 'Custom name';
 
   @override
-  String get x_addr_addr => 'XAddr地址';
+  String get x_addr_addr => 'XAddr addr';
 
   @override
-  String get onvif_device_host_port => '该机器onvif的地址:端口号';
+  String get onvif_device_host_port => 'Onvif device addr:port';
 
   @override
-  String get username => '用户名';
+  String get username => 'Username';
 
   @override
-  String get onvif_username => 'onvif的用户名';
+  String get onvif_username => 'Onvif username';
 
   @override
-  String get password => '密码';
+  String get password => 'Password';
 
   @override
-  String get onvif_password => 'onvif的密码';
+  String get onvif_password => 'Onvif password';
 
   @override
-  String get web_browser => '网页浏览器';
+  String get web_browser => 'Web browser';
 
   @override
-  String get device_name => '设备名称';
+  String get device_name => 'Device name';
 
   @override
-  String get device_model => '设备型号';
+  String get device_model => 'Device model';
 
   @override
-  String get mac_addr => '物理地址';
+  String get mac_addr => 'MAC addr';
 
   @override
-  String get firmware_author => '固件作者';
+  String get firmware_author => 'Firmware author';
 
   @override
-  String get email => '邮件';
+  String get email => 'email';
 
   @override
-  String get home_page => '主页';
+  String get home_page => 'Home page';
 
   @override
-  String get firmware_repository => '固件程序';
+  String get firmware_repository => 'Firmware repository';
 
   @override
-  String get firmware_version => '固件版本';
+  String get firmware_version => 'Firmware version';
 
   @override
-  String get is_local => '是否本网设备';
+  String get is_local => 'Is local?';
 
   @override
-  String get yes => '是';
+  String get yes => 'yes';
 
   @override
-  String get no => '否';
+  String get no => 'no';
 
   @override
-  String get device_ip => '设备地址';
+  String get device_ip => 'Device ip';
 
   @override
-  String get device_port => '设备端口';
+  String get device_port => 'Device port';
 
   @override
-  String get device_info => '设备信息';
+  String get device_info => 'Device info';
 
   @override
-  String get modify_device_name => '修改名称';
+  String get modify_device_name => 'Modify device name';
 
   @override
-  String get input_new_device_name => '请输入新的名称';
+  String get input_new_device_name => 'Input new device name';
 
   @override
-  String get delete_device => '删除设备';
+  String get delete_device => 'Delete device';
 
   @override
-  String get confirm_delete_device => '确认删除本设备?';
+  String get confirm_delete_device => 'Confirm delete device?';
 
   @override
-  String get modify => '修改';
+  String get modify => 'Modify';
 
   @override
-  String get delete_success => '删除成功!';
+  String get delete_success => 'Delete_success!';
 
   @override
-  String get mdns_info => '设备信息';
+  String get mdns_info => 'mdns info';
 
   @override
-  String get firmware_url => '固件网址';
+  String get firmware_url => 'Firmware url';
 
   @override
-  String get start_ota => '开始更新';
+  String get start_ota => 'Start OTA';
 
   @override
-  String get temperature => '温度';
+  String get temperature => 'temperature';
 
   @override
-  String get humidity => '湿度';
+  String get humidity => 'humidity';
 
   @override
-  String get setting_name => '设置名称';
+  String get setting_name => 'Setting name';
 
   @override
-  String get upgrade_firmware => '升级固件';
+  String get upgrade_firmware => 'Upgrade firmware';
 
   @override
-  String get switch_control => '开关控制';
+  String get switch_control => 'Switch control';
 
   @override
-  String get on => '已经开启';
+  String get on => 'On';
 
   @override
-  String get off => '已经关闭';
+  String get off => 'Off';
 
   @override
-  String get effect => '特效';
+  String get effect => 'Effect';
 
   @override
-  String get switch_bottom => '开关';
+  String get switch_bottom => 'Switch bottom';
 
   @override
-  String get speed => '速度';
+  String get speed => 'Speed';
 
   @override
-  String get please_input_message => '请输入消息';
+  String get please_input_message => 'Please input message';
 
   @override
-  String get me => '我';
+  String get me => 'Me';
 
   @override
-  String get serial_port => '串口';
+  String get serial_port => 'Serial port';
 
   @override
-  String get please_input_linux_login_info => '输入linux登录信息';
+  String get please_input_linux_login_info => 'Please input linux login info';
 
   @override
-  String get linux_username => 'linux用户名';
+  String get linux_username => 'L(U)inux username';
 
   @override
-  String get ssh_password => 'ssh密码';
+  String get ssh_password => 'SSH password';
 
   @override
-  String get above_mentioned_ssh_password => '上述linux用户密码';
+  String get above_mentioned_ssh_password => 'Above mentioned SSH password';
 
   @override
-  String get connect => '连接';
+  String get connect => 'Connect';
 }
