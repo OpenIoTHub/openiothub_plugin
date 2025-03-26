@@ -22,6 +22,19 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
-        "app_title": MessageLookupByLibrary.simpleMessage("雲億連")
+        "add": MessageLookupByLibrary.simpleMessage("添加"),
+        "add_gateway_failed": MessageLookupByLibrary.simpleMessage("添加网关失败！"),
+        "add_gateway_success": MessageLookupByLibrary.simpleMessage("添加网关成功！"),
+        "app_title": MessageLookupByLibrary.simpleMessage("雲億連"),
+        "cancel": MessageLookupByLibrary.simpleMessage("取消"),
+        "confirm_gateway_connect_this_server":
+            MessageLookupByLibrary.simpleMessage("确认添加本网关到此服务器？"),
+        "gateway_already_added": MessageLookupByLibrary.simpleMessage(
+            "该网关已经被其他用户添加，请联系该网关管理员或者清空网关配置并重启网关"),
+        "get_gateway_login_status_failed":
+            MessageLookupByLibrary.simpleMessage("获取网关的登录状态异常"),
+        "login_failed": MessageLookupByLibrary.simpleMessage("登录失败！"),
+        "select_server_for_gateway":
+            MessageLookupByLibrary.simpleMessage("选择本网关需要连接的服务器")
       };
 }

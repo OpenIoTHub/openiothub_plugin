@@ -7,7 +7,7 @@ import 'package:openiothub_grpc_api/proto/mobile/mobile.pbgrpc.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-import '../../mdnsService/commWidgets/info.dart';
+import 'package:openiothub_plugin/openiothub_plugin.dart';
 
 class WebPage extends StatefulWidget {
   WebPage({required Key key, required this.device}) : super(key: key);
@@ -22,6 +22,7 @@ class WebPage extends StatefulWidget {
 class _WebPageState extends State<WebPage> {
   @override
   Widget build(BuildContext context) {
+    final localizations = OpenIoTHubPluginLocalizations.of(context);
     WebViewController controller = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
       ..setBackgroundColor(const Color(0x00000000))
@@ -42,7 +43,7 @@ class _WebPageState extends State<WebPage> {
           Uri.parse("http://${widget.device.ip}:${widget.device.port}"));
 //    解决退出没有断连的问题
     return Scaffold(
-        appBar: AppBar(title: Text("网页浏览器"), actions: <Widget>[
+        appBar: AppBar(title: Text(localizations.web_browser), actions: <Widget>[
           IconButton(
               icon: Icon(
                 Icons.info,

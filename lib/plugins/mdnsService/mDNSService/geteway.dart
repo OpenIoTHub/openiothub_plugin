@@ -8,6 +8,7 @@ import 'package:openiothub_grpc_api/proto/manager/gatewayManager.pb.dart';
 import 'package:openiothub_grpc_api/proto/manager/serverManager.pb.dart';
 import 'package:openiothub_grpc_api/proto/mobile/mobile.pb.dart';
 import 'package:openiothub_grpc_api/proto/mobile/mobile.pbgrpc.dart';
+import 'package:openiothub_plugin/l10n/generated/openiothub_plugin_localizations.dart';
 
 import '../../mdnsService/commWidgets/info.dart';
 
@@ -25,6 +26,7 @@ class GatewayState extends State<Gateway> {
   //是否可以添加 true：可以添加 false：不可以添加
   bool _addable = true;
   List<ServerInfo> _availableServerList = [];
+  OpenIoTHubPluginLocalizations? localizations;
 
   @override
   void initState() {
@@ -35,6 +37,7 @@ class GatewayState extends State<Gateway> {
 
   @override
   Widget build(BuildContext context) {
+    localizations = OpenIoTHubPluginLocalizations.of(context);
     final tiles = _availableServerList.map(
       (pair) {
         var listItemContent = Padding(
@@ -68,7 +71,7 @@ class GatewayState extends State<Gateway> {
     ).toList();
     return Scaffold(
         appBar: AppBar(
-          title: Text("选择本网关需要连接的服务器"),
+          title: Text(localizations!.select_server_for_gateway),
           actions: <Widget>[
             IconButton(
                 icon: Icon(
@@ -100,33 +103,33 @@ class GatewayState extends State<Gateway> {
     config.description = name;
     try {
       await SessionApi.createOneSession(config);
-      showToast("添加网关成功！");
+      showToast(localizations!.add_gateway_success);
     } catch (exception) {
-      showToast("登录失败：${exception}");
+      showToast("${localizations!.login_failed}：${exception}");
     }
   }
 
   _confirmAdd(ServerInfo serverInfo) {
     if (!_addable) {
-      showToast("该网关已经被其他用户添加，请联系该网关管理员或者清空网关配置并重启网关");
+      showToast(localizations!.gateway_already_added);
       return;
     }
     showDialog(
         context: context,
         builder: (_) => AlertDialog(
-                title: Text("确认添加本网关到此服务器？"),
+                title: Text(localizations!.confirm_gateway_connect_this_server),
                 content: SizedBox.expand(
                   child: Text("${serverInfo.serverHost}"),
                 ),
                 actions: <Widget>[
                   TextButton(
-                    child: Text("取消"),
+                    child: Text(localizations!.cancel),
                     onPressed: () {
                       Navigator.of(context).pop();
                     },
                   ),
                   TextButton(
-                    child: Text("添加"),
+                    child: Text(localizations!.add),
                     onPressed: () {
                       _addToMyAccount(serverInfo);
                     },
@@ -156,7 +159,7 @@ class GatewayState extends State<Gateway> {
         });
       }
     } catch (exception) {
-      showToast("添加网关失败：${exception}");
+      showToast("${localizations!.add_gateway_failed}：${exception}");
     }
   }
 
@@ -175,7 +178,7 @@ class GatewayState extends State<Gateway> {
               widget.device.ip, widget.device.port);
       _addable = !loginResponse.loginStatus;
     } catch (exception) {
-      showToast("获取网关的登录状态异常：$exception");
+      showToast("${localizations!.get_gateway_login_status_failed}：$exception");
     }
   }
 

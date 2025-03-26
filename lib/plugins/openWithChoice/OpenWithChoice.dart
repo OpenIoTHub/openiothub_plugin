@@ -4,9 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:openiothub_constants/openiothub_constants.dart';
 import 'package:openiothub_grpc_api/proto/mobile/mobile.pb.dart';
 import 'package:openiothub_grpc_api/proto/mobile/mobile.pbgrpc.dart';
-import 'package:openiothub_plugin/plugins/openWithChoice/aria2/Aria2Page.dart';
-import 'package:openiothub_plugin/plugins/openWithChoice/sshNative/SSHWebPage.dart';
-import 'package:openiothub_plugin/plugins/openWithChoice/vncWeb/VNCWebPage.dart';
+import 'package:openiothub_plugin/openiothub_plugin.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -38,7 +36,7 @@ class OpenWithChoice extends StatelessWidget {
         ListItem(title: 'VNC', icon: 'assets/images/ic_discover_nearby.png'));
     listData.add(TAG_CENTER);
     listData.add(ListItem(
-        title: 'RDP远程桌面', icon: 'assets/images/ic_discover_nearby.png'));
+        title: 'RDP Remote Desktop', icon: 'assets/images/ic_discover_nearby.png'));
     listData.add(TAG_END);
   }
 
@@ -117,7 +115,7 @@ class OpenWithChoice extends StatelessWidget {
             showDialog(
                 context: ctx,
                 builder: (_) => AlertDialog(
-                        title: Text("输入linux登录信息："),
+                        title: Text("${OpenIoTHubPluginLocalizations.of(ctx).please_input_linux_login_info}："),
                         content: SizedBox.expand(
                             child: ListView(
                           children: <Widget>[
@@ -125,16 +123,16 @@ class OpenWithChoice extends StatelessWidget {
                               controller: _username_controller,
                               decoration: InputDecoration(
                                 contentPadding: EdgeInsets.all(10.0),
-                                labelText: '用户名',
-                                helperText: 'linux用户名',
+                                labelText: OpenIoTHubPluginLocalizations.of(ctx).username,
+                                helperText: OpenIoTHubPluginLocalizations.of(ctx).linux_username,
                               ),
                             ),
                             TextFormField(
                               controller: _password_controller,
                               decoration: InputDecoration(
                                 contentPadding: EdgeInsets.all(10.0),
-                                labelText: 'ssh密码',
-                                helperText: '上述linux用户密码',
+                                labelText: OpenIoTHubPluginLocalizations.of(ctx).ssh_password,
+                                helperText: OpenIoTHubPluginLocalizations.of(ctx).above_mentioned_ssh_password,
                               ),
                               obscureText: true,
                             )
@@ -142,13 +140,13 @@ class OpenWithChoice extends StatelessWidget {
                         )),
                         actions: <Widget>[
                           TextButton(
-                            child: Text("取消"),
+                            child: Text(OpenIoTHubPluginLocalizations.of(ctx).cancel),
                             onPressed: () {
                               Navigator.of(ctx).pop();
                             },
                           ),
                           TextButton(
-                            child: Text("连接"),
+                            child: Text(OpenIoTHubPluginLocalizations.of(ctx).connect),
                             onPressed: () {
                               Navigator.push(ctx,
                                   MaterialPageRoute(builder: (ctx) {
@@ -206,7 +204,7 @@ class OpenWithChoice extends StatelessWidget {
                     "http://${Config.webgRpcIp}:${portConfig.localProt}"));
               Navigator.push(ctx, MaterialPageRoute(builder: (ctx) {
                 return Scaffold(
-                  appBar: AppBar(title: Text("网页浏览器"), actions: <Widget>[
+                  appBar: AppBar(title: Text(OpenIoTHubPluginLocalizations.of(ctx).web_browser), actions: <Widget>[
                     IconButton(
                         icon: Icon(
                           Icons.open_in_browser,
@@ -223,7 +221,7 @@ class OpenWithChoice extends StatelessWidget {
                 Navigator.of(ctx).pop();
               });
             }
-          } else if (title == 'RDP远程桌面') {
+          } else if (title == 'RDP Remote Desktop') {
             var url =
                 'rdp://full%20address=s:${Config.webgRpcIp}:${portConfig.localProt}&audiomode=i:2&disable%20themes=i:1';
             _launchURL(url).then((_) {

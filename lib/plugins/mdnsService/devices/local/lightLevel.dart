@@ -6,8 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:openiothub_grpc_api/proto/mobile/mobile.pb.dart';
 import 'package:openiothub_grpc_api/proto/mobile/mobile.pbgrpc.dart';
 
-import '../../../mdnsService/commWidgets/info.dart';
-import '../../../mdnsService/commWidgets/uploadOTA.dart';
+import 'package:openiothub_plugin/openiothub_plugin.dart';
 
 class LightLevelPage extends StatefulWidget {
   LightLevelPage({required Key key, required this.device}) : super(key: key);
@@ -31,7 +30,7 @@ class _LightLevelPageState extends State<LightLevelPage> {
   });
 
   Map<String, String> _realName = Map.from({
-    lightLevel: "光照强度",
+    lightLevel: "lightLevel",
   });
 
   Map<String, String> _units = Map.from({
@@ -156,7 +155,7 @@ class _LightLevelPageState extends State<LightLevelPage> {
     return showDialog(
         context: context,
         builder: (_) => AlertDialog(
-                title: Text("设置名称："),
+                title: Text("${OpenIoTHubPluginLocalizations.of(context).setting_name}："),
                 content: SizedBox.expand(
                     child: ListView(
                   children: <Widget>[
@@ -164,20 +163,20 @@ class _LightLevelPageState extends State<LightLevelPage> {
                       controller: _name_controller,
                       decoration: InputDecoration(
                         contentPadding: EdgeInsets.all(10.0),
-                        labelText: '名称',
+                        labelText: OpenIoTHubPluginLocalizations.of(context).name,
                       ),
                     )
                   ],
                 )),
                 actions: <Widget>[
                   TextButton(
-                    child: Text("取消"),
+                    child: Text(OpenIoTHubPluginLocalizations.of(context).cancel),
                     onPressed: () {
                       Navigator.of(context).pop();
                     },
                   ),
                   TextButton(
-                    child: Text("修改"),
+                    child: Text(OpenIoTHubPluginLocalizations.of(context).modify),
                     onPressed: () async {
                       try {
                         String url =
@@ -218,7 +217,7 @@ class _LightLevelPageState extends State<LightLevelPage> {
     return showDialog(
         context: context,
         builder: (_) => AlertDialog(
-                title: Text("升级固件："),
+                title: Text("${OpenIoTHubPluginLocalizations.of(context).upgrade_firmware}："),
                 content: SizedBox.expand(
                     child: UploadOTAPage(
                   url:
@@ -227,7 +226,7 @@ class _LightLevelPageState extends State<LightLevelPage> {
                 )),
                 actions: <Widget>[
                   TextButton(
-                    child: Text("取消"),
+                    child: Text(OpenIoTHubPluginLocalizations.of(context).cancel),
                     onPressed: () {
                       Navigator.of(context).pop();
                     },

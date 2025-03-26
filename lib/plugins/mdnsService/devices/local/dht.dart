@@ -6,8 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:openiothub_grpc_api/proto/mobile/mobile.pb.dart';
 import 'package:openiothub_grpc_api/proto/mobile/mobile.pbgrpc.dart';
 
-import '../../../mdnsService/commWidgets/info.dart';
-import '../../../mdnsService/commWidgets/uploadOTA.dart';
+import 'package:openiothub_plugin/openiothub_plugin.dart';
 
 class DHTPage extends StatefulWidget {
   DHTPage({required Key key, required this.device}) : super(key: key);
@@ -33,10 +32,7 @@ class _DHTPageState extends State<DHTPage> {
     humidity: null,
   });
 
-  Map<String, String> _realName = Map.from({
-    temperature: "温度",
-    humidity: "湿度",
-  });
+  Map<String, String>? _realName;
 
   Map<String, String> _units = Map.from({
     temperature: "℃",
@@ -52,6 +48,10 @@ class _DHTPageState extends State<DHTPage> {
 
   @override
   Widget build(BuildContext context) {
+    _realName = Map.from({
+      temperature: OpenIoTHubPluginLocalizations.of(context).temperature,
+      humidity: OpenIoTHubPluginLocalizations.of(context).humidity,
+    });
     final List _result = [];
     _result.addAll(_valueKeyList);
     final tiles = _result.map(
@@ -63,7 +63,7 @@ class _DHTPageState extends State<DHTPage> {
               title: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Text(_realName[pair]!),
+                  Text(_realName![pair]!),
                   Text(":"),
                   Text(_status[pair].toString()),
                   Text(_units[pair]!)
@@ -76,7 +76,7 @@ class _DHTPageState extends State<DHTPage> {
               title: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Text(_realName[pair]!),
+                  Text(_realName![pair]!),
                   Text(":"),
                   Text(_status[pair].toString()),
                 ],
@@ -162,7 +162,7 @@ class _DHTPageState extends State<DHTPage> {
     return showDialog(
         context: context,
         builder: (_) => AlertDialog(
-                title: Text("设置名称："),
+                title: Text("${OpenIoTHubPluginLocalizations.of(context).setting_name}："),
                 content: SizedBox.expand(
                     child: ListView(
                   children: <Widget>[
@@ -170,20 +170,20 @@ class _DHTPageState extends State<DHTPage> {
                       controller: _name_controller,
                       decoration: InputDecoration(
                         contentPadding: EdgeInsets.all(10.0),
-                        labelText: '名称',
+                        labelText: OpenIoTHubPluginLocalizations.of(context).name,
                       ),
                     )
                   ],
                 )),
                 actions: <Widget>[
                   TextButton(
-                    child: Text("取消"),
+                    child: Text(OpenIoTHubPluginLocalizations.of(context).cancel),
                     onPressed: () {
                       Navigator.of(context).pop();
                     },
                   ),
                   TextButton(
-                    child: Text("修改"),
+                    child: Text(OpenIoTHubPluginLocalizations.of(context).modify),
                     onPressed: () async {
                       try {
                         String url =
@@ -224,7 +224,7 @@ class _DHTPageState extends State<DHTPage> {
     return showDialog(
         context: context,
         builder: (_) => AlertDialog(
-                title: Text("升级固件："),
+                title: Text("${OpenIoTHubPluginLocalizations.of(context).upgrade_firmware}："),
                 content: SizedBox.expand(
                     child: UploadOTAPage(
                   url:
@@ -233,7 +233,7 @@ class _DHTPageState extends State<DHTPage> {
                 )),
                 actions: <Widget>[
                   TextButton(
-                    child: Text("取消"),
+                    child: Text(OpenIoTHubPluginLocalizations.of(context).cancel),
                     onPressed: () {
                       Navigator.of(context).pop();
                     },

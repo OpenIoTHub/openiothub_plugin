@@ -7,7 +7,7 @@ export './devices/mqtt/mqttPhicommzTc1A1Plugin.dart';
 //Service
 export './mDNSService/VNCRFBWebPage.dart';
 export './mDNSService/aria2c.dart';
-export './mDNSService/getway.dart';
+export './mDNSService/geteway.dart';
 export './mDNSService/mdnsResponser.dart';
 export './mDNSService/onvifManager.dart';
 export './mDNSService/videoPlayer.dart';

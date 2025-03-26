@@ -1,3 +1,19 @@
 {
-  "app_title": "雲億連"
+  "@@locale": "zh_TW",
+  "app_title": "雲億連",
+
+  "select_server_for_gateway": "选择本网关需要连接的服务器",
+  "add_gateway_success": "添加网关成功！",
+  "add_gateway_failed": "添加网关失败！",
+  "login_failed": "登录失败！",
+  "gateway_already_added": "该网关已经被其他用户添加，请联系该网关管理员或者清空网关配置并重启网关",
+  "confirm_gateway_connect_this_server": "确认添加本网关到此服务器？",
+  "get_gateway_login_status_failed": "获取网关的登录状态异常",
+  "cancel": "取消",
+  "add": "添加",
+
+  "onvif_camera_manager": "Onvif摄像头管理",
+  "confirm": "确认",
+  "delete": "删除",
+  "confirm_delete_onvif_device": "确认删除此onvif设备？"
 }

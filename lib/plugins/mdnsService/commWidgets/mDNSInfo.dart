@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:openiothub_grpc_api/proto/mobile/mobile.pb.dart';
 
+import 'package:openiothub_plugin/openiothub_plugin.dart';
+
 class MDNSInfoPage extends StatelessWidget {
   MDNSInfoPage({required Key key, required this.portConfig}) : super(key: key);
   PortConfig portConfig;
@@ -10,7 +12,7 @@ class MDNSInfoPage extends StatelessWidget {
   Widget build(BuildContext context) {
     //设备信息
     final List _result = [];
-    _result.add("mDNS信息:${portConfig.mDNSInfo}");
+    _result.add("${OpenIoTHubPluginLocalizations.of(context).mdns_info}:${portConfig.mDNSInfo}");
 
     final tiles = _result.map(
       (pair) {
@@ -27,7 +29,7 @@ class MDNSInfoPage extends StatelessWidget {
     ).toList();
     return Scaffold(
       appBar: AppBar(
-        title: Text('设备信息'),
+        title: Text(OpenIoTHubPluginLocalizations.of(context).device_info),
       ),
       body: ListView(children: divided),
     );

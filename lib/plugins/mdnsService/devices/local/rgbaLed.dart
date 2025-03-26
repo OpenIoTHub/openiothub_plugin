@@ -5,8 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:openiothub_grpc_api/proto/mobile/mobile.pb.dart';
 import 'package:openiothub_grpc_api/proto/mobile/mobile.pbgrpc.dart';
 
-import '../../../mdnsService/commWidgets/info.dart';
-import '../../../mdnsService/commWidgets/uploadOTA.dart';
+import 'package:openiothub_plugin/openiothub_plugin.dart';
 
 class RGBALedPage extends StatefulWidget {
   RGBALedPage({required Key key, required this.device}) : super(key: key);
@@ -140,7 +139,7 @@ class _RGBALedPageState extends State<RGBALedPage> {
                 child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                  Text("特效："),
+                  Text("${OpenIoTHubPluginLocalizations.of(context).effect}："),
                   DropdownButton<int>(
                     value: _currentModes,
                     onChanged: _setMode,
@@ -158,7 +157,7 @@ class _RGBALedPageState extends State<RGBALedPage> {
                 child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                  Text("开关："),
+                  Text("${OpenIoTHubPluginLocalizations.of(context).switch_bottom}："),
                   Switch(
                     onChanged: (_) {
                       _changeSwitchStatus();
@@ -172,7 +171,7 @@ class _RGBALedPageState extends State<RGBALedPage> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Text("速度："),
+                  Text("${OpenIoTHubPluginLocalizations.of(context).speed}："),
                   IconButton(
                     icon: Icon(Icons.arrow_drop_up),
                     onPressed: () {
@@ -199,7 +198,7 @@ class _RGBALedPageState extends State<RGBALedPage> {
     return showDialog(
         context: context,
         builder: (_) => AlertDialog(
-                title: Text("设置名称："),
+                title: Text("${OpenIoTHubPluginLocalizations.of(context).setting_name}："),
                 content: SizedBox.expand(
                     child: ListView(
                   children: <Widget>[
@@ -207,20 +206,20 @@ class _RGBALedPageState extends State<RGBALedPage> {
                       controller: _name_controller,
                       decoration: InputDecoration(
                         contentPadding: EdgeInsets.all(10.0),
-                        labelText: '名称',
+                        labelText: OpenIoTHubPluginLocalizations.of(context).name,
                       ),
                     )
                   ],
                 )),
                 actions: <Widget>[
                   TextButton(
-                    child: Text("取消"),
+                    child: Text(OpenIoTHubPluginLocalizations.of(context).cancel),
                     onPressed: () {
                       Navigator.of(context).pop();
                     },
                   ),
                   TextButton(
-                    child: Text("修改"),
+                    child: Text(OpenIoTHubPluginLocalizations.of(context).modify),
                     onPressed: () async {
                       try {
                         String url =
@@ -261,7 +260,7 @@ class _RGBALedPageState extends State<RGBALedPage> {
     return showDialog(
         context: context,
         builder: (_) => AlertDialog(
-                title: Text("升级固件："),
+                title: Text("${OpenIoTHubPluginLocalizations.of(context).upgrade_firmware}："),
                 content: SizedBox.expand(
                     child: UploadOTAPage(
                   url:
@@ -270,7 +269,7 @@ class _RGBALedPageState extends State<RGBALedPage> {
                 )),
                 actions: <Widget>[
                   TextButton(
-                    child: Text("取消"),
+                    child: Text(OpenIoTHubPluginLocalizations.of(context).cancel),
                     onPressed: () {
                       Navigator.of(context).pop();
                     },

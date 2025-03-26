@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:openiothub_grpc_api/proto/mobile/mobile.pb.dart';
 import 'package:openiothub_grpc_api/proto/mobile/mobile.pbgrpc.dart';
 
-import '../../../mdnsService/commWidgets/info.dart';
+import 'package:openiothub_plugin/openiothub_plugin.dart';
 
 class OneKeySwitchPage extends StatefulWidget {
   OneKeySwitchPage({required Key key, required this.device}) : super(key: key);
@@ -32,7 +32,7 @@ class _OneKeySwitchPageState extends State<OneKeySwitchPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("开关控制"),
+        title: Text(OpenIoTHubPluginLocalizations.of(context).switch_control),
         actions: <Widget>[
           IconButton(
               icon: Icon(
@@ -71,7 +71,8 @@ class _OneKeySwitchPageState extends State<OneKeySwitchPage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                ledBottonStatus == "on" ? Text("已经开启") : Text("已经关闭"),
+                ledBottonStatus == "on" ? Text(OpenIoTHubPluginLocalizations.of(context).on)
+                    : Text(OpenIoTHubPluginLocalizations.of(context).off),
               ],
             )
           ]),
@@ -103,7 +104,7 @@ class _OneKeySwitchPageState extends State<OneKeySwitchPage> {
     return showDialog(
         context: context,
         builder: (_) => AlertDialog(
-                title: Text("设置名称："),
+                title: Text("${OpenIoTHubPluginLocalizations.of(context).setting_name}："),
                 content: SizedBox.expand(
                   child: ListView(
                     children: <Widget>[
@@ -111,7 +112,7 @@ class _OneKeySwitchPageState extends State<OneKeySwitchPage> {
                         controller: _name_controller,
                         decoration: InputDecoration(
                           contentPadding: EdgeInsets.all(10.0),
-                          labelText: '名称',
+                          labelText: OpenIoTHubPluginLocalizations.of(context).name,
                         ),
                       )
                     ],
@@ -119,13 +120,13 @@ class _OneKeySwitchPageState extends State<OneKeySwitchPage> {
                 ),
                 actions: <Widget>[
                   TextButton(
-                    child: Text("取消"),
+                    child: Text(OpenIoTHubPluginLocalizations.of(context).cancel),
                     onPressed: () {
                       Navigator.of(context).pop();
                     },
                   ),
                   TextButton(
-                    child: Text("修改"),
+                    child: Text(OpenIoTHubPluginLocalizations.of(context).modify),
                     onPressed: () async {
                       try {
                         String url =

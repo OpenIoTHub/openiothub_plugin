@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:openiothub_grpc_api/proto/mobile/mobile.pb.dart';
 import 'package:openiothub_grpc_api/proto/mobile/mobile.pbgrpc.dart';
 
-import '../../../mdnsService/commWidgets/info.dart';
+import 'package:openiothub_plugin/openiothub_plugin.dart';
 
 class PhicommTC1A1PluginPage extends StatefulWidget {
   PhicommTC1A1PluginPage({required Key key, required this.device})
@@ -45,13 +45,13 @@ class _PhicommTC1A1PluginPageState extends State<PhicommTC1A1PluginPage> {
 
   Map<String, String> _realName = Map.from({
 //    TODO 总开关
-    slot0: "开关1",
-    slot1: "开关2",
-    slot2: "开关3",
-    slot3: "开关4",
-    slot4: "开关5",
-    slot5: "开关6",
-    power: "功率",
+    slot0: "Switch 1",
+    slot1: "Switch 2",
+    slot2: "Switch 3",
+    slot3: "Switch 4",
+    slot4: "Switch 5",
+    slot5: "Switch 6",
+    power: "Power",
   });
 
   List<String> _switchKeyList = [slot0, slot1, slot2, slot3, slot4, slot5];

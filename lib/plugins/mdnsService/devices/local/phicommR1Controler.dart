@@ -9,7 +9,7 @@ import 'package:oktoast/oktoast.dart';
 import 'package:openiothub_grpc_api/proto/mobile/mobile.pb.dart';
 import 'package:openiothub_grpc_api/proto/mobile/mobile.pbgrpc.dart';
 
-import '../../../mdnsService/commWidgets/info.dart';
+import 'package:openiothub_plugin/openiothub_plugin.dart';
 
 class PhicommR1ControlerPage extends StatefulWidget {
   PhicommR1ControlerPage({required Key key, required this.device})

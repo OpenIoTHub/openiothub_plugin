@@ -5,13 +5,17 @@ import 'package:openiothub_grpc_api/proto/manager/mqttDeviceManager.pbgrpc.dart'
 import 'package:openiothub_grpc_api/proto/mobile/mobile.pb.dart';
 import 'package:openiothub_grpc_api/proto/mobile/mobile.pbgrpc.dart';
 
+import 'package:openiothub_plugin/openiothub_plugin.dart';
+
 class InfoPage extends StatelessWidget {
   InfoPage({required Key key, required this.portService}) : super(key: key);
+  OpenIoTHubPluginLocalizations? localizations;
   PortService portService;
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    localizations = OpenIoTHubPluginLocalizations.of(context);
     //设备信息
     final List _std_key = [
       "name",
@@ -25,18 +29,18 @@ class InfoPage extends StatelessWidget {
       "firmware-version"
     ];
     final List _result = [];
-    _result.add("设备名称:${portService.info["name"]}");
-    _result.add("设备型号:${portService.info["model"]!.replaceAll("#", ".")}");
-    _result.add("物理地址:${portService.info["mac"]}");
+    _result.add("${localizations!.device_name}:${portService.info["name"]}");
+    _result.add("${localizations!.device_model}:${portService.info["model"]!.replaceAll("#", ".")}");
+    _result.add("${localizations!.mac_addr}:${portService.info["mac"]}");
     _result.add("id:${portService.info["id"]}");
-    _result.add("固件作者:${portService.info["author"]}");
-    _result.add("邮件:${portService.info["email"]}");
-    _result.add("主页:${portService.info["home-page"]}");
-    _result.add("固件程序:${portService.info["firmware-respository"]}");
-    _result.add("固件版本:${portService.info["firmware-version"]}");
-    _result.add("本网设备:${portService.isLocal ? "是" : "不是"}");
-    _result.add("设备地址:${portService.ip}");
-    _result.add("设备端口:${portService.port}");
+    _result.add("${localizations!.firmware_author}:${portService.info["author"]}");
+    _result.add("${localizations!.email}:${portService.info["email"]}");
+    _result.add("${localizations!.home_page}:${portService.info["home-page"]}");
+    _result.add("${localizations!.firmware_repository}:${portService.info["firmware-respository"]}");
+    _result.add("${localizations!.firmware_version}:${portService.info["firmware-version"]}");
+    _result.add("${localizations!.is_local}:${portService.isLocal ? localizations!.yes : localizations!.no}");
+    _result.add("${localizations!.device_ip}:${portService.ip}");
+    _result.add("${localizations!.device_port}:${portService.port}");
 
     portService.info.forEach((key, value) {
       if (!_std_key.contains(key)) {
@@ -80,7 +84,7 @@ class InfoPage extends StatelessWidget {
     }
     return Scaffold(
       appBar: AppBar(
-        title: Text('设备信息'),
+        title: Text(localizations!.device_info),
         actions: actions,
       ),
       body: ListView(children: divided),
@@ -94,7 +98,7 @@ class InfoPage extends StatelessWidget {
     showDialog(
         context: context,
         builder: (_) => AlertDialog(
-                title: Text("修改名称："),
+                title: Text("${localizations!.modify_device_name}："),
                 content: SizedBox.expand(
                   child: ListView(
                     children: <Widget>[
@@ -102,8 +106,8 @@ class InfoPage extends StatelessWidget {
                         controller: _new_name_controller,
                         decoration: InputDecoration(
                           contentPadding: EdgeInsets.all(10.0),
-                          labelText: '请输入新的名称',
-                          helperText: '名称',
+                          labelText: '${localizations!.input_new_device_name}',
+                          helperText: '${localizations!.name}',
                         ),
                       )
                     ],
@@ -111,13 +115,13 @@ class InfoPage extends StatelessWidget {
                 ),
                 actions: <Widget>[
                   TextButton(
-                    child: Text("取消"),
+                    child: Text(localizations!.cancel),
                     onPressed: () {
                       Navigator.of(context).pop();
                     },
                   ),
                   TextButton(
-                    child: Text("修改"),
+                    child: Text(localizations!.modify),
                     onPressed: () async {
                       await _rename(
                           portService.info["id"]!, _new_name_controller.text);
@@ -138,23 +142,23 @@ _deleteDialog(BuildContext context, PortService portService) async {
   showDialog(
       context: context,
       builder: (_) => AlertDialog(
-              title: Text("删除设备："),
+              title: Text("${OpenIoTHubPluginLocalizations.of(context).delete_device}："),
               content: SizedBox.expand(
                 child: ListView(
                   children: <Widget>[
-                    Text("确认删除本设备？"),
+                    Text("${OpenIoTHubPluginLocalizations.of(context).confirm_delete_device}"),
                   ],
                 ),
               ),
               actions: <Widget>[
                 TextButton(
-                  child: Text("取消"),
+                  child: Text(OpenIoTHubPluginLocalizations.of(context).cancel),
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
                 ),
                 TextButton(
-                  child: Text("删除"),
+                  child: Text(OpenIoTHubPluginLocalizations.of(context).delete),
                   onPressed: () async {
                     await _delete(context, portService);
                     Navigator.of(context).pop();
@@ -169,5 +173,5 @@ _delete(BuildContext context, PortService portService) async {
   MqttDeviceInfo mqttDeviceInfo = MqttDeviceInfo();
   mqttDeviceInfo.deviceId = portService.info["id"]!;
   await MqttDeviceManager.DelMqttDevice(mqttDeviceInfo);
-  showToast("删除成功!");
+  showToast(OpenIoTHubPluginLocalizations.of(context).delete_success);
 }

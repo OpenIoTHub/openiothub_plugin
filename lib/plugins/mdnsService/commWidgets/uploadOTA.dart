@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:openiothub_plugin/openiothub_plugin.dart';
 
 class UploadOTAPage extends StatefulWidget {
   UploadOTAPage({required Key key, this.url = ""}) : super(key: key);
@@ -26,12 +27,12 @@ class _UploadOTAPageState extends State<UploadOTAPage> {
                 Container(
                   child: TextField(
                     controller: _url_controller,
-                    decoration: InputDecoration(labelText: '固件网址'),
+                    decoration: InputDecoration(labelText: OpenIoTHubPluginLocalizations.of(context).firmware_url),
                   ),
                 ),
                 Container(height: 10),
                 TextButton(
-                  child: Text('开始更新'),
+                  child: Text(OpenIoTHubPluginLocalizations.of(context).start_ota),
                   onPressed: () {
                     _UploadBinFile(_url_controller.text);
                   },

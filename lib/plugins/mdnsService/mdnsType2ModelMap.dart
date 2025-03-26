@@ -35,16 +35,16 @@ class MDNS2ModelsMap {
   static Map<String, PortService> modelsMap = Map.from({
     //    OpenIoTHub网关模型
     Config.mdnsGatewayService:
-        getPortServiceByNameModel("云亿连网关", Gateway.modelName),
+        getPortServiceByNameModel("gateway-go", Gateway.modelName),
     //    web UI,http使用web方式打开服务的模型
-    "_http._tcp": getPortServiceByNameModel("Http服务", WebPage.modelName),
+    "_http._tcp": getPortServiceByNameModel("Http service", WebPage.modelName),
     //    web UI,http使用web方式打开服务的模型
-    "_CGI._tcp": getPortServiceByNameModel("CGI Http服务", WebPage.modelName),
+    "_CGI._tcp": getPortServiceByNameModel("CGI Http service", WebPage.modelName),
     //    web UI,homeassistant使用web方式打开服务的模型
     "_home-assistant._tcp":
         getPortServiceByNameModel("HomeAssistant", WebPage.modelName),
     //    vnc远程桌面模型
-    "_rfb._tcp": getPortServiceByNameModel("VNC RFB远程桌面", VNCWebPage.modelName),
+    "_rfb._tcp": getPortServiceByNameModel("VNC RFB remote desktop", VNCWebPage.modelName),
   });
 
   static PortService getPortServiceByNameModel(String name, model) {

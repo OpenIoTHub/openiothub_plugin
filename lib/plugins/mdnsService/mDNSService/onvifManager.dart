@@ -7,7 +7,7 @@ import 'package:openiothub_constants/openiothub_constants.dart';
 import 'package:openiothub_grpc_api/proto/mobile/mobile.pb.dart';
 import 'package:openiothub_grpc_api/proto/mobile/mobile.pbgrpc.dart';
 
-import '../../mdnsService/commWidgets/info.dart';
+import 'package:openiothub_plugin/openiothub_plugin.dart';
 
 //手动注册一些端口到mdns的声明，用于接入一些传统的设备或者服务或者帮助一些不方便注册mdns的设备或服务注册
 //需要选择模型和输入相关配置参数
@@ -22,6 +22,7 @@ class OvifManagerPage extends StatefulWidget {
 }
 
 class _OvifManagerPageState extends State<OvifManagerPage> {
+  OpenIoTHubPluginLocalizations? localizations;
   List<dynamic> _list = [];
 
   @override
@@ -32,6 +33,7 @@ class _OvifManagerPageState extends State<OvifManagerPage> {
 
   @override
   Widget build(BuildContext context) {
+    localizations = OpenIoTHubPluginLocalizations.of(context);
     final tiles = _list.map(
       (pair) {
         var listItemContent = Padding(
@@ -66,7 +68,7 @@ class _OvifManagerPageState extends State<OvifManagerPage> {
     ).toList();
     return Scaffold(
       appBar: AppBar(
-        title: Text("Onvif摄像头管理"),
+        title: Text(localizations!.onvif_camera_manager),
         actions: <Widget>[
           IconButton(
               icon: Icon(
@@ -136,19 +138,19 @@ class _OvifManagerPageState extends State<OvifManagerPage> {
     showDialog(
         context: context,
         builder: (_) => AlertDialog(
-                title: Text("确认"),
+                title: Text(localizations!.confirm),
                 content: SizedBox.expand(
-                  child: Text("确认删除此onvif设备？"),
+                  child: Text(localizations!.confirm_delete_onvif_device),
                 ),
                 actions: <Widget>[
                   TextButton(
-                    child: Text("取消"),
+                    child: Text(localizations!.cancel),
                     onPressed: () {
                       Navigator.of(context).pop();
                     },
                   ),
                   TextButton(
-                    child: Text("删除"),
+                    child: Text(localizations!.delete),
                     onPressed: () {
                       _deleteOneDevice(XAddr)
                           .then((value) => Navigator.of(context).pop());
@@ -174,7 +176,7 @@ class _OvifManagerPageState extends State<OvifManagerPage> {
 
   Future _addDeviceDialog() {
     TextEditingController _Name_controller =
-        TextEditingController.fromValue(TextEditingValue(text: "Onvif摄像头"));
+        TextEditingController.fromValue(TextEditingValue(text: localizations!.onvif_camera));
     TextEditingController _XAddr_controller = TextEditingController.fromValue(
         TextEditingValue(text: "192.168.123.211:8899"));
     TextEditingController _UserName_controller =
@@ -185,7 +187,7 @@ class _OvifManagerPageState extends State<OvifManagerPage> {
         context: context,
         builder: (_) => AlertDialog(
                 title: SizedBox.expand(
-                  child: Text("添加Onvif摄像头："),
+                  child: Text(localizations!.add_onvif_camera),
                 ),
                 content: ListView(
                   children: <Widget>[
@@ -193,43 +195,43 @@ class _OvifManagerPageState extends State<OvifManagerPage> {
                       controller: _Name_controller,
                       decoration: InputDecoration(
                         contentPadding: EdgeInsets.all(10.0),
-                        labelText: '名称',
-                        helperText: '自定义名称',
+                        labelText: localizations!.name,
+                        helperText: localizations!.custom_name,
                       ),
                     ),
                     TextFormField(
                       controller: _XAddr_controller,
                       decoration: InputDecoration(
                         contentPadding: EdgeInsets.all(10.0),
-                        labelText: 'XAddr地址',
-                        helperText: '该机器onvif的地址:端口号',
+                        labelText: localizations!.x_addr_addr,
+                        helperText: localizations!.onvif_device_host_port,
                       ),
                     ),
                     TextFormField(
                         controller: _UserName_controller,
                         decoration: InputDecoration(
                           contentPadding: EdgeInsets.all(10.0),
-                          labelText: '用户名',
-                          helperText: 'onvif的用户名',
+                          labelText: localizations!.username,
+                          helperText: localizations!.onvif_username,
                         )),
                     TextFormField(
                         controller: _Password_controller,
                         decoration: InputDecoration(
                           contentPadding: EdgeInsets.all(10.0),
-                          labelText: '密码',
-                          helperText: 'onvif的密码',
+                          labelText: localizations!.password,
+                          helperText: localizations!.onvif_password,
                         ))
                   ],
                 ),
                 actions: <Widget>[
                   TextButton(
-                    child: Text("取消"),
+                    child: Text(localizations!.cancel),
                     onPressed: () {
                       Navigator.of(context).pop();
                     },
                   ),
                   TextButton(
-                    child: Text("添加"),
+                    child: Text(localizations!.add),
                     onPressed: () {
                       _addOneDevice(
                               _Name_controller.text,
