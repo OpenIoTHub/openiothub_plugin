@@ -12,7 +12,7 @@ class OpenIoTHubPluginLocalizationsZh extends OpenIoTHubPluginLocalizations {
   String get app_title => '云亿连';
 
   @override
-  String get rdp_remote_desktop => 'RDP remote desktop';
+  String get rdp_remote_desktop => 'RDP远程桌面';
 
   @override
   String get select_server_for_gateway => '选择本网关需要连接的服务器';
@@ -219,6 +219,9 @@ class OpenIoTHubPluginLocalizationsZhCn
   String get app_title => '云亿连';
 
   @override
+  String get rdp_remote_desktop => 'RDP远程桌面';
+
+  @override
   String get select_server_for_gateway => '选择本网关需要连接的服务器';
 
   @override
@@ -256,6 +259,162 @@ class OpenIoTHubPluginLocalizationsZhCn
 
   @override
   String get confirm_delete_onvif_device => '确认删除此onvif设备？';
+
+  @override
+  String get onvif_camera => 'Onvif摄像头';
+
+  @override
+  String get add_onvif_camera => '添加Onvif摄像头';
+
+  @override
+  String get name => '名称';
+
+  @override
+  String get custom_name => '自定义名称';
+
+  @override
+  String get x_addr_addr => 'XAddr地址';
+
+  @override
+  String get onvif_device_host_port => '该机器onvif的地址:端口号';
+
+  @override
+  String get username => '用户名';
+
+  @override
+  String get onvif_username => 'onvif的用户名';
+
+  @override
+  String get password => '密码';
+
+  @override
+  String get onvif_password => 'onvif的密码';
+
+  @override
+  String get web_browser => '网页浏览器';
+
+  @override
+  String get device_name => '设备名称';
+
+  @override
+  String get device_model => '设备型号';
+
+  @override
+  String get mac_addr => '物理地址';
+
+  @override
+  String get firmware_author => '固件作者';
+
+  @override
+  String get email => '邮件';
+
+  @override
+  String get home_page => '主页';
+
+  @override
+  String get firmware_repository => '固件程序';
+
+  @override
+  String get firmware_version => '固件版本';
+
+  @override
+  String get is_local => '是否本网设备';
+
+  @override
+  String get yes => '是';
+
+  @override
+  String get no => '否';
+
+  @override
+  String get device_ip => '设备地址';
+
+  @override
+  String get device_port => '设备端口';
+
+  @override
+  String get device_info => '设备信息';
+
+  @override
+  String get modify_device_name => '修改名称';
+
+  @override
+  String get input_new_device_name => '请输入新的名称';
+
+  @override
+  String get delete_device => '删除设备';
+
+  @override
+  String get confirm_delete_device => '确认删除本设备?';
+
+  @override
+  String get modify => '修改';
+
+  @override
+  String get delete_success => '删除成功!';
+
+  @override
+  String get mdns_info => '设备信息';
+
+  @override
+  String get firmware_url => '固件网址';
+
+  @override
+  String get start_ota => '开始更新';
+
+  @override
+  String get temperature => '温度';
+
+  @override
+  String get humidity => '湿度';
+
+  @override
+  String get setting_name => '设置名称';
+
+  @override
+  String get upgrade_firmware => '升级固件';
+
+  @override
+  String get switch_control => '开关控制';
+
+  @override
+  String get on => '已经开启';
+
+  @override
+  String get off => '已经关闭';
+
+  @override
+  String get effect => '特效';
+
+  @override
+  String get switch_bottom => '开关';
+
+  @override
+  String get speed => '速度';
+
+  @override
+  String get please_input_message => '请输入消息';
+
+  @override
+  String get me => '我';
+
+  @override
+  String get serial_port => '串口';
+
+  @override
+  String get please_input_linux_login_info => '输入linux登录信息';
+
+  @override
+  String get linux_username => 'linux用户名';
+
+  @override
+  String get ssh_password => 'ssh密码';
+
+  @override
+  String get above_mentioned_ssh_password => '上述linux用户密码';
+
+  @override
+  String get connect => '连接';
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hans`).
@@ -267,6 +426,9 @@ class OpenIoTHubPluginLocalizationsZhHans
   String get app_title => '云亿连';
 
   @override
+  String get rdp_remote_desktop => 'RDP remote desktop';
+
+  @override
   String get select_server_for_gateway => '选择本网关需要连接的服务器';
 
   @override
@@ -304,6 +466,162 @@ class OpenIoTHubPluginLocalizationsZhHans
 
   @override
   String get confirm_delete_onvif_device => '确认删除此onvif设备？';
+
+  @override
+  String get onvif_camera => 'Onvif摄像头';
+
+  @override
+  String get add_onvif_camera => '添加Onvif摄像头';
+
+  @override
+  String get name => '名称';
+
+  @override
+  String get custom_name => '自定义名称';
+
+  @override
+  String get x_addr_addr => 'XAddr地址';
+
+  @override
+  String get onvif_device_host_port => '该机器onvif的地址:端口号';
+
+  @override
+  String get username => '用户名';
+
+  @override
+  String get onvif_username => 'onvif的用户名';
+
+  @override
+  String get password => '密码';
+
+  @override
+  String get onvif_password => 'onvif的密码';
+
+  @override
+  String get web_browser => '网页浏览器';
+
+  @override
+  String get device_name => '设备名称';
+
+  @override
+  String get device_model => '设备型号';
+
+  @override
+  String get mac_addr => '物理地址';
+
+  @override
+  String get firmware_author => '固件作者';
+
+  @override
+  String get email => '邮件';
+
+  @override
+  String get home_page => '主页';
+
+  @override
+  String get firmware_repository => '固件程序';
+
+  @override
+  String get firmware_version => '固件版本';
+
+  @override
+  String get is_local => '是否本网设备';
+
+  @override
+  String get yes => '是';
+
+  @override
+  String get no => '否';
+
+  @override
+  String get device_ip => '设备地址';
+
+  @override
+  String get device_port => '设备端口';
+
+  @override
+  String get device_info => '设备信息';
+
+  @override
+  String get modify_device_name => '修改名称';
+
+  @override
+  String get input_new_device_name => '请输入新的名称';
+
+  @override
+  String get delete_device => '删除设备';
+
+  @override
+  String get confirm_delete_device => '确认删除本设备?';
+
+  @override
+  String get modify => '修改';
+
+  @override
+  String get delete_success => '删除成功!';
+
+  @override
+  String get mdns_info => '设备信息';
+
+  @override
+  String get firmware_url => '固件网址';
+
+  @override
+  String get start_ota => '开始更新';
+
+  @override
+  String get temperature => '温度';
+
+  @override
+  String get humidity => '湿度';
+
+  @override
+  String get setting_name => '设置名称';
+
+  @override
+  String get upgrade_firmware => '升级固件';
+
+  @override
+  String get switch_control => '开关控制';
+
+  @override
+  String get on => '已经开启';
+
+  @override
+  String get off => '已经关闭';
+
+  @override
+  String get effect => '特效';
+
+  @override
+  String get switch_bottom => '开关';
+
+  @override
+  String get speed => '速度';
+
+  @override
+  String get please_input_message => '请输入消息';
+
+  @override
+  String get me => '我';
+
+  @override
+  String get serial_port => '串口';
+
+  @override
+  String get please_input_linux_login_info => '输入linux登录信息';
+
+  @override
+  String get linux_username => 'linux用户名';
+
+  @override
+  String get ssh_password => 'ssh密码';
+
+  @override
+  String get above_mentioned_ssh_password => '上述linux用户密码';
+
+  @override
+  String get connect => '连接';
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hant`).
@@ -315,6 +633,9 @@ class OpenIoTHubPluginLocalizationsZhHant
   String get app_title => '雲億連';
 
   @override
+  String get rdp_remote_desktop => 'RDP remote desktop';
+
+  @override
   String get select_server_for_gateway => '选择本网关需要连接的服务器';
 
   @override
@@ -352,6 +673,162 @@ class OpenIoTHubPluginLocalizationsZhHant
 
   @override
   String get confirm_delete_onvif_device => '确认删除此onvif设备？';
+
+  @override
+  String get onvif_camera => 'Onvif摄像头';
+
+  @override
+  String get add_onvif_camera => '添加Onvif摄像头';
+
+  @override
+  String get name => '名称';
+
+  @override
+  String get custom_name => '自定义名称';
+
+  @override
+  String get x_addr_addr => 'XAddr地址';
+
+  @override
+  String get onvif_device_host_port => '该机器onvif的地址:端口号';
+
+  @override
+  String get username => '用户名';
+
+  @override
+  String get onvif_username => 'onvif的用户名';
+
+  @override
+  String get password => '密码';
+
+  @override
+  String get onvif_password => 'onvif的密码';
+
+  @override
+  String get web_browser => '网页浏览器';
+
+  @override
+  String get device_name => '设备名称';
+
+  @override
+  String get device_model => '设备型号';
+
+  @override
+  String get mac_addr => '物理地址';
+
+  @override
+  String get firmware_author => '固件作者';
+
+  @override
+  String get email => '邮件';
+
+  @override
+  String get home_page => '主页';
+
+  @override
+  String get firmware_repository => '固件程序';
+
+  @override
+  String get firmware_version => '固件版本';
+
+  @override
+  String get is_local => '是否本网设备';
+
+  @override
+  String get yes => '是';
+
+  @override
+  String get no => '否';
+
+  @override
+  String get device_ip => '设备地址';
+
+  @override
+  String get device_port => '设备端口';
+
+  @override
+  String get device_info => '设备信息';
+
+  @override
+  String get modify_device_name => '修改名称';
+
+  @override
+  String get input_new_device_name => '请输入新的名称';
+
+  @override
+  String get delete_device => '删除设备';
+
+  @override
+  String get confirm_delete_device => '确认删除本设备?';
+
+  @override
+  String get modify => '修改';
+
+  @override
+  String get delete_success => '删除成功!';
+
+  @override
+  String get mdns_info => '设备信息';
+
+  @override
+  String get firmware_url => '固件网址';
+
+  @override
+  String get start_ota => '开始更新';
+
+  @override
+  String get temperature => '温度';
+
+  @override
+  String get humidity => '湿度';
+
+  @override
+  String get setting_name => '设置名称';
+
+  @override
+  String get upgrade_firmware => '升级固件';
+
+  @override
+  String get switch_control => '开关控制';
+
+  @override
+  String get on => '已经开启';
+
+  @override
+  String get off => '已经关闭';
+
+  @override
+  String get effect => '特效';
+
+  @override
+  String get switch_bottom => '开关';
+
+  @override
+  String get speed => '速度';
+
+  @override
+  String get please_input_message => '请输入消息';
+
+  @override
+  String get me => '我';
+
+  @override
+  String get serial_port => '串口';
+
+  @override
+  String get please_input_linux_login_info => '输入linux登录信息';
+
+  @override
+  String get linux_username => 'linux用户名';
+
+  @override
+  String get ssh_password => 'ssh密码';
+
+  @override
+  String get above_mentioned_ssh_password => '上述linux用户密码';
+
+  @override
+  String get connect => '连接';
 }
 
 /// The translations for Chinese, as used in Taiwan (`zh_TW`).
@@ -363,6 +840,9 @@ class OpenIoTHubPluginLocalizationsZhTw
   String get app_title => '雲億連';
 
   @override
+  String get rdp_remote_desktop => 'RDP remote desktop';
+
+  @override
   String get select_server_for_gateway => '选择本网关需要连接的服务器';
 
   @override
@@ -400,4 +880,160 @@ class OpenIoTHubPluginLocalizationsZhTw
 
   @override
   String get confirm_delete_onvif_device => '确认删除此onvif设备？';
+
+  @override
+  String get onvif_camera => 'Onvif摄像头';
+
+  @override
+  String get add_onvif_camera => '添加Onvif摄像头';
+
+  @override
+  String get name => '名称';
+
+  @override
+  String get custom_name => '自定义名称';
+
+  @override
+  String get x_addr_addr => 'XAddr地址';
+
+  @override
+  String get onvif_device_host_port => '该机器onvif的地址:端口号';
+
+  @override
+  String get username => '用户名';
+
+  @override
+  String get onvif_username => 'onvif的用户名';
+
+  @override
+  String get password => '密码';
+
+  @override
+  String get onvif_password => 'onvif的密码';
+
+  @override
+  String get web_browser => '网页浏览器';
+
+  @override
+  String get device_name => '设备名称';
+
+  @override
+  String get device_model => '设备型号';
+
+  @override
+  String get mac_addr => '物理地址';
+
+  @override
+  String get firmware_author => '固件作者';
+
+  @override
+  String get email => '邮件';
+
+  @override
+  String get home_page => '主页';
+
+  @override
+  String get firmware_repository => '固件程序';
+
+  @override
+  String get firmware_version => '固件版本';
+
+  @override
+  String get is_local => '是否本网设备';
+
+  @override
+  String get yes => '是';
+
+  @override
+  String get no => '否';
+
+  @override
+  String get device_ip => '设备地址';
+
+  @override
+  String get device_port => '设备端口';
+
+  @override
+  String get device_info => '设备信息';
+
+  @override
+  String get modify_device_name => '修改名称';
+
+  @override
+  String get input_new_device_name => '请输入新的名称';
+
+  @override
+  String get delete_device => '删除设备';
+
+  @override
+  String get confirm_delete_device => '确认删除本设备?';
+
+  @override
+  String get modify => '修改';
+
+  @override
+  String get delete_success => '删除成功!';
+
+  @override
+  String get mdns_info => '设备信息';
+
+  @override
+  String get firmware_url => '固件网址';
+
+  @override
+  String get start_ota => '开始更新';
+
+  @override
+  String get temperature => '温度';
+
+  @override
+  String get humidity => '湿度';
+
+  @override
+  String get setting_name => '设置名称';
+
+  @override
+  String get upgrade_firmware => '升级固件';
+
+  @override
+  String get switch_control => '开关控制';
+
+  @override
+  String get on => '已经开启';
+
+  @override
+  String get off => '已经关闭';
+
+  @override
+  String get effect => '特效';
+
+  @override
+  String get switch_bottom => '开关';
+
+  @override
+  String get speed => '速度';
+
+  @override
+  String get please_input_message => '请输入消息';
+
+  @override
+  String get me => '我';
+
+  @override
+  String get serial_port => '串口';
+
+  @override
+  String get please_input_linux_login_info => '输入linux登录信息';
+
+  @override
+  String get linux_username => 'linux用户名';
+
+  @override
+  String get ssh_password => 'ssh密码';
+
+  @override
+  String get above_mentioned_ssh_password => '上述linux用户密码';
+
+  @override
+  String get connect => '连接';
 }
