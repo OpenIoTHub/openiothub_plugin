@@ -286,7 +286,7 @@ abstract class OpenIoTHubPluginLocalizations {
   /// No description provided for @email.
   ///
   /// In en, this message translates to:
-  /// **'email'**
+  /// **'Email'**
   String get email;
 
   /// No description provided for @home_page.
@@ -316,13 +316,13 @@ abstract class OpenIoTHubPluginLocalizations {
   /// No description provided for @yes.
   ///
   /// In en, this message translates to:
-  /// **'yes'**
+  /// **'Yes'**
   String get yes;
 
   /// No description provided for @no.
   ///
   /// In en, this message translates to:
-  /// **'no'**
+  /// **'No'**
   String get no;
 
   /// No description provided for @device_ip.
@@ -382,7 +382,7 @@ abstract class OpenIoTHubPluginLocalizations {
   /// No description provided for @mdns_info.
   ///
   /// In en, this message translates to:
-  /// **'mdns info'**
+  /// **'Mdns info'**
   String get mdns_info;
 
   /// No description provided for @firmware_url.
@@ -400,13 +400,13 @@ abstract class OpenIoTHubPluginLocalizations {
   /// No description provided for @temperature.
   ///
   /// In en, this message translates to:
-  /// **'temperature'**
+  /// **'Temperature'**
   String get temperature;
 
   /// No description provided for @humidity.
   ///
   /// In en, this message translates to:
-  /// **'humidity'**
+  /// **'Humidity'**
   String get humidity;
 
   /// No description provided for @setting_name.

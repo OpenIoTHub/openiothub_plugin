@@ -102,7 +102,7 @@ class OpenIoTHubPluginLocalizationsEn extends OpenIoTHubPluginLocalizations {
   String get firmware_author => 'Firmware author';
 
   @override
-  String get email => 'email';
+  String get email => 'Email';
 
   @override
   String get home_page => 'Home page';
@@ -117,10 +117,10 @@ class OpenIoTHubPluginLocalizationsEn extends OpenIoTHubPluginLocalizations {
   String get is_local => 'Is local?';
 
   @override
-  String get yes => 'yes';
+  String get yes => 'Yes';
 
   @override
-  String get no => 'no';
+  String get no => 'No';
 
   @override
   String get device_ip => 'Device ip';
@@ -150,7 +150,7 @@ class OpenIoTHubPluginLocalizationsEn extends OpenIoTHubPluginLocalizations {
   String get delete_success => 'Delete_success!';
 
   @override
-  String get mdns_info => 'mdns info';
+  String get mdns_info => 'Mdns info';
 
   @override
   String get firmware_url => 'Firmware url';
@@ -159,10 +159,10 @@ class OpenIoTHubPluginLocalizationsEn extends OpenIoTHubPluginLocalizations {
   String get start_ota => 'Start OTA';
 
   @override
-  String get temperature => 'temperature';
+  String get temperature => 'Temperature';
 
   @override
-  String get humidity => 'humidity';
+  String get humidity => 'Humidity';
 
   @override
   String get setting_name => 'Setting name';
