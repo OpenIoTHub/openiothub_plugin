@@ -126,7 +126,7 @@ class _CasaOSLoginPageState extends State<CasaOSLoginPage> {
     String reqUri = "/v1/users/login";
     try {
       final response = await dio.postUri(
-          Uri.parse(reqUri), data: {username: username, password: password});
+          Uri.parse(reqUri), data: {'username': username, 'password': password});
       if (response.data["success"] == 200) {
         //  登录成功
         Map<String, Map<String, dynamic>> data = response.data["data"];

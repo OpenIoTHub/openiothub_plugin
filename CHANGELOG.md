@@ -1,3 +1,7 @@
+## [1.0.2+17]
+
+* start support CasaOS、ZimaOS login
+
 ## [1.0.2+16]
 
 * start support CasaOS、ZimaOS
