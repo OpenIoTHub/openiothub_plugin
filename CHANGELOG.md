@@ -1,3 +1,7 @@
+## [1.0.2+21]
+
+* start support CasaOS、ZimaOS installed app
+
 ## [1.0.2+20]
 
 * start support CasaOS、ZimaOS installed app

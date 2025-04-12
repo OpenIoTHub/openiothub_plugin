@@ -121,6 +121,14 @@ class _InstalledAppsPageState extends State<InstalledAppsPage> {
                       key: UniqueKey(),
                     );
                   }));
+                }),
+            IconButton(
+                icon: Icon(
+                  Icons.refresh,
+                  // color: Colors.white,
+                ),
+                onPressed: () {
+                  _initListTiles();
                 })
           ],
         ),
@@ -160,62 +168,64 @@ class _InstalledAppsPageState extends State<InstalledAppsPage> {
         print(e);
       }
 
-      _listTiles.add(ListTile(
-        //第一个功能项
-          title: Text(appInfo["name"]),
-          leading: _sizedContainer(
-            CachedNetworkImage(
-              progressIndicatorBuilder: (context, url, progress) => Center(
-                child: CircularProgressIndicator(
-                  value: progress.progress,
-                ),
-              ),
-              imageUrl: appInfo["icon"],
-            ),
-          ),
-          trailing: const Icon(Icons.arrow_right),
-          onTap: () {
-            if (!Platform.isAndroid) {
-              // TODO
-              _launchURL("http://${Config.webgRpcIp}:${localPort}");
-            } else {
-              WebViewController controller = WebViewController()
-                ..setJavaScriptMode(JavaScriptMode.unrestricted)
-                ..setBackgroundColor(const Color(0x00000000))
-                ..setNavigationDelegate(
-                  NavigationDelegate(
-                    onProgress: (int progress) {
-                      // Update loading bar.
-                    },
-                    onPageStarted: (String url) {},
-                    onPageFinished: (String url) {},
-                    onWebResourceError: (WebResourceError error) {},
-                    onNavigationRequest: (NavigationRequest request) {
-                      return NavigationDecision.navigate;
-                    },
+      setState(() {
+        _listTiles.add(ListTile(
+          //第一个功能项
+            title: Text(appInfo["name"]),
+            leading: _sizedContainer(
+              CachedNetworkImage(
+                progressIndicatorBuilder: (context, url, progress) => Center(
+                  child: CircularProgressIndicator(
+                    value: progress.progress,
                   ),
-                )
-                ..loadRequest(Uri.parse("http://${Config.webgRpcIp}:${localPort}"));
-              Navigator.push(context, MaterialPageRoute(builder: (ctx) {
-                return Scaffold(
-                  appBar: AppBar(
-                      title:
-                      Text(OpenIoTHubPluginLocalizations.of(ctx).web_browser),
-                      actions: <Widget>[
-                        IconButton(
-                            icon: Icon(
-                              Icons.open_in_browser,
-                              color: Colors.teal,
-                            ),
-                            onPressed: () {
-                              _launchURL("http://${Config.webgRpcIp}:${localPort}");
-                            })
-                      ]),
-                  body: WebViewWidget(controller: controller),
-                );
-              }));
-            }
-          }));
+                ),
+                imageUrl: appInfo["icon"],
+              ),
+            ),
+            trailing: const Icon(Icons.arrow_right),
+            onTap: () {
+              if (!Platform.isAndroid) {
+                // TODO
+                _launchURL("http://${Config.webgRpcIp}:${localPort}");
+              } else {
+                WebViewController controller = WebViewController()
+                  ..setJavaScriptMode(JavaScriptMode.unrestricted)
+                  ..setBackgroundColor(const Color(0x00000000))
+                  ..setNavigationDelegate(
+                    NavigationDelegate(
+                      onProgress: (int progress) {
+                        // Update loading bar.
+                      },
+                      onPageStarted: (String url) {},
+                      onPageFinished: (String url) {},
+                      onWebResourceError: (WebResourceError error) {},
+                      onNavigationRequest: (NavigationRequest request) {
+                        return NavigationDecision.navigate;
+                      },
+                    ),
+                  )
+                  ..loadRequest(Uri.parse("http://${Config.webgRpcIp}:${localPort}"));
+                Navigator.push(context, MaterialPageRoute(builder: (ctx) {
+                  return Scaffold(
+                    appBar: AppBar(
+                        title:
+                        Text(OpenIoTHubPluginLocalizations.of(ctx).web_browser),
+                        actions: <Widget>[
+                          IconButton(
+                              icon: Icon(
+                                Icons.open_in_browser,
+                                color: Colors.teal,
+                              ),
+                              onPressed: () {
+                                _launchURL("http://${Config.webgRpcIp}:${localPort}");
+                              })
+                        ]),
+                    body: WebViewWidget(controller: controller),
+                  );
+                }));
+              }
+            }));
+      });
     });
   }
 

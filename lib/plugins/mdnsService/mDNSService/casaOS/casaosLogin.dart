@@ -1,6 +1,7 @@
 //这个模型是用来局域网或者远程操作casaOS的
 import 'dart:convert';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -62,6 +63,14 @@ class _CasaOSLoginPageState extends State<CasaOSLoginPage> {
   Future<void> _initList() async {
     setState(() {
       _list = <Widget>[
+        Padding(
+          padding: const EdgeInsets.only(top: 20.0), // 设置顶部距离
+          child: Image(
+            image: CachedNetworkImageProvider(
+              'http://${widget.portService.ip}:${widget.portService.port}/img/default-avatar.9dbd7921.svg',
+            ),
+          ),
+        ),
         Padding(
           padding: const EdgeInsets.only(top: 20.0), // 设置顶部距离
           child: TDInput(
