@@ -146,7 +146,7 @@ class _InstalledAppsPageState extends State<InstalledAppsPage> {
     _listTiles.clear();
     //从API获取已安装应用列表
     final dio = Dio(BaseOptions(
-        baseUrl: "http://${widget.portService.ip}:${widget.portService.port}", headers: {"Authorization": widget.data["token"]!["access_token"]}));
+        baseUrl: "http://${widget.portService.ip}:${widget.portService.port}", headers: {"Authorization": widget.data["data"]["token"]["access_token"]}));
     String reqUri = "/v2/app_management/web/appgrid";
     final response = await dio.getUri(Uri.parse(reqUri));
     response.data["data"].forEach((appInfo){

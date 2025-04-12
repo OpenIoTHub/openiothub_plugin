@@ -1,3 +1,7 @@
+## [1.0.2+19]
+
+* start support CasaOS、ZimaOS installed app
+
 ## [1.0.2+18]
 
 * start support CasaOS、ZimaOS login

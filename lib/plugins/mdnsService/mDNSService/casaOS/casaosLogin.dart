@@ -129,7 +129,7 @@ class _CasaOSLoginPageState extends State<CasaOSLoginPage> {
           Uri.parse(reqUri), data: {'username': username, 'password': password});
       if (response.data["success"] == 200) {
         //  登录成功
-        Map<String, dynamic> data = json.decode(response.toString());
+        Map<String, dynamic> data = response.data;
         // 跳转到已安装应用页面
         Navigator.push(context, MaterialPageRoute(builder: (ctx) {
           return InstalledAppsPage(
