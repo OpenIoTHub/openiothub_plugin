@@ -72,5 +72,10 @@
   "linux_username": "linux用户名",
   "ssh_password": "ssh密码",
   "above_mentioned_ssh_password": "上述linux用户密码",
-  "connect": "连接"
+  "connect": "连接",
+
+  "please_input_user_name": "请输入用户名",
+  "please_input_password": "请输入密码",
+  "login": "登录",
+  "username_and_password_cant_be_empty": "用户名和密码不可以为空"
 }

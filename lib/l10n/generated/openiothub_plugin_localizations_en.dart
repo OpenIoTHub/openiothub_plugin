@@ -1,5 +1,3 @@
-// ignore: unused_import
-import 'package:intl/intl.dart' as intl;
 import 'openiothub_plugin_localizations.dart';
 
 // ignore_for_file: type=lint
@@ -211,4 +209,17 @@ class OpenIoTHubPluginLocalizationsEn extends OpenIoTHubPluginLocalizations {
 
   @override
   String get connect => 'Connect';
+
+  @override
+  String get please_input_user_name => 'Please input user name';
+
+  @override
+  String get please_input_password => 'Please input password';
+
+  @override
+  String get login => 'Login';
+
+  @override
+  String get username_and_password_cant_be_empty =>
+      'Username and password cant be empty';
 }

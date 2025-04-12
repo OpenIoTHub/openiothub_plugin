@@ -44,11 +44,11 @@ dependencies:
   tdesign_flutter: ^0.1.6
 
 dev_dependencies:
+  flutter_test:
+    sdk: flutter
   intl_utils: ^2.8.3
   build_runner:
   flutter_gen_runner:
-  flutter_test:
-    sdk: flutter
 
 flutter_gen:
   assets:

@@ -1,8 +1,13 @@
 import 'dart:convert';
 
+import 'package:dio/dio.dart';
 import 'package:http/http.dart' as http;
 
 main() async {
+await postTest();
+}
+
+Future<void> getTest() async {
   String url = "http://127.0.0.1:54887/list";
   http.Response response;
   try {
@@ -19,6 +24,18 @@ main() async {
       print(value);
       print(value["Name"]);
     }
+  } catch (e) {
+    print(e.toString());
+    return;
+  }
+}
+
+Future<void> postTest() async {
+  String url = "http://192.168.124.33/v1/users/login";
+  Dio dio = Dio();
+  try {
+    final response = await dio.post(url, data: {'username': 'farry', 'password': 'RootRoot1'});
+    print(response.data);
   } catch (e) {
     print(e.toString());
     return;

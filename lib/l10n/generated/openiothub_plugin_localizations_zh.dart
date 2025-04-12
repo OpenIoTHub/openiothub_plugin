@@ -1,5 +1,3 @@
-// ignore: unused_import
-import 'package:intl/intl.dart' as intl;
 import 'openiothub_plugin_localizations.dart';
 
 // ignore_for_file: type=lint
@@ -208,6 +206,18 @@ class OpenIoTHubPluginLocalizationsZh extends OpenIoTHubPluginLocalizations {
 
   @override
   String get connect => '连接';
+
+  @override
+  String get please_input_user_name => '请输入用户名';
+
+  @override
+  String get please_input_password => '请输入密码';
+
+  @override
+  String get login => '登录';
+
+  @override
+  String get username_and_password_cant_be_empty => '用户名和密码不可以为空';
 }
 
 /// The translations for Chinese, as used in China (`zh_CN`).
@@ -415,6 +425,18 @@ class OpenIoTHubPluginLocalizationsZhCn
 
   @override
   String get connect => '连接';
+
+  @override
+  String get please_input_user_name => '请输入用户名';
+
+  @override
+  String get please_input_password => '请输入密码';
+
+  @override
+  String get login => '登录';
+
+  @override
+  String get username_and_password_cant_be_empty => '用户名和密码不可以为空';
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hans`).
@@ -622,6 +644,18 @@ class OpenIoTHubPluginLocalizationsZhHans
 
   @override
   String get connect => '连接';
+
+  @override
+  String get please_input_user_name => '请输入用户名';
+
+  @override
+  String get please_input_password => '请输入密码';
+
+  @override
+  String get login => '登录';
+
+  @override
+  String get username_and_password_cant_be_empty => '用户名和密码不可以为空';
 }
 
 /// The translations for Chinese, using the Han script (`zh_Hant`).
@@ -829,6 +863,18 @@ class OpenIoTHubPluginLocalizationsZhHant
 
   @override
   String get connect => '連接';
+
+  @override
+  String get please_input_user_name => '請輸入用戶名';
+
+  @override
+  String get please_input_password => '請輸入密碼';
+
+  @override
+  String get login => '登錄';
+
+  @override
+  String get username_and_password_cant_be_empty => '用戶名和密碼不可以為空';
 }
 
 /// The translations for Chinese, as used in Taiwan (`zh_TW`).
@@ -1036,4 +1082,16 @@ class OpenIoTHubPluginLocalizationsZhTw
 
   @override
   String get connect => '連接';
+
+  @override
+  String get please_input_user_name => '請輸入用戶名';
+
+  @override
+  String get please_input_password => '請輸入密碼';
+
+  @override
+  String get login => '登錄';
+
+  @override
+  String get username_and_password_cant_be_empty => '用戶名和密碼不可以為空';
 }

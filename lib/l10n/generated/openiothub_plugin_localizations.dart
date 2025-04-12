@@ -504,6 +504,30 @@ abstract class OpenIoTHubPluginLocalizations {
   /// In en, this message translates to:
   /// **'Connect'**
   String get connect;
+
+  /// No description provided for @please_input_user_name.
+  ///
+  /// In en, this message translates to:
+  /// **'Please input user name'**
+  String get please_input_user_name;
+
+  /// No description provided for @please_input_password.
+  ///
+  /// In en, this message translates to:
+  /// **'Please input password'**
+  String get please_input_password;
+
+  /// No description provided for @login.
+  ///
+  /// In en, this message translates to:
+  /// **'Login'**
+  String get login;
+
+  /// No description provided for @username_and_password_cant_be_empty.
+  ///
+  /// In en, this message translates to:
+  /// **'Username and password cant be empty'**
+  String get username_and_password_cant_be_empty;
 }
 
 class _OpenIoTHubPluginLocalizationsDelegate

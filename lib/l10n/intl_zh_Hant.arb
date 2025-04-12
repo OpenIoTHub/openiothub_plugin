@@ -66,5 +66,10 @@
   "linux_username": "linux用戶名",
   "ssh_password": "ssh密碼",
   "above_mentioned_ssh_password": "上述linux用戶密碼",
-  "connect": "連接"
+  "connect": "連接",
+
+  "please_input_user_name": "請輸入用戶名",
+  "please_input_password": "請輸入密碼",
+  "login": "登錄",
+  "username_and_password_cant_be_empty": "用戶名和密碼不可以為空"
 }
