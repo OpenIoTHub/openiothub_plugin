@@ -23,7 +23,7 @@ class InstalledAppsPage extends StatefulWidget {
       {super.key, required this.portService, required this.data});
 
   final PortService portService;
-  final Map<String, Map<String, dynamic>> data;
+  final Map<String, dynamic> data;
 
   @override
   State<InstalledAppsPage> createState() => _InstalledAppsPageState();

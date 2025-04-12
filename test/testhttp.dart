@@ -48,6 +48,8 @@ Future<void> postUriTest() async {
   try {
     final response = await dio.postUri(Uri.parse(uri), data: {'username': 'farry', 'password': 'RootRoot'});
     print(response.data);
+    Map<String, dynamic> data = response.data;
+    print(data);
   } catch (e) {
     print(e.toString());
     return;
