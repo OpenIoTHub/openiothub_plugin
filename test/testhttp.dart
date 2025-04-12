@@ -4,7 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:http/http.dart' as http;
 
 main() async {
-await postTest();
+await postUriTest();
 }
 
 Future<void> getTest() async {
@@ -35,6 +35,18 @@ Future<void> postTest() async {
   Dio dio = Dio();
   try {
     final response = await dio.post(url, data: {'username': 'farry', 'password': 'RootRoot1'});
+    print(response.data);
+  } catch (e) {
+    print(e.toString());
+    return;
+  }
+}
+
+Future<void> postUriTest() async {
+  String uri = "/v1/users/login";
+  Dio dio = Dio(BaseOptions(baseUrl: "http://192.168.124.33"));
+  try {
+    final response = await dio.postUri(Uri.parse(uri), data: {'username': 'farry', 'password': 'RootRoot'});
     print(response.data);
   } catch (e) {
     print(e.toString());

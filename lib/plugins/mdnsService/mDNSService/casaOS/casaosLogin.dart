@@ -16,10 +16,14 @@ import 'package:tdesign_flutter/tdesign_flutter.dart';
 //手动注册一些端口到mdns的声明，用于接入一些传统的设备或者服务或者帮助一些不方便注册mdns的设备或服务注册
 //需要选择模型和输入相关配置参数
 class CasaOSLoginPage extends StatefulWidget {
-  CasaOSLoginPage({required Key key, required this.device}) : super(key: key);
+  CasaOSLoginPage({required Key key, required this.portService}) : super(key: key);
 
   static final String modelName = "com.zimaspace.casaos.webpage.v1";
-  final PortService device;
+  // 两种不同形式的端口信息，适配自动发现和手动添加的服务
+  // 自动发现的服务
+  final PortService portService;
+  // 手动添加的服务
+  // final PortConfig? portConfig;
 
   @override
   _CasaOSLoginPageState createState() => _CasaOSLoginPageState();
@@ -30,7 +34,7 @@ class _CasaOSLoginPageState extends State<CasaOSLoginPage> {
   List<Widget> _list = <Widget>[];
 
   final TextEditingController _username = TextEditingController(text: "");
-  final TextEditingController _userpassword = TextEditingController(text: "");
+  final TextEditingController _user_password = TextEditingController(text: "");
 
   @override
   void initState() {
@@ -73,7 +77,7 @@ class _CasaOSLoginPageState extends State<CasaOSLoginPage> {
           ),
         ),
         TDInput(
-          controller: _userpassword,
+          controller: _user_password,
           backgroundColor: Colors.white,
           leftLabel: OpenIoTHubPluginLocalizations
               .of(context)
@@ -100,7 +104,7 @@ class _CasaOSLoginPageState extends State<CasaOSLoginPage> {
                   theme: TDButtonTheme.primary,
                   onTap: () async {
                     if (_username.text.isEmpty ||
-                        _userpassword.text.isEmpty) {
+                        _user_password.text.isEmpty) {
                       showToast(OpenIoTHubPluginLocalizations
                           .of(context)
                           .username_and_password_cant_be_empty);
@@ -108,7 +112,7 @@ class _CasaOSLoginPageState extends State<CasaOSLoginPage> {
                     }
                     // 登录并跳转
                     login_and_goto_dashboard(
-                        _username.text, _userpassword.text);
+                        _username.text, _user_password.text);
                   })
             ],
           ),
@@ -118,13 +122,11 @@ class _CasaOSLoginPageState extends State<CasaOSLoginPage> {
   }
 
   Future<void> login_and_goto_dashboard(String username, password) async {
-    final dio = Dio();
-    late String url;
-    String reqUrl =
-        "http://192.168.124.33/v1/users/login";
+    final dio = Dio(BaseOptions(baseUrl: "http://${widget.portService.ip}:${widget.portService.port}"));
+    String reqUri = "/v1/users/login";
     try {
-      final response = await dio.post(
-          reqUrl, data: {username: username, password: password});
+      final response = await dio.postUri(
+          Uri.parse(reqUri), data: {username: username, password: password});
       if (response.data["success"] == 200) {
         //  登录成功
         Map<String, Map<String, dynamic>> data = response.data["data"];
@@ -133,6 +135,7 @@ class _CasaOSLoginPageState extends State<CasaOSLoginPage> {
           return InstalledAppsPage(
             key: UniqueKey(),
             data: data,
+            portService: widget.portService
           );
         }));
         return;
@@ -142,7 +145,7 @@ class _CasaOSLoginPageState extends State<CasaOSLoginPage> {
       }
     } catch (e) {
       //  登录失败
-      showToast(e.toString());
+      showToast("Login failed:${e.toString()}");
       print(e.toString());
       return;
     }

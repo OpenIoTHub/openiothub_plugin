@@ -1,3 +1,7 @@
+## [1.0.2+16]
+
+* start support CasaOS、ZimaOS
+
 ## [1.0.2+15]
 
 * i18n

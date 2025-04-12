@@ -1,12 +1,16 @@
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:openiothub_constants/constants/Config.dart';
+import 'package:openiothub_grpc_api/proto/mobile/mobile.pb.dart';
+import 'package:openiothub_plugin/l10n/generated/openiothub_plugin_localizations.dart';
 import 'package:tdesign_flutter/tdesign_flutter.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:webview_flutter/webview_flutter.dart';
-import '../../../../l10n/generated/openiothub_plugin_localizations.dart';
+
 import './sub/appStore.dart';
 import './sub/files.dart';
 import './sub/settings.dart';
@@ -15,8 +19,10 @@ import './sub/terminal.dart';
 import './sub/userInfo.dart';
 
 class InstalledAppsPage extends StatefulWidget {
-  const InstalledAppsPage({super.key, required this.data});
+  const InstalledAppsPage(
+      {super.key, required this.portService, required this.data});
 
+  final PortService portService;
   final Map<String, Map<String, dynamic>> data;
 
   @override
@@ -24,12 +30,14 @@ class InstalledAppsPage extends StatefulWidget {
 }
 
 class _InstalledAppsPageState extends State<InstalledAppsPage> {
-  late List<ListTile> _listTiles  = <ListTile>[];
+  late List<ListTile> _listTiles = <ListTile>[];
+
   @override
   void initState() {
     _initListTiles();
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -127,67 +135,89 @@ class _InstalledAppsPageState extends State<InstalledAppsPage> {
             );
           },
           itemCount: _listTiles.length,
-        )
-    );
+        ));
   }
 
   ListTile _buildListTile(int index) {
     return _listTiles[index];
   }
 
-  _initListTiles() {
-    setState(() {
-      _listTiles.clear();
-      //TODO 从API获取已安装应用列表
-      _listTiles.add(
-        ListTile(
-          //第一个功能项
-            title: Text("App Name"),
-            leading: Icon(TDIcons.setting, color: Colors.red),
-            trailing: const Icon(Icons.arrow_right),
-            onTap: () {
-              if (!Platform.isAndroid) {
-                // TODO
-                _launchURL("http://${Config.webgRpcIp}:123");
-              } else {
-                WebViewController controller = WebViewController()
-                  ..setJavaScriptMode(JavaScriptMode.unrestricted)
-                  ..setBackgroundColor(const Color(0x00000000))
-                  ..setNavigationDelegate(
-                    NavigationDelegate(
-                      onProgress: (int progress) {
-                        // Update loading bar.
-                      },
-                      onPageStarted: (String url) {},
-                      onPageFinished: (String url) {},
-                      onWebResourceError: (WebResourceError error) {},
-                      onNavigationRequest: (NavigationRequest request) {
-                        return NavigationDecision.navigate;
-                      },
-                    ),
-                  )
-                  ..loadRequest(Uri.parse(
-                      "http://${Config.webgRpcIp}:123"));
-                Navigator.push(context, MaterialPageRoute(builder: (ctx) {
-                  return Scaffold(
-                    appBar: AppBar(title: Text(OpenIoTHubPluginLocalizations.of(ctx).web_browser), actions: <Widget>[
-                      IconButton(
-                          icon: Icon(
-                            Icons.open_in_browser,
-                            color: Colors.teal,
-                          ),
-                          onPressed: () {
-                            _launchURL(
-                                "http://${Config.webgRpcIp}:123");
-                          })
-                    ]),
-                    body: WebViewWidget(controller: controller),
-                  );
-                }));
-              }
-            })
-      );
+  Future<void> _initListTiles() async {
+    _listTiles.clear();
+    //从API获取已安装应用列表
+    final dio = Dio(BaseOptions(
+        baseUrl: "http://${widget.portService.ip}:${widget.portService.port}", headers: {"Authorization": widget.data["token"]!["access_token"]}));
+    String reqUri = "/v2/app_management/web/appgrid";
+    final response = await dio.getUri(Uri.parse(reqUri));
+    response.data["data"].forEach((appInfo){
+      // TODO 使用远程网络ID和远程端口临时映射远程端口到本机
+      // TODO 获取当前服务映射到本机的端口号
+      int localPort = int.parse(appInfo["port"]);
+      _listTiles.add(ListTile(
+        //第一个功能项
+          title: Text(appInfo["name"]),
+          leading: _sizedContainer(
+            CachedNetworkImage(
+              progressIndicatorBuilder: (context, url, progress) => Center(
+                child: CircularProgressIndicator(
+                  value: progress.progress,
+                ),
+              ),
+              imageUrl: appInfo["icon"],
+            ),
+          ),
+          trailing: const Icon(Icons.arrow_right),
+          onTap: () {
+            if (!Platform.isAndroid) {
+              // TODO
+              _launchURL("http://${Config.webgRpcIp}:${localPort}");
+            } else {
+              WebViewController controller = WebViewController()
+                ..setJavaScriptMode(JavaScriptMode.unrestricted)
+                ..setBackgroundColor(const Color(0x00000000))
+                ..setNavigationDelegate(
+                  NavigationDelegate(
+                    onProgress: (int progress) {
+                      // Update loading bar.
+                    },
+                    onPageStarted: (String url) {},
+                    onPageFinished: (String url) {},
+                    onWebResourceError: (WebResourceError error) {},
+                    onNavigationRequest: (NavigationRequest request) {
+                      return NavigationDecision.navigate;
+                    },
+                  ),
+                )
+                ..loadRequest(Uri.parse("http://${Config.webgRpcIp}:${localPort}"));
+              Navigator.push(context, MaterialPageRoute(builder: (ctx) {
+                return Scaffold(
+                  appBar: AppBar(
+                      title:
+                      Text(OpenIoTHubPluginLocalizations.of(ctx).web_browser),
+                      actions: <Widget>[
+                        IconButton(
+                            icon: Icon(
+                              Icons.open_in_browser,
+                              color: Colors.teal,
+                            ),
+                            onPressed: () {
+                              _launchURL("http://${Config.webgRpcIp}:${localPort}");
+                            })
+                      ]),
+                  body: WebViewWidget(controller: controller),
+                );
+              }));
+            }
+          }));
     });
+  }
+
+  Widget _sizedContainer(Widget child) {
+    return SizedBox(
+      width: 80,
+      height: 80,
+      child: Center(child: child),
+    );
   }
 
   _launchURL(String url) async {

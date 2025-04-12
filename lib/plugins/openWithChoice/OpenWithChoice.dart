@@ -8,6 +8,8 @@ import 'package:openiothub_plugin/openiothub_plugin.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
+import '../mdnsService/mDNSService/casaOS/casaosLogin.dart';
+
 class OpenWithChoice extends StatelessWidget {
   PortConfig portConfig;
 
@@ -37,6 +39,9 @@ class OpenWithChoice extends StatelessWidget {
     listData.add(TAG_CENTER);
     listData.add(ListItem(
         title: 'RDP Remote Desktop', icon: 'assets/images/ic_discover_nearby.png'));
+    listData.add(TAG_CENTER);
+    listData.add(ListItem(
+        title: 'CasaOS/ZimaOS', icon: 'assets/images/ic_discover_nearby.png'));
     listData.add(TAG_END);
   }
 
@@ -225,6 +230,23 @@ class OpenWithChoice extends StatelessWidget {
             var url =
                 'rdp://full%20address=s:${Config.webgRpcIp}:${portConfig.localProt}&audiomode=i:2&disable%20themes=i:1';
             _launchURL(url).then((_) {
+              Navigator.of(ctx).pop();
+            });
+          } else if (title == 'CasaOS/ZimaOS') {
+            Navigator.push(ctx, MaterialPageRoute(builder: (ctx) {
+              return CasaOSLoginPage(
+                // portService: PortService(ip: Config.webgRpcIp,port:portConfig.localProt),
+                portService: PortService(
+                    ip: Config.webgRpcIp,
+                    port:portConfig.localProt,
+                    isLocal: false,
+                    info: {
+                      // TODO 附加信息
+                    }
+                ),
+                key: UniqueKey(),
+              );
+            })).then((_) {
               Navigator.of(ctx).pop();
             });
           }
