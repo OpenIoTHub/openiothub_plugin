@@ -152,7 +152,14 @@ class _InstalledAppsPageState extends State<InstalledAppsPage> {
     response.data["data"].forEach((appInfo){
       // TODO 使用远程网络ID和远程端口临时映射远程端口到本机
       // TODO 获取当前服务映射到本机的端口号
-      int localPort = int.parse(appInfo["port"]);
+      int localPort = 0;
+      try {
+        localPort = int.parse(appInfo["port"]);
+      } catch (e) {
+        print("appInfo[\"port\"]:${appInfo["port"]}");
+        print(e);
+      }
+
       _listTiles.add(ListTile(
         //第一个功能项
           title: Text(appInfo["name"]),
