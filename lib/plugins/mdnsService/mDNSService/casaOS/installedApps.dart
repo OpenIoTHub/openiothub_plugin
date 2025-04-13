@@ -65,13 +65,15 @@ class _InstalledAppsPageState extends State<InstalledAppsPage> {
             // 系统设置
             IconButton(
                 icon: Icon(
-                  TDIcons.analytics,
+                  TDIcons.setting,
                   // color: Colors.white,
                 ),
                 onPressed: () {
                   Navigator.push(context, MaterialPageRoute(builder: (ctx) {
                     return SettingsPage(
                       key: UniqueKey(),
+                        data: widget.data,
+                        portService: widget.portService
                     );
                   }));
                 }),
@@ -211,6 +213,13 @@ class _InstalledAppsPageState extends State<InstalledAppsPage> {
         _listTiles.add(ListTile(
           //第一个功能项
             title: Text(appInfo["name"]),
+            // subtitle: Text(appInfo["status"], style: TextStyle(),),
+            subtitle: TDText(
+              appInfo["status"],
+              font: TDTheme.of(context).fontHeadlineSmall,
+              textColor: appInfo["status"] == "running" ? Colors.green : Colors.red,
+              backgroundColor: appInfo["status"] == "running" ? Colors.greenAccent : Colors.orange,
+            ),
             leading: _sizedContainer(
               CachedNetworkImage(
                 progressIndicatorBuilder: (context, url, progress) => Center(

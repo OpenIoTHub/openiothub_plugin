@@ -1,3 +1,7 @@
+## [1.0.2+25]
+
+* start support CasaOS、ZimaOS settings
+
 ## [1.0.2+24]
 
 * update

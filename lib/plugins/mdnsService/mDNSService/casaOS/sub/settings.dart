@@ -1,15 +1,128 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:oktoast/oktoast.dart';
+import 'package:openiothub_grpc_api/proto/mobile/mobile.pb.dart';
+import 'package:tdesign_flutter/tdesign_flutter.dart';
 
 class SettingsPage extends StatefulWidget {
-  const SettingsPage({super.key});
+  const SettingsPage({super.key, required this.portService, required this.data});
+  final PortService portService;
+  final Map<String, dynamic> data;
 
   @override
   State<SettingsPage> createState() => _SettingsPageState();
 }
 
 class _SettingsPageState extends State<SettingsPage> {
+  bool usb_auto_mount= true;
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    List<Widget> listView = <Widget>[
+      // 端口号设置
+      // 自动挂载U盘
+      ListTile(
+        leading: Icon(TDIcons.server, color: Colors.orange),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            Text("USB auto mount"),
+          ],
+        ),
+        trailing: Switch(
+          onChanged: (bool newValue) async {
+            final dio = Dio(BaseOptions(
+                baseUrl: "http://${widget.portService.ip}:${widget.portService.port}", headers: {"Authorization": widget.data["data"]["token"]["access_token"]}));
+            String reqUri = "/v1/usb/usb-auto-mount";
+            try{
+              final response = await dio.putUri(Uri.parse(reqUri), data: {"state": newValue?"on":"off"});
+              if (response.data["success"] == 200) {
+                setState(() {
+                  usb_auto_mount = newValue;
+                });
+              }
+            }catch(e){
+              showToast(e.toString());
+            }
+          },
+          value: usb_auto_mount,
+          activeColor: Colors.green,
+          inactiveThumbColor: Colors.red,
+        ),
+      ),
+      //  重启、关机
+      ListTile(
+        leading: Icon(TDIcons.server, color: Colors.orange),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            Text("USB auto mount"),
+          ],
+        ),
+        trailing: IconButton(
+          icon: Icon(Icons.power_settings_new),
+          onPressed: () async {
+            showGeneralDialog(
+              context: context,
+              pageBuilder: (BuildContext buildContext, Animation<double> animation,
+                  Animation<double> secondaryAnimation) {
+                return TDAlertDialog.vertical(
+                    title: "Power Control",
+                    content: "",
+                    buttons: [
+                      TDDialogButtonOptions(
+                          title: 'Restart',
+                          action: () async {
+                            final dio = Dio(BaseOptions(
+                                baseUrl: "http://${widget.portService.ip}:${widget.portService.port}", headers: {"Authorization": widget.data["data"]["token"]["access_token"]}));
+                            String reqUri = "/v1/sys/state/restart";
+                            try{
+                              final response = await dio.putUri(Uri.parse(reqUri));
+                              if (response.data["success"] == 200) {
+                                showToast("success!");
+                              }
+                            }catch(e){
+                              showToast(e.toString());
+                            }
+                            Navigator.pop(context);
+                          },
+                          theme: TDButtonTheme.danger),
+                      TDDialogButtonOptions(
+                          title: 'PowerOff',
+                          titleColor: TDTheme.of(context).brandColor7,
+                          action: () async {
+                            final dio = Dio(BaseOptions(
+                                baseUrl: "http://${widget.portService.ip}:${widget.portService.port}", headers: {"Authorization": widget.data["data"]["token"]["access_token"]}));
+                            String reqUri = "/v1/sys/state/off";
+                            try{
+                              final response = await dio.putUri(Uri.parse(reqUri));
+                              if (response.data["success"] == 200) {
+                                showToast("success!");
+                              }
+                            }catch(e){
+                              showToast(e.toString());
+                            }
+                            Navigator.pop(context);
+                          },
+                          theme: TDButtonTheme.danger),
+                    ]);
+              },
+            );
+          },
+        ),
+      )
+    ];
+    return Scaffold(
+        appBar: AppBar(
+          title: Text("Settings"),
+        ),
+        body: Center(
+          child: Container(
+            padding: EdgeInsets.all(10.0),
+            child: ListView(
+              children: listView,
+            ),
+          ),
+        ));
   }
 }
