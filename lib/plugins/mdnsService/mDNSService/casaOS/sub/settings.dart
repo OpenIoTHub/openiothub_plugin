@@ -56,7 +56,7 @@ class _SettingsPageState extends State<SettingsPage> {
         title: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            Text("USB auto mount"),
+            Text("Power Control"),
           ],
         ),
         trailing: IconButton(

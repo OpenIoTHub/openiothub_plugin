@@ -92,7 +92,7 @@ class _AppStorePageState extends State<AppStorePage> {
               ),
             ),
             // 根据有没有安装判断显示已安装按钮还是显示安装操作按钮
-            trailing: response.data["data"]["installed"].contains(appName) ?TDButton(
+            trailing: response.data["data"]["installed"].contains(appName) ?const Icon(Icons.arrow_right) : TDButton(
               text: 'Install',
               size: TDButtonSize.small,
               type: TDButtonType.fill,
@@ -101,7 +101,7 @@ class _AppStorePageState extends State<AppStorePage> {
               onTap: () {
               // TODO 安装
               },
-            ):const Icon(Icons.arrow_right),
+            ),
             onTap: () {
             // TODO 判断有没有安装，没有就提示确认安装
             }));

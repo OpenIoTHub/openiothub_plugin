@@ -14,7 +14,7 @@ import 'package:webview_flutter/webview_flutter.dart';
 import './sub/appStore.dart';
 import './sub/files.dart';
 import './sub/settings.dart';
-import './sub/systemInfo.dart';
+import 'sub/systemInfo.dart';
 import './sub/terminal.dart';
 import './sub/userInfo.dart';
 
@@ -59,6 +59,8 @@ class _InstalledAppsPageState extends State<InstalledAppsPage> {
                   Navigator.push(context, MaterialPageRoute(builder: (ctx) {
                     return SystemInfoPage(
                       key: UniqueKey(),
+                        data: widget.data,
+                        portService: widget.portService
                     );
                   }));
                 }),

@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 class TerminalPage extends StatefulWidget {
   const TerminalPage({super.key});
@@ -10,6 +11,17 @@ class TerminalPage extends StatefulWidget {
 class _TerminalPageState extends State<TerminalPage> {
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Scaffold(
+        appBar: AppBar(
+          title: Text("Terminal"),
+        ),
+        body: Center(
+          child: Container(
+            padding: EdgeInsets.all(10.0),
+            child: ListView(
+              children: [],
+            ),
+          ),
+        ));
   }
-}
+  }
