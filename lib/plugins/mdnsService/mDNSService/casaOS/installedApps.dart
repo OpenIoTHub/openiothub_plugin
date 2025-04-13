@@ -16,7 +16,7 @@ import './sub/files.dart';
 import './sub/settings.dart';
 import './sub/systemInfo.dart';
 import './sub/terminal.dart';
-import './sub/userInfo.dart';
+// import './sub/userInfo.dart';
 
 class InstalledAppsPage extends StatefulWidget {
   const InstalledAppsPage(
