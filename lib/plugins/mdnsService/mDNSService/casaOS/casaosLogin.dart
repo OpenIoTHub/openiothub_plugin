@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg_provider/flutter_svg_provider.dart';
 import 'package:http/http.dart' as http;
 import 'package:oktoast/oktoast.dart';
 import 'package:openiothub_constants/openiothub_constants.dart';
@@ -66,8 +67,11 @@ class _CasaOSLoginPageState extends State<CasaOSLoginPage> {
         Padding(
           padding: const EdgeInsets.only(top: 20.0), // 设置顶部距离
           child: Image(
-            image: CachedNetworkImageProvider(
+            width: 200,
+            height: 200,
+            image: Svg(
               'http://${widget.portService.ip}:${widget.portService.port}/img/default-avatar.9dbd7921.svg',
+              source: SvgSource.network,
             ),
           ),
         ),

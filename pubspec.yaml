@@ -1,6 +1,6 @@
 name: openiothub_plugin
 description: openiothub_plugin
-version: 1.0.2+21
+version: 1.0.2+22
 homepage: https://github.com/OpenIoTHub
 
 environment:
@@ -43,6 +43,7 @@ dependencies:
   dartssh2_plus: ^3.0.0
   tdesign_flutter: ^0.1.6
   cached_network_image: ^3.4.1
+  flutter_svg_provider: ^1.0.7
 
 dev_dependencies:
   flutter_test:

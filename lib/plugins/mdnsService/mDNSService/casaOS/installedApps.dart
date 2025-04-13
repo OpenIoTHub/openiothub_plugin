@@ -31,10 +31,13 @@ class InstalledAppsPage extends StatefulWidget {
 
 class _InstalledAppsPageState extends State<InstalledAppsPage> {
   late List<ListTile> _listTiles = <ListTile>[];
+  late List<ListTile> _versionListTiles = <ListTile>[];
+  String? current_version, need_update, change_log;
 
   @override
   void initState() {
     _initListTiles();
+    _getVersionInfo();
     super.initState();
   }
 
@@ -47,7 +50,7 @@ class _InstalledAppsPageState extends State<InstalledAppsPage> {
             // 系统的各种状态
             IconButton(
                 icon: Icon(
-                  Icons.cloud,
+                  TDIcons.chart,
                   // color: Colors.white,
                 ),
                 onPressed: () {
@@ -60,7 +63,7 @@ class _InstalledAppsPageState extends State<InstalledAppsPage> {
             // 系统设置
             IconButton(
                 icon: Icon(
-                  Icons.settings,
+                  TDIcons.analytics,
                   // color: Colors.white,
                 ),
                 onPressed: () {
@@ -73,13 +76,15 @@ class _InstalledAppsPageState extends State<InstalledAppsPage> {
             // 应用市场
             IconButton(
                 icon: Icon(
-                  Icons.store,
+                  TDIcons.app,
                   // color: Colors.white,
                 ),
                 onPressed: () {
                   Navigator.push(context, MaterialPageRoute(builder: (ctx) {
                     return AppStorePage(
                       key: UniqueKey(),
+                        data: widget.data,
+                        portService: widget.portService
                     );
                   }));
                 }),
@@ -110,26 +115,46 @@ class _InstalledAppsPageState extends State<InstalledAppsPage> {
                   }));
                 }),
             // 当前用户信息
+            // IconButton(
+            //     icon: Icon(
+            //       Icons.account_circle,
+            //       // color: Colors.white,
+            //     ),
+            //     onPressed: () {
+            //       Navigator.push(context, MaterialPageRoute(builder: (ctx) {
+            //         return UserInfoPage(
+            //           key: UniqueKey(),
+            //             data: widget.data,
+            //             portService: widget.portService
+            //         );
+            //       }));
+            //     }),
+            // IconButton(
+            //     icon: Icon(
+            //       Icons.refresh,
+            //       // color: Colors.white,
+            //     ),
+            //     onPressed: () {
+            //       _initListTiles();
+            //     })
+            // 版本信息
             IconButton(
                 icon: Icon(
-                  Icons.account_circle,
+                  Icons.info,
                   // color: Colors.white,
                 ),
                 onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (ctx) {
-                    return UserInfoPage(
-                      key: UniqueKey(),
-                    );
-                  }));
+                  showGeneralDialog(
+                    context: context,
+                    pageBuilder: (BuildContext buildContext, Animation<double> animation,
+                        Animation<double> secondaryAnimation) {
+                      return TDAlertDialog(
+                        title: "Version Info",
+                        content: "current_version:${current_version}\nneed_update:${need_update}\nchange_log:${change_log}",
+                      );
+                    },
+                  );
                 }),
-            IconButton(
-                icon: Icon(
-                  Icons.refresh,
-                  // color: Colors.white,
-                ),
-                onPressed: () {
-                  _initListTiles();
-                })
           ],
         ),
         body: ListView.separated(
@@ -148,6 +173,18 @@ class _InstalledAppsPageState extends State<InstalledAppsPage> {
 
   ListTile _buildListTile(int index) {
     return _listTiles[index];
+  }
+
+  Future<void> _getVersionInfo() async {
+    final dio = Dio(BaseOptions(
+        baseUrl: "http://${widget.portService.ip}:${widget.portService.port}", headers: {"Authorization": widget.data["data"]["token"]["access_token"]}));
+    String reqUri = "/v2/app_management/web/appgrid";
+    final response = await dio.getUri(Uri.parse(reqUri));
+    setState(() {
+      current_version = response.data["data"]["current_version"];
+      need_update = response.data["data"]["need_update"];
+      change_log = response.data["data"]["version"]["change_log"];
+    });
   }
 
   Future<void> _initListTiles() async {

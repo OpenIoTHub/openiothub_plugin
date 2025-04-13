@@ -1,3 +1,7 @@
+## [1.0.2+22]
+
+* start support CasaOS、ZimaOS app store, version
+
 ## [1.0.2+21]
 
 * start support CasaOS、ZimaOS installed app
