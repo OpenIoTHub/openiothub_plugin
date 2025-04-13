@@ -65,7 +65,7 @@ class _SystemInfoPageState extends State<SystemInfoPage> {
                     ),
                     sectionsSpace: 0,
                     centerSpaceRadius: 40,
-                    sections: showingSections(),
+                    sections: showingCpuSections(),
                   ),
                 ),
               ),
@@ -75,7 +75,7 @@ class _SystemInfoPageState extends State<SystemInfoPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Indicator(
-                  color: Colors.green,
+                  color: Colors.blue,
                   text: 'Used CPU',
                   isSquare: true,
                 ),
@@ -83,7 +83,7 @@ class _SystemInfoPageState extends State<SystemInfoPage> {
                   height: 4,
                 ),
                 Indicator(
-                  color: Colors.grey,
+                  color: Colors.green,
                   text: 'Unused CPU',
                   isSquare: true,
                 ),
@@ -98,9 +98,141 @@ class _SystemInfoPageState extends State<SystemInfoPage> {
           ],
         ),
       ),
+      Divider(),
       // 内存 饼状图
-      // 网络 折线图
+      AspectRatio(
+        aspectRatio: 1.3,
+        child: Row(
+          children: <Widget>[
+            const SizedBox(
+              height: 18,
+            ),
+            Expanded(
+              child: AspectRatio(
+                aspectRatio: 1,
+                child: PieChart(
+                  PieChartData(
+                    pieTouchData: PieTouchData(
+                      touchCallback: (FlTouchEvent event, pieTouchResponse) {
+                        setState(() {
+                          if (!event.isInterestedForInteractions ||
+                              pieTouchResponse == null ||
+                              pieTouchResponse.touchedSection == null) {
+                            touchedIndex = -1;
+                            return;
+                          }
+                          touchedIndex = pieTouchResponse
+                              .touchedSection!.touchedSectionIndex;
+                        });
+                      },
+                    ),
+                    borderData: FlBorderData(
+                      show: false,
+                    ),
+                    sectionsSpace: 0,
+                    centerSpaceRadius: 40,
+                    sections: showingMemSections(),
+                  ),
+                ),
+              ),
+            ),
+            const Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Indicator(
+                  color: Colors.blue,
+                  text: 'Used Mem',
+                  isSquare: true,
+                ),
+                SizedBox(
+                  height: 4,
+                ),
+                Indicator(
+                  color: Colors.green,
+                  text: 'Unused Mem',
+                  isSquare: true,
+                ),
+                SizedBox(
+                  height: 18,
+                ),
+              ],
+            ),
+            const SizedBox(
+              width: 28,
+            ),
+          ],
+        ),
+      ),
+      Divider(),
       // 硬盘 饼状图
+      AspectRatio(
+        aspectRatio: 1.3,
+        child: Row(
+          children: <Widget>[
+            const SizedBox(
+              height: 18,
+            ),
+            Expanded(
+              child: AspectRatio(
+                aspectRatio: 1,
+                child: PieChart(
+                  PieChartData(
+                    pieTouchData: PieTouchData(
+                      touchCallback: (FlTouchEvent event, pieTouchResponse) {
+                        setState(() {
+                          if (!event.isInterestedForInteractions ||
+                              pieTouchResponse == null ||
+                              pieTouchResponse.touchedSection == null) {
+                            touchedIndex = -1;
+                            return;
+                          }
+                          touchedIndex = pieTouchResponse
+                              .touchedSection!.touchedSectionIndex;
+                        });
+                      },
+                    ),
+                    borderData: FlBorderData(
+                      show: false,
+                    ),
+                    sectionsSpace: 0,
+                    centerSpaceRadius: 40,
+                    sections: showingDiskSections(),
+                  ),
+                ),
+              ),
+            ),
+            const Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Indicator(
+                  color: Colors.blue,
+                  text: 'Used CPU',
+                  isSquare: true,
+                ),
+                SizedBox(
+                  height: 4,
+                ),
+                Indicator(
+                  color: Colors.green,
+                  text: 'Unused CPU',
+                  isSquare: true,
+                ),
+                SizedBox(
+                  height: 18,
+                ),
+              ],
+            ),
+            const SizedBox(
+              width: 28,
+            ),
+          ],
+        ),
+      ),
+      Divider()
+      // 网络 折线图
+
       // TODO USB
     ];
     return Scaffold(
@@ -125,7 +257,7 @@ class _SystemInfoPageState extends State<SystemInfoPage> {
         }));
     String reqUri = "/v1/sys/utilization";
     try {
-      final response = await dio.putUri(Uri.parse(reqUri));
+      final response = await dio.getUri(Uri.parse(reqUri));
       if (response.data["success"] == 200) {
         setState(() {
           utilization = response.data["data"];
@@ -136,7 +268,7 @@ class _SystemInfoPageState extends State<SystemInfoPage> {
     }
   }
 
-  List<PieChartSectionData> showingSections() {
+  List<PieChartSectionData> showingCpuSections() {
     return List.generate(2, (i) {
       final isTouched = i == touchedIndex;
       final fontSize = isTouched ? 25.0 : 16.0;
@@ -145,7 +277,7 @@ class _SystemInfoPageState extends State<SystemInfoPage> {
       switch (i) {
         case 0:
           return PieChartSectionData(
-            color: Colors.green,
+            color: Colors.blue,
             value: utilization["cpu"]["percent"].toDouble(),
             title: '${utilization["cpu"]["percent"].toDouble()}%',
             radius: radius,
@@ -158,7 +290,7 @@ class _SystemInfoPageState extends State<SystemInfoPage> {
           );
         case 1:
           return PieChartSectionData(
-            color: Colors.grey,
+            color: Colors.green,
             value: (100 - utilization["cpu"]["percent"]).toDouble(),
             title: '${(100 - utilization["cpu"]["percent"]).toDouble()}%',
             radius: radius,
@@ -174,4 +306,129 @@ class _SystemInfoPageState extends State<SystemInfoPage> {
       }
     });
   }
+
+  List<PieChartSectionData> showingMemSections() {
+    return List.generate(2, (i) {
+      final isTouched = i == touchedIndex;
+      final fontSize = isTouched ? 25.0 : 16.0;
+      final radius = isTouched ? 60.0 : 50.0;
+      const shadows = [Shadow(color: Colors.black, blurRadius: 2)];
+      switch (i) {
+        case 0:
+          return PieChartSectionData(
+            color: Colors.blue,
+            value: utilization["mem"]["usedPercent"].toDouble(),
+            title: '${utilization["mem"]["usedPercent"].toDouble()}%',
+            radius: radius,
+            titleStyle: TextStyle(
+              fontSize: fontSize,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+              shadows: shadows,
+            ),
+          );
+        case 1:
+          return PieChartSectionData(
+            color: Colors.green,
+            value: (100 - utilization["mem"]["usedPercent"]).toDouble(),
+            title: '${(100 - utilization["mem"]["usedPercent"]).toDouble()}%',
+            radius: radius,
+            titleStyle: TextStyle(
+              fontSize: fontSize,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+              shadows: shadows,
+            ),
+          );
+        default:
+          throw Error();
+      }
+    });
+  }
+
+  List<PieChartSectionData> showingDiskSections() {
+    return List.generate(2, (i) {
+      final isTouched = i == touchedIndex;
+      final fontSize = isTouched ? 25.0 : 16.0;
+      final radius = isTouched ? 60.0 : 50.0;
+      const shadows = [Shadow(color: Colors.black, blurRadius: 2)];
+      switch (i) {
+        case 0:
+          return PieChartSectionData(
+            color: Colors.blue,
+            value: (utilization["sys_disk"]["used"] / utilization["sys_disk"]["size"]).toDouble(),
+            title: '${(utilization["sys_disk"]["used"] / utilization["sys_disk"]["size"]).toDouble()}%',
+            radius: radius,
+            titleStyle: TextStyle(
+              fontSize: fontSize,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+              shadows: shadows,
+            ),
+          );
+        case 1:
+          return PieChartSectionData(
+            color: Colors.green,
+            value: (utilization["sys_disk"]["avail"] / utilization["sys_disk"]["size"]).toDouble(),
+            title: '${(utilization["sys_disk"]["avail"] / utilization["sys_disk"]["size"]).toDouble()}%',
+            radius: radius,
+            titleStyle: TextStyle(
+              fontSize: fontSize,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+              shadows: shadows,
+            ),
+          );
+        default:
+          throw Error();
+      }
+    });
+  }
 }
+//{
+//     "success": 200,
+//     "message": "ok",
+//     "data": {
+//         "cpu": {
+//             "model": "intel",
+//             "num": 2,
+//             "percent": 1.8,
+//             "power": {
+//                 "timestamp": "1744540165",
+//                 "value": "0"
+//             },
+//             "temperature": 0
+//         },
+//         "mem": {
+//             "available": 1757048832,
+//             "free": 766914560,
+//             "total": 3111690240,
+//             "used": 1165348864,
+//             "usedPercent": 37.5
+//         },
+//         "net": [
+//             {
+//                 "name": "ens3",
+//                 "bytesSent": 5638011,
+//                 "bytesRecv": 1909751,
+//                 "packetsSent": 5931,
+//                 "packetsRecv": 9175,
+//                 "errin": 0,
+//                 "errout": 0,
+//                 "dropin": 1,
+//                 "dropout": 0,
+//                 "fifoin": 0,
+//                 "fifoout": 0,
+//                 "state": "up",
+//                 "time": 1744540165
+//             }
+//         ],
+//         "sys_disk": {
+//             "avail": 185420419072,
+//             "health": true,
+//             "size": 209129086976,
+//             "used": 13010939904
+//         },
+//         "sys_usb": []
+//     }
+// }
