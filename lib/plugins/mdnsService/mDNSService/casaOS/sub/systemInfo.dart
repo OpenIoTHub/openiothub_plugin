@@ -75,7 +75,7 @@ class _SystemInfoPageState extends State<SystemInfoPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Indicator(
-                  color: Colors.blue,
+                  color: Colors.red,
                   text: 'Used CPU',
                   isSquare: true,
                 ),
@@ -141,7 +141,7 @@ class _SystemInfoPageState extends State<SystemInfoPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Indicator(
-                  color: Colors.blue,
+                  color: Colors.red,
                   text: 'Used Mem',
                   isSquare: true,
                 ),
@@ -207,8 +207,8 @@ class _SystemInfoPageState extends State<SystemInfoPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Indicator(
-                  color: Colors.blue,
-                  text: 'Used CPU',
+                  color: Colors.red,
+                  text: 'Used Disk',
                   isSquare: true,
                 ),
                 SizedBox(
@@ -216,7 +216,7 @@ class _SystemInfoPageState extends State<SystemInfoPage> {
                 ),
                 Indicator(
                   color: Colors.green,
-                  text: 'Unused CPU',
+                  text: 'Unused Disk',
                   isSquare: true,
                 ),
                 SizedBox(
@@ -231,7 +231,7 @@ class _SystemInfoPageState extends State<SystemInfoPage> {
         ),
       ),
       Divider()
-      // 网络 折线图
+      // TODO 网络 折线图
 
       // TODO USB
     ];
@@ -277,7 +277,7 @@ class _SystemInfoPageState extends State<SystemInfoPage> {
       switch (i) {
         case 0:
           return PieChartSectionData(
-            color: Colors.blue,
+            color: Colors.red,
             value: utilization["cpu"]["percent"].toDouble(),
             title: '${utilization["cpu"]["percent"].toDouble()}%',
             radius: radius,
@@ -316,9 +316,9 @@ class _SystemInfoPageState extends State<SystemInfoPage> {
       switch (i) {
         case 0:
           return PieChartSectionData(
-            color: Colors.blue,
+            color: Colors.red,
             value: utilization["mem"]["usedPercent"].toDouble(),
-            title: '${utilization["mem"]["usedPercent"].toDouble()}%',
+            title: '${utilization["mem"]["usedPercent"].toDouble()}% (${(utilization["mem"]["used"]/1024/1024/1024).toDouble().toStringAsFixed(1)} GB)',
             radius: radius,
             titleStyle: TextStyle(
               fontSize: fontSize,
@@ -331,7 +331,7 @@ class _SystemInfoPageState extends State<SystemInfoPage> {
           return PieChartSectionData(
             color: Colors.green,
             value: (100 - utilization["mem"]["usedPercent"]).toDouble(),
-            title: '${(100 - utilization["mem"]["usedPercent"]).toDouble()}%',
+            title: '${(100 - utilization["mem"]["usedPercent"]).toDouble()}% (${(utilization["mem"]["free"]/1024/1024/1024).toDouble().toStringAsFixed(1)} GB)',
             radius: radius,
             titleStyle: TextStyle(
               fontSize: fontSize,
@@ -355,9 +355,9 @@ class _SystemInfoPageState extends State<SystemInfoPage> {
       switch (i) {
         case 0:
           return PieChartSectionData(
-            color: Colors.blue,
+            color: Colors.red,
             value: (utilization["sys_disk"]["used"] / utilization["sys_disk"]["size"]).toDouble(),
-            title: '${(utilization["sys_disk"]["used"] / utilization["sys_disk"]["size"]).toDouble()}%',
+            title: '${(utilization["sys_disk"]["used"] / utilization["sys_disk"]["size"]).toDouble().toStringAsFixed(1)}% (${(utilization["sys_disk"]["used"]/1024/1024/1024).toDouble().toStringAsFixed(1)} GB)',
             radius: radius,
             titleStyle: TextStyle(
               fontSize: fontSize,
@@ -370,7 +370,7 @@ class _SystemInfoPageState extends State<SystemInfoPage> {
           return PieChartSectionData(
             color: Colors.green,
             value: (utilization["sys_disk"]["avail"] / utilization["sys_disk"]["size"]).toDouble(),
-            title: '${(utilization["sys_disk"]["avail"] / utilization["sys_disk"]["size"]).toDouble()}%',
+            title: '${(utilization["sys_disk"]["avail"] / utilization["sys_disk"]["size"]).toDouble().toStringAsFixed(1)}% (${(utilization["sys_disk"]["avail"]/1024/1024/1024).toDouble().toStringAsFixed(1)} GB)',
             radius: radius,
             titleStyle: TextStyle(
               fontSize: fontSize,

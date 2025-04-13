@@ -60,7 +60,7 @@ class _SettingsPageState extends State<SettingsPage> {
           ],
         ),
         trailing: IconButton(
-          icon: Icon(Icons.power_settings_new),
+          icon: Icon(Icons.power_settings_new, color: Colors.red,),
           onPressed: () async {
             showGeneralDialog(
               context: context,
