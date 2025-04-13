@@ -80,7 +80,7 @@ class _AppStorePageState extends State<AppStorePage> {
         _listTiles.add(ListTile(
           //第一个功能项
             title: Text(appName),
-            subtitle: appInfo["category"],
+            subtitle: Text(appInfo["category"]),
             leading: _sizedContainer(
               CachedNetworkImage(
                 progressIndicatorBuilder: (context, url, progress) => Center(
@@ -88,7 +88,7 @@ class _AppStorePageState extends State<AppStorePage> {
                     value: progress.progress,
                   ),
                 ),
-                imageUrl: appInfo["screenshot_link"].first,
+                imageUrl: appInfo["icon"] == null ? "http://${widget.portService.ip}:${widget.portService.port}/img/default.0a7cfbf2.svg": appInfo["icon"],
               ),
             ),
             // 根据有没有安装判断显示已安装按钮还是显示安装操作按钮

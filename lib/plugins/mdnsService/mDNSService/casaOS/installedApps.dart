@@ -16,7 +16,7 @@ import './sub/files.dart';
 import './sub/settings.dart';
 import './sub/systemInfo.dart';
 import './sub/terminal.dart';
-// import './sub/userInfo.dart';
+import './sub/userInfo.dart';
 
 class InstalledAppsPage extends StatefulWidget {
   const InstalledAppsPage(
@@ -32,7 +32,9 @@ class InstalledAppsPage extends StatefulWidget {
 class _InstalledAppsPageState extends State<InstalledAppsPage> {
   late List<ListTile> _listTiles = <ListTile>[];
   late List<ListTile> _versionListTiles = <ListTile>[];
-  String? current_version, need_update, change_log;
+  String? current_version;
+  bool? need_update;
+  String? change_log;
 
   @override
   void initState() {
@@ -178,7 +180,7 @@ class _InstalledAppsPageState extends State<InstalledAppsPage> {
   Future<void> _getVersionInfo() async {
     final dio = Dio(BaseOptions(
         baseUrl: "http://${widget.portService.ip}:${widget.portService.port}", headers: {"Authorization": widget.data["data"]["token"]["access_token"]}));
-    String reqUri = "/v2/app_management/web/appgrid";
+    String reqUri = "/v1/sys/version";
     final response = await dio.getUri(Uri.parse(reqUri));
     setState(() {
       current_version = response.data["data"]["current_version"];
