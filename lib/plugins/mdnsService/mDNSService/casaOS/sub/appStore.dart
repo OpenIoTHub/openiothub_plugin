@@ -99,6 +99,7 @@ class _AppStorePageState extends State<AppStorePage> {
               type: TDButtonType.fill,
               shape: TDButtonShape.rectangle,
               theme: TDButtonTheme.light,
+              disabled: true,
               onTap: () {
                 // TODO 安装
               },

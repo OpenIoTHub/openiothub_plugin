@@ -92,7 +92,7 @@ class SSHNativePageState extends State<SSHNativePage> {
       navigationBar: CupertinoNavigationBar(
         middle: Text(title),
         backgroundColor:
-            CupertinoTheme.of(context).barBackgroundColor.withOpacity(0.5),
+            CupertinoTheme.of(context).barBackgroundColor.withAlpha((255.0 * 0.5).round()),
       ),
       child: Column(
         children: [

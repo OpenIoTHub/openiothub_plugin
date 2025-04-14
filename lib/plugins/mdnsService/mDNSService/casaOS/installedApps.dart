@@ -234,46 +234,41 @@ class _InstalledAppsPageState extends State<InstalledAppsPage> {
             ),
             trailing: const Icon(Icons.arrow_right),
             onTap: () {
-              if (!Platform.isAndroid) {
-                // TODO
-                _launchURL("http://${Config.webgRpcIp}:${localPort}");
-              } else {
-                WebViewController controller = WebViewController()
-                  ..setJavaScriptMode(JavaScriptMode.unrestricted)
-                  ..setBackgroundColor(const Color(0x00000000))
-                  ..setNavigationDelegate(
-                    NavigationDelegate(
-                      onProgress: (int progress) {
-                        // Update loading bar.
-                      },
-                      onPageStarted: (String url) {},
-                      onPageFinished: (String url) {},
-                      onWebResourceError: (WebResourceError error) {},
-                      onNavigationRequest: (NavigationRequest request) {
-                        return NavigationDecision.navigate;
-                      },
-                    ),
-                  )
-                  ..loadRequest(Uri.parse("http://${Config.webgRpcIp}:${localPort}"));
-                Navigator.push(context, MaterialPageRoute(builder: (ctx) {
-                  return Scaffold(
-                    appBar: AppBar(
-                        title:
-                        Text(OpenIoTHubPluginLocalizations.of(ctx).web_browser),
-                        actions: <Widget>[
-                          IconButton(
-                              icon: Icon(
-                                Icons.open_in_browser,
-                                color: Colors.teal,
-                              ),
-                              onPressed: () {
-                                _launchURL("http://${Config.webgRpcIp}:${localPort}");
-                              })
-                        ]),
-                    body: WebViewWidget(controller: controller),
-                  );
-                }));
-              }
+              TDActionSheet(
+                context,
+                visible: true,
+                items: [
+                  TDActionSheetItem(
+                    label: 'Open Page',
+                    badge: const TDBadge(TDBadgeType.redPoint),
+                  ),
+                  TDActionSheetItem(
+                    label: 'Upgrade',
+                    badge: const TDBadge(TDBadgeType.message),
+                  ),
+                  TDActionSheetItem(
+                    label: 'Remove',
+                    badge: const TDBadge(TDBadgeType.message),
+                  ),
+                  TDActionSheetItem(
+                    label: 'Shutdown',
+                    badge: const TDBadge(TDBadgeType.message),
+                  ),
+                  TDActionSheetItem(
+                    label: 'Reboot',
+                    badge: const TDBadge(TDBadgeType.message),
+                  ),
+                ],
+                onSelected: (TDActionSheetItem item, int index){
+                  switch(index) {
+                    case 0:
+                      _openWithWebBrowser(Config.webgRpcIp, localPort);
+                      break;
+                    case 1:
+                      break;
+                  }
+                }
+              );
             }));
       });
     });
@@ -292,6 +287,49 @@ class _InstalledAppsPageState extends State<InstalledAppsPage> {
       await launchUrlString(url);
     } else {
       print('Could not launch $url');
+    }
+  }
+
+  _openWithWebBrowser(String ip, int port) {
+    if (!Platform.isAndroid) {
+      // TODO
+      _launchURL("http://$ip:$port");
+    } else {
+      WebViewController controller = WebViewController()
+        ..setJavaScriptMode(JavaScriptMode.unrestricted)
+        ..setBackgroundColor(const Color(0x00000000))
+        ..setNavigationDelegate(
+          NavigationDelegate(
+            onProgress: (int progress) {
+              // Update loading bar.
+            },
+            onPageStarted: (String url) {},
+            onPageFinished: (String url) {},
+            onWebResourceError: (WebResourceError error) {},
+            onNavigationRequest: (NavigationRequest request) {
+              return NavigationDecision.navigate;
+            },
+          ),
+        )
+        ..loadRequest(Uri.parse("http://$ip:$port"));
+      Navigator.push(context, MaterialPageRoute(builder: (ctx) {
+        return Scaffold(
+          appBar: AppBar(
+              title:
+              Text(OpenIoTHubPluginLocalizations.of(ctx).web_browser),
+              actions: <Widget>[
+                IconButton(
+                    icon: Icon(
+                      Icons.open_in_browser,
+                      color: Colors.teal,
+                    ),
+                    onPressed: () {
+                      _launchURL("http://$ip:$port");
+                    })
+              ]),
+          body: WebViewWidget(controller: controller),
+        );
+      }));
     }
   }
 }

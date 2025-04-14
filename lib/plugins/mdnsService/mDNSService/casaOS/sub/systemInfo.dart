@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:dio/dio.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/cupertino.dart';
@@ -23,10 +25,22 @@ class _SystemInfoPageState extends State<SystemInfoPage> {
   bool usb_auto_mount = true;
   Map<String, dynamic> utilization = {};
   int touchedIndex = -1;
+  late Timer _refresh_timer;
+
+  @override
+  void dispose() {
+    if (_refresh_timer.isActive) {
+      _refresh_timer.cancel();
+    }
+    super.dispose();
+  }
 
   @override
   void initState() {
     getUtilization();
+    _refresh_timer = Timer.periodic(const Duration(seconds: 3), (timer) {
+      getUtilization();
+    });
     super.initState();
   }
 
