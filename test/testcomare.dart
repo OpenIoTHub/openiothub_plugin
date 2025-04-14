@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:http/http.dart' as http;
 
-var list = <Item>[
+var list = <dynamic>[
   Item(title: "a", isTopping: true),
   Item(title: "b"),
   Item(title: "d"),
@@ -23,7 +23,7 @@ class Item {
     this.title = '',
     this.isTopping = false,
   });
-  String title;
+  dynamic title;
   bool isTopping;
   int get top => isTopping ? 1 : 0;
 }

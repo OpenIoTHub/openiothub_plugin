@@ -222,7 +222,8 @@ class _InstalledAppsPageState extends State<InstalledAppsPage> {
         }));
     String reqUri = "/v2/app_management/web/appgrid";
     final response = await dio.getUri(Uri.parse(reqUri));
-    response.data["data"].sorted((a, b) => a["name"].compareTo(b["name"])).forEach((appInfo) {
+    response.data["data"].sort((a, b) => a["name"].toString().compareTo(b["name"].toString()));
+    response.data["data"].forEach((appInfo) {
       // TODO 使用远程网络ID和远程端口临时映射远程端口到本机
       // TODO 获取当前服务映射到本机的端口号
       int localPort = 0;
@@ -265,10 +266,12 @@ class _InstalledAppsPageState extends State<InstalledAppsPage> {
                   items: [
                     TDActionSheetItem(
                       label: 'Start',
-                      icon: Icon(Icons.open_in_browser),
+                      icon: Icon(Icons.start),
                     ),
+                    // localPort==0则不可用
                     TDActionSheetItem(
                       label: 'Open Page',
+                      disabled: localPort==0,
                       icon: Icon(Icons.open_in_browser),
                     ),
                     TDActionSheetItem(
@@ -344,11 +347,7 @@ class _InstalledAppsPageState extends State<InstalledAppsPage> {
         }));
     String reqUri = "/v2/app_management/compose/$appName}";
     final response = await dio.patchUri(Uri.parse(reqUri));
-    if (response.statusCode == 200) {
-      _success("Success");
-    } else {
-      _failed("Failed");
-    }
+    _success(response.toString());
   }
 
   _removeApp(String appName, bool? delete_config_folder) async {
@@ -384,7 +383,7 @@ class _InstalledAppsPageState extends State<InstalledAppsPage> {
     }
   }
 
-  _openWithWebBrowser(String ip, int port) {
+  _openWithWebBrowser(String ip, int port) async {
     if (!Platform.isAndroid) {
       // TODO
       _launchURL("http://$ip:$port");

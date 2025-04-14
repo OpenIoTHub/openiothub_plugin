@@ -344,9 +344,9 @@ class _SystemInfoPageState extends State<SystemInfoPage> {
         case 0:
           return PieChartSectionData(
             color: Colors.red,
-            value: utilization["mem"]["usedPercent"].toDouble(),
+            value: utilization["mem"]["usedPercent"].toDouble().toStringAsFixed(1),
             title:
-                '${utilization["mem"]["usedPercent"].toDouble()}% (${(utilization["mem"]["used"] / 1024 / 1024 / 1024).toDouble().toStringAsFixed(1)} GB)',
+                '${utilization["mem"]["usedPercent"].toDouble().toStringAsFixed(1)}% (${(utilization["mem"]["used"] / 1024 / 1024 / 1024).toDouble().toStringAsFixed(1)} GB)',
             radius: radius,
             titleStyle: TextStyle(
               fontSize: fontSize,
@@ -359,9 +359,9 @@ class _SystemInfoPageState extends State<SystemInfoPage> {
           return PieChartSectionData(
             color: Colors.green,
             value: (utilization["mem"]["free"] / utilization["mem"]["total"])
-                .toDouble(),
+                .toDouble().toStringAsFixed(1),
             title:
-                '${(utilization["mem"]["free"] / utilization["mem"]["total"]).toDouble()}% (${(utilization["mem"]["free"] / 1024 / 1024 / 1024).toDouble().toStringAsFixed(1)} GB)',
+                '${(utilization["mem"]["free"] / utilization["mem"]["total"]).toDouble().toStringAsFixed(1)}% (${(utilization["mem"]["free"] / 1024 / 1024 / 1024).toDouble().toStringAsFixed(1)} GB)',
             radius: radius,
             titleStyle: TextStyle(
               fontSize: fontSize,
@@ -375,9 +375,9 @@ class _SystemInfoPageState extends State<SystemInfoPage> {
             color: Colors.blue,
             value:
                 (utilization["mem"]["available"] / utilization["mem"]["total"])
-                    .toDouble(),
+                    .toDouble().toStringAsFixed(1),
             title:
-                '${(100 - utilization["mem"]["available"] / utilization["mem"]["total"]).toDouble()}% (${(utilization["mem"]["available"] / 1024 / 1024 / 1024).toDouble().toStringAsFixed(1)} GB)',
+                '${(100 - utilization["mem"]["available"] / utilization["mem"]["total"]).toDouble().toStringAsFixed(1)}% (${(utilization["mem"]["available"] / 1024 / 1024 / 1024).toDouble().toStringAsFixed(1)} GB)',
             radius: radius,
             titleStyle: TextStyle(
               fontSize: fontSize,
