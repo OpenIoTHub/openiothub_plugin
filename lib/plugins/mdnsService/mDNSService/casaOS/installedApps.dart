@@ -212,6 +212,7 @@ class _InstalledAppsPageState extends State<InstalledAppsPage> {
   }
 
   Future<void> _initListTiles() async {
+    // 排序
     _listTiles.clear();
     //从API获取已安装应用列表
     final dio = Dio(BaseOptions(
@@ -221,7 +222,7 @@ class _InstalledAppsPageState extends State<InstalledAppsPage> {
         }));
     String reqUri = "/v2/app_management/web/appgrid";
     final response = await dio.getUri(Uri.parse(reqUri));
-    response.data["data"].forEach((appInfo) {
+    response.data["data"].sorted((a, b) => a["name"].compareTo(b["name"])).forEach((appInfo) {
       // TODO 使用远程网络ID和远程端口临时映射远程端口到本机
       // TODO 获取当前服务映射到本机的端口号
       int localPort = 0;
@@ -344,9 +345,9 @@ class _InstalledAppsPageState extends State<InstalledAppsPage> {
     String reqUri = "/v2/app_management/compose/$appName}";
     final response = await dio.patchUri(Uri.parse(reqUri));
     if (response.statusCode == 200) {
-      TDPopover.showPopover(context: context, content: 'Success');
+      _success("Success");
     } else {
-      TDPopover.showPopover(context: context, content: 'Failed');
+      _failed("Failed");
     }
   }
 
@@ -360,9 +361,9 @@ class _InstalledAppsPageState extends State<InstalledAppsPage> {
         "/v2/app_management/compose/$appName?delete_config_folder=${delete_config_folder == null ? false : delete_config_folder}";
     final response = await dio.deleteUri(Uri.parse(reqUri));
     if (response.statusCode == 200) {
-      TDPopover.showPopover(context: context, content: 'Success');
+      _success("Success");
     } else {
-      TDPopover.showPopover(context: context, content: 'Failed');
+      _failed("Failed");
     }
   }
 
@@ -377,9 +378,9 @@ class _InstalledAppsPageState extends State<InstalledAppsPage> {
     String reqUri = "/v2/app_management/compose/$appName/status";
     final response = await dio.putUri(Uri.parse(reqUri), data: "\"$status\"");
     if (response.statusCode == 200) {
-      TDPopover.showPopover(context: context, content: 'Success');
+      _success("Success");
     } else {
-      TDPopover.showPopover(context: context, content: 'Failed');
+      _failed("Failed");
     }
   }
 
@@ -423,5 +424,33 @@ class _InstalledAppsPageState extends State<InstalledAppsPage> {
         );
       }));
     }
+  }
+
+  _success(String msg) {
+    TDMessage.showMessage(
+      context: context,
+      content: msg,
+      visible: true,
+      icon: false,
+      theme: MessageTheme.success,
+      duration: 3000,
+      onDurationEnd: () {
+        print('message end');
+      },
+    );
+  }
+
+  _failed(String msg) {
+    TDMessage.showMessage(
+      context: context,
+      content: msg,
+      visible: true,
+      icon: false,
+      theme: MessageTheme.error,
+      duration: 3000,
+      onDurationEnd: () {
+        print('message end');
+      },
+    );
   }
 }

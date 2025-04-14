@@ -136,10 +136,17 @@ class _AppStorePageState extends State<AppStorePage> {
 
   _installApp(String appName) async {
     _getAppCompose(appName).then(_installAppCompose).then((value) {
-      TDPopover.showPopover(
-          context: context,
-          content:
-              'The installation task has been submitted, return to the list of installed software and wait for installation to complete');
+      TDMessage.showMessage(
+        context: context,
+        content: 'The installation task has been submitted, return to the list of installed software and wait for installation to complete',
+        visible: true,
+        icon: false,
+        theme: MessageTheme.success,
+        duration: 3000,
+        onDurationEnd: () {
+          print('message end');
+        },
+      );
     });
   }
 
