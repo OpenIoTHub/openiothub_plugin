@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class TerminalPage extends StatefulWidget {
@@ -24,4 +23,4 @@ class _TerminalPageState extends State<TerminalPage> {
           ),
         ));
   }
-  }
+}

@@ -1,16 +1,10 @@
 //这个模型是用来局域网或者远程操作casaOS的
-import 'dart:convert';
-
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg_provider/flutter_svg_provider.dart';
-import 'package:http/http.dart' as http;
 import 'package:oktoast/oktoast.dart';
-import 'package:openiothub_constants/openiothub_constants.dart';
 import 'package:openiothub_grpc_api/proto/mobile/mobile.pb.dart';
 import 'package:openiothub_grpc_api/proto/mobile/mobile.pbgrpc.dart';
-
 import 'package:openiothub_plugin/openiothub_plugin.dart';
 import 'package:openiothub_plugin/plugins/mdnsService/mDNSService/casaOS/installedApps.dart';
 import 'package:tdesign_flutter/tdesign_flutter.dart';
@@ -18,12 +12,15 @@ import 'package:tdesign_flutter/tdesign_flutter.dart';
 //手动注册一些端口到mdns的声明，用于接入一些传统的设备或者服务或者帮助一些不方便注册mdns的设备或服务注册
 //需要选择模型和输入相关配置参数
 class CasaOSLoginPage extends StatefulWidget {
-  CasaOSLoginPage({required Key key, required this.portService}) : super(key: key);
+  CasaOSLoginPage({required Key key, required this.portService})
+      : super(key: key);
 
   static final String modelName = "com.zimaspace.casaos.webpage.v1";
+
   // 两种不同形式的端口信息，适配自动发现和手动添加的服务
   // 自动发现的服务
   final PortService portService;
+
   // 手动添加的服务
   // final PortConfig? portConfig;
 
@@ -80,11 +77,8 @@ class _CasaOSLoginPageState extends State<CasaOSLoginPage> {
           child: TDInput(
             controller: _username,
             backgroundColor: Colors.white,
-            leftLabel: OpenIoTHubPluginLocalizations
-                .of(context)
-                .username,
-            hintText: OpenIoTHubPluginLocalizations
-                .of(context)
+            leftLabel: OpenIoTHubPluginLocalizations.of(context).username,
+            hintText: OpenIoTHubPluginLocalizations.of(context)
                 .please_input_user_name,
             onChanged: (String v) {},
           ),
@@ -92,12 +86,9 @@ class _CasaOSLoginPageState extends State<CasaOSLoginPage> {
         TDInput(
           controller: _user_password,
           backgroundColor: Colors.white,
-          leftLabel: OpenIoTHubPluginLocalizations
-              .of(context)
-              .password,
-          hintText: OpenIoTHubPluginLocalizations
-              .of(context)
-              .please_input_password,
+          leftLabel: OpenIoTHubPluginLocalizations.of(context).password,
+          hintText:
+              OpenIoTHubPluginLocalizations.of(context).please_input_password,
           obscureText: true,
           onChanged: (String v) {},
         ),
@@ -108,18 +99,14 @@ class _CasaOSLoginPageState extends State<CasaOSLoginPage> {
             children: [
               TDButton(
                   icon: TDIcons.login,
-                  text: OpenIoTHubPluginLocalizations
-                      .of(context)
-                      .login,
+                  text: OpenIoTHubPluginLocalizations.of(context).login,
                   size: TDButtonSize.medium,
                   type: TDButtonType.outline,
                   shape: TDButtonShape.rectangle,
                   theme: TDButtonTheme.primary,
                   onTap: () async {
-                    if (_username.text.isEmpty ||
-                        _user_password.text.isEmpty) {
-                      showToast(OpenIoTHubPluginLocalizations
-                          .of(context)
+                    if (_username.text.isEmpty || _user_password.text.isEmpty) {
+                      showToast(OpenIoTHubPluginLocalizations.of(context)
                           .username_and_password_cant_be_empty);
                       return;
                     }
@@ -135,21 +122,19 @@ class _CasaOSLoginPageState extends State<CasaOSLoginPage> {
   }
 
   Future<void> login_and_goto_dashboard(String username, password) async {
-    final dio = Dio(BaseOptions(baseUrl: "http://${widget.portService.ip}:${widget.portService.port}"));
+    final dio = Dio(BaseOptions(
+        baseUrl: "http://${widget.portService.ip}:${widget.portService.port}"));
     String reqUri = "/v1/users/login";
     try {
-      final response = await dio.postUri(
-          Uri.parse(reqUri), data: {'username': username, 'password': password});
+      final response = await dio.postUri(Uri.parse(reqUri),
+          data: {'username': username, 'password': password});
       if (response.data["success"] == 200) {
         //  登录成功
         Map<String, dynamic> data = response.data;
         // 跳转到已安装应用页面
         Navigator.push(context, MaterialPageRoute(builder: (ctx) {
           return InstalledAppsPage(
-            key: UniqueKey(),
-            data: data,
-            portService: widget.portService
-          );
+              key: UniqueKey(), data: data, portService: widget.portService);
         }));
         return;
       } else {

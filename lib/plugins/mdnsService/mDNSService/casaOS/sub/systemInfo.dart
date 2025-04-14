@@ -2,11 +2,9 @@ import 'dart:async';
 
 import 'package:dio/dio.dart';
 import 'package:fl_chart/fl_chart.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:openiothub_grpc_api/proto/mobile/mobile.pb.dart';
-import 'package:tdesign_flutter/tdesign_flutter.dart';
 
 import 'widgets/indicator.dart';
 
@@ -282,7 +280,10 @@ class _SystemInfoPageState extends State<SystemInfoPage> {
     }
   }
 
-  List<PieChartSectionData> showingCpuSections() {
+  List<PieChartSectionData>? showingCpuSections() {
+    if (utilization.isEmpty) {
+      return null;
+    }
     return List.generate(2, (i) {
       final isTouched = i == touchedIndex;
       final fontSize = isTouched ? 25.0 : 16.0;
@@ -298,7 +299,7 @@ class _SystemInfoPageState extends State<SystemInfoPage> {
             titleStyle: TextStyle(
               fontSize: fontSize,
               fontWeight: FontWeight.bold,
-              color: Colors.white,
+              color: Colors.black,
               shadows: shadows,
             ),
           );
@@ -311,7 +312,7 @@ class _SystemInfoPageState extends State<SystemInfoPage> {
             titleStyle: TextStyle(
               fontSize: fontSize,
               fontWeight: FontWeight.bold,
-              color: Colors.white,
+              color: Colors.black,
               shadows: shadows,
             ),
           );
@@ -321,7 +322,10 @@ class _SystemInfoPageState extends State<SystemInfoPage> {
     });
   }
 
-  List<PieChartSectionData> showingMemSections() {
+  List<PieChartSectionData>? showingMemSections() {
+    if (utilization.isEmpty) {
+      return null;
+    }
     return List.generate(2, (i) {
       final isTouched = i == touchedIndex;
       final fontSize = isTouched ? 25.0 : 16.0;
@@ -332,12 +336,13 @@ class _SystemInfoPageState extends State<SystemInfoPage> {
           return PieChartSectionData(
             color: Colors.red,
             value: utilization["mem"]["usedPercent"].toDouble(),
-            title: '${utilization["mem"]["usedPercent"].toDouble()}% (${(utilization["mem"]["used"]/1024/1024/1024).toDouble().toStringAsFixed(1)} GB)',
+            title:
+                '${utilization["mem"]["usedPercent"].toDouble()}% (${(utilization["mem"]["used"] / 1024 / 1024 / 1024).toDouble().toStringAsFixed(1)} GB)',
             radius: radius,
             titleStyle: TextStyle(
               fontSize: fontSize,
               fontWeight: FontWeight.bold,
-              color: Colors.white,
+              color: Colors.black,
               shadows: shadows,
             ),
           );
@@ -345,12 +350,13 @@ class _SystemInfoPageState extends State<SystemInfoPage> {
           return PieChartSectionData(
             color: Colors.green,
             value: (100 - utilization["mem"]["usedPercent"]).toDouble(),
-            title: '${(100 - utilization["mem"]["usedPercent"]).toDouble()}% (${(utilization["mem"]["free"]/1024/1024/1024).toDouble().toStringAsFixed(1)} GB)',
+            title:
+                '${(100 - utilization["mem"]["usedPercent"]).toDouble()}% (${(utilization["mem"]["free"] / 1024 / 1024 / 1024).toDouble().toStringAsFixed(1)} GB)',
             radius: radius,
             titleStyle: TextStyle(
               fontSize: fontSize,
               fontWeight: FontWeight.bold,
-              color: Colors.white,
+              color: Colors.black,
               shadows: shadows,
             ),
           );
@@ -360,7 +366,10 @@ class _SystemInfoPageState extends State<SystemInfoPage> {
     });
   }
 
-  List<PieChartSectionData> showingDiskSections() {
+  List<PieChartSectionData>? showingDiskSections() {
+    if (utilization.isEmpty) {
+      return null;
+    }
     return List.generate(2, (i) {
       final isTouched = i == touchedIndex;
       final fontSize = isTouched ? 25.0 : 16.0;
@@ -370,26 +379,32 @@ class _SystemInfoPageState extends State<SystemInfoPage> {
         case 0:
           return PieChartSectionData(
             color: Colors.red,
-            value: (utilization["sys_disk"]["used"] / utilization["sys_disk"]["size"]).toDouble(),
-            title: '${(utilization["sys_disk"]["used"] / utilization["sys_disk"]["size"]).toDouble().toStringAsFixed(1)}% (${(utilization["sys_disk"]["used"]/1024/1024/1024).toDouble().toStringAsFixed(1)} GB)',
+            value: (utilization["sys_disk"]["used"] /
+                    utilization["sys_disk"]["size"])
+                .toDouble(),
+            title:
+                '${(utilization["sys_disk"]["used"] / utilization["sys_disk"]["size"]).toDouble().toStringAsFixed(1)}% (${(utilization["sys_disk"]["used"] / 1024 / 1024 / 1024).toDouble().toStringAsFixed(1)} GB)',
             radius: radius,
             titleStyle: TextStyle(
               fontSize: fontSize,
               fontWeight: FontWeight.bold,
-              color: Colors.white,
+              color: Colors.black,
               shadows: shadows,
             ),
           );
         case 1:
           return PieChartSectionData(
             color: Colors.green,
-            value: (utilization["sys_disk"]["avail"] / utilization["sys_disk"]["size"]).toDouble(),
-            title: '${(utilization["sys_disk"]["avail"] / utilization["sys_disk"]["size"]).toDouble().toStringAsFixed(1)}% (${(utilization["sys_disk"]["avail"]/1024/1024/1024).toDouble().toStringAsFixed(1)} GB)',
+            value: (utilization["sys_disk"]["avail"] /
+                    utilization["sys_disk"]["size"])
+                .toDouble(),
+            title:
+                '${(utilization["sys_disk"]["avail"] / utilization["sys_disk"]["size"]).toDouble().toStringAsFixed(1)}% (${(utilization["sys_disk"]["avail"] / 1024 / 1024 / 1024).toDouble().toStringAsFixed(1)} GB)',
             radius: radius,
             titleStyle: TextStyle(
               fontSize: fontSize,
               fontWeight: FontWeight.bold,
-              color: Colors.white,
+              color: Colors.black,
               shadows: shadows,
             ),
           );

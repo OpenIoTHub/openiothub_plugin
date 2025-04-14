@@ -1,3 +1,7 @@
+## [1.0.2+30]
+
+* update
+
 ## [1.0.2+29]
 
 * start support CasaOS、ZimaOS App op
