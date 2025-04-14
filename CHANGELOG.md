@@ -1,3 +1,7 @@
+## [1.0.2+31]
+
+* install casaos app
+
 ## [1.0.2+30]
 
 * update

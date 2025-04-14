@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:oktoast/oktoast.dart';
 import 'package:openiothub_grpc_api/proto/mobile/mobile.pb.dart';
 import 'package:tdesign_flutter/tdesign_flutter.dart';
 
@@ -129,6 +130,9 @@ class _AppStorePageState extends State<AppStorePage> {
   }
 
   _installApp(String appName) async {
+    _getAppCompose(appName).then(_installAppCompose);
+  }
+  Future<String>_getAppCompose(String appName) async {
     final dio = Dio(BaseOptions(
         baseUrl: "http://${widget.portService.ip}:${widget.portService.port}",
         headers: {
@@ -136,5 +140,17 @@ class _AppStorePageState extends State<AppStorePage> {
         }));
     String reqUri = "/v2/app_management/apps/$appName/compose";
     final response = await dio.getUri(Uri.parse(reqUri));
+    // showToast(response.data);
+    return response.data.toString();
+  }
+  _installAppCompose(String compose) async {
+    final dio = Dio(BaseOptions(
+        baseUrl: "http://${widget.portService.ip}:${widget.portService.port}",
+        headers: {
+          "Authorization": widget.data["data"]["token"]["access_token"]
+        }));
+    String reqUri = "/v2/app_management/compose?dry_run=false&check_port_conflict=true";
+    final response = await dio.postUri(Uri.parse(reqUri));
+    showToast(response.data);
   }
 }
