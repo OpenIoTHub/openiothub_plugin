@@ -1,7 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:oktoast/oktoast.dart';
 import 'package:openiothub_grpc_api/proto/mobile/mobile.pb.dart';
 import 'package:tdesign_flutter/tdesign_flutter.dart';
 
@@ -22,6 +21,12 @@ class _AppStorePageState extends State<AppStorePage> {
   @override
   void initState() {
     _initListTiles();
+    // 通过websocket获取安装进度
+    // https://pub.dev/packages/web_socket_channel
+    // ws://192.168.124.33/v2/message_bus/socket.io/?EIO=3&transport=websocket
+    // 42["casaos:system:utilization",{"ID":0,"SourceID":"casaos","Name":"casaos:system:utilization","Properties":{"sys_cpu":"{\"model\":\"intel\",\"num\":2,\"percent\":4.5,\"power\":{\"timestamp\":\"1744639093\",\"value\":\"0\"},\"temperature\":0}","sys_disk":"{\"avail\":185271488512,\"health\":true,\"size\":209129086976,\"used\":13159870464}","sys_mem":"{\"available\":1677094912,\"free\":109686784,\"total\":3111690240,\"used\":1234653184,\"usedPercent\":39.7}","sys_net":"[{\"name\":\"ens3\",\"bytesSent\":92522951,\"bytesRecv\":134019646,\"packetsSent\":223798,\"packetsRecv\":353210,\"errin\":0,\"errout\":0,\"dropin\":818,\"dropout\":0,\"fifoin\":0,\"fifoout\":0,\"state\":\"up\",\"time\":1744639093}]","sys_usb":"[]"},"Timestamp":1744639093,"uuid":"d1aa1cd4-c661-49bc-bc27-3c0abdb4cb25"}]
+    // 42["docker:image:pull-begin",{"ID":0,"SourceID":"app-management","Name":"docker:image:pull-begin","Properties":{"app:icon":"https://cdn.jsdelivr.net/gh/IceWhaleTech/CasaOS-AppStore@main/Apps/Ddns-go/icon.png","app:name":"ddns-go","app:title":"{\"en_us\":\"ddns-go\"}","check_port_conflict":"true","docker:image:name":"jeessy/ddns-go:v6.8.1","dry_run":"false"},"Timestamp":1744638830,"uuid":"4762db94-b6e8-4915-90bb-b23b89ea29ef"}]
+    // 42["app:install-progress",{"ID":0,"SourceID":"app-management","Name":"app:install-progress","Properties":{"app:icon":"https://cdn.jsdelivr.net/gh/IceWhaleTech/CasaOS-AppStore@main/Apps/Ddns-go/icon.png","app:name":"ddns-go","app:progress":"0","app:title":"{\"en_us\":\"ddns-go\"}","check_port_conflict":"true","dry_run":"false"},"Timestamp":1744638834,"uuid":"d22aeb7f-90ad-4418-abc9-54ecaa792c85"}]
     super.initState();
   }
 
@@ -130,27 +135,36 @@ class _AppStorePageState extends State<AppStorePage> {
   }
 
   _installApp(String appName) async {
-    _getAppCompose(appName).then(_installAppCompose);
+    _getAppCompose(appName).then(_installAppCompose).then((value) {
+      TDPopover.showPopover(
+          context: context,
+          content:
+              'The installation task has been submitted, return to the list of installed software and wait for installation to complete');
+    });
   }
-  Future<String>_getAppCompose(String appName) async {
+
+  Future<String> _getAppCompose(String appName) async {
     final dio = Dio(BaseOptions(
         baseUrl: "http://${widget.portService.ip}:${widget.portService.port}",
         headers: {
-          "Authorization": widget.data["data"]["token"]["access_token"]
+          "Authorization": widget.data["data"]["token"]["access_token"],
+          "Accept": "application/yaml"
         }));
     String reqUri = "/v2/app_management/apps/$appName/compose";
     final response = await dio.getUri(Uri.parse(reqUri));
-    // showToast(response.data);
-    return response.data.toString();
+    return response.toString();
   }
+
   _installAppCompose(String compose) async {
     final dio = Dio(BaseOptions(
         baseUrl: "http://${widget.portService.ip}:${widget.portService.port}",
         headers: {
-          "Authorization": widget.data["data"]["token"]["access_token"]
+          "Authorization": widget.data["data"]["token"]["access_token"],
+          "Content-Type": "application/yaml"
         }));
-    String reqUri = "/v2/app_management/compose?dry_run=false&check_port_conflict=true";
-    final response = await dio.postUri(Uri.parse(reqUri));
-    showToast(response.data);
+    String reqUri =
+        "/v2/app_management/compose?dry_run=false&check_port_conflict=true";
+    final response = await dio.postUri(Uri.parse(reqUri), data: compose);
+    // showToast(response.data);
   }
 }

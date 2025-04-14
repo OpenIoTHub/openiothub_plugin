@@ -166,6 +166,14 @@ class _SystemInfoPageState extends State<SystemInfoPage> {
                   isSquare: true,
                 ),
                 SizedBox(
+                  height: 4,
+                ),
+                Indicator(
+                  color: Colors.blue,
+                  text: 'Available Mem',
+                  isSquare: true,
+                ),
+                SizedBox(
                   height: 18,
                 ),
               ],
@@ -250,6 +258,7 @@ class _SystemInfoPageState extends State<SystemInfoPage> {
     return Scaffold(
         appBar: AppBar(
           title: Text("System Info"),
+          // actions: [Text("")],
         ),
         body: Center(
           child: Container(
@@ -349,9 +358,26 @@ class _SystemInfoPageState extends State<SystemInfoPage> {
         case 1:
           return PieChartSectionData(
             color: Colors.green,
-            value: (100 - utilization["mem"]["usedPercent"]).toDouble(),
+            value: (utilization["mem"]["free"] / utilization["mem"]["total"])
+                .toDouble(),
             title:
-                '${(100 - utilization["mem"]["usedPercent"]).toDouble()}% (${(utilization["mem"]["free"] / 1024 / 1024 / 1024).toDouble().toStringAsFixed(1)} GB)',
+                '${(utilization["mem"]["free"] / utilization["mem"]["total"]).toDouble()}% (${(utilization["mem"]["free"] / 1024 / 1024 / 1024).toDouble().toStringAsFixed(1)} GB)',
+            radius: radius,
+            titleStyle: TextStyle(
+              fontSize: fontSize,
+              fontWeight: FontWeight.bold,
+              color: Colors.black,
+              shadows: shadows,
+            ),
+          );
+        case 2:
+          return PieChartSectionData(
+            color: Colors.blue,
+            value:
+                (utilization["mem"]["available"] / utilization["mem"]["total"])
+                    .toDouble(),
+            title:
+                '${(100 - utilization["mem"]["available"] / utilization["mem"]["total"]).toDouble()}% (${(utilization["mem"]["available"] / 1024 / 1024 / 1024).toDouble().toStringAsFixed(1)} GB)',
             radius: radius,
             titleStyle: TextStyle(
               fontSize: fontSize,

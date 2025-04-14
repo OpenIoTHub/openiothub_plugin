@@ -627,7 +627,7 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "1.0.2+25"
+    version: "1.0.2+31"
   path:
     dependency: transitive
     description:
@@ -1081,6 +1081,22 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.1.1"
+  web_socket:
+    dependency: transitive
+    description:
+      name: web_socket
+      sha256: "3c12d96c0c9a4eec095246debcea7b86c0324f22df69893d538fcc6f1b8cce83"
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.1.6"
+  web_socket_channel:
+    dependency: transitive
+    description:
+      name: web_socket_channel
+      sha256: "0b8e2457400d8a859b7b2030786835a28a8e80836ef64402abef392ff4f1d0e5"
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "3.0.2"
   webview_flutter:
     dependency: transitive
     description:

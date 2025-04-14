@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
@@ -33,12 +34,24 @@ class _InstalledAppsPageState extends State<InstalledAppsPage> {
   String? current_version;
   bool? need_update;
   String? change_log;
+  late Timer _refresh_timer;
 
   @override
   void initState() {
     _initListTiles();
     _getVersionInfo();
+    _refresh_timer = Timer.periodic(const Duration(seconds: 2), (timer) {
+      _initListTiles();
+    });
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    if (_refresh_timer.isActive) {
+      _refresh_timer.cancel();
+    }
+    super.dispose();
   }
 
   @override
@@ -245,37 +258,46 @@ class _InstalledAppsPageState extends State<InstalledAppsPage> {
             ),
             trailing: const Icon(Icons.arrow_right),
             onTap: () {
-              TDActionSheet(context, visible: true, items: [
-                TDActionSheetItem(
-                  label: 'Start & Open Page',
-                  icon: Icon(Icons.open_in_browser),
-                ),
-                TDActionSheetItem(
-                  label: 'Upgrade',
-                  icon: Icon(Icons.upgrade),
-                ),
-                TDActionSheetItem(
-                  label: 'Remove',
-                  icon: Icon(Icons.delete_forever),
-                ),
-                TDActionSheetItem(
-                  label: 'Shutdown',
-                  icon: Icon(
-                    Icons.settings_power,
-                    color: Colors.red,
-                  ),
-                ),
-                TDActionSheetItem(
-                  label: 'Reboot',
-                  icon: Icon(
-                    Icons.refresh,
-                    color: Colors.orange,
-                  ),
-                ),
-              ], onSelected: (TDActionSheetItem item, int index) {
+              TDActionSheet(context,
+                  visible: true,
+                  description: appInfo["name"],
+                  items: [
+                    TDActionSheetItem(
+                      label: 'Start',
+                      icon: Icon(Icons.open_in_browser),
+                    ),
+                    TDActionSheetItem(
+                      label: 'Open Page',
+                      icon: Icon(Icons.open_in_browser),
+                    ),
+                    TDActionSheetItem(
+                      label: 'Upgrade',
+                      icon: Icon(Icons.upgrade),
+                    ),
+                    TDActionSheetItem(
+                      label: 'Remove',
+                      icon: Icon(Icons.delete_forever),
+                    ),
+                    TDActionSheetItem(
+                      label: 'Shutdown',
+                      icon: Icon(
+                        Icons.settings_power,
+                        color: Colors.red,
+                      ),
+                    ),
+                    TDActionSheetItem(
+                      label: 'Reboot',
+                      icon: Icon(
+                        Icons.refresh,
+                        color: Colors.orange,
+                      ),
+                    ),
+                  ], onSelected: (TDActionSheetItem item, int index) {
                 switch (item.label) {
-                  case 'Start & Open Page':
-                    _startApp(appInfo["name"]);
+                  case 'Start':
+                    _changeAppStatus(appInfo["name"], "start");
+                    break;
+                  case 'Open Page':
                     _openWithWebBrowser(Config.webgRpcIp, localPort);
                     break;
                   case 'Upgrade':
@@ -313,16 +335,6 @@ class _InstalledAppsPageState extends State<InstalledAppsPage> {
     }
   }
 
-  _startApp(String appName) async {
-    final dio = Dio(BaseOptions(
-        baseUrl: "http://${widget.portService.ip}:${widget.portService.port}",
-        headers: {
-          "Authorization": widget.data["data"]["token"]["access_token"]
-        }));
-    String reqUri = "/v2/app_management/compose/$appName}";
-    final response = await dio.getUri(Uri.parse(reqUri));
-  }
-
   _upgradeApp(String appName) async {
     final dio = Dio(BaseOptions(
         baseUrl: "http://${widget.portService.ip}:${widget.portService.port}",
@@ -331,6 +343,11 @@ class _InstalledAppsPageState extends State<InstalledAppsPage> {
         }));
     String reqUri = "/v2/app_management/compose/$appName}";
     final response = await dio.patchUri(Uri.parse(reqUri));
+    if (response.statusCode == 200) {
+      TDPopover.showPopover(context: context, content: 'Success');
+    } else {
+      TDPopover.showPopover(context: context, content: 'Failed');
+    }
   }
 
   _removeApp(String appName, bool? delete_config_folder) async {
@@ -342,6 +359,11 @@ class _InstalledAppsPageState extends State<InstalledAppsPage> {
     String reqUri =
         "/v2/app_management/compose/$appName?delete_config_folder=${delete_config_folder == null ? false : delete_config_folder}";
     final response = await dio.deleteUri(Uri.parse(reqUri));
+    if (response.statusCode == 200) {
+      TDPopover.showPopover(context: context, content: 'Success');
+    } else {
+      TDPopover.showPopover(context: context, content: 'Failed');
+    }
   }
 
   _changeAppStatus(String appName, status) async {
@@ -349,10 +371,16 @@ class _InstalledAppsPageState extends State<InstalledAppsPage> {
     final dio = Dio(BaseOptions(
         baseUrl: "http://${widget.portService.ip}:${widget.portService.port}",
         headers: {
-          "Authorization": widget.data["data"]["token"]["access_token"]
+          "Authorization": widget.data["data"]["token"]["access_token"],
+          "Content-Type": "application/json"
         }));
     String reqUri = "/v2/app_management/compose/$appName/status";
-    final response = await dio.putUri(Uri.parse(reqUri), data: status);
+    final response = await dio.putUri(Uri.parse(reqUri), data: "\"$status\"");
+    if (response.statusCode == 200) {
+      TDPopover.showPopover(context: context, content: 'Success');
+    } else {
+      TDPopover.showPopover(context: context, content: 'Failed');
+    }
   }
 
   _openWithWebBrowser(String ip, int port) {
