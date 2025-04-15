@@ -345,9 +345,13 @@ class _InstalledAppsPageState extends State<InstalledAppsPage> {
         headers: {
           "Authorization": widget.data["data"]["token"]["access_token"]
         }));
-    String reqUri = "/v2/app_management/compose/$appName}";
+    String reqUri = "/v2/app_management/compose/$appName";
     final response = await dio.patchUri(Uri.parse(reqUri));
-    _success(response.toString());
+    if (response.statusCode == 200) {
+      _success("Success");
+    } else {
+      _failed("Failed");
+    }
   }
 
   _removeApp(String appName, bool? delete_config_folder) async {

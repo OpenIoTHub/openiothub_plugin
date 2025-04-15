@@ -19,14 +19,7 @@ class _FileManagerPageState extends State<FileManagerPage> {
         appBar: AppBar(
           title: Text("Files"),
         ),
-        body: Center(
-          child: Container(
-            padding: EdgeInsets.all(10.0),
-            child: ListView(
-              children: [],
-            ),
-          ),
-        ));
+        body: _buildPaginationSideBar(context));
   }
 
   Widget _buildPaginationSideBar(BuildContext context) {

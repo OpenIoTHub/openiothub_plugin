@@ -57,11 +57,12 @@ dev_dependencies:
 flutter_gen:
   assets:
     - lib/l10n/*.arb
-    - assets/images/casa_avatar.png
 
 flutter:
   uses-material-design: true
   generate: true
+  assets:
+    - assets/images/
 
 #flutter_intl:
 #  enabled: true

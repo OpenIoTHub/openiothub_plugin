@@ -34,7 +34,7 @@ class _AppStorePageState extends State<AppStorePage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("CasaOS/ZimaOS AppStore"),
+          title: Text("AppStore"),
           // actions: <Widget>[
           //   // 系统的各种状态
           //   IconButton(
@@ -90,7 +90,7 @@ class _AppStorePageState extends State<AppStorePage> {
         _listTiles.add(ListTile(
             //第一个功能项
             title: Text(appName),
-            subtitle: Text(appInfo["category"]),
+            subtitle: Text(appInfo["category"], style: TextStyle(color: Colors.grey),),
             leading: _sizedContainer(
               CachedNetworkImage(
                 progressIndicatorBuilder: (context, url, progress) => Center(
