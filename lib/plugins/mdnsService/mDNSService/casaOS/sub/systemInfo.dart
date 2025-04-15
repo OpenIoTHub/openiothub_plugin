@@ -166,14 +166,6 @@ class _SystemInfoPageState extends State<SystemInfoPage> {
                   isSquare: true,
                 ),
                 SizedBox(
-                  height: 4,
-                ),
-                Indicator(
-                  color: Colors.blue,
-                  text: 'Available Mem',
-                  isSquare: true,
-                ),
-                SizedBox(
                   height: 18,
                 ),
               ],
@@ -344,7 +336,7 @@ class _SystemInfoPageState extends State<SystemInfoPage> {
         case 0:
           return PieChartSectionData(
             color: Colors.red,
-            value: utilization["mem"]["usedPercent"].toDouble().toStringAsFixed(1),
+            value: utilization["mem"]["usedPercent"].toDouble(),
             title:
                 '${utilization["mem"]["usedPercent"].toDouble().toStringAsFixed(1)}% (${(utilization["mem"]["used"] / 1024 / 1024 / 1024).toDouble().toStringAsFixed(1)} GB)',
             radius: radius,
@@ -358,26 +350,9 @@ class _SystemInfoPageState extends State<SystemInfoPage> {
         case 1:
           return PieChartSectionData(
             color: Colors.green,
-            value: (utilization["mem"]["free"] / utilization["mem"]["total"])
-                .toDouble().toStringAsFixed(1),
+            value: (100 - utilization["mem"]["usedPercent"].toDouble()).toDouble(),
             title:
-                '${(utilization["mem"]["free"] / utilization["mem"]["total"]).toDouble().toStringAsFixed(1)}% (${(utilization["mem"]["free"] / 1024 / 1024 / 1024).toDouble().toStringAsFixed(1)} GB)',
-            radius: radius,
-            titleStyle: TextStyle(
-              fontSize: fontSize,
-              fontWeight: FontWeight.bold,
-              color: Colors.black,
-              shadows: shadows,
-            ),
-          );
-        case 2:
-          return PieChartSectionData(
-            color: Colors.blue,
-            value:
-                (utilization["mem"]["available"] / utilization["mem"]["total"])
-                    .toDouble().toStringAsFixed(1),
-            title:
-                '${(100 - utilization["mem"]["available"] / utilization["mem"]["total"]).toDouble().toStringAsFixed(1)}% (${(utilization["mem"]["available"] / 1024 / 1024 / 1024).toDouble().toStringAsFixed(1)} GB)',
+                '${(100 - utilization["mem"]["usedPercent"].toDouble()).toDouble().toStringAsFixed(1)}% (${((utilization["mem"]["total"] - utilization["mem"]["used"]) / 1024 / 1024 / 1024).toDouble().toStringAsFixed(1)} GB)',
             radius: radius,
             titleStyle: TextStyle(
               fontSize: fontSize,
@@ -405,11 +380,11 @@ class _SystemInfoPageState extends State<SystemInfoPage> {
         case 0:
           return PieChartSectionData(
             color: Colors.red,
-            value: (utilization["sys_disk"]["used"] /
+            value: ((utilization["sys_disk"]["size"]-utilization["sys_disk"]["avail"])  /
                     utilization["sys_disk"]["size"])
                 .toDouble(),
             title:
-                '${(utilization["sys_disk"]["used"] / utilization["sys_disk"]["size"]).toDouble().toStringAsFixed(1)}% (${(utilization["sys_disk"]["used"] / 1024 / 1024 / 1024).toDouble().toStringAsFixed(1)} GB)',
+                '${(((utilization["sys_disk"]["size"]-utilization["sys_disk"]["avail"])  / utilization["sys_disk"]["size"]).toDouble()*100).toStringAsFixed(1)  }% (${((utilization["sys_disk"]["size"]-utilization["sys_disk"]["avail"])  / 1024 / 1024 / 1024).toDouble().toStringAsFixed(1)} GB)',
             radius: radius,
             titleStyle: TextStyle(
               fontSize: fontSize,
@@ -422,10 +397,10 @@ class _SystemInfoPageState extends State<SystemInfoPage> {
           return PieChartSectionData(
             color: Colors.green,
             value: (utilization["sys_disk"]["avail"] /
-                    utilization["sys_disk"]["size"])
+                utilization["sys_disk"]["size"])
                 .toDouble(),
             title:
-                '${(utilization["sys_disk"]["avail"] / utilization["sys_disk"]["size"]).toDouble().toStringAsFixed(1)}% (${(utilization["sys_disk"]["avail"] / 1024 / 1024 / 1024).toDouble().toStringAsFixed(1)} GB)',
+            '${((utilization["sys_disk"]["avail"] / utilization["sys_disk"]["size"]).toDouble()*100).toStringAsFixed(1) }% (${(utilization["sys_disk"]["avail"] / 1024 / 1024 / 1024).toDouble().toStringAsFixed(1)} GB)',
             radius: radius,
             titleStyle: TextStyle(
               fontSize: fontSize,
