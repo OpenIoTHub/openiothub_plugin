@@ -1,6 +1,6 @@
 name: openiothub_plugin
 description: openiothub_plugin
-version: 1.0.2+34
+version: 1.0.2+35
 homepage: https://github.com/OpenIoTHub
 
 environment:
@@ -57,6 +57,7 @@ dev_dependencies:
 flutter_gen:
   assets:
     - lib/l10n/*.arb
+    - assets/images/casa_avatar.png
 
 flutter:
   uses-material-design: true

@@ -88,7 +88,7 @@ class _SystemInfoPageState extends State<SystemInfoPage> {
               children: <Widget>[
                 Indicator(
                   color: Colors.red,
-                  text: 'Used CPU',
+                  text: 'UsedCPU',
                   isSquare: true,
                 ),
                 SizedBox(
@@ -96,7 +96,7 @@ class _SystemInfoPageState extends State<SystemInfoPage> {
                 ),
                 Indicator(
                   color: Colors.green,
-                  text: 'Unused CPU',
+                  text: 'UnusedCPU',
                   isSquare: true,
                 ),
                 SizedBox(
@@ -154,7 +154,7 @@ class _SystemInfoPageState extends State<SystemInfoPage> {
               children: <Widget>[
                 Indicator(
                   color: Colors.red,
-                  text: 'Used Mem',
+                  text: 'UsedMem',
                   isSquare: true,
                 ),
                 SizedBox(
@@ -162,7 +162,7 @@ class _SystemInfoPageState extends State<SystemInfoPage> {
                 ),
                 Indicator(
                   color: Colors.green,
-                  text: 'Unused Mem',
+                  text: 'UnusedMem',
                   isSquare: true,
                 ),
                 SizedBox(
@@ -214,13 +214,13 @@ class _SystemInfoPageState extends State<SystemInfoPage> {
                 ),
               ),
             ),
-            const Column(
+            Column(
               mainAxisAlignment: MainAxisAlignment.end,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Indicator(
                   color: Colors.red,
-                  text: 'Used Disk',
+                  text: 'UsedDisk',
                   isSquare: true,
                 ),
                 SizedBox(
@@ -228,7 +228,12 @@ class _SystemInfoPageState extends State<SystemInfoPage> {
                 ),
                 Indicator(
                   color: Colors.green,
-                  text: 'Unused Disk',
+                  text: 'UnusedDisk',
+                  isSquare: true,
+                ),
+                Indicator(
+                  color: utilization["sys_disk"]["health"]?Colors.greenAccent:Colors.orangeAccent,
+                  text: utilization["sys_disk"]["health"]?'Health':"Unhealthy",
                   isSquare: true,
                 ),
                 SizedBox(
@@ -384,7 +389,7 @@ class _SystemInfoPageState extends State<SystemInfoPage> {
                     utilization["sys_disk"]["size"])
                 .toDouble(),
             title:
-                '${(((utilization["sys_disk"]["size"]-utilization["sys_disk"]["avail"])  / utilization["sys_disk"]["size"]).toDouble()*100).toStringAsFixed(1)  }% (${((utilization["sys_disk"]["size"]-utilization["sys_disk"]["avail"])  / 1024 / 1024 / 1024).toDouble().toStringAsFixed(1)} GB)',
+                '${(((utilization["sys_disk"]["size"]-utilization["sys_disk"]["avail"])  / utilization["sys_disk"]["size"]).toDouble()*100).toStringAsFixed(1)  }% (${((utilization["sys_disk"]["size"]-utilization["sys_disk"]["avail"])  / 1024 / 1024 / 1024).toDouble().toStringAsFixed(1)}GB)',
             radius: radius,
             titleStyle: TextStyle(
               fontSize: fontSize,
@@ -400,7 +405,7 @@ class _SystemInfoPageState extends State<SystemInfoPage> {
                 utilization["sys_disk"]["size"])
                 .toDouble(),
             title:
-            '${((utilization["sys_disk"]["avail"] / utilization["sys_disk"]["size"]).toDouble()*100).toStringAsFixed(1) }% (${(utilization["sys_disk"]["avail"] / 1024 / 1024 / 1024).toDouble().toStringAsFixed(1)} GB)',
+            '${((utilization["sys_disk"]["avail"] / utilization["sys_disk"]["size"]).toDouble()*100).toStringAsFixed(1) }% (${(utilization["sys_disk"]["avail"] / 1024 / 1024 / 1024).toDouble().toStringAsFixed(1)}GB)',
             radius: radius,
             titleStyle: TextStyle(
               fontSize: fontSize,

@@ -116,18 +116,18 @@ class _InstalledAppsPageState extends State<InstalledAppsPage> {
                   }));
                 }),
             // 终端
-            IconButton(
-                icon: Icon(
-                  Icons.terminal,
-                  // color: Colors.white,
-                ),
-                onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (ctx) {
-                    return TerminalPage(
-                      key: UniqueKey(),
-                    );
-                  }));
-                }),
+            // IconButton(
+            //     icon: Icon(
+            //       Icons.terminal,
+            //       // color: Colors.white,
+            //     ),
+            //     onPressed: () {
+            //       Navigator.push(context, MaterialPageRoute(builder: (ctx) {
+            //         return TerminalPage(
+            //           key: UniqueKey(),
+            //         );
+            //       }));
+            //     }),
             // 当前用户信息
             // IconButton(
             //     icon: Icon(
@@ -222,7 +222,8 @@ class _InstalledAppsPageState extends State<InstalledAppsPage> {
         }));
     String reqUri = "/v2/app_management/web/appgrid";
     final response = await dio.getUri(Uri.parse(reqUri));
-    response.data["data"].sort((a, b) => a["name"].toString().compareTo(b["name"].toString()));
+    response.data["data"]
+        .sort((a, b) => a["name"].toString().compareTo(b["name"].toString()));
     response.data["data"].forEach((appInfo) {
       // TODO 使用远程网络ID和远程端口临时映射远程端口到本机
       // TODO 获取当前服务映射到本机的端口号
@@ -239,14 +240,13 @@ class _InstalledAppsPageState extends State<InstalledAppsPage> {
             //第一个功能项
             title: Text(appInfo["name"]),
             // subtitle: Text(appInfo["status"], style: TextStyle(),),
-            subtitle: TDText(
+            subtitle: TDTag(
               appInfo["status"],
-              font: TDTheme.of(context).fontHeadlineSmall,
-              textColor:
-                  appInfo["status"] == "running" ? Colors.green : Colors.red,
-              backgroundColor: appInfo["status"] == "running"
-                  ? Colors.greenAccent
-                  : Colors.orange,
+              theme: appInfo["status"] == "running"
+                  ? TDTagTheme.success
+                  : TDTagTheme.danger,
+              isOutline: true,
+              isLight: true,
             ),
             leading: _sizedContainer(
               CachedNetworkImage(
@@ -271,7 +271,7 @@ class _InstalledAppsPageState extends State<InstalledAppsPage> {
                     // localPort==0则不可用
                     TDActionSheetItem(
                       label: 'Open Page',
-                      disabled: localPort==0,
+                      disabled: localPort == 0,
                       icon: Icon(Icons.open_in_browser),
                     ),
                     TDActionSheetItem(

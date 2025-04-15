@@ -63,13 +63,9 @@ class _CasaOSLoginPageState extends State<CasaOSLoginPage> {
       _list = <Widget>[
         Padding(
           padding: const EdgeInsets.only(top: 20.0), // 设置顶部距离
-          child: Image(
-            width: 200,
-            height: 200,
-            image: Svg(
-              'http://${widget.portService.ip}:${widget.portService.port}/img/default-avatar.9dbd7921.svg',
-              source: SvgSource.network,
-            ),
+          child: Image.asset(
+            package: "openiothub_plugin",
+            'assets/images/casa_avatar.png', // 确保路径正确且已在pubspec.yaml中声明
           ),
         ),
         Padding(
