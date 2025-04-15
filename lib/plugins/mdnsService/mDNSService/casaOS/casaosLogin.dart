@@ -64,7 +64,7 @@ class _CasaOSLoginPageState extends State<CasaOSLoginPage> {
         Padding(
           padding: const EdgeInsets.only(top: 20.0), // 设置顶部距离
           child: Image.asset(
-            'assets/images/casa_avatar.png',
+            'assets/plugins/casa/casa_avatar.png',
             package: "openiothub_plugin",
             // 确保路径正确且已在pubspec.yaml中声明
           ),

@@ -159,11 +159,12 @@ class _FileManagerPageState extends State<FileManagerPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const TDImage(
-              assetUrl: 'assets/img/empty.png',
-              type: TDImageType.roundedSquare,
+            Image.asset(
+              'assets/plugins/casa/folder.png',
+              package: "openiothub_plugin",
               width: 48,
               height: 48,
+              // 确保路径正确且已在pubspec.yaml中声明
             ),
             const SizedBox(height: 8),
             TDText(

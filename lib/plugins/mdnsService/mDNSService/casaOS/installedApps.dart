@@ -245,7 +245,7 @@ class _InstalledAppsPageState extends State<InstalledAppsPage> {
               theme: appInfo["status"] == "running"
                   ? TDTagTheme.success
                   : TDTagTheme.danger,
-              isOutline: true,
+              // isOutline: true,
               isLight: true,
             ),
             leading: _sizedContainer(
