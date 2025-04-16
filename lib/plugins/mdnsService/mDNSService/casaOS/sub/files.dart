@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:tdesign_flutter/tdesign_flutter.dart';
 
+import '../../../../../generated/assets.dart';
+
 class FileManagerPage extends StatefulWidget {
   const FileManagerPage({super.key});
 
@@ -128,39 +130,39 @@ class _FileManagerPageState extends State<FileManagerPage> {
     return Column(
       children: [
         Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-          displayImageItem('标题文字'),
-          displayImageItem('标题文字'),
-          displayImageItem('最多六个文字'),
+          displayImageItem('标题文字', true),
+          displayImageItem('标题文字', true),
+          displayImageItem('文件', false),
         ]),
         const SizedBox(height: 18),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            displayImageItem('标题文字'),
-            displayImageItem('标题文字'),
-            displayImageItem('最多六个文字'),
+            displayImageItem('标题文字', true),
+            displayImageItem('标题文字', false),
+            displayImageItem('最多六个文字', false),
           ],
         ),
         const SizedBox(height: 18),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            displayImageItem('标题文字'),
-            displayImageItem('标题文字'),
-            displayImageItem('最多六个文字'),
+            displayImageItem('标题文字', false),
+            displayImageItem('标题文字', false),
+            displayImageItem('最多六个文字', false),
           ],
         )
       ],
     );
   }
 
-  Widget displayImageItem(String title) {
+  Widget displayImageItem(String title, bool is_folder) {
     return Expanded(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Image.asset(
-              'assets/plugins/casa/folder.png',
+              is_folder?Assets.casaFolder:Assets.casaFile,
               package: "openiothub_plugin",
               width: 48,
               height: 48,

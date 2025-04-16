@@ -9,6 +9,8 @@ import 'package:openiothub_plugin/openiothub_plugin.dart';
 import 'package:openiothub_plugin/plugins/mdnsService/mDNSService/casaOS/installedApps.dart';
 import 'package:tdesign_flutter/tdesign_flutter.dart';
 
+import '../../../../generated/assets.dart';
+
 //手动注册一些端口到mdns的声明，用于接入一些传统的设备或者服务或者帮助一些不方便注册mdns的设备或服务注册
 //需要选择模型和输入相关配置参数
 class CasaOSLoginPage extends StatefulWidget {
@@ -64,7 +66,7 @@ class _CasaOSLoginPageState extends State<CasaOSLoginPage> {
         Padding(
           padding: const EdgeInsets.only(top: 20.0), // 设置顶部距离
           child: Image.asset(
-            'assets/plugins/casa/casa_avatar.png',
+            Assets.casaCasaAvatar,
             package: "openiothub_plugin",
             // 确保路径正确且已在pubspec.yaml中声明
           ),

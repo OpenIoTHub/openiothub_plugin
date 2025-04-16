@@ -5,6 +5,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:openiothub_grpc_api/proto/mobile/mobile.pb.dart';
+import 'package:tdesign_flutter/tdesign_flutter.dart';
 
 import 'widgets/indicator.dart';
 
@@ -232,8 +233,14 @@ class _SystemInfoPageState extends State<SystemInfoPage> {
                   isSquare: true,
                 ),
                 Indicator(
-                  color: utilization["sys_disk"]["health"]?Colors.greenAccent:Colors.orangeAccent,
-                  text: utilization["sys_disk"]["health"]?'Health':"Unhealthy",
+                  color: (utilization["sys_disk"] == null ||
+                          utilization["sys_disk"]["health"])
+                      ? Colors.greenAccent
+                      : Colors.orangeAccent,
+                  text: (utilization["sys_disk"] == null ||
+                          utilization["sys_disk"]["health"])
+                      ? 'Health'
+                      : "Unhealthy",
                   isSquare: true,
                 ),
                 SizedBox(
@@ -257,14 +264,19 @@ class _SystemInfoPageState extends State<SystemInfoPage> {
           title: Text("System Info"),
           // actions: [Text("")],
         ),
-        body: Center(
-          child: Container(
-            padding: EdgeInsets.all(10.0),
-            child: ListView(
-              children: listView,
-            ),
-          ),
-        ));
+        body: utilization.isEmpty
+            ? TDLoading(
+                size: TDLoadingSize.small,
+                icon: TDLoadingIcon.activity,
+              )
+            : Center(
+                child: Container(
+                  padding: EdgeInsets.all(10.0),
+                  child: ListView(
+                    children: listView,
+                  ),
+                ),
+              ));
   }
 
   Future<void> getUtilization() async {
@@ -355,7 +367,8 @@ class _SystemInfoPageState extends State<SystemInfoPage> {
         case 1:
           return PieChartSectionData(
             color: Colors.green,
-            value: (100 - utilization["mem"]["usedPercent"].toDouble()).toDouble(),
+            value:
+                (100 - utilization["mem"]["usedPercent"].toDouble()).toDouble(),
             title:
                 '${(100 - utilization["mem"]["usedPercent"].toDouble()).toDouble().toStringAsFixed(1)}% (${((utilization["mem"]["total"] - utilization["mem"]["used"]) / 1024 / 1024 / 1024).toDouble().toStringAsFixed(1)} GB)',
             radius: radius,
@@ -385,11 +398,12 @@ class _SystemInfoPageState extends State<SystemInfoPage> {
         case 0:
           return PieChartSectionData(
             color: Colors.red,
-            value: ((utilization["sys_disk"]["size"]-utilization["sys_disk"]["avail"])  /
+            value: ((utilization["sys_disk"]["size"] -
+                        utilization["sys_disk"]["avail"]) /
                     utilization["sys_disk"]["size"])
                 .toDouble(),
             title:
-                '${(((utilization["sys_disk"]["size"]-utilization["sys_disk"]["avail"])  / utilization["sys_disk"]["size"]).toDouble()*100).toStringAsFixed(1)  }% (${((utilization["sys_disk"]["size"]-utilization["sys_disk"]["avail"])  / 1024 / 1024 / 1024).toDouble().toStringAsFixed(1)}GB)',
+                '${(((utilization["sys_disk"]["size"] - utilization["sys_disk"]["avail"]) / utilization["sys_disk"]["size"]).toDouble() * 100).toStringAsFixed(1)}% (${((utilization["sys_disk"]["size"] - utilization["sys_disk"]["avail"]) / 1024 / 1024 / 1024).toDouble().toStringAsFixed(1)}GB)',
             radius: radius,
             titleStyle: TextStyle(
               fontSize: fontSize,
@@ -402,10 +416,10 @@ class _SystemInfoPageState extends State<SystemInfoPage> {
           return PieChartSectionData(
             color: Colors.green,
             value: (utilization["sys_disk"]["avail"] /
-                utilization["sys_disk"]["size"])
+                    utilization["sys_disk"]["size"])
                 .toDouble(),
             title:
-            '${((utilization["sys_disk"]["avail"] / utilization["sys_disk"]["size"]).toDouble()*100).toStringAsFixed(1) }% (${(utilization["sys_disk"]["avail"] / 1024 / 1024 / 1024).toDouble().toStringAsFixed(1)}GB)',
+                '${((utilization["sys_disk"]["avail"] / utilization["sys_disk"]["size"]).toDouble() * 100).toStringAsFixed(1)}% (${(utilization["sys_disk"]["avail"] / 1024 / 1024 / 1024).toDouble().toStringAsFixed(1)}GB)',
             radius: radius,
             titleStyle: TextStyle(
               fontSize: fontSize,

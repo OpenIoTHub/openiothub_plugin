@@ -14,7 +14,6 @@ import 'package:webview_flutter/webview_flutter.dart';
 import './sub/appStore.dart';
 import './sub/files.dart';
 import './sub/settings.dart';
-import './sub/terminal.dart';
 import 'sub/systemInfo.dart';
 
 class InstalledAppsPage extends StatefulWidget {
@@ -237,28 +236,34 @@ class _InstalledAppsPageState extends State<InstalledAppsPage> {
 
       setState(() {
         _listTiles.add(ListTile(
-            //第一个功能项
-            title: Text(appInfo["name"]),
-            // subtitle: Text(appInfo["status"], style: TextStyle(),),
-            subtitle: TDTag(
-              appInfo["status"],
-              theme: appInfo["status"] == "running"
-                  ? TDTagTheme.success
-                  : TDTagTheme.danger,
-              // isOutline: true,
-              isLight: true,
-            ),
-            leading: _sizedContainer(
-              CachedNetworkImage(
-                progressIndicatorBuilder: (context, url, progress) => Center(
-                  child: CircularProgressIndicator(
-                    value: progress.progress,
-                  ),
+          //第一个功能项
+          title: Text(appInfo["name"]),
+          // subtitle: Text(appInfo["status"], style: TextStyle(),),
+          subtitle: TDTag(
+            appInfo["status"],
+            theme: appInfo["status"] == "running"
+                ? TDTagTheme.success
+                : TDTagTheme.danger,
+            // isOutline: true,
+            isLight: true,
+          ),
+          leading: _sizedContainer(
+            CachedNetworkImage(
+              progressIndicatorBuilder: (context, url, progress) => Center(
+                child: CircularProgressIndicator(
+                  value: progress.progress,
                 ),
-                imageUrl: appInfo["icon"],
               ),
+              imageUrl: appInfo["icon"],
             ),
-            trailing: const Icon(Icons.arrow_right),
+          ),
+          trailing: TDButton(
+            // text: 'More',
+            icon: Icons.more_horiz,
+            size: TDButtonSize.small,
+            type: TDButtonType.outline,
+            shape: TDButtonShape.rectangle,
+            theme: TDButtonTheme.light,
             onTap: () {
               TDActionSheet(context,
                   visible: true,
@@ -266,59 +271,68 @@ class _InstalledAppsPageState extends State<InstalledAppsPage> {
                   items: [
                     TDActionSheetItem(
                       label: 'Start',
-                      icon: Icon(Icons.start),
-                    ),
-                    // localPort==0则不可用
-                    TDActionSheetItem(
-                      label: 'Open Page',
-                      disabled: localPort == 0,
-                      icon: Icon(Icons.open_in_browser),
+                      icon: Icon(
+                        Icons.start,
+                        color: Colors.green,
+                      ),
                     ),
                     TDActionSheetItem(
                       label: 'Upgrade',
-                      icon: Icon(Icons.upgrade),
+                      icon: Icon(
+                        Icons.upgrade,
+                        color: Colors.red,
+                      ),
                     ),
                     TDActionSheetItem(
-                      label: 'Remove',
-                      icon: Icon(Icons.delete_forever),
+                      label: 'Delete',
+                      icon: Icon(
+                        Icons.delete_forever,
+                        color: Colors.red,
+                      ),
                     ),
                     TDActionSheetItem(
-                      label: 'Shutdown',
+                      label: 'Stop',
                       icon: Icon(
                         Icons.settings_power,
                         color: Colors.red,
                       ),
                     ),
                     TDActionSheetItem(
-                      label: 'Reboot',
+                      label: 'Restart',
                       icon: Icon(
                         Icons.refresh,
                         color: Colors.orange,
                       ),
                     ),
                   ], onSelected: (TDActionSheetItem item, int index) {
-                switch (item.label) {
-                  case 'Start':
+                switch (index) {
+                  case 0:
+                    // 确认操作
                     _changeAppStatus(appInfo["name"], "start");
                     break;
-                  case 'Open Page':
-                    _openWithWebBrowser(Config.webgRpcIp, localPort);
-                    break;
-                  case 'Upgrade':
+                  case 1:
                     _upgradeApp(appInfo["name"]);
                     break;
-                  case 'Remove':
+                  case 2:
                     _removeApp(appInfo["name"], false);
                     break;
-                  case 'Shutdown':
+                  case 3:
                     _changeAppStatus(appInfo["name"], "stop");
                     break;
-                  case 'Reboot':
+                  case 4:
                     _changeAppStatus(appInfo["name"], "restart");
                     break;
                 }
               });
-            }));
+            },
+          ),
+          onTap: () {
+            if (localPort == 0) {
+              return;
+            }
+            _openWithWebBrowser(Config.webgRpcIp, localPort);
+          },
+        ));
       });
     });
   }
@@ -348,9 +362,9 @@ class _InstalledAppsPageState extends State<InstalledAppsPage> {
     String reqUri = "/v2/app_management/compose/$appName";
     final response = await dio.patchUri(Uri.parse(reqUri));
     if (response.statusCode == 200) {
-      _success("Success");
+      _success("Upgrade App Success");
     } else {
-      _failed("Failed");
+      _failed("Upgrade App Failed");
     }
   }
 
@@ -364,9 +378,9 @@ class _InstalledAppsPageState extends State<InstalledAppsPage> {
         "/v2/app_management/compose/$appName?delete_config_folder=${delete_config_folder == null ? false : delete_config_folder}";
     final response = await dio.deleteUri(Uri.parse(reqUri));
     if (response.statusCode == 200) {
-      _success("Success");
+      _success("Remove App Success");
     } else {
-      _failed("Failed");
+      _failed("Remove App Failed");
     }
   }
 
@@ -381,9 +395,9 @@ class _InstalledAppsPageState extends State<InstalledAppsPage> {
     String reqUri = "/v2/app_management/compose/$appName/status";
     final response = await dio.putUri(Uri.parse(reqUri), data: "\"$status\"");
     if (response.statusCode == 200) {
-      _success("Success");
+      _success("Change App Status To ${status} Success");
     } else {
-      _failed("Failed");
+      _failed("Change App Status To ${status} Failed");
     }
   }
 
