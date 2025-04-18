@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tdesign_flutter/tdesign_flutter.dart';
 
-import '../../../../../generated/assets.dart';
+import 'package:openiothub_plugin/generated/assets.dart';
 
 class FileManagerPage extends StatefulWidget {
   const FileManagerPage({super.key});

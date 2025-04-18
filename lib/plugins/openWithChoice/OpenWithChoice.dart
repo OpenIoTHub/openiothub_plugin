@@ -240,9 +240,9 @@ class OpenWithChoice extends StatelessWidget {
                     ip: Config.webgRpcIp,
                     port:portConfig.localProt,
                     isLocal: false,
-                    info: {
-                      // TODO 附加信息
-                    }
+                    // info: {
+                    //   // TODO 附加信息
+                    // }
                 ),
                 key: UniqueKey(),
               );

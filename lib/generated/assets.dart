@@ -5,6 +5,5 @@ class Assets {
   static const String casaCasaAvatar = 'assets/plugins/casa/casa_avatar.png';
   static const String casaFile = 'assets/plugins/casa/file.png';
   static const String casaFolder = 'assets/plugins/casa/folder.png';
-  static const String filesFolder = 'assets/images/files/folder.png';
 
 }

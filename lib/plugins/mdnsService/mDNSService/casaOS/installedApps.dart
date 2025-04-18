@@ -57,7 +57,7 @@ class _InstalledAppsPageState extends State<InstalledAppsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("CasaOS/ZimaOS Dashboard"),
+          title: Text("Apps"),
           actions: <Widget>[
             // 系统的各种状态
             IconButton(
