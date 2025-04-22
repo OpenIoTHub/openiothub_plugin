@@ -39,12 +39,21 @@ class MDNS2ModelsMap {
     //    web UI,http使用web方式打开服务的模型
     "_http._tcp": getPortServiceByNameModel("Http service", WebPage.modelName),
     //    web UI,http使用web方式打开服务的模型
-    "_CGI._tcp": getPortServiceByNameModel("CGI Http service", WebPage.modelName),
+    "_CGI._tcp":
+        getPortServiceByNameModel("CGI Http service", WebPage.modelName),
     //    web UI,homeassistant使用web方式打开服务的模型
     "_home-assistant._tcp":
         getPortServiceByNameModel("HomeAssistant", WebPage.modelName),
+    // "_ssh._tcp":
+    // getPortServiceByNameModel("SSH", SSHWebPage.modelName),
+    "_casaos._tcp": getPortServiceByNameModel("casaos", WebPage.modelName),
+    "_zimaos._tcp": getPortServiceByNameModel("zimaos", WebPage.modelName),
+    // UPS
+    // "_nut._tcp":
+    // getPortServiceByNameModel("SSH", SSHWebPage.modelName),
     //    vnc远程桌面模型
-    "_rfb._tcp": getPortServiceByNameModel("VNC RFB remote desktop", VNCWebPage.modelName),
+    "_rfb._tcp": getPortServiceByNameModel(
+        "VNC RFB remote desktop", VNCWebPage.modelName),
   });
 
   static PortService getPortServiceByNameModel(String name, model) {

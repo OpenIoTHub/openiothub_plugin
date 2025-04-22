@@ -11,9 +11,9 @@ import 'widgets/indicator.dart';
 
 class SystemInfoPage extends StatefulWidget {
   const SystemInfoPage(
-      {super.key, required this.portService, required this.data});
+      {super.key, required this.baseUrl, required this.data});
 
-  final PortService portService;
+  final String baseUrl;
   final Map<String, dynamic> data;
 
   @override
@@ -281,7 +281,7 @@ class _SystemInfoPageState extends State<SystemInfoPage> {
 
   Future<void> getUtilization() async {
     final dio = Dio(BaseOptions(
-        baseUrl: "http://${widget.portService.ip}:${widget.portService.port}",
+        baseUrl: widget.baseUrl,
         headers: {
           "Authorization": widget.data["data"]["token"]["access_token"]
         }));

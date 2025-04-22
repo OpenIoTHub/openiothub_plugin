@@ -12,6 +12,7 @@ class SSHNativePage extends StatefulWidget {
       required this.runId,
       required this.remoteIp,
       required this.remotePort,
+      //   TODO 没有的话本页面请求用户名密码
       required this.userName,
       required this.passWord,
       required this.localPort})

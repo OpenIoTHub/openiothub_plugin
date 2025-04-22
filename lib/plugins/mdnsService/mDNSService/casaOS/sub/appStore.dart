@@ -6,9 +6,9 @@ import 'package:tdesign_flutter/tdesign_flutter.dart';
 
 class AppStorePage extends StatefulWidget {
   const AppStorePage(
-      {super.key, required this.portService, required this.data});
+      {super.key, required this.baseUrl, required this.data});
 
-  final PortService portService;
+  final String baseUrl;
   final Map<String, dynamic> data;
 
   @override
@@ -77,7 +77,7 @@ class _AppStorePageState extends State<AppStorePage> {
     _listTiles.clear();
     //从API获取已安装应用列表
     final dio = Dio(BaseOptions(
-        baseUrl: "http://${widget.portService.ip}:${widget.portService.port}",
+        baseUrl: widget.baseUrl,
         headers: {
           "Authorization": widget.data["data"]["token"]["access_token"]
         }));
@@ -99,7 +99,7 @@ class _AppStorePageState extends State<AppStorePage> {
                   ),
                 ),
                 imageUrl: appInfo["icon"] == null
-                    ? "http://${widget.portService.ip}:${widget.portService.port}/img/default.0a7cfbf2.svg"
+                    ? "${widget.baseUrl}/img/default.0a7cfbf2.svg"
                     : appInfo["icon"],
               ),
             ),
@@ -152,7 +152,7 @@ class _AppStorePageState extends State<AppStorePage> {
 
   Future<String> _getAppCompose(String appName) async {
     final dio = Dio(BaseOptions(
-        baseUrl: "http://${widget.portService.ip}:${widget.portService.port}",
+        baseUrl: widget.baseUrl,
         headers: {
           "Authorization": widget.data["data"]["token"]["access_token"],
           "Accept": "application/yaml"
@@ -164,7 +164,7 @@ class _AppStorePageState extends State<AppStorePage> {
 
   _installAppCompose(String compose) async {
     final dio = Dio(BaseOptions(
-        baseUrl: "http://${widget.portService.ip}:${widget.portService.port}",
+        baseUrl: widget.baseUrl,
         headers: {
           "Authorization": widget.data["data"]["token"]["access_token"],
           "Content-Type": "application/yaml"

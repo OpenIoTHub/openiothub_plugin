@@ -6,9 +6,9 @@ import 'package:tdesign_flutter/tdesign_flutter.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage(
-      {super.key, required this.portService, required this.data});
+      {super.key, required this.baseUrl, required this.data});
 
-  final PortService portService;
+  final String baseUrl;
   final Map<String, dynamic> data;
 
   @override
@@ -34,8 +34,7 @@ class _SettingsPageState extends State<SettingsPage> {
         trailing: Switch(
           onChanged: (bool newValue) async {
             final dio = Dio(BaseOptions(
-                baseUrl:
-                    "http://${widget.portService.ip}:${widget.portService.port}",
+                baseUrl:widget.baseUrl,
                 headers: {
                   "Authorization": widget.data["data"]["token"]["access_token"]
                 }));
@@ -85,8 +84,7 @@ class _SettingsPageState extends State<SettingsPage> {
                           title: 'Restart',
                           action: () async {
                             final dio = Dio(BaseOptions(
-                                baseUrl:
-                                    "http://${widget.portService.ip}:${widget.portService.port}",
+                                baseUrl: widget.baseUrl,
                                 headers: {
                                   "Authorization": widget.data["data"]["token"]
                                       ["access_token"]
@@ -109,8 +107,7 @@ class _SettingsPageState extends State<SettingsPage> {
                           titleColor: TDTheme.of(context).brandColor7,
                           action: () async {
                             final dio = Dio(BaseOptions(
-                                baseUrl:
-                                    "http://${widget.portService.ip}:${widget.portService.port}",
+                                baseUrl: widget.baseUrl,
                                 headers: {
                                   "Authorization": widget.data["data"]["token"]
                                       ["access_token"]

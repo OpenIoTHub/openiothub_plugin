@@ -15,12 +15,13 @@ import './sub/appStore.dart';
 import './sub/files.dart';
 import './sub/settings.dart';
 import 'sub/systemInfo.dart';
+import 'package:openiothub_api/openiothub_api.dart';
 
 class InstalledAppsPage extends StatefulWidget {
   const InstalledAppsPage(
-      {super.key, required this.portService, required this.data});
+      {super.key, required this.portConfig, required this.data});
 
-  final PortService portService;
+  final PortConfig portConfig;
   final Map<String, dynamic> data;
 
   @override
@@ -34,9 +35,11 @@ class _InstalledAppsPageState extends State<InstalledAppsPage> {
   bool? need_update;
   String? change_log;
   late Timer _refresh_timer;
+  late String baseUrl;
 
   @override
   void initState() {
+    baseUrl = "http://${Config.webgRpcIp}:${widget.portConfig.localProt}";
     _initListTiles();
     _getVersionInfo();
     _refresh_timer = Timer.periodic(const Duration(seconds: 2), (timer) {
@@ -70,7 +73,7 @@ class _InstalledAppsPageState extends State<InstalledAppsPage> {
                     return SystemInfoPage(
                         key: UniqueKey(),
                         data: widget.data,
-                        portService: widget.portService);
+                        baseUrl: baseUrl);
                   }));
                 }),
             // 系统设置
@@ -84,7 +87,7 @@ class _InstalledAppsPageState extends State<InstalledAppsPage> {
                     return SettingsPage(
                         key: UniqueKey(),
                         data: widget.data,
-                        portService: widget.portService);
+                        baseUrl: baseUrl);
                   }));
                 }),
             // 应用市场
@@ -98,7 +101,7 @@ class _InstalledAppsPageState extends State<InstalledAppsPage> {
                     return AppStorePage(
                         key: UniqueKey(),
                         data: widget.data,
-                        portService: widget.portService);
+                        baseUrl: baseUrl);
                   }));
                 }),
             // 文件管理
@@ -197,7 +200,7 @@ class _InstalledAppsPageState extends State<InstalledAppsPage> {
 
   Future<void> _getVersionInfo() async {
     final dio = Dio(BaseOptions(
-        baseUrl: "http://${widget.portService.ip}:${widget.portService.port}",
+        baseUrl: baseUrl,
         headers: {
           "Authorization": widget.data["data"]["token"]["access_token"]
         }));
@@ -215,7 +218,7 @@ class _InstalledAppsPageState extends State<InstalledAppsPage> {
     _listTiles.clear();
     //从API获取已安装应用列表
     final dio = Dio(BaseOptions(
-        baseUrl: "http://${widget.portService.ip}:${widget.portService.port}",
+        baseUrl: baseUrl,
         headers: {
           "Authorization": widget.data["data"]["token"]["access_token"]
         }));
@@ -223,16 +226,39 @@ class _InstalledAppsPageState extends State<InstalledAppsPage> {
     final response = await dio.getUri(Uri.parse(reqUri));
     response.data["data"]
         .sort((a, b) => a["name"].toString().compareTo(b["name"].toString()));
+    // TODO 使用远程网络ID和远程端口临时映射远程端口到本机
+    PortList portList = PortList();
     response.data["data"].forEach((appInfo) {
-      // TODO 使用远程网络ID和远程端口临时映射远程端口到本机
-      // TODO 获取当前服务映射到本机的端口号
+      portList.portConfigs.add(PortConfig(
+        device: widget.portConfig.device,
+        name: appInfo["name"],
+        description:  appInfo["name"],
+        localProt: 0,
+        remotePort: int.parse(appInfo["port"]),
+        networkProtocol: "tcp",
+        // mDNSInfo: PortService(),
+      ));
+    });
+    SessionApi.createTcpProxyList(portList);
+    // TODO 获取当前服务映射到本机的端口号
+    PortList portListRet = await SessionApi.getAllTCP(SessionConfig(
+      runId: widget.portConfig.device.runId,
+    ));
+    response.data["data"].forEach((appInfo) {
       int localPort = 0;
+      int remotePort = 0;
       try {
-        localPort = int.parse(appInfo["port"]);
+        remotePort = int.parse(appInfo["port"]);
       } catch (e) {
         print("appInfo[\"port\"]:${appInfo["port"]}");
         print(e);
       }
+      // 从remotePort和runid获取映射之后的localPort
+      portListRet.portConfigs.forEach((portConfig){
+        if (portConfig.remotePort == remotePort) {
+          localPort = portConfig.localProt;
+        }
+      });
 
       setState(() {
         _listTiles.add(ListTile(
@@ -355,7 +381,7 @@ class _InstalledAppsPageState extends State<InstalledAppsPage> {
 
   _upgradeApp(String appName) async {
     final dio = Dio(BaseOptions(
-        baseUrl: "http://${widget.portService.ip}:${widget.portService.port}",
+        baseUrl: baseUrl,
         headers: {
           "Authorization": widget.data["data"]["token"]["access_token"]
         }));
@@ -370,7 +396,7 @@ class _InstalledAppsPageState extends State<InstalledAppsPage> {
 
   _removeApp(String appName, bool? delete_config_folder) async {
     final dio = Dio(BaseOptions(
-        baseUrl: "http://${widget.portService.ip}:${widget.portService.port}",
+        baseUrl: baseUrl,
         headers: {
           "Authorization": widget.data["data"]["token"]["access_token"]
         }));
@@ -387,7 +413,7 @@ class _InstalledAppsPageState extends State<InstalledAppsPage> {
   _changeAppStatus(String appName, status) async {
     // status: restart,stop
     final dio = Dio(BaseOptions(
-        baseUrl: "http://${widget.portService.ip}:${widget.portService.port}",
+        baseUrl: baseUrl,
         headers: {
           "Authorization": widget.data["data"]["token"]["access_token"],
           "Content-Type": "application/json"

@@ -236,14 +236,7 @@ class OpenWithChoice extends StatelessWidget {
             Navigator.push(ctx, MaterialPageRoute(builder: (ctx) {
               return CasaOSLoginPage(
                 // portService: PortService(ip: Config.webgRpcIp,port:portConfig.localProt),
-                portService: PortService(
-                    ip: Config.webgRpcIp,
-                    port:portConfig.localProt,
-                    isLocal: false,
-                    // info: {
-                    //   // TODO 附加信息
-                    // }
-                ),
+                portConfig: portConfig,
                 key: UniqueKey(),
               );
             })).then((_) {
