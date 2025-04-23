@@ -16,6 +16,8 @@ class FileManagerPage extends StatefulWidget {
 }
 
 class _FileManagerPageState extends State<FileManagerPage> {
+  // 根据页面宽度确定一行展示几个文件(夹)
+  static const _num_one_row = 3;
   String _current_path = "/DATA";
   List<Map<String, String>> _side_paths = [
     {"name": "Root", "path": "/"},
@@ -117,7 +119,9 @@ class _FileManagerPageState extends State<FileManagerPage> {
               child: BreadCrumb.builder(
                 itemCount: _current_path.split(RegExp(r'[/]')).length,
                 builder: (index) {
-                  return BreadCrumbItem(content: Text(_current_path.split(RegExp(r'[/]'))[index]));
+                  return BreadCrumbItem(
+                      content:
+                          Text(_current_path.split(RegExp(r'[/]'))[index]));
                 },
                 divider: Icon(Icons.chevron_right),
               ),
@@ -162,7 +166,7 @@ class _FileManagerPageState extends State<FileManagerPage> {
         // 一行
         List<Widget> _item_list = [];
         for (int i = 0; i < response.data["data"]["content"].length; i++) {
-          if ((i + 1) % 3 == 0) {
+          if ((i + 1) % _num_one_row == 0) {
             _item_list.add(displayImageItem(
                 response.data["data"]["content"][i]["path"],
                 response.data["data"]["content"][i]["name"],
@@ -183,9 +187,26 @@ class _FileManagerPageState extends State<FileManagerPage> {
                 response.data["data"]["content"][i]["name"],
                 response.data["data"]["content"][i]["is_dir"],
                 response.data["data"]["content"][i]));
+            // 如果遍历完了那这里就得拼接
+            if (i + 1 == response.data["data"]["content"].length) {
+              // 填充空组件好让最后一行靠前排列
+              for (int i = 0;
+                  i < (_num_one_row - (response.data["data"]["content"].length % _num_one_row));
+                  i++) {
+                _item_list.add(_build_empty_placeholder());
+              }
+              // 将所有行相加
+              _row_list.add(Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: List.generate(
+                      _item_list.length, (index) => _item_list[index])));
+              _item_list.clear();
+              _row_list.add(
+                const SizedBox(height: 18),
+              );
+            }
           }
         }
-        ;
         setState(() {
           _files_list_widget = Column(
             children: _row_list,
@@ -229,6 +250,16 @@ class _FileManagerPageState extends State<FileManagerPage> {
         )
       ],
     ));
+  }
+
+  Widget _build_empty_placeholder() {
+    return Expanded(
+        child: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
+      SizedBox(
+        width: 48,
+        height: 48,
+      )
+    ]));
   }
 }
 
