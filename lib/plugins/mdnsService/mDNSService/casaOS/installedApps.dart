@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:openiothub_api/openiothub_api.dart';
 import 'package:openiothub_constants/constants/Config.dart';
 import 'package:openiothub_grpc_api/proto/mobile/mobile.pb.dart';
 import 'package:openiothub_plugin/l10n/generated/openiothub_plugin_localizations.dart';
@@ -15,7 +16,6 @@ import './sub/appStore.dart';
 import './sub/files.dart';
 import './sub/settings.dart';
 import 'sub/systemInfo.dart';
-import 'package:openiothub_api/openiothub_api.dart';
 
 class InstalledAppsPage extends StatefulWidget {
   const InstalledAppsPage(
@@ -71,9 +71,7 @@ class _InstalledAppsPageState extends State<InstalledAppsPage> {
                 onPressed: () {
                   Navigator.push(context, MaterialPageRoute(builder: (ctx) {
                     return SystemInfoPage(
-                        key: UniqueKey(),
-                        data: widget.data,
-                        baseUrl: baseUrl);
+                        key: UniqueKey(), data: widget.data, baseUrl: baseUrl);
                   }));
                 }),
             // 系统设置
@@ -85,9 +83,7 @@ class _InstalledAppsPageState extends State<InstalledAppsPage> {
                 onPressed: () {
                   Navigator.push(context, MaterialPageRoute(builder: (ctx) {
                     return SettingsPage(
-                        key: UniqueKey(),
-                        data: widget.data,
-                        baseUrl: baseUrl);
+                        key: UniqueKey(), data: widget.data, baseUrl: baseUrl);
                   }));
                 }),
             // 应用市场
@@ -99,9 +95,7 @@ class _InstalledAppsPageState extends State<InstalledAppsPage> {
                 onPressed: () {
                   Navigator.push(context, MaterialPageRoute(builder: (ctx) {
                     return AppStorePage(
-                        key: UniqueKey(),
-                        data: widget.data,
-                        baseUrl: baseUrl);
+                        key: UniqueKey(), data: widget.data, baseUrl: baseUrl);
                   }));
                 }),
             // 文件管理
@@ -113,8 +107,7 @@ class _InstalledAppsPageState extends State<InstalledAppsPage> {
                 onPressed: () {
                   Navigator.push(context, MaterialPageRoute(builder: (ctx) {
                     return FileManagerPage(
-                      key: UniqueKey(),
-                    );
+                        key: UniqueKey(), data: widget.data, baseUrl: baseUrl);
                   }));
                 }),
             // 终端
@@ -199,11 +192,9 @@ class _InstalledAppsPageState extends State<InstalledAppsPage> {
   }
 
   Future<void> _getVersionInfo() async {
-    final dio = Dio(BaseOptions(
-        baseUrl: baseUrl,
-        headers: {
-          "Authorization": widget.data["data"]["token"]["access_token"]
-        }));
+    final dio = Dio(BaseOptions(baseUrl: baseUrl, headers: {
+      "Authorization": widget.data["data"]["token"]["access_token"]
+    }));
     String reqUri = "/v1/sys/version";
     final response = await dio.getUri(Uri.parse(reqUri));
     setState(() {
@@ -217,11 +208,9 @@ class _InstalledAppsPageState extends State<InstalledAppsPage> {
     // 排序
     _listTiles.clear();
     //从API获取已安装应用列表
-    final dio = Dio(BaseOptions(
-        baseUrl: baseUrl,
-        headers: {
-          "Authorization": widget.data["data"]["token"]["access_token"]
-        }));
+    final dio = Dio(BaseOptions(baseUrl: baseUrl, headers: {
+      "Authorization": widget.data["data"]["token"]["access_token"]
+    }));
     String reqUri = "/v2/app_management/web/appgrid";
     final response = await dio.getUri(Uri.parse(reqUri));
     response.data["data"]
@@ -237,7 +226,7 @@ class _InstalledAppsPageState extends State<InstalledAppsPage> {
       portList.portConfigs.add(PortConfig(
         device: widget.portConfig.device,
         name: appInfo["name"],
-        description:  appInfo["name"],
+        description: appInfo["name"],
         localProt: 0,
         remotePort: int.parse(appInfo["port"]),
         networkProtocol: "tcp",
@@ -255,7 +244,7 @@ class _InstalledAppsPageState extends State<InstalledAppsPage> {
       try {
         remotePort = int.parse(appInfo["port"]);
         // 从remotePort和runid获取映射之后的localPort
-        portListRet.portConfigs.forEach((portConfig){
+        portListRet.portConfigs.forEach((portConfig) {
           if (portConfig.remotePort == remotePort) {
             localPort = portConfig.localProt;
           }
@@ -385,11 +374,9 @@ class _InstalledAppsPageState extends State<InstalledAppsPage> {
   }
 
   _upgradeApp(String appName) async {
-    final dio = Dio(BaseOptions(
-        baseUrl: baseUrl,
-        headers: {
-          "Authorization": widget.data["data"]["token"]["access_token"]
-        }));
+    final dio = Dio(BaseOptions(baseUrl: baseUrl, headers: {
+      "Authorization": widget.data["data"]["token"]["access_token"]
+    }));
     String reqUri = "/v2/app_management/compose/$appName";
     final response = await dio.patchUri(Uri.parse(reqUri));
     if (response.statusCode == 200) {
@@ -400,11 +387,9 @@ class _InstalledAppsPageState extends State<InstalledAppsPage> {
   }
 
   _removeApp(String appName, bool? delete_config_folder) async {
-    final dio = Dio(BaseOptions(
-        baseUrl: baseUrl,
-        headers: {
-          "Authorization": widget.data["data"]["token"]["access_token"]
-        }));
+    final dio = Dio(BaseOptions(baseUrl: baseUrl, headers: {
+      "Authorization": widget.data["data"]["token"]["access_token"]
+    }));
     String reqUri =
         "/v2/app_management/compose/$appName?delete_config_folder=${delete_config_folder == null ? false : delete_config_folder}";
     final response = await dio.deleteUri(Uri.parse(reqUri));
@@ -417,12 +402,10 @@ class _InstalledAppsPageState extends State<InstalledAppsPage> {
 
   _changeAppStatus(String appName, status) async {
     // status: restart,stop
-    final dio = Dio(BaseOptions(
-        baseUrl: baseUrl,
-        headers: {
-          "Authorization": widget.data["data"]["token"]["access_token"],
-          "Content-Type": "application/json"
-        }));
+    final dio = Dio(BaseOptions(baseUrl: baseUrl, headers: {
+      "Authorization": widget.data["data"]["token"]["access_token"],
+      "Content-Type": "application/json"
+    }));
     String reqUri = "/v2/app_management/compose/$appName/status";
     final response = await dio.putUri(Uri.parse(reqUri), data: "\"$status\"");
     if (response.statusCode == 200) {
