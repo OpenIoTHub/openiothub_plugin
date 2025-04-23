@@ -229,6 +229,11 @@ class _InstalledAppsPageState extends State<InstalledAppsPage> {
     // TODO 使用远程网络ID和远程端口临时映射远程端口到本机
     PortList portList = PortList();
     response.data["data"].forEach((appInfo) {
+      // print("remoteHost: ${widget.portConfig.device.addr},remotePort: ${appInfo["port"]}");
+      if (appInfo["port"].isEmpty) {
+        // print("appInfo[\"port\"].isEmpty");
+        return;
+      }
       portList.portConfigs.add(PortConfig(
         device: widget.portConfig.device,
         name: appInfo["name"],
@@ -249,16 +254,16 @@ class _InstalledAppsPageState extends State<InstalledAppsPage> {
       int remotePort = 0;
       try {
         remotePort = int.parse(appInfo["port"]);
+        // 从remotePort和runid获取映射之后的localPort
+        portListRet.portConfigs.forEach((portConfig){
+          if (portConfig.remotePort == remotePort) {
+            localPort = portConfig.localProt;
+          }
+        });
       } catch (e) {
         print("appInfo[\"port\"]:${appInfo["port"]}");
         print(e);
       }
-      // 从remotePort和runid获取映射之后的localPort
-      portListRet.portConfigs.forEach((portConfig){
-        if (portConfig.remotePort == remotePort) {
-          localPort = portConfig.localProt;
-        }
-      });
 
       setState(() {
         _listTiles.add(ListTile(

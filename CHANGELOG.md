@@ -1,3 +1,7 @@
+## [1.0.2+40]
+
+* casaos/zimaos local proxy port
+
 ## [1.0.2+39]
 
 * casaos/zimaos local proxy port
