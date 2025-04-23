@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_breadcrumb/flutter_breadcrumb.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:openiothub_plugin/generated/assets.dart';
 import 'package:tdesign_flutter/tdesign_flutter.dart';
@@ -113,10 +114,13 @@ class _FileManagerPageState extends State<FileManagerPage> {
           children: [
             Padding(
               padding: const EdgeInsets.only(left: 20, top: 2, right: 9),
-              child: TDText('路径 $_current_path',
-                  style: const TextStyle(
-                    fontSize: 12,
-                  )),
+              child: BreadCrumb.builder(
+                itemCount: _current_path.split(RegExp(r'[/]')).length,
+                builder: (index) {
+                  return BreadCrumbItem(content: Text(_current_path.split(RegExp(r'[/]'))[index]));
+                },
+                divider: Icon(Icons.chevron_right),
+              ),
             ),
             const SizedBox(height: 16),
             // displayImageList(path)

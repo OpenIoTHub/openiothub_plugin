@@ -11,6 +11,7 @@ var list = <dynamic>[
 ];
 
 main() async {
+  print("/root/123/abc/dqwd".split(RegExp(r'/')));
   /// 通过排序把顶置的信息放在前面
   list.sort((a, b) => b.title.compareTo(a.title));
   for (var item in list) {

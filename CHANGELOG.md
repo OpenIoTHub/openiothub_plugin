@@ -1,3 +1,7 @@
+## [1.0.2+41]
+
+* casaos/zimaos file manager
+
 ## [1.0.2+40]
 
 * casaos/zimaos local proxy port
