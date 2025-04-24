@@ -1,3 +1,7 @@
+## [1.0.2+42]
+
+* casaos/zimaos video player
+
 ## [1.0.2+41]
 
 * casaos/zimaos file manager

@@ -1,9 +1,13 @@
+import 'dart:io';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_breadcrumb/flutter_breadcrumb.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:openiothub_plugin/generated/assets.dart';
+import 'package:openiothub_plugin/pages/videp_player.dart';
+import 'package:openiothub_plugin/utils/web.dart';
 import 'package:tdesign_flutter/tdesign_flutter.dart';
 
 class FileManagerPage extends StatefulWidget {
@@ -27,7 +31,7 @@ class _FileManagerPageState extends State<FileManagerPage> {
     "ico",
     "webp"
   ];
-  static const _video_ext_names = ["mp4"];
+  static const _video_ext_names = ["mp4", "avi", "flv", "rmvb"];
   String _current_path = "/DATA";
   List<Map<String, String>> _side_paths = [
     {"name": "Root", "path": "/"},
@@ -287,17 +291,41 @@ class _FileManagerPageState extends State<FileManagerPage> {
               displayImageList(_current_path);
             } else {
               //TODO 下载或预览文件
-              // TODO 预览文件
-              TDImageViewer.showImageViewer(
-                context: context,
-                // 本文件夹所有图片列表，并定位到当前文件
-                images: [_image_url],
-                showIndex: true,
-                deleteBtn: true,
-              );
+              // 预览文件,判断有扩展名
+              // 通用的文件访问api，目前视频是使用这个
+              var _file_url =
+                  "${widget.baseUrl}/v3/file?path=${path}&token=${widget.data["data"]["token"]["access_token"]}";
+              if (path.indexOf(RegExp(r'[.]')) != -1) {
+                var _ext_name = path.split(RegExp(r'[.]')).last;
+                if (_picture_ext_names.contains(_ext_name)) {
+                  // 根据扩展名判断是图片，开始图片预览
+                  TDImageViewer.showImageViewer(
+                    context: context,
+                    // 本文件夹所有图片列表，并定位到当前文件
+                    images: [_image_url],
+                    showIndex: true,
+                    deleteBtn: true,
+                  );
+                } else if (_video_ext_names.contains(_ext_name)) {
+                  // 根据扩展名判断是视频，开始视频预览,如果是移动平台则使用内置平台，如果是pc平台则使用系统浏览器？
+                  if (Platform.isWindows || Platform.isLinux) {
+                    launchURL(_file_url);
+                  } else {
+                    // 使用内置播放器
+                    Navigator.push(context, MaterialPageRoute(builder: (ctx) {
+                      return VideoPlayerPage(
+                        key: UniqueKey(),
+                        url: _file_url,
+                      );
+                    }));
+                  }
+                } else {
+                  // TODO 未知的文件类型默认提示下载或其他方式
+                }
+              }
             }
           },
-          // TODO 长按或者右键显示菜单
+          // TODO 长按或者右键显示菜单:下载，拷贝路径，重新命名，剪切，复制，删除
         ),
         const SizedBox(height: 8),
         TDText(
