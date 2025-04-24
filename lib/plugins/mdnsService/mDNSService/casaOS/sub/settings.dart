@@ -79,6 +79,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 return TDAlertDialog.vertical(
                     title: "Power Control",
                     content: "",
+                    showCloseButton: true,
                     buttons: [
                       TDDialogButtonOptions(
                           title: 'Restart',

@@ -225,24 +225,32 @@ class _FileManagerPageState extends State<FileManagerPage> {
   Widget displayImageItem(
       String path, title, bool is_folder, Map<String, dynamic> content) {
     // 获取文件夹、文件图标
-    String ico_path_path = "";
-    String ico_path_uri = "/v1/image";
+    String ico_file_path = "";
+    // 获取文件网络路径uri，目前主要是图片
+    String _image_url = "";
+    // String _image_url_thumbnail = "";
     if (is_folder) {
-      ico_path_path = Assets.casaFolder;
+      // 是文件夹
+      ico_file_path = Assets.casaFolder;
     } else {
       if (path.indexOf(RegExp(r'[.]')) != -1 && _picture_ext_names.contains(path.split(RegExp(r'[.]')).last)) {
-        ico_path_uri = "/v1/image";
+        // 是图片
+        var ico_file_uri = "/v1/image";
+        _image_url = "${widget.baseUrl}${ico_file_uri}?path=${path}&token=${widget.data["data"]["token"]["access_token"]}";
       }else{
-        ico_path_path = Assets.casaFile;
+        // 是普通文件
+        ico_file_path = Assets.casaFile;
       }
     }
     // 将图标地址转换为图标Widget
     Widget? _ico_widget;
-    if (!ico_path_path.isEmpty) {
+    // 根据图标来源区分
+    if (!ico_file_path.isEmpty) {
+      // 使用文件路径图标的
       _ico_widget = GestureDetector(
         child: Image.asset(
           // TODO 显示图片预览缩略图、根据文件类型显示个性化文件图标
-          ico_path_path,
+          ico_file_path,
           package: "openiothub_plugin",
           width: 48,
           height: 48,
@@ -251,6 +259,7 @@ class _FileManagerPageState extends State<FileManagerPage> {
         onTap: () {
           // TODO 如果pc则双击，如果移动端则单击
           if (is_folder) {
+            // 如果是文件夹则进入文件夹
             _current_path = path;
             displayImageList(_current_path);
           } else {
@@ -260,6 +269,7 @@ class _FileManagerPageState extends State<FileManagerPage> {
         // TODO 长按或者右键显示菜单
       );
     }else{
+      // 使用网络预览图标
       _ico_widget = GestureDetector(
         child: _sizedContainer(
           CachedNetworkImage(
@@ -268,14 +278,14 @@ class _FileManagerPageState extends State<FileManagerPage> {
                 value: progress.progress,
               ),
             ),
-            imageUrl: "${widget.baseUrl}${ico_path_uri}?path=${path}&token=${widget.data["data"]["token"]["access_token"]}&type=thumbnail",
+            imageUrl: "${_image_url}&type=thumbnail",
           ),
         ),
         onTap: () {
           // TODO 预览文件
           TDImageViewer.showImageViewer(
             context: context,
-            images: ["${widget.baseUrl}${ico_path_uri}?path=${path}&token=${widget.data["data"]["token"]["access_token"]}"],
+            images: [_image_url],
             showIndex: true,
             deleteBtn: true,
           );
