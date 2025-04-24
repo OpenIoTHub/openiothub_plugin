@@ -19,7 +19,14 @@ class FileManagerPage extends StatefulWidget {
 class _FileManagerPageState extends State<FileManagerPage> {
   // 根据页面宽度确定一行展示几个文件(夹)
   static const _num_one_row = 3;
-  static const _picture_ext_names = ["bmp","jpg","png", "jpeg", "ico", "webp"];
+  static const _picture_ext_names = [
+    "bmp",
+    "jpg",
+    "png",
+    "jpeg",
+    "ico",
+    "webp"
+  ];
   static const _video_ext_names = ["mp4"];
   String _current_path = "/DATA";
   List<Map<String, String>> _side_paths = [
@@ -194,7 +201,10 @@ class _FileManagerPageState extends State<FileManagerPage> {
             if (i + 1 == response.data["data"]["content"].length) {
               // 填充空组件好让最后一行靠前排列
               for (int i = 0;
-                  i < (_num_one_row - (response.data["data"]["content"].length % _num_one_row));
+                  i <
+                      (_num_one_row -
+                          (response.data["data"]["content"].length %
+                              _num_one_row));
                   i++) {
                 _item_list.add(_build_empty_placeholder());
               }
@@ -233,71 +243,62 @@ class _FileManagerPageState extends State<FileManagerPage> {
       // 是文件夹
       ico_file_path = Assets.casaFolder;
     } else {
-      if (path.indexOf(RegExp(r'[.]')) != -1 && _picture_ext_names.contains(path.split(RegExp(r'[.]')).last)) {
+      if (path.indexOf(RegExp(r'[.]')) != -1 &&
+          _picture_ext_names.contains(path.split(RegExp(r'[.]')).last)) {
         // 是图片
         var ico_file_uri = "/v1/image";
-        _image_url = "${widget.baseUrl}${ico_file_uri}?path=${path}&token=${widget.data["data"]["token"]["access_token"]}";
-      }else{
+        _image_url =
+            "${widget.baseUrl}${ico_file_uri}?path=${path}&token=${widget.data["data"]["token"]["access_token"]}";
+      } else {
         // 是普通文件
         ico_file_path = Assets.casaFile;
       }
-    }
-    // 将图标地址转换为图标Widget
-    Widget? _ico_widget;
-    // 根据图标来源区分
-    if (!ico_file_path.isEmpty) {
-      // 使用文件路径图标的
-      _ico_widget = GestureDetector(
-        child: Image.asset(
-          // TODO 显示图片预览缩略图、根据文件类型显示个性化文件图标
-          ico_file_path,
-          package: "openiothub_plugin",
-          width: 48,
-          height: 48,
-          // 确保路径正确且已在pubspec.yaml中声明
-        ),
-        onTap: () {
-          // TODO 如果pc则双击，如果移动端则单击
-          if (is_folder) {
-            // 如果是文件夹则进入文件夹
-            _current_path = path;
-            displayImageList(_current_path);
-          } else {
-            //TODO 下载或预览文件
-          }
-        },
-        // TODO 长按或者右键显示菜单
-      );
-    }else{
-      // 使用网络预览图标
-      _ico_widget = GestureDetector(
-        child: _sizedContainer(
-          CachedNetworkImage(
-            progressIndicatorBuilder: (context, url, progress) => Center(
-              child: CircularProgressIndicator(
-                value: progress.progress,
-              ),
-            ),
-            imageUrl: "${_image_url}&type=thumbnail",
-          ),
-        ),
-        onTap: () {
-          // TODO 预览文件
-          TDImageViewer.showImageViewer(
-            context: context,
-            images: [_image_url],
-            showIndex: true,
-            deleteBtn: true,
-          );
-        },
-        // TODO 长按或者右键显示菜单
-      );
     }
     return Expanded(
         child: Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        _ico_widget,
+        GestureDetector(
+          child: ico_file_path.isEmpty
+              ? _sizedContainer(
+                  CachedNetworkImage(
+                    progressIndicatorBuilder: (context, url, progress) =>
+                        Center(
+                      child: CircularProgressIndicator(
+                        value: progress.progress,
+                      ),
+                    ),
+                    imageUrl: "${_image_url}&type=thumbnail",
+                  ),
+                )
+              : Image.asset(
+                  // TODO 显示图片预览缩略图、根据文件类型显示个性化文件图标
+                  ico_file_path,
+                  package: "openiothub_plugin",
+                  width: 48,
+                  height: 48,
+                  // 确保路径正确且已在pubspec.yaml中声明
+                ),
+          onTap: () {
+            // TODO 如果pc则双击，如果移动端则单击
+            if (is_folder) {
+              // 如果是文件夹则进入文件夹
+              _current_path = path;
+              displayImageList(_current_path);
+            } else {
+              //TODO 下载或预览文件
+              // TODO 预览文件
+              TDImageViewer.showImageViewer(
+                context: context,
+                // 本文件夹所有图片列表，并定位到当前文件
+                images: [_image_url],
+                showIndex: true,
+                deleteBtn: true,
+              );
+            }
+          },
+          // TODO 长按或者右键显示菜单
+        ),
         const SizedBox(height: 8),
         TDText(
           '$title',
