@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_breadcrumb/flutter_breadcrumb.dart';
@@ -18,6 +19,8 @@ class FileManagerPage extends StatefulWidget {
 class _FileManagerPageState extends State<FileManagerPage> {
   // 根据页面宽度确定一行展示几个文件(夹)
   static const _num_one_row = 3;
+  static const _picture_ext_names = ["bmp","jpg","png", "jpeg", "ico", "webp"];
+  static const _video_ext_names = ["mp4"];
   String _current_path = "/DATA";
   List<Map<String, String>> _side_paths = [
     {"name": "Root", "path": "/"},
@@ -221,28 +224,70 @@ class _FileManagerPageState extends State<FileManagerPage> {
   // 文件(夹)图标
   Widget displayImageItem(
       String path, title, bool is_folder, Map<String, dynamic> content) {
+    // 获取文件夹、文件图标
+    String ico_path_path = "";
+    String ico_path_uri = "/v1/image";
+    if (is_folder) {
+      ico_path_path = Assets.casaFolder;
+    } else {
+      if (path.indexOf(RegExp(r'[.]')) != -1 && _picture_ext_names.contains(path.split(RegExp(r'[.]')).last)) {
+        ico_path_uri = "/v1/image";
+      }else{
+        ico_path_path = Assets.casaFile;
+      }
+    }
+    // 将图标地址转换为图标Widget
+    Widget? _ico_widget;
+    if (!ico_path_path.isEmpty) {
+      _ico_widget = GestureDetector(
+        child: Image.asset(
+          // TODO 显示图片预览缩略图、根据文件类型显示个性化文件图标
+          ico_path_path,
+          package: "openiothub_plugin",
+          width: 48,
+          height: 48,
+          // 确保路径正确且已在pubspec.yaml中声明
+        ),
+        onTap: () {
+          // TODO 如果pc则双击，如果移动端则单击
+          if (is_folder) {
+            _current_path = path;
+            displayImageList(_current_path);
+          } else {
+            //TODO 下载或预览文件
+          }
+        },
+        // TODO 长按或者右键显示菜单
+      );
+    }else{
+      _ico_widget = GestureDetector(
+        child: _sizedContainer(
+          CachedNetworkImage(
+            progressIndicatorBuilder: (context, url, progress) => Center(
+              child: CircularProgressIndicator(
+                value: progress.progress,
+              ),
+            ),
+            imageUrl: "${widget.baseUrl}${ico_path_uri}?path=${path}&token=${widget.data["data"]["token"]["access_token"]}&type=thumbnail",
+          ),
+        ),
+        onTap: () {
+          // TODO 预览文件
+          TDImageViewer.showImageViewer(
+            context: context,
+            images: ["${widget.baseUrl}${ico_path_uri}?path=${path}&token=${widget.data["data"]["token"]["access_token"]}"],
+            showIndex: true,
+            deleteBtn: true,
+          );
+        },
+        // TODO 长按或者右键显示菜单
+      );
+    }
     return Expanded(
         child: Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        GestureDetector(
-          child: Image.asset(
-            is_folder ? Assets.casaFolder : Assets.casaFile,
-            package: "openiothub_plugin",
-            width: 48,
-            height: 48,
-            // 确保路径正确且已在pubspec.yaml中声明
-          ),
-          onTap: () {
-            // TODO 如果pc则双击，如果移动端则单击
-            if (is_folder) {
-              _current_path = path;
-              displayImageList(_current_path);
-            } else {
-              //TODO 下载或预览文件
-            }
-          },
-        ),
+        _ico_widget,
         const SizedBox(height: 8),
         TDText(
           '$title',
@@ -260,6 +305,14 @@ class _FileManagerPageState extends State<FileManagerPage> {
         height: 48,
       )
     ]));
+  }
+
+  Widget _sizedContainer(Widget child) {
+    return SizedBox(
+      width: 48,
+      height: 48,
+      child: Center(child: child),
+    );
   }
 }
 
