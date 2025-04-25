@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:openiothub_grpc_api/proto/mobile/mobile.pb.dart';
 import 'package:openiothub_grpc_api/proto/mobile/mobile.pbgrpc.dart';
-
 import 'package:openiothub_plugin/openiothub_plugin.dart';
 
 class PhicommTC1A1PluginPage extends StatefulWidget {
@@ -146,8 +145,13 @@ class _PhicommTC1A1PluginPageState extends State<PhicommTC1A1PluginPage> {
     String url = "http://${widget.device.ip}:${widget.device.port}/status";
     http.Response response;
     try {
-      response =
-          await http.get(Uri.parse(url)).timeout(const Duration(seconds: 6));
+      response = await http
+          .get(Uri(
+              scheme: 'http',
+              host: widget.device.ip,
+              port: widget.device.port,
+              path: '/status'))
+          .timeout(const Duration(seconds: 6));
     } catch (e) {
       print(e.toString());
       return;
@@ -191,8 +195,21 @@ class _PhicommTC1A1PluginPageState extends State<PhicommTC1A1PluginPage> {
         "http://${widget.device.ip}:${widget.device.port}/switch?$slot0=${_status[slot0] ? 1 : 0}&$slot1=${_status[slot1] ? 1 : 0}&$slot2=${_status[slot2] ? 1 : 0}&$slot3=${_status[slot3] ? 1 : 0}&$slot4=${_status[slot4] ? 1 : 0}&$slot5=${_status[slot5] ? 1 : 0}";
     http.Response response;
     try {
-      response =
-          await http.get(Uri.parse(url)).timeout(const Duration(seconds: 2));
+      response = await http
+          .get(Uri(
+              scheme: 'http',
+              host: widget.device.ip,
+              port: widget.device.port,
+              path: '/switch',
+              queryParameters: {
+                slot0: _status[slot0] ? 1 : 0,
+                slot1: _status[slot1] ? 1 : 0,
+                slot2: _status[slot2] ? 1 : 0,
+                slot3: _status[slot3] ? 1 : 0,
+                slot4: _status[slot4] ? 1 : 0,
+                slot5: _status[slot5] ? 1 : 0,
+              }))
+          .timeout(const Duration(seconds: 2));
       print(response.body);
     } catch (e) {
       print(e.toString());

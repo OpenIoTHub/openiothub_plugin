@@ -32,6 +32,7 @@ class _FileManagerPageState extends State<FileManagerPage> {
     "webp"
   ];
   static const _video_ext_names = ["mp4", "avi", "flv", "rmvb"];
+  static const _music_ext_names = ["mp3", "wav", "aac", "m4a","flac", "ogg", "wma", "aiff""aif", "amr", "m4r"];
   String _current_path = "/DATA";
   List<Map<String, String>> _side_paths = [
     {"name": "Root", "path": "/"},
@@ -319,6 +320,8 @@ class _FileManagerPageState extends State<FileManagerPage> {
                       );
                     }));
                   }
+                } else if (_music_ext_names.contains(_ext_name)) {
+                  // 播放音乐，原则上说应该将本文件夹所有音乐都加入播放列表
                 } else {
                   // TODO 未知的文件类型默认提示下载或其他方式
                 }

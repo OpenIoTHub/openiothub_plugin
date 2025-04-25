@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:openiothub_grpc_api/proto/mobile/mobile.pb.dart';
 import 'package:openiothub_grpc_api/proto/mobile/mobile.pbgrpc.dart';
-
 import 'package:openiothub_plugin/openiothub_plugin.dart';
 
 class OneKeySwitchPage extends StatefulWidget {
@@ -71,7 +70,8 @@ class _OneKeySwitchPageState extends State<OneKeySwitchPage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                ledBottonStatus == "on" ? Text(OpenIoTHubPluginLocalizations.of(context).on)
+                ledBottonStatus == "on"
+                    ? Text(OpenIoTHubPluginLocalizations.of(context).on)
                     : Text(OpenIoTHubPluginLocalizations.of(context).off),
               ],
             )
@@ -83,8 +83,13 @@ class _OneKeySwitchPageState extends State<OneKeySwitchPage> {
     String url = "http://${widget.device.ip}:${widget.device.port}/status";
     http.Response response;
     try {
-      response =
-          await http.get(Uri.parse(url)).timeout(const Duration(seconds: 2));
+      response = await http
+          .get(Uri(
+              scheme: 'http',
+              host: widget.device.ip,
+              port: widget.device.port,
+              path: '/status'))
+          .timeout(const Duration(seconds: 2));
       print(response.body);
     } catch (e) {
       print(e.toString());
@@ -104,7 +109,8 @@ class _OneKeySwitchPageState extends State<OneKeySwitchPage> {
     return showDialog(
         context: context,
         builder: (_) => AlertDialog(
-                title: Text("${OpenIoTHubPluginLocalizations.of(context).setting_name}："),
+                title: Text(
+                    "${OpenIoTHubPluginLocalizations.of(context).setting_name}："),
                 content: SizedBox.expand(
                   child: ListView(
                     children: <Widget>[
@@ -112,7 +118,8 @@ class _OneKeySwitchPageState extends State<OneKeySwitchPage> {
                         controller: _name_controller,
                         decoration: InputDecoration(
                           contentPadding: EdgeInsets.all(10.0),
-                          labelText: OpenIoTHubPluginLocalizations.of(context).name,
+                          labelText:
+                              OpenIoTHubPluginLocalizations.of(context).name,
                         ),
                       )
                     ],
@@ -120,13 +127,15 @@ class _OneKeySwitchPageState extends State<OneKeySwitchPage> {
                 ),
                 actions: <Widget>[
                   TextButton(
-                    child: Text(OpenIoTHubPluginLocalizations.of(context).cancel),
+                    child:
+                        Text(OpenIoTHubPluginLocalizations.of(context).cancel),
                     onPressed: () {
                       Navigator.of(context).pop();
                     },
                   ),
                   TextButton(
-                    child: Text(OpenIoTHubPluginLocalizations.of(context).modify),
+                    child:
+                        Text(OpenIoTHubPluginLocalizations.of(context).modify),
                     onPressed: () async {
                       try {
                         String url =
@@ -164,8 +173,16 @@ class _OneKeySwitchPageState extends State<OneKeySwitchPage> {
         "http://${widget.device.ip}:${widget.device.port}/led?status=${ledBottonStatus == "on" ? "off" : "on"}";
     http.Response response;
     try {
-      response =
-          await http.get(Uri.parse(url)).timeout(const Duration(seconds: 2));
+      response = await http
+          .get(Uri(
+              scheme: 'http',
+              host: widget.device.ip,
+              port: widget.device.port,
+              path: '/led',
+              queryParameters: {
+                "status": ledBottonStatus == "on" ? "off" : "on"
+              }))
+          .timeout(const Duration(seconds: 2));
       print(response.body);
     } catch (e) {
       print(e.toString());

@@ -6,7 +6,6 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:openiothub_grpc_api/proto/mobile/mobile.pb.dart';
 import 'package:openiothub_grpc_api/proto/mobile/mobile.pbgrpc.dart';
-
 import 'package:openiothub_plugin/openiothub_plugin.dart';
 
 class UART2TCPPage extends StatefulWidget {
@@ -83,7 +82,9 @@ class UART2TCPStatus extends State<UART2TCPPage> with TickerProviderStateMixin {
                   });
                 },
                 onSubmitted: (String msg) => _submitMsg(true, msg),
-                decoration: InputDecoration.collapsed(hintText: OpenIoTHubPluginLocalizations.of(context).please_input_message),
+                decoration: InputDecoration.collapsed(
+                    hintText: OpenIoTHubPluginLocalizations.of(context)
+                        .please_input_message),
               ),
             ),
             Container(
@@ -177,8 +178,11 @@ class Msg extends StatelessWidget {
                   ),
                   Container(
                     margin: const EdgeInsets.only(left: 18.0),
-                    child: CircleAvatar(child: Text(me ? OpenIoTHubPluginLocalizations.of(ctx).me
-                        : OpenIoTHubPluginLocalizations.of(ctx).serial_port)),
+                    child: CircleAvatar(
+                        child: Text(me
+                            ? OpenIoTHubPluginLocalizations.of(ctx).me
+                            : OpenIoTHubPluginLocalizations.of(ctx)
+                                .serial_port)),
                   ),
                 ],
               )
@@ -187,8 +191,11 @@ class Msg extends StatelessWidget {
                 children: <Widget>[
                   Container(
                     margin: const EdgeInsets.only(right: 18.0),
-                    child: CircleAvatar(child: Text(me ? OpenIoTHubPluginLocalizations.of(ctx).me
-                        : OpenIoTHubPluginLocalizations.of(ctx).serial_port)),
+                    child: CircleAvatar(
+                        child: Text(me
+                            ? OpenIoTHubPluginLocalizations.of(ctx).me
+                            : OpenIoTHubPluginLocalizations.of(ctx)
+                                .serial_port)),
                   ),
                   Expanded(
                     child: Column(

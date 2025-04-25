@@ -1,3 +1,7 @@
+## [1.0.2+43]
+
+* Uri request
+
 ## [1.0.2+42]
 
 * casaos/zimaos video player

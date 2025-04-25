@@ -4,7 +4,6 @@ import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:http/http.dart' as http;
 import 'package:openiothub_grpc_api/proto/mobile/mobile.pb.dart';
 import 'package:openiothub_grpc_api/proto/mobile/mobile.pbgrpc.dart';
-
 import 'package:openiothub_plugin/openiothub_plugin.dart';
 
 class RGBALedPage extends StatefulWidget {
@@ -157,7 +156,8 @@ class _RGBALedPageState extends State<RGBALedPage> {
                 child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                  Text("${OpenIoTHubPluginLocalizations.of(context).switch_bottom}："),
+                  Text(
+                      "${OpenIoTHubPluginLocalizations.of(context).switch_bottom}："),
                   Switch(
                     onChanged: (_) {
                       _changeSwitchStatus();
@@ -198,7 +198,8 @@ class _RGBALedPageState extends State<RGBALedPage> {
     return showDialog(
         context: context,
         builder: (_) => AlertDialog(
-                title: Text("${OpenIoTHubPluginLocalizations.of(context).setting_name}："),
+                title: Text(
+                    "${OpenIoTHubPluginLocalizations.of(context).setting_name}："),
                 content: SizedBox.expand(
                     child: ListView(
                   children: <Widget>[
@@ -206,20 +207,23 @@ class _RGBALedPageState extends State<RGBALedPage> {
                       controller: _name_controller,
                       decoration: InputDecoration(
                         contentPadding: EdgeInsets.all(10.0),
-                        labelText: OpenIoTHubPluginLocalizations.of(context).name,
+                        labelText:
+                            OpenIoTHubPluginLocalizations.of(context).name,
                       ),
                     )
                   ],
                 )),
                 actions: <Widget>[
                   TextButton(
-                    child: Text(OpenIoTHubPluginLocalizations.of(context).cancel),
+                    child:
+                        Text(OpenIoTHubPluginLocalizations.of(context).cancel),
                     onPressed: () {
                       Navigator.of(context).pop();
                     },
                   ),
                   TextButton(
-                    child: Text(OpenIoTHubPluginLocalizations.of(context).modify),
+                    child:
+                        Text(OpenIoTHubPluginLocalizations.of(context).modify),
                     onPressed: () async {
                       try {
                         String url =
@@ -260,7 +264,8 @@ class _RGBALedPageState extends State<RGBALedPage> {
     return showDialog(
         context: context,
         builder: (_) => AlertDialog(
-                title: Text("${OpenIoTHubPluginLocalizations.of(context).upgrade_firmware}："),
+                title: Text(
+                    "${OpenIoTHubPluginLocalizations.of(context).upgrade_firmware}："),
                 content: SizedBox.expand(
                     child: UploadOTAPage(
                   url:
@@ -269,7 +274,8 @@ class _RGBALedPageState extends State<RGBALedPage> {
                 )),
                 actions: <Widget>[
                   TextButton(
-                    child: Text(OpenIoTHubPluginLocalizations.of(context).cancel),
+                    child:
+                        Text(OpenIoTHubPluginLocalizations.of(context).cancel),
                     onPressed: () {
                       Navigator.of(context).pop();
                     },
@@ -285,7 +291,14 @@ class _RGBALedPageState extends State<RGBALedPage> {
       url = "http://${widget.device.ip}:${widget.device.port}/set?b=0";
     }
     try {
-      await http.get(Uri.parse(url)).timeout(const Duration(seconds: 2));
+      await http
+          .get(Uri(
+              scheme: 'http',
+              host: widget.device.ip,
+              port: widget.device.port,
+              path: '/set',
+              queryParameters: {"b": _status[color].alpha == 0 ? 255 : 0}))
+          .timeout(const Duration(seconds: 2));
       setState(() {
         _status[color] = Color.fromARGB(_status[color].alpha == 0 ? 255 : 0,
             _status[color].red, _status[color].green, _status[color].blue);
@@ -304,7 +317,17 @@ class _RGBALedPageState extends State<RGBALedPage> {
     try {
       if (!_requsting) {
         _requsting = true;
-        await http.get(Uri.parse(url)).timeout(const Duration(seconds: 2));
+        await http
+            .get(Uri(
+                scheme: 'http',
+                host: widget.device.ip,
+                port: widget.device.port,
+                path: '/set',
+                queryParameters: {
+                  "c": tempColor.value.toRadixString(16),
+                  "b": c.alpha,
+                }))
+            .timeout(const Duration(seconds: 2));
         setState(() {
           _status[color] = c;
         });
@@ -334,7 +357,16 @@ class _RGBALedPageState extends State<RGBALedPage> {
     String url =
         "http://${widget.device.ip}:${widget.device.port}/set?m=${newValue.toString()}";
     try {
-      await http.get(Uri.parse(url)).timeout(const Duration(seconds: 2));
+      await http
+          .get(Uri(
+              scheme: 'http',
+              host: widget.device.ip,
+              port: widget.device.port,
+              path: '/set',
+              queryParameters: {
+                "m": newValue.toString(),
+              }))
+          .timeout(const Duration(seconds: 2));
       setState(() {
         _currentModes = newValue!;
       });
@@ -348,7 +380,16 @@ class _RGBALedPageState extends State<RGBALedPage> {
     String url =
         "http://${widget.device.ip}:${widget.device.port}/set?s=${cmd}";
     try {
-      await http.get(Uri.parse(url)).timeout(const Duration(seconds: 2));
+      await http
+          .get(Uri(
+              scheme: 'http',
+              host: widget.device.ip,
+              port: widget.device.port,
+              path: '/set',
+              queryParameters: {
+                "s": cmd,
+              }))
+          .timeout(const Duration(seconds: 2));
     } catch (e) {
       print(e.toString());
       return;

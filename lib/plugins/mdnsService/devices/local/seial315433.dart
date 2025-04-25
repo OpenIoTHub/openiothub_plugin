@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:openiothub_grpc_api/proto/mobile/mobile.pb.dart';
 import 'package:openiothub_grpc_api/proto/mobile/mobile.pbgrpc.dart';
-
 import 'package:openiothub_plugin/openiothub_plugin.dart';
 
 class Serial315433Page extends StatefulWidget {
@@ -98,7 +97,8 @@ class _Serial315433PageState extends State<Serial315433Page> {
     return showDialog(
         context: context,
         builder: (_) => AlertDialog(
-                title: Text("${OpenIoTHubPluginLocalizations.of(context).setting_name}："),
+                title: Text(
+                    "${OpenIoTHubPluginLocalizations.of(context).setting_name}："),
                 content: SizedBox.expand(
                   child: ListView(
                     children: <Widget>[
@@ -106,7 +106,8 @@ class _Serial315433PageState extends State<Serial315433Page> {
                         controller: _name_controller,
                         decoration: InputDecoration(
                           contentPadding: EdgeInsets.all(10.0),
-                          labelText: OpenIoTHubPluginLocalizations.of(context).name,
+                          labelText:
+                              OpenIoTHubPluginLocalizations.of(context).name,
                         ),
                       )
                     ],
@@ -114,13 +115,15 @@ class _Serial315433PageState extends State<Serial315433Page> {
                 ),
                 actions: <Widget>[
                   TextButton(
-                    child: Text(OpenIoTHubPluginLocalizations.of(context).cancel),
+                    child:
+                        Text(OpenIoTHubPluginLocalizations.of(context).cancel),
                     onPressed: () {
                       Navigator.of(context).pop();
                     },
                   ),
                   TextButton(
-                    child: Text(OpenIoTHubPluginLocalizations.of(context).modify),
+                    child:
+                        Text(OpenIoTHubPluginLocalizations.of(context).modify),
                     onPressed: () async {
                       try {
                         String url =
@@ -158,8 +161,16 @@ class _Serial315433PageState extends State<Serial315433Page> {
         "http://${widget.device.ip}:${widget.device.port}/botton?status=$cmd";
     http.Response response;
     try {
-      response =
-          await http.get(Uri.parse(url)).timeout(const Duration(seconds: 2));
+      response = await http
+          .get(Uri(
+              scheme: 'http',
+              host: widget.device.ip,
+              port: widget.device.port,
+              path: '/botton',
+              queryParameters: {
+                "status": cmd,
+              }))
+          .timeout(const Duration(seconds: 2));
       print(response.body);
     } catch (e) {
       print(e.toString());
@@ -171,7 +182,8 @@ class _Serial315433PageState extends State<Serial315433Page> {
     return showDialog(
         context: context,
         builder: (_) => AlertDialog(
-                title: Text("${OpenIoTHubPluginLocalizations.of(context).upgrade_firmware}："),
+                title: Text(
+                    "${OpenIoTHubPluginLocalizations.of(context).upgrade_firmware}："),
                 content: SizedBox.expand(
                     child: UploadOTAPage(
                   url:
@@ -180,7 +192,8 @@ class _Serial315433PageState extends State<Serial315433Page> {
                 )),
                 actions: <Widget>[
                   TextButton(
-                    child: Text(OpenIoTHubPluginLocalizations.of(context).cancel),
+                    child:
+                        Text(OpenIoTHubPluginLocalizations.of(context).cancel),
                     onPressed: () {
                       Navigator.of(context).pop();
                     },
