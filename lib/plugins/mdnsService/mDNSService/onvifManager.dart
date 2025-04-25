@@ -6,7 +6,6 @@ import 'package:http/http.dart' as http;
 import 'package:openiothub_constants/openiothub_constants.dart';
 import 'package:openiothub_grpc_api/proto/mobile/mobile.pb.dart';
 import 'package:openiothub_grpc_api/proto/mobile/mobile.pbgrpc.dart';
-
 import 'package:openiothub_plugin/openiothub_plugin.dart';
 import 'package:openiothub_plugin/utils/ip.dart';
 
@@ -119,13 +118,16 @@ class _OvifManagerPageState extends State<OvifManagerPage> {
     String url = "http://${widget.device.ip}:${widget.device.port}/list";
     http.Response response;
     try {
-      response =
-          await http.get(Uri(
-              scheme: 'http',
-              host: widget.device.ip.contains(RegExp(".local"))?await get_ip_by_domain(widget.device.ip):widget.device.ip,
-              port: widget.device.port,
-              path: '/list',
-              )).timeout(const Duration(seconds: 2));
+      response = await http
+          .get(Uri(
+            scheme: 'http',
+            host: widget.device.ip.endsWith(".local")
+                ? await get_ip_by_domain(widget.device.ip)
+                : widget.device.ip,
+            port: widget.device.port,
+            path: '/list',
+          ))
+          .timeout(const Duration(seconds: 2));
       print(response.body);
       Map<String, dynamic> rst = jsonDecode(response.body);
       if (rst["Code"] != 0) {
@@ -170,15 +172,18 @@ class _OvifManagerPageState extends State<OvifManagerPage> {
         "http://${widget.device.ip}:${widget.device.port}/delete?XAddr=$XAddr";
     http.Response response;
     try {
-      response =
-          await http.get(Uri(
+      response = await http
+          .get(Uri(
               scheme: 'http',
-              host: widget.device.ip.contains(RegExp(".local"))?await get_ip_by_domain(widget.device.ip):widget.device.ip,
+              host: widget.device.ip.endsWith(".local")
+                  ? await get_ip_by_domain(widget.device.ip)
+                  : widget.device.ip,
               port: widget.device.port,
               path: '/delete',
               queryParameters: {
                 "XAddr": XAddr,
-              })).timeout(const Duration(seconds: 2));
+              }))
+          .timeout(const Duration(seconds: 2));
       print(response.body);
       _getList();
     } catch (e) {
@@ -188,8 +193,8 @@ class _OvifManagerPageState extends State<OvifManagerPage> {
   }
 
   Future _addDeviceDialog() {
-    TextEditingController _Name_controller =
-        TextEditingController.fromValue(TextEditingValue(text: localizations!.onvif_camera));
+    TextEditingController _Name_controller = TextEditingController.fromValue(
+        TextEditingValue(text: localizations!.onvif_camera));
     TextEditingController _XAddr_controller = TextEditingController.fromValue(
         TextEditingValue(text: "192.168.123.211:8899"));
     TextEditingController _UserName_controller =
@@ -264,10 +269,12 @@ class _OvifManagerPageState extends State<OvifManagerPage> {
         "http://${widget.device.ip}:${widget.device.port}/add?Name=$Name&XAddr=$XAddr&UserName=$UserName&Password=$Password";
     http.Response response;
     try {
-      response =
-          await http.get(Uri(
+      response = await http
+          .get(Uri(
               scheme: 'http',
-              host: widget.device.ip.contains(RegExp(".local"))?await get_ip_by_domain(widget.device.ip):widget.device.ip,
+              host: widget.device.ip.endsWith(".local")
+                  ? await get_ip_by_domain(widget.device.ip)
+                  : widget.device.ip,
               port: widget.device.port,
               path: '/add',
               queryParameters: {
@@ -275,7 +282,8 @@ class _OvifManagerPageState extends State<OvifManagerPage> {
                 "XAddr": XAddr,
                 "UserName": UserName,
                 "Password": Password,
-              })).timeout(const Duration(seconds: 2));
+              }))
+          .timeout(const Duration(seconds: 2));
       print(response.body);
       _getList();
     } catch (e) {

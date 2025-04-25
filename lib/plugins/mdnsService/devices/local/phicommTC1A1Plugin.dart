@@ -149,7 +149,9 @@ class _PhicommTC1A1PluginPageState extends State<PhicommTC1A1PluginPage> {
       response = await http
           .get(Uri(
               scheme: 'http',
-              host: widget.device.ip.contains(RegExp(".local"))?await get_ip_by_domain(widget.device.ip):widget.device.ip,
+              host: widget.device.ip.endsWith(".local")
+                  ? await get_ip_by_domain(widget.device.ip)
+                  : widget.device.ip,
               port: widget.device.port,
               path: '/status'))
           .timeout(const Duration(seconds: 6));
@@ -199,10 +201,11 @@ class _PhicommTC1A1PluginPageState extends State<PhicommTC1A1PluginPage> {
       response = await http
           .get(Uri(
               scheme: 'http',
-              host: widget.device.ip.contains(RegExp(".local"))?await get_ip_by_domain(widget.device.ip):widget.device.ip,
+              host: widget.device.ip.endsWith(".local")
+                  ? await get_ip_by_domain(widget.device.ip)
+                  : widget.device.ip,
               port: widget.device.port,
               path: '/switch',
-
               queryParameters: {
                 slot0: _status[slot0] ? 1 : 0,
                 slot1: _status[slot1] ? 1 : 0,

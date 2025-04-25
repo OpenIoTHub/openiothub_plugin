@@ -295,7 +295,9 @@ class _RGBALedPageState extends State<RGBALedPage> {
       await http
           .get(Uri(
               scheme: 'http',
-              host: widget.device.ip.contains(RegExp(".local"))?await get_ip_by_domain(widget.device.ip):widget.device.ip,
+              host: widget.device.ip.endsWith(".local")
+                  ? await get_ip_by_domain(widget.device.ip)
+                  : widget.device.ip,
               port: widget.device.port,
               path: '/set',
               queryParameters: {"b": _status[color].alpha == 0 ? 255 : 0}))
@@ -321,7 +323,9 @@ class _RGBALedPageState extends State<RGBALedPage> {
         await http
             .get(Uri(
                 scheme: 'http',
-                host: widget.device.ip.contains(RegExp(".local"))?await get_ip_by_domain(widget.device.ip):widget.device.ip,
+                host: widget.device.ip.endsWith(".local")
+                    ? await get_ip_by_domain(widget.device.ip)
+                    : widget.device.ip,
                 port: widget.device.port,
                 path: '/set',
                 queryParameters: {
@@ -361,7 +365,9 @@ class _RGBALedPageState extends State<RGBALedPage> {
       await http
           .get(Uri(
               scheme: 'http',
-              host: widget.device.ip.contains(RegExp(".local"))?await get_ip_by_domain(widget.device.ip):widget.device.ip,
+              host: widget.device.ip.endsWith(".local")
+                  ? await get_ip_by_domain(widget.device.ip)
+                  : widget.device.ip,
               port: widget.device.port,
               path: '/set',
               queryParameters: {
@@ -384,7 +390,9 @@ class _RGBALedPageState extends State<RGBALedPage> {
       await http
           .get(Uri(
               scheme: 'http',
-              host: widget.device.ip.contains(RegExp(".local"))?await get_ip_by_domain(widget.device.ip):widget.device.ip,
+              host: widget.device.ip.endsWith(".local")
+                  ? await get_ip_by_domain(widget.device.ip)
+                  : widget.device.ip,
               port: widget.device.port,
               path: '/set',
               queryParameters: {
