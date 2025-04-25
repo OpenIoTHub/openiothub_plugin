@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:openiothub_grpc_api/proto/mobile/mobile.pb.dart';
 import 'package:openiothub_grpc_api/proto/mobile/mobile.pbgrpc.dart';
 import 'package:openiothub_plugin/openiothub_plugin.dart';
+import 'package:openiothub_plugin/utils/ip.dart';
 
 class UART2TCPPage extends StatefulWidget {
   UART2TCPPage({required Key key, required this.device}) : super(key: key);

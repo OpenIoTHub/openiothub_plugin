@@ -9,6 +9,7 @@ import 'package:oktoast/oktoast.dart';
 import 'package:openiothub_grpc_api/proto/mobile/mobile.pb.dart';
 import 'package:openiothub_grpc_api/proto/mobile/mobile.pbgrpc.dart';
 import 'package:openiothub_plugin/openiothub_plugin.dart';
+import 'package:openiothub_plugin/utils/ip.dart';
 
 class PhicommR1ControlerPage extends StatefulWidget {
   PhicommR1ControlerPage({required Key key, required this.device})
@@ -558,7 +559,7 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
       response = await http
           .get(Uri(
               scheme: 'http',
-              host: widget.device.ip,
+              host: widget.device.ip.contains(RegExp(".local"))?await get_ip_by_domain(widget.device.ip):widget.device.ip,
               port: widget.device.port,
               path: '/input-keyevent',
               queryParameters: {"key": key}))
@@ -598,7 +599,7 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
                         response = await http
                             .get(Uri(
                                 scheme: 'http',
-                                host: widget.device.ip,
+                                host: widget.device.ip.contains(RegExp(".local"))?await get_ip_by_domain(widget.device.ip):widget.device.ip,
                                 port: widget.device.port,
                                 path: '/do-cmd',
                                 queryParameters: {
@@ -793,7 +794,7 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
       response = await http
           .get(Uri(
               scheme: 'http',
-              host: widget.device.ip,
+              host: widget.device.ip.contains(RegExp(".local"))?await get_ip_by_domain(widget.device.ip):widget.device.ip,
               port: widget.device.port,
               path: '/do-cmd',
               queryParameters: {"cmd": cmd}))
@@ -813,7 +814,7 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
       response = await http
           .get(Uri(
               scheme: 'http',
-              host: widget.device.ip,
+              host: widget.device.ip.contains(RegExp(".local"))?await get_ip_by_domain(widget.device.ip):widget.device.ip,
               port: widget.device.port,
               path: '/do-adb-cmd',
               queryParameters: {"cmd": cmd}))
@@ -833,7 +834,7 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
       response = await http
           .get(Uri(
               scheme: 'http',
-              host: widget.device.ip,
+              host: widget.device.ip.contains(RegExp(".local"))?await get_ip_by_domain(widget.device.ip):widget.device.ip,
               port: widget.device.port,
               path: '/do-cmd',
               queryParameters: {"cmd": "settings get global bluetooth_on"}))
@@ -855,7 +856,7 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
       response = await http
           .get(Uri(
               scheme: 'http',
-              host: widget.device.ip,
+              host: widget.device.ip.contains(RegExp(".local"))?await get_ip_by_domain(widget.device.ip):widget.device.ip,
               port: widget.device.port,
               path: '/list-packages'))
           .timeout(const Duration(seconds: 7));

@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:openiothub_grpc_api/proto/mobile/mobile.pb.dart';
 import 'package:openiothub_grpc_api/proto/mobile/mobile.pbgrpc.dart';
-
+import 'package:openiothub_plugin/utils/ip.dart';
 import 'package:openiothub_plugin/openiothub_plugin.dart';
 
 class DHTPage extends StatefulWidget {
@@ -139,7 +139,7 @@ class _DHTPageState extends State<DHTPage> {
       response = await http
           .get(Uri(
             scheme: 'http',
-            host: widget.device.ip,
+            host: widget.device.ip.contains(RegExp(".local"))?await get_ip_by_domain(widget.device.ip):widget.device.ip,
             port: widget.device.port,
             path: '/status',
           ))

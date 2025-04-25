@@ -8,6 +8,7 @@ import 'package:openiothub_grpc_api/proto/mobile/mobile.pb.dart';
 import 'package:openiothub_grpc_api/proto/mobile/mobile.pbgrpc.dart';
 
 import 'package:openiothub_plugin/openiothub_plugin.dart';
+import 'package:openiothub_plugin/utils/ip.dart';
 
 //手动注册一些端口到mdns的声明，用于接入一些传统的设备或者服务或者帮助一些不方便注册mdns的设备或服务注册
 //需要选择模型和输入相关配置参数
@@ -121,7 +122,7 @@ class _OvifManagerPageState extends State<OvifManagerPage> {
       response =
           await http.get(Uri(
               scheme: 'http',
-              host: widget.device.ip,
+              host: widget.device.ip.contains(RegExp(".local"))?await get_ip_by_domain(widget.device.ip):widget.device.ip,
               port: widget.device.port,
               path: '/list',
               )).timeout(const Duration(seconds: 2));
@@ -172,7 +173,7 @@ class _OvifManagerPageState extends State<OvifManagerPage> {
       response =
           await http.get(Uri(
               scheme: 'http',
-              host: widget.device.ip,
+              host: widget.device.ip.contains(RegExp(".local"))?await get_ip_by_domain(widget.device.ip):widget.device.ip,
               port: widget.device.port,
               path: '/delete',
               queryParameters: {
@@ -266,7 +267,7 @@ class _OvifManagerPageState extends State<OvifManagerPage> {
       response =
           await http.get(Uri(
               scheme: 'http',
-              host: widget.device.ip,
+              host: widget.device.ip.contains(RegExp(".local"))?await get_ip_by_domain(widget.device.ip):widget.device.ip,
               port: widget.device.port,
               path: '/add',
               queryParameters: {

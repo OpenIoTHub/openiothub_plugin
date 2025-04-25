@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:openiothub_grpc_api/proto/mobile/mobile.pb.dart';
 import 'package:openiothub_grpc_api/proto/mobile/mobile.pbgrpc.dart';
 import 'package:openiothub_plugin/openiothub_plugin.dart';
+import 'package:openiothub_plugin/utils/ip.dart';
 
 class Serial315433Page extends StatefulWidget {
   Serial315433Page({required Key key, required this.device}) : super(key: key);
@@ -164,7 +165,7 @@ class _Serial315433PageState extends State<Serial315433Page> {
       response = await http
           .get(Uri(
               scheme: 'http',
-              host: widget.device.ip,
+              host: widget.device.ip.contains(RegExp(".local"))?await get_ip_by_domain(widget.device.ip):widget.device.ip,
               port: widget.device.port,
               path: '/botton',
               queryParameters: {
