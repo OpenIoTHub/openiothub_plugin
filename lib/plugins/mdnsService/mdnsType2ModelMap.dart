@@ -70,6 +70,7 @@ class MDNS2ModelsMap {
   }
 
   static List<String> getAllmDnsType() {
+    // 打印所有类型
     List<String> keys = getAllmDnsServiceType();
     keys.addAll({Config.mdnsTypeExplorer});
     return keys;

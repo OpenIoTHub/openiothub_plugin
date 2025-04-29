@@ -50,6 +50,7 @@ dependencies:
 #  右键菜单
   contextmenu: ^3.0.0
   video_player: ^2.9.5
+  flutter_inappwebview: ^6.1.5
 
 dev_dependencies:
   flutter_test:

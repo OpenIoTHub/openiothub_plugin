@@ -104,5 +104,9 @@ class _WebPageState extends State<WebPage> {
     } else {
       print('Could not launch $url');
     }
+    if (Platform.isWindows || Platform.isMacOS || Platform.isLinux) {
+      // 直接使用系统浏览器就不进入本页
+      Navigator.of(context).pop();
+    }
   }
 }

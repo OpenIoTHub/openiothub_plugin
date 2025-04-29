@@ -144,7 +144,16 @@ class _OneKeySwitchPageState extends State<OneKeySwitchPage> {
                         String url =
                             "http://${widget.device.ip}:${widget.device.port}/rename?name=${_name_controller.text}";
                         http
-                            .get(Uri.parse(url))
+                            .get(Uri(
+                            scheme: 'http',
+                            host: widget.device.ip.endsWith(".local")
+                                ? await get_ip_by_domain(widget.device.ip)
+                                : widget.device.ip,
+                            port: widget.device.port,
+                            path: '/rename',
+                            queryParameters: {
+                              "name": _name_controller.text
+                            }))
                             .timeout(const Duration(seconds: 2));
                       } catch (e) {
                         print(e.toString());

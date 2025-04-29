@@ -36,6 +36,7 @@ class _AppStorePageState extends State<AppStorePage> {
         appBar: AppBar(
           title: Text("AppStore"),
           // actions: <Widget>[
+          // TODO 查看和添加源
           //   // 系统的各种状态
           //   IconButton(
           //       icon: Icon(

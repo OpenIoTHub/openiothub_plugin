@@ -3,7 +3,9 @@
 import 'package:openiothub_plugin/utils/ip.dart';
 
 main() async {
-    var ip = await get_ip_by_domain("esp-switch-80:7D:3A:72:64:6F.local");
+    var hostname = "esp-switch-80:7D:3A:72:64:6F.local";
+    print(hostname.endsWith(".local"));
+    var ip = await get_ip_by_domain(hostname);
     print(ip);
     // var uri = Uri(
     //     scheme: 'http',
