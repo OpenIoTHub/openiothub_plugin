@@ -10,6 +10,8 @@ import 'package:openiothub_plugin/pages/videp_player.dart';
 import 'package:openiothub_plugin/utils/web.dart';
 import 'package:tdesign_flutter/tdesign_flutter.dart';
 
+import '../../../../../utils/toast.dart';
+
 class FileManagerPage extends StatefulWidget {
   const FileManagerPage({super.key, required this.baseUrl, required this.data});
 
@@ -329,6 +331,28 @@ class _FileManagerPageState extends State<FileManagerPage> {
             }
           },
           // TODO 长按或者右键显示菜单:下载，拷贝路径，重新命名，剪切，复制，删除
+          onLongPress: () {
+          //   长按操作界面
+            TDActionSheet(context,
+                visible: true,
+                description: "File Operation",
+                items: [
+                  TDActionSheetItem(
+                    label: 'Delete',
+                    icon: Icon(
+                      Icons.delete_forever,
+                      color: Colors.red,
+                    ),
+                  ),
+                ], onSelected: (TDActionSheetItem item, int index) {
+                  switch (index) {
+                    case 0:
+                    // 确认操作
+                      _delete_file([path]);
+                      break;
+                  }
+                });
+          },
         ),
         const SizedBox(height: 8),
         TDText(
@@ -337,6 +361,23 @@ class _FileManagerPageState extends State<FileManagerPage> {
         )
       ],
     ));
+  }
+
+  _delete_file(List<String> filepaths) async {
+    // status: restart,stop
+    final dio = Dio(BaseOptions(baseUrl: widget.baseUrl, headers: {
+      "Authorization": widget.data["data"]["token"]["access_token"],
+      "Content-Type": "application/json"
+    }));
+    String reqUri = "/v1/batch";
+    final response = await dio.deleteUri(Uri.parse(reqUri), data: filepaths);
+    if (response.statusCode == 200) {
+      show_success("Delete Success", context);
+      displayImageList(_current_path);
+    } else {
+      show_failed("Delete Failed", context);
+      displayImageList(_current_path);
+    }
   }
 
   Widget _build_empty_placeholder() {

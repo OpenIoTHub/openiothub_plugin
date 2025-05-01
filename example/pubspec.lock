@@ -29,10 +29,10 @@ packages:
     dependency: transitive
     description:
       name: asn1lib
-      sha256: e8953f3698626f6f40c32da22c3348b2c6383e0db224402c53c8b8f3215b1e85
+      sha256: "0511d6be23b007e95105ae023db599aea731df604608978dada7f9faf2637623"
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "1.6.3"
+    version: "1.6.4"
   async:
     dependency: transitive
     description:
@@ -697,10 +697,10 @@ packages:
     dependency: transitive
     description:
       name: openiothub_api
-      sha256: "44f6b434c2c8a28b129ea901a4a2fa57cd8bd46b8c8c037c7bb74e175e7f619f"
+      sha256: ee3b3c886240331b48510f5a0ba3dc340d39edd734b54f435e98af610da76672
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "1.0.5+7"
+    version: "1.0.5+8"
   openiothub_constants:
     dependency: transitive
     description:
@@ -723,7 +723,7 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "1.0.2+45"
+    version: "1.0.2+47"
   path:
     dependency: transitive
     description:
@@ -1253,10 +1253,10 @@ packages:
     dependency: transitive
     description:
       name: webview_flutter_android
-      sha256: "5c3b6f992d123084903ec091b84f021c413a92a9af49038e4564a1b26c8452cf"
+      sha256: "6b0eae02b7604954b80ee9a29507ac38f5de74b712faa6fee33abc1cdedc1b21"
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "4.4.1"
+    version: "4.4.2"
   webview_flutter_platform_interface:
     dependency: transitive
     description:

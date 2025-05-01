@@ -44,6 +44,7 @@ class MDNS2ModelsMap {
     //    web UI,homeassistant使用web方式打开服务的模型
     "_home-assistant._tcp":
         getPortServiceByNameModel("HomeAssistant", WebPage.modelName),
+    // TODO
     // "_ssh._tcp":
     // getPortServiceByNameModel("SSH", SSHWebPage.modelName),
     "_casaos._tcp": getPortServiceByNameModel("casaos", WebPage.modelName),
@@ -54,6 +55,7 @@ class MDNS2ModelsMap {
     //    vnc远程桌面模型
     "_rfb._tcp": getPortServiceByNameModel(
         "VNC RFB remote desktop", VNCWebPage.modelName),
+    // _device-info._tcp
   });
 
   static PortService getPortServiceByNameModel(String name, model) {

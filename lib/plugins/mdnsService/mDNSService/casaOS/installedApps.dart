@@ -12,6 +12,7 @@ import 'package:tdesign_flutter/tdesign_flutter.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
+import '../../../../utils/toast.dart';
 import './sub/appStore.dart';
 import './sub/files.dart';
 import './sub/settings.dart';
@@ -380,9 +381,9 @@ class _InstalledAppsPageState extends State<InstalledAppsPage> {
     String reqUri = "/v2/app_management/compose/$appName";
     final response = await dio.patchUri(Uri.parse(reqUri));
     if (response.statusCode == 200) {
-      _success("Upgrade App Success");
+      show_success("Upgrade App Success",context);
     } else {
-      _failed("Upgrade App Failed");
+      show_failed("Upgrade App Failed", context);
     }
   }
 
@@ -394,9 +395,9 @@ class _InstalledAppsPageState extends State<InstalledAppsPage> {
         "/v2/app_management/compose/$appName?delete_config_folder=${delete_config_folder == null ? false : delete_config_folder}";
     final response = await dio.deleteUri(Uri.parse(reqUri));
     if (response.statusCode == 200) {
-      _success("Remove App Success");
+      show_success("Remove App Success",context);
     } else {
-      _failed("Remove App Failed");
+      show_failed("Remove App Failed",context);
     }
   }
 
@@ -409,9 +410,9 @@ class _InstalledAppsPageState extends State<InstalledAppsPage> {
     String reqUri = "/v2/app_management/compose/$appName/status";
     final response = await dio.putUri(Uri.parse(reqUri), data: "\"$status\"");
     if (response.statusCode == 200) {
-      _success("Change App Status To ${status} Success");
+      show_success("Change App Status To ${status} Success",context);
     } else {
-      _failed("Change App Status To ${status} Failed");
+      show_failed("Change App Status To ${status} Failed",context);
     }
   }
 
@@ -455,33 +456,5 @@ class _InstalledAppsPageState extends State<InstalledAppsPage> {
         );
       }));
     }
-  }
-
-  _success(String msg) {
-    TDMessage.showMessage(
-      context: context,
-      content: msg,
-      visible: true,
-      icon: false,
-      theme: MessageTheme.success,
-      duration: 3000,
-      onDurationEnd: () {
-        print('message end');
-      },
-    );
-  }
-
-  _failed(String msg) {
-    TDMessage.showMessage(
-      context: context,
-      content: msg,
-      visible: true,
-      icon: false,
-      theme: MessageTheme.error,
-      duration: 3000,
-      onDurationEnd: () {
-        print('message end');
-      },
-    );
   }
 }
