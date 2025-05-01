@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:openiothub_grpc_api/proto/mobile/mobile.pb.dart';
+import 'package:openiothub_plugin/utils/toast.dart';
 import 'package:tdesign_flutter/tdesign_flutter.dart';
 
 class SettingsPage extends StatefulWidget {
@@ -48,7 +49,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 });
               }
             } catch (e) {
-              showToast(e.toString());
+              show_failed(e.toString(), context);
             }
           },
           value: usb_auto_mount,
@@ -95,10 +96,10 @@ class _SettingsPageState extends State<SettingsPage> {
                               final response =
                                   await dio.putUri(Uri.parse(reqUri));
                               if (response.data["success"] == 200) {
-                                showToast("success!");
+                                show_success("success!", context);
                               }
                             } catch (e) {
-                              showToast(e.toString());
+                              show_failed(e.toString(), context);
                             }
                             Navigator.pop(context);
                           },
@@ -118,10 +119,10 @@ class _SettingsPageState extends State<SettingsPage> {
                               final response =
                                   await dio.putUri(Uri.parse(reqUri));
                               if (response.data["success"] == 200) {
-                                showToast("success!");
+                                show_success("success!", context);
                               }
                             } catch (e) {
-                              showToast(e.toString());
+                              show_failed(e.toString(), context);
                             }
                             Navigator.pop(context);
                           },

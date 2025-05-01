@@ -6,6 +6,7 @@ import 'package:openiothub_grpc_api/proto/mobile/mobile.pb.dart';
 import 'package:openiothub_grpc_api/proto/mobile/mobile.pbgrpc.dart';
 
 import 'package:openiothub_plugin/openiothub_plugin.dart';
+import 'package:openiothub_plugin/utils/toast.dart';
 
 class InfoPage extends StatelessWidget {
   InfoPage({required Key key, required this.portService}) : super(key: key);
@@ -173,5 +174,5 @@ _delete(BuildContext context, PortService portService) async {
   MqttDeviceInfo mqttDeviceInfo = MqttDeviceInfo();
   mqttDeviceInfo.deviceId = portService.info["id"]!;
   await MqttDeviceManager.DelMqttDevice(mqttDeviceInfo);
-  showToast(OpenIoTHubPluginLocalizations.of(context).delete_success);
+  show_success(OpenIoTHubPluginLocalizations.of(context).delete_success, context);
 }

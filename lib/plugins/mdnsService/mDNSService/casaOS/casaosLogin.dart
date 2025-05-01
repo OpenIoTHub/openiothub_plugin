@@ -8,6 +8,7 @@ import 'package:openiothub_grpc_api/proto/mobile/mobile.pb.dart';
 import 'package:openiothub_grpc_api/proto/mobile/mobile.pbgrpc.dart';
 import 'package:openiothub_plugin/openiothub_plugin.dart';
 import 'package:openiothub_plugin/plugins/mdnsService/mDNSService/casaOS/installedApps.dart';
+import 'package:openiothub_plugin/utils/toast.dart';
 import 'package:tdesign_flutter/tdesign_flutter.dart';
 
 import 'package:openiothub_plugin/generated/assets.dart';
@@ -106,8 +107,8 @@ class _CasaOSLoginPageState extends State<CasaOSLoginPage> {
                   theme: TDButtonTheme.primary,
                   onTap: () async {
                     if (_username.text.isEmpty || _user_password.text.isEmpty) {
-                      showToast(OpenIoTHubPluginLocalizations.of(context)
-                          .username_and_password_cant_be_empty);
+                      show_failed(OpenIoTHubPluginLocalizations.of(context)
+                          .username_and_password_cant_be_empty, context);
                       return;
                     }
                     // 登录并跳转
@@ -139,11 +140,11 @@ class _CasaOSLoginPageState extends State<CasaOSLoginPage> {
         return;
       } else {
         //  登录失败
-        showToast("Login failed");
+        show_failed("Login failed", context);
       }
     } catch (e) {
       //  登录失败
-      showToast("Login failed:${e.toString()}");
+      show_failed("Login failed:${e.toString()}", context);
       print(e.toString());
       return;
     }

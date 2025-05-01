@@ -234,7 +234,7 @@ class _FileManagerPageState extends State<FileManagerPage> {
         });
       }
     } catch (e) {
-      showToast(e.toString());
+      show_failed(e.toString(), context);
     }
   }
 

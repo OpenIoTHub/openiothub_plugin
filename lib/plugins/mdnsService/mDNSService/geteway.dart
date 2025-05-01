@@ -9,6 +9,7 @@ import 'package:openiothub_grpc_api/proto/manager/serverManager.pb.dart';
 import 'package:openiothub_grpc_api/proto/mobile/mobile.pb.dart';
 import 'package:openiothub_grpc_api/proto/mobile/mobile.pbgrpc.dart';
 import 'package:openiothub_plugin/l10n/generated/openiothub_plugin_localizations.dart';
+import 'package:openiothub_plugin/utils/toast.dart';
 
 import '../../mdnsService/commWidgets/info.dart';
 
@@ -103,15 +104,15 @@ class GatewayState extends State<Gateway> {
     config.description = name;
     try {
       await SessionApi.createOneSession(config);
-      showToast(localizations!.add_gateway_success);
+      show_success(localizations!.add_gateway_success, context);
     } catch (exception) {
-      showToast("${localizations!.login_failed}：${exception}");
+      show_failed("${localizations!.login_failed}：${exception}", context);
     }
   }
 
   _confirmAdd(ServerInfo serverInfo) {
     if (!_addable) {
-      showToast(localizations!.gateway_already_added);
+      show_failed(localizations!.gateway_already_added, context);
       return;
     }
     showDialog(
@@ -159,7 +160,7 @@ class GatewayState extends State<Gateway> {
         });
       }
     } catch (exception) {
-      showToast("${localizations!.add_gateway_failed}：${exception}");
+      show_failed("${localizations!.add_gateway_failed}：${exception}", context);
     }
   }
 
@@ -178,7 +179,7 @@ class GatewayState extends State<Gateway> {
               widget.device.ip, widget.device.port);
       _addable = !loginResponse.loginStatus;
     } catch (exception) {
-      showToast("${localizations!.get_gateway_login_status_failed}：$exception");
+      show_failed("${localizations!.get_gateway_login_status_failed}：$exception", context);
     }
   }
 

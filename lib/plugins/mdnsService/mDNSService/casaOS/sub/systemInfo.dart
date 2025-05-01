@@ -5,6 +5,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:openiothub_grpc_api/proto/mobile/mobile.pb.dart';
+import 'package:openiothub_plugin/utils/toast.dart';
 import 'package:tdesign_flutter/tdesign_flutter.dart';
 
 import 'widgets/indicator.dart';
@@ -294,7 +295,7 @@ class _SystemInfoPageState extends State<SystemInfoPage> {
         });
       }
     } catch (e) {
-      showToast(e.toString());
+      show_failed(e.toString(), context);
     }
   }
 

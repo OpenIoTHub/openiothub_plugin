@@ -9,6 +9,7 @@ import 'package:mqtt5_client/mqtt5_server_client.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:openiothub_grpc_api/proto/mobile/mobile.pb.dart';
 import 'package:openiothub_grpc_api/proto/mobile/mobile.pbgrpc.dart';
+import 'package:openiothub_plugin/utils/toast.dart';
 
 import '../../commWidgets/info.dart';
 
@@ -179,10 +180,10 @@ class _MqttPhicommzM1PluginPageState extends State<MqttPhicommzM1PluginPage> {
       await client.connect(
           widget.device.info["username"], widget.device.info["password"]);
     } on MqttNoConnectionException catch (e) {
-      showToast("MqttNoConnectionException:$e");
+      show_failed("MqttNoConnectionException:$e", context);
       client.disconnect();
     } on SocketException catch (e) {
-      showToast("SocketException:$e");
+      show_failed("SocketException:$e", context);
       client.disconnect();
     }
     //QoS
@@ -234,30 +235,30 @@ class _MqttPhicommzM1PluginPageState extends State<MqttPhicommzM1PluginPage> {
   //mqtt的调用函数
   /// The subscribed callback
   void onSubscribed(MqttSubscription subscription) {
-    showToast("onSubscribed:${subscription.topic}");
+    show_success("onSubscribed:${subscription.topic}", context);
   }
 
   /// The unsolicited disconnect callback
   void onDisconnected() {
-    showToast("onDisconnected");
+    show_failed("onDisconnected",context);
   }
 
   /// The successful connect callback
   void onConnected() {
-    showToast(
-        'EXAMPLE::OnConnected client callback - Client connection was successful');
+    show_success(
+        'EXAMPLE::OnConnected client callback - Client connection was successful', context);
   }
 
   /// Pong callback
   void pong() {
-    showToast('EXAMPLE::Ping response client callback invoked');
+    show_success('EXAMPLE::Ping response client callback invoked',context);
   }
 
   void onAutoReconnect() {
-    showToast('重连mqtt...');
+    show_success('重连mqtt...', context);
   }
 
   void onAutoReconnected() {
-    showToast('重连mqtt服务器成功！');
+    show_success('重连mqtt服务器成功！', context);
   }
 }

@@ -10,6 +10,7 @@ import 'package:openiothub_grpc_api/proto/mobile/mobile.pb.dart';
 import 'package:openiothub_grpc_api/proto/mobile/mobile.pbgrpc.dart';
 import 'package:openiothub_plugin/openiothub_plugin.dart';
 import 'package:openiothub_plugin/utils/ip.dart';
+import 'package:openiothub_plugin/utils/toast.dart';
 
 class PhicommR1ControlerPage extends StatefulWidget {
   PhicommR1ControlerPage({required Key key, required this.device})
@@ -642,20 +643,20 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
                             height: 240,
                           ),
                           onTapDown: (TapDownDetails details) {
-                            showToast(
-                                "onTapDown:${details.globalPosition},${details.localPosition},${details.kind}");
+                            show_success(
+                                "onTapDown:${details.globalPosition},${details.localPosition},${details.kind}", context);
                           },
                           onVerticalDragStart: (DragStartDetails details) {
-                            showToast("onVerticalDragStart:$details");
+                            show_success("onVerticalDragStart:$details", context);
                           },
                           onVerticalDragEnd: (DragEndDetails details) {
-                            showToast("onVerticalDragEnd:$details");
+                            show_success("onVerticalDragEnd:$details", context);
                           },
                           onHorizontalDragStart: (DragStartDetails details) {
-                            showToast("onHorizontalDragStart:$details");
+                            show_success("onHorizontalDragStart:$details", context);
                           },
                           onHorizontalDragEnd: (DragEndDetails details) {
-                            showToast("onHorizontalDragEnd:$details");
+                            show_success("onHorizontalDragEnd:$details", context);
                           },
                         ),
                         // 19: "导航键向上",
@@ -805,7 +806,7 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
               path: '/do-cmd',
               queryParameters: {"cmd": cmd}))
           .timeout(const Duration(seconds: 2));
-      showToast(response.body);
+      show_success(response.body, context);
     } catch (e) {
       print(e.toString());
       return;
@@ -827,7 +828,7 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
               path: '/do-adb-cmd',
               queryParameters: {"cmd": cmd}))
           .timeout(const Duration(seconds: 2));
-      showToast(response.body);
+      show_success(response.body, context);
     } catch (e) {
       print(e.toString());
       return;
@@ -849,9 +850,9 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
               path: '/do-cmd',
               queryParameters: {"cmd": "settings get global bluetooth_on"}))
           .timeout(const Duration(seconds: 2));
-      showToast(response.body);
+      show_success(response.body, context);
       Map<String, dynamic> body = jsonDecode(response.body);
-      showToast(body['result'].toString());
+      show_success(body['result'].toString(), context);
     } catch (e) {
       print(e.toString());
       return;
@@ -890,10 +891,10 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
         );
 
     if (path == null) {
-      showToast("User canceled the picker");
+      show_failed("User canceled the picker", context);
       return;
     }
-    showToast(path.files.single.path!);
+    show_success(path.files.single.path!, context);
     String url = "http://${widget.device.ip}:${widget.device.port}/install-apk";
     Response response;
     try {
@@ -903,7 +904,7 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
             filename: "android.apk"),
       });
       response = await dio.post(url, data: formData);
-      showToast(response.toString());
+      show_success(response.toString(), context);
     } catch (e) {
       print(e.toString());
       return;
