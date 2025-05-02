@@ -5,6 +5,7 @@ import 'package:openiothub_constants/openiothub_constants.dart';
 import 'package:openiothub_grpc_api/proto/mobile/mobile.pb.dart';
 import 'package:openiothub_grpc_api/proto/mobile/mobile.pbgrpc.dart';
 import 'package:openiothub_plugin/openiothub_plugin.dart';
+import 'package:openiothub_plugin/plugins/mdnsService/mDNSService/ssh/SSHWebPage.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -157,12 +158,10 @@ class OpenWithChoice extends StatelessWidget {
                                   MaterialPageRoute(builder: (ctx) {
                                 // return SSHWebPage(
                                 return SSHNativePage(
-                                  runId: portConfig.device.runId,
-                                  remoteIp: portConfig.device.addr,
-                                  remotePort: portConfig.remotePort,
+                                  addr: portConfig.device.addr,
+                                  port: portConfig.localProt,
                                   userName: _username_controller.text,
                                   passWord: _password_controller.text,
-                                  localPort: portConfig.localProt,
                                   key: UniqueKey(),
                                 );
                               })).then((_) {

@@ -3,26 +3,22 @@ import 'dart:convert';
 
 import 'package:dartssh2_plus/dartssh2.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:openiothub_plugin/plugins/openWithChoice/sshNative/virtual_keyboard.dart';
+import './virtual_keyboard.dart';
 import 'package:xterm/xterm.dart';
 
 class SSHNativePage extends StatefulWidget {
   SSHNativePage(
       {required Key key,
-      required this.runId,
-      required this.remoteIp,
-      required this.remotePort,
-      //   TODO 没有的话本页面请求用户名密码
-      required this.userName,
-      required this.passWord,
-      required this.localPort})
+        required this.addr,
+        required this.port,
+        //   TODO 没有的话本页面请求用户名密码
+        required this.userName,
+        required this.passWord})
       : super(key: key);
-  String runId;
-  String remoteIp;
-  int remotePort;
-  String userName;
-  String passWord;
-  int localPort;
+  final String addr;
+  final int port;
+  final String userName;
+  final String passWord;
 
   @override
   State<StatefulWidget> createState() => SSHNativePageState();
@@ -43,11 +39,11 @@ class SSHNativePageState extends State<SSHNativePage> {
 
   Future<void> initTerminal() async {
     setState(() => this.title =
-        "${widget.userName}@${widget.remoteIp}:${widget.remotePort}");
+    "${widget.userName}@${widget.addr}:${widget.port}");
     terminal.write('Connecting...\r\n');
 
     final client = SSHClient(
-      await SSHSocket.connect("localhost", widget.localPort),
+      await SSHSocket.connect("localhost", widget.port),
       username: widget.userName,
       onPasswordRequest: () => widget.passWord,
     );
@@ -93,7 +89,7 @@ class SSHNativePageState extends State<SSHNativePage> {
       navigationBar: CupertinoNavigationBar(
         middle: Text(title),
         backgroundColor:
-            CupertinoTheme.of(context).barBackgroundColor.withAlpha((255.0 * 0.5).round()),
+        CupertinoTheme.of(context).barBackgroundColor.withAlpha((255.0 * 0.5).round()),
       ),
       child: Column(
         children: [
