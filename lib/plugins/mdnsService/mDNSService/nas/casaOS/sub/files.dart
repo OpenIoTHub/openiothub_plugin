@@ -10,7 +10,7 @@ import 'package:openiothub_plugin/pages/videp_player.dart';
 import 'package:openiothub_plugin/utils/web.dart';
 import 'package:tdesign_flutter/tdesign_flutter.dart';
 
-import '../../../../../utils/toast.dart';
+import 'package:openiothub_plugin/utils/toast.dart';
 
 class FileManagerPage extends StatefulWidget {
   const FileManagerPage({super.key, required this.baseUrl, required this.data});

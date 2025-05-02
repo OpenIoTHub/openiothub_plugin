@@ -12,7 +12,7 @@ import 'package:tdesign_flutter/tdesign_flutter.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-import '../../../../utils/toast.dart';
+import 'package:openiothub_plugin/utils/toast.dart';
 import './sub/appStore.dart';
 import './sub/files.dart';
 import './sub/settings.dart';

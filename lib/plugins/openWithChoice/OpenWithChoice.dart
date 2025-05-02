@@ -8,7 +8,7 @@ import 'package:openiothub_plugin/openiothub_plugin.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-import '../mdnsService/mDNSService/casaOS/casaosLogin.dart';
+import '../mdnsService/mDNSService/nas/casaOS/casaosLogin.dart';
 
 class OpenWithChoice extends StatelessWidget {
   PortConfig portConfig;

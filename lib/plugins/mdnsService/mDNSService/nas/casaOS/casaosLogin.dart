@@ -7,7 +7,7 @@ import 'package:openiothub_constants/constants/Config.dart';
 import 'package:openiothub_grpc_api/proto/mobile/mobile.pb.dart';
 import 'package:openiothub_grpc_api/proto/mobile/mobile.pbgrpc.dart';
 import 'package:openiothub_plugin/openiothub_plugin.dart';
-import 'package:openiothub_plugin/plugins/mdnsService/mDNSService/casaOS/installedApps.dart';
+import './installedApps.dart';
 import 'package:openiothub_plugin/utils/toast.dart';
 import 'package:tdesign_flutter/tdesign_flutter.dart';
 
