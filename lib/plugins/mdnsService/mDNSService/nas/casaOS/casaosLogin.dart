@@ -16,14 +16,14 @@ import 'package:openiothub_plugin/generated/assets.dart';
 //手动注册一些端口到mdns的声明，用于接入一些传统的设备或者服务或者帮助一些不方便注册mdns的设备或服务注册
 //需要选择模型和输入相关配置参数
 class CasaOSLoginPage extends StatefulWidget {
-  CasaOSLoginPage({required Key key, required this.portConfig})
+  CasaOSLoginPage({required Key key, required this.portService})
       : super(key: key);
 
   static final String modelName = "com.zimaspace.casaos.webpage.v1";
 
   // 两种不同形式的端口信息，适配自动发现和手动添加的服务
   // 自动发现的服务
-  final PortConfig portConfig;
+  final PortService portService;
 
   // 手动添加的服务
   // final PortConfig? portConfig;
@@ -124,7 +124,7 @@ class _CasaOSLoginPageState extends State<CasaOSLoginPage> {
 
   Future<void> login_and_goto_dashboard(String username, password) async {
     final dio = Dio(BaseOptions(
-        baseUrl: "http://${Config.webgRpcIp}:${widget.portConfig.localProt}"));
+        baseUrl: "http://${widget.portService.ip}:${widget.portService.port}"));
     String reqUri = "/v1/users/login";
     try {
       final response = await dio.postUri(Uri.parse(reqUri),
@@ -135,7 +135,7 @@ class _CasaOSLoginPageState extends State<CasaOSLoginPage> {
         // 跳转到已安装应用页面
         Navigator.push(context, MaterialPageRoute(builder: (ctx) {
           return InstalledAppsPage(
-              key: UniqueKey(), data: data, portConfig: widget.portConfig);
+              key: UniqueKey(), data: data, portService: widget.portService);
         }));
         return;
       } else {

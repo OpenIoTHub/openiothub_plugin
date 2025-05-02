@@ -9,6 +9,9 @@ import 'package:openiothub_plugin/plugins/mdnsService/mDNSService/ssh/SSHWebPage
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
+import '../../utils/portConfig2portService.dart';
+import '../mdnsService/mDNSService/VNCRFBWebPage.dart';
+import '../mdnsService/mDNSService/aria2c.dart';
 import '../mdnsService/mDNSService/nas/casaOS/casaosLogin.dart';
 
 class OpenWithChoice extends StatelessWidget {
@@ -107,7 +110,7 @@ class OpenWithChoice extends StatelessWidget {
           if (title == 'Aria2') {
             Navigator.push(ctx, MaterialPageRoute(builder: (ctx) {
               return Aria2Page(
-                localPort: portConfig.localProt,
+                device: portConfig2portService(portConfig),
                 key: UniqueKey(),
               );
             })).then((_) {
@@ -175,9 +178,7 @@ class OpenWithChoice extends StatelessWidget {
           } else if (title == 'VNC') {
             Navigator.push(ctx, MaterialPageRoute(builder: (ctx) {
               return VNCWebPage(
-                runId: portConfig.device.runId,
-                remoteIp: portConfig.device.addr,
-                remotePort: portConfig.remotePort,
+                device: portConfig2portService(portConfig),
                 key: UniqueKey(),
               );
             })).then((_) {
@@ -235,7 +236,7 @@ class OpenWithChoice extends StatelessWidget {
             Navigator.push(ctx, MaterialPageRoute(builder: (ctx) {
               return CasaOSLoginPage(
                 // portService: PortService(ip: Config.webgRpcIp,port:portConfig.localProt),
-                portConfig: portConfig,
+                portService: portConfig2portService(portConfig),
                 key: UniqueKey(),
               );
             })).then((_) {

@@ -20,9 +20,9 @@ import 'sub/systemInfo.dart';
 
 class InstalledAppsPage extends StatefulWidget {
   const InstalledAppsPage(
-      {super.key, required this.portConfig, required this.data});
+      {super.key, required this.portService, required this.data});
 
-  final PortConfig portConfig;
+  final PortService portService;
   final Map<String, dynamic> data;
 
   @override
@@ -40,7 +40,7 @@ class _InstalledAppsPageState extends State<InstalledAppsPage> {
 
   @override
   void initState() {
-    baseUrl = "http://${Config.webgRpcIp}:${widget.portConfig.localProt}";
+    baseUrl = "http://${widget.portService.ip}:${widget.portService.port}";
     _initListTiles();
     _getVersionInfo();
     _refresh_timer = Timer.periodic(const Duration(seconds: 2), (timer) {
@@ -225,7 +225,8 @@ class _InstalledAppsPageState extends State<InstalledAppsPage> {
         return;
       }
       portList.portConfigs.add(PortConfig(
-        device: widget.portConfig.device,
+        // TODO 在组建mdns的时候如果是远程映射则在info中添加remoteAddr真实地址
+        device: Device(runId: widget.portService.info["runId"], addr: widget.portService.isLocal?widget.portService.ip:widget.portService.info["remoteAddr"]),
         name: appInfo["name"],
         description: appInfo["name"],
         localProt: 0,
@@ -234,10 +235,11 @@ class _InstalledAppsPageState extends State<InstalledAppsPage> {
         // mDNSInfo: PortService(),
       ));
     });
+    // TODO 如果本身在局域网则不创建
     SessionApi.createTcpProxyList(portList);
     // TODO 获取当前服务映射到本机的端口号
     PortList portListRet = await SessionApi.getAllTCP(SessionConfig(
-      runId: widget.portConfig.device.runId,
+      runId: widget.portService.info["runId"],
     ));
     response.data["data"].forEach((appInfo) {
       int localPort = 0;

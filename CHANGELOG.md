@@ -1,3 +1,7 @@
+## [1.0.2+50]
+
+* plugin combine
+
 ## [1.0.2+49]
 
 * project structure
