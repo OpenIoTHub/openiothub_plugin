@@ -1,3 +1,7 @@
+## [1.0.2+54]
+
+* fix runId
+
 ## [1.0.2+53]
 
 * PortServiceInfo copy

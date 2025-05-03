@@ -8,11 +8,11 @@ import 'package:openiothub_api/openiothub_api.dart';
 import 'package:openiothub_constants/constants/Config.dart';
 import 'package:openiothub_grpc_api/proto/mobile/mobile.pb.dart';
 import 'package:openiothub_plugin/l10n/generated/openiothub_plugin_localizations.dart';
+import 'package:openiothub_plugin/utils/toast.dart';
 import 'package:tdesign_flutter/tdesign_flutter.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-import 'package:openiothub_plugin/utils/toast.dart';
 import '../../../../../models/PortServiceInfo.dart';
 import './sub/appStore.dart';
 import './sub/files.dart';
@@ -225,22 +225,26 @@ class _InstalledAppsPageState extends State<InstalledAppsPage> {
         // print("appInfo[\"port\"].isEmpty");
         return;
       }
-      portList.portConfigs.add(PortConfig(
+      var device = Device.create();
+      device.runId = widget.portService.runId!;
+      device.addr = widget.portService.realAddr!;
+      var portConfig = PortConfig(
         // TODO 在组建mdns的时候如果是远程映射则在info中添加remoteAddr真实地址
-        device: Device(runId: widget.portService.runId, addr: widget.portService.realAddr!=null?widget.portService.realAddr:widget.portService.addr),
+        device: device,
         name: appInfo["name"],
         description: appInfo["name"],
         localProt: 0,
         remotePort: int.parse(appInfo["port"]),
         networkProtocol: "tcp",
         // mDNSInfo: PortService(),
-      ));
+      );
+      portList.portConfigs.add(portConfig);
     });
     // TODO 如果本身在局域网则不创建
     SessionApi.createTcpProxyList(portList);
     // TODO 获取当前服务映射到本机的端口号
     PortList portListRet = await SessionApi.getAllTCP(SessionConfig(
-      runId: widget.portService.info!["runId"],
+      runId: widget.portService.runId!,
     ));
     response.data["data"].forEach((appInfo) {
       int localPort = 0;
@@ -384,7 +388,7 @@ class _InstalledAppsPageState extends State<InstalledAppsPage> {
     String reqUri = "/v2/app_management/compose/$appName";
     final response = await dio.patchUri(Uri.parse(reqUri));
     if (response.statusCode == 200) {
-      show_success("Upgrade App Success",context);
+      show_success("Upgrade App Success", context);
     } else {
       show_failed("Upgrade App Failed", context);
     }
@@ -398,9 +402,9 @@ class _InstalledAppsPageState extends State<InstalledAppsPage> {
         "/v2/app_management/compose/$appName?delete_config_folder=${delete_config_folder == null ? false : delete_config_folder}";
     final response = await dio.deleteUri(Uri.parse(reqUri));
     if (response.statusCode == 200) {
-      show_success("Remove App Success",context);
+      show_success("Remove App Success", context);
     } else {
-      show_failed("Remove App Failed",context);
+      show_failed("Remove App Failed", context);
     }
   }
 
@@ -413,9 +417,9 @@ class _InstalledAppsPageState extends State<InstalledAppsPage> {
     String reqUri = "/v2/app_management/compose/$appName/status";
     final response = await dio.putUri(Uri.parse(reqUri), data: "\"$status\"");
     if (response.statusCode == 200) {
-      show_success("Change App Status To ${status} Success",context);
+      show_success("Change App Status To ${status} Success", context);
     } else {
-      show_failed("Change App Status To ${status} Failed",context);
+      show_failed("Change App Status To ${status} Failed", context);
     }
   }
 
