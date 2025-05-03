@@ -8,10 +8,12 @@ import 'package:openiothub_grpc_api/proto/mobile/mobile.pbgrpc.dart';
 import 'package:openiothub_plugin/openiothub_plugin.dart';
 import 'package:openiothub_plugin/utils/toast.dart';
 
+import '../../../models/PortServiceInfo.dart';
+
 class InfoPage extends StatelessWidget {
   InfoPage({required Key key, required this.portService}) : super(key: key);
   OpenIoTHubPluginLocalizations? localizations;
-  PortService portService;
+  PortServiceInfo portService;
 
   // This widget is the root of your application.
   @override
@@ -30,20 +32,20 @@ class InfoPage extends StatelessWidget {
       "firmware-version"
     ];
     final List _result = [];
-    _result.add("${localizations!.device_name}:${portService.info["name"]}");
-    _result.add("${localizations!.device_model}:${portService.info["model"]!.replaceAll("#", ".")}");
-    _result.add("${localizations!.mac_addr}:${portService.info["mac"]}");
-    _result.add("id:${portService.info["id"]}");
-    _result.add("${localizations!.firmware_author}:${portService.info["author"]}");
-    _result.add("${localizations!.email}:${portService.info["email"]}");
-    _result.add("${localizations!.home_page}:${portService.info["home-page"]}");
-    _result.add("${localizations!.firmware_repository}:${portService.info["firmware-respository"]}");
-    _result.add("${localizations!.firmware_version}:${portService.info["firmware-version"]}");
+    _result.add("${localizations!.device_name}:${portService.info!["name"]}");
+    _result.add("${localizations!.device_model}:${portService.info!["model"]!.replaceAll("#", ".")}");
+    _result.add("${localizations!.mac_addr}:${portService.info!["mac"]}");
+    _result.add("id:${portService.info!["id"]}");
+    _result.add("${localizations!.firmware_author}:${portService.info!["author"]}");
+    _result.add("${localizations!.email}:${portService.info!["email"]}");
+    _result.add("${localizations!.home_page}:${portService.info!["home-page"]}");
+    _result.add("${localizations!.firmware_repository}:${portService.info!["firmware-respository"]}");
+    _result.add("${localizations!.firmware_version}:${portService.info!["firmware-version"]}");
     _result.add("${localizations!.is_local}:${portService.isLocal ? localizations!.yes : localizations!.no}");
-    _result.add("${localizations!.device_ip}:${portService.ip}");
+    _result.add("${localizations!.device_ip}:${portService.addr}");
     _result.add("${localizations!.device_port}:${portService.port}");
 
-    portService.info.forEach((key, value) {
+    portService.info!.forEach((key, value) {
       if (!_std_key.contains(key)) {
         _result.add("${key}:${value}");
       }
@@ -72,8 +74,8 @@ class InfoPage extends StatelessWidget {
             _renameDialog(context);
           }),
     ];
-    if (portService.info.containsKey("enable_delete") &&
-        portService.info["enable_delete"] == true.toString()) {
+    if (portService.info!.containsKey("enable_delete") &&
+        portService.info!["enable_delete"] == true.toString()) {
       actions.add(IconButton(
           icon: Icon(
             Icons.delete_forever,
@@ -95,7 +97,7 @@ class InfoPage extends StatelessWidget {
   _renameDialog(BuildContext context) async {
     TextEditingController _new_name_controller =
         TextEditingController.fromValue(
-            TextEditingValue(text: portService.info["name"]!));
+            TextEditingValue(text: portService.info!["name"]!));
     showDialog(
         context: context,
         builder: (_) => AlertDialog(
@@ -125,7 +127,7 @@ class InfoPage extends StatelessWidget {
                     child: Text(localizations!.modify),
                     onPressed: () async {
                       await _rename(
-                          portService.info["id"]!, _new_name_controller.text);
+                          portService.info!["id"]!, _new_name_controller.text);
                       Navigator.of(context).pop();
                     },
                   )
@@ -139,7 +141,7 @@ class InfoPage extends StatelessWidget {
   }
 }
 
-_deleteDialog(BuildContext context, PortService portService) async {
+_deleteDialog(BuildContext context, PortServiceInfo portService) async {
   showDialog(
       context: context,
       builder: (_) => AlertDialog(
@@ -170,9 +172,9 @@ _deleteDialog(BuildContext context, PortService portService) async {
   });
 }
 
-_delete(BuildContext context, PortService portService) async {
+_delete(BuildContext context, PortServiceInfo portService) async {
   MqttDeviceInfo mqttDeviceInfo = MqttDeviceInfo();
-  mqttDeviceInfo.deviceId = portService.info["id"]!;
+  mqttDeviceInfo.deviceId = portService.info!["id"]!;
   await MqttDeviceManager.DelMqttDevice(mqttDeviceInfo);
   show_success(OpenIoTHubPluginLocalizations.of(context).delete_success, context);
 }

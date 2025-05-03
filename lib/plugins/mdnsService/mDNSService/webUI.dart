@@ -9,11 +9,13 @@ import 'package:webview_flutter/webview_flutter.dart';
 
 import 'package:openiothub_plugin/openiothub_plugin.dart';
 
+import '../../../models/PortServiceInfo.dart';
+
 class WebPage extends StatefulWidget {
   WebPage({required Key key, required this.device}) : super(key: key);
 
   static final String modelName = "com.iotserv.services.web";
-  final PortService device;
+  final PortServiceInfo device;
 
   @override
   _WebPageState createState() => _WebPageState();
@@ -40,7 +42,7 @@ class _WebPageState extends State<WebPage> {
         ),
       )
       ..loadRequest(
-          Uri.parse("http://${widget.device.ip}:${widget.device.port}"));
+          Uri.parse("http://${widget.device.addr}:${widget.device.port}"));
 //    解决退出没有断连的问题
     return Scaffold(
         appBar: AppBar(title: Text(localizations.web_browser), actions: <Widget>[
@@ -58,7 +60,7 @@ class _WebPageState extends State<WebPage> {
                 color: Colors.teal,
               ),
               onPressed: () {
-                _launchURL("http://${widget.device.ip}:${widget.device.port}");
+                _launchURL("http://${widget.device.addr}:${widget.device.port}");
               })
         ]),
         body: Builder(builder: (BuildContext context) {
@@ -86,12 +88,12 @@ class _WebPageState extends State<WebPage> {
     super.initState();
     // if (Platform.isIOS) {
     //   Navigator.of(context).pop();
-    //   _launchURL('http://${widget.device.ip}:${widget.device.port}');
+    //   _launchURL('http://${widget.device.addr}:${widget.device.port}');
     // } else {
-    //   _launchURL('http://${widget.device.ip}:${widget.device.port}');
+    //   _launchURL('http://${widget.device.addr}:${widget.device.port}');
     // }
     if (Platform.isWindows || Platform.isMacOS || Platform.isLinux) {
-      var url = 'http://${widget.device.ip}:${widget.device.port}';
+      var url = 'http://${widget.device.addr}:${widget.device.port}';
       _launchURL(url);
       return;
     }

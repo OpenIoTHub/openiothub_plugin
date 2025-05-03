@@ -5,11 +5,13 @@ import 'package:openiothub_grpc_api/proto/mobile/mobile.pbgrpc.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
+import '../../../models/PortServiceInfo.dart';
+
 class VNCWebPage extends StatefulWidget {
   VNCWebPage({required Key key, required this.device}) : super(key: key);
 
   static final String modelName = "com.iotserv.services.vnc";
-  final PortService device;
+  final PortServiceInfo device;
 
   @override
   State<StatefulWidget> createState() => VNCWebPageState();
@@ -23,7 +25,7 @@ class VNCWebPageState extends State<VNCWebPage> {
   void initState() {
     super.initState();
     var url =
-        "http://${Config.webStaticIp}:${Config.webStaticPort}/web/open/vnc/index.html?host=${Config.webgRpcIp}&port=${Config.webRestfulPort}&path=proxy%2fws%2fconnect%2fwebsockify%3fip%3d${widget.device.ip}%26port%3d${widget.device.port}&encrypt=0";
+        "http://${Config.webStaticIp}:${Config.webStaticPort}/web/open/vnc/index.html?host=${Config.webgRpcIp}&port=${Config.webRestfulPort}&path=proxy%2fws%2fconnect%2fwebsockify%3fip%3d${widget.device.addr}%26port%3d${widget.device.port}&encrypt=0";
     final WebViewController controller = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
       ..setBackgroundColor(const Color(0x00000000))

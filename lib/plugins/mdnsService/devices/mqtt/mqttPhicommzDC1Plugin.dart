@@ -10,13 +10,14 @@ import 'package:openiothub_grpc_api/proto/mobile/mobile.pb.dart';
 import 'package:openiothub_grpc_api/proto/mobile/mobile.pbgrpc.dart';
 import 'package:openiothub_plugin/utils/toast.dart';
 
+import '../../../../models/PortServiceInfo.dart';
 import '../../../mdnsService/commWidgets/info.dart';
 
 class MqttPhicommzDC1PluginPage extends StatefulWidget {
   MqttPhicommzDC1PluginPage({required Key key, required this.device})
       : super(key: key);
   static final String modelName = "com.iotserv.devices.mqtt.zDC1";
-  final PortService device;
+  final PortServiceInfo device;
 
   @override
   _MqttPhicommzDC1PluginPageState createState() =>
@@ -74,8 +75,8 @@ class _MqttPhicommzDC1PluginPageState extends State<MqttPhicommzDC1PluginPage> {
   @override
   void initState() {
     super.initState();
-    topic_sensor = "device/zdc1/${widget.device.info["mac"]}/sensor";
-    topic_state = "device/zdc1/${widget.device.info["mac"]}/state";
+    topic_sensor = "device/zdc1/${widget.device.info!["mac"]}/sensor";
+    topic_state = "device/zdc1/${widget.device.info!["mac"]}/state";
     _initMqtt();
     print("init iot devie List");
   }
@@ -139,7 +140,7 @@ class _MqttPhicommzDC1PluginPageState extends State<MqttPhicommzDC1PluginPage> {
     ).toList();
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.device.info["name"]!),
+        title: Text(widget.device.info!["name"]!),
         actions: <Widget>[
           IconButton(
               icon: Icon(
@@ -157,9 +158,9 @@ class _MqttPhicommzDC1PluginPageState extends State<MqttPhicommzDC1PluginPage> {
 
   _initMqtt() async {
     client = MqttServerClient.withPort(
-        widget.device.ip,
-        widget.device.info.containsKey("client-id")
-            ? widget.device.info["client-id"]!
+        widget.device.addr,
+        widget.device.info!.containsKey("client-id")
+            ? widget.device.info!["client-id"]!
             : "",
         widget.device.port);
     client.autoReconnect = true;
@@ -172,13 +173,13 @@ class _MqttPhicommzDC1PluginPageState extends State<MqttPhicommzDC1PluginPage> {
     client.onAutoReconnect = onAutoReconnect;
     client.onAutoReconnected = onAutoReconnected;
     final connMess = MqttConnectMessage()
-        .withClientIdentifier(widget.device.info["client-id"]!)
+        .withClientIdentifier(widget.device.info!["client-id"]!)
         .startClean();
     client.connectionMessage = connMess;
     try {
       //用户名密码
       await client.connect(
-          widget.device.info["username"], widget.device.info["password"]);
+          widget.device.info!["username"], widget.device.info!["password"]);
     } on MqttNoConnectionException catch (e) {
       show_failed("MqttNoConnectionException:$e", context);
       client.disconnect();
@@ -235,8 +236,8 @@ class _MqttPhicommzDC1PluginPageState extends State<MqttPhicommzDC1PluginPage> {
   _changeSwitchStatus(String name, bool value) async {
     final builder = MqttPayloadBuilder();
     builder.addString(
-        '{"mac":"${widget.device.info["mac"]}","$name":{"on":${value ? 1 : 0}}}');
-    client.publishMessage("device/zdc1/${widget.device.info["mac"]}/set",
+        '{"mac":"${widget.device.info!["mac"]}","$name":{"on":${value ? 1 : 0}}}');
+    client.publishMessage("device/zdc1/${widget.device.info!["mac"]}/set",
         MqttQos.atLeastOnce, builder.payload!);
   }
 

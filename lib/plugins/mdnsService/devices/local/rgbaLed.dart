@@ -7,11 +7,13 @@ import 'package:openiothub_grpc_api/proto/mobile/mobile.pbgrpc.dart';
 import 'package:openiothub_plugin/openiothub_plugin.dart';
 import 'package:openiothub_plugin/utils/ip.dart';
 
+import '../../../../models/PortServiceInfo.dart';
+
 class RGBALedPage extends StatefulWidget {
   RGBALedPage({required Key key, required this.device}) : super(key: key);
 
   static final String modelName = "com.iotserv.devices.rgbaLed";
-  final PortService device;
+  final PortServiceInfo device;
 
   @override
   _RGBALedPageState createState() => _RGBALedPageState();
@@ -104,7 +106,7 @@ class _RGBALedPageState extends State<RGBALedPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.device.info["name"]!),
+        title: Text(widget.device.info!["name"]!),
         actions: <Widget>[
           IconButton(
               icon: Icon(
@@ -195,7 +197,7 @@ class _RGBALedPageState extends State<RGBALedPage> {
   _setting() async {
     // TODO 设备设置
     TextEditingController _name_controller = TextEditingController.fromValue(
-        TextEditingValue(text: widget.device.info["name"]!));
+        TextEditingValue(text: widget.device.info!["name"]!));
     return showDialog(
         context: context,
         builder: (_) => AlertDialog(
@@ -228,13 +230,13 @@ class _RGBALedPageState extends State<RGBALedPage> {
                     onPressed: () async {
                       try {
                         String url =
-                            "http://${widget.device.ip}:${widget.device.port}/rename?name=${_name_controller.text}";
+                            "http://${widget.device.addr}:${widget.device.port}/rename?name=${_name_controller.text}";
                         http
                             .get(Uri.parse(url))
                             .timeout(const Duration(seconds: 2))
                             .then((_) {
                           setState(() {
-                            widget.device.info["name"] = _name_controller.text;
+                            widget.device.info!["name"] = _name_controller.text;
                           });
                         });
                       } catch (e) {
@@ -270,7 +272,7 @@ class _RGBALedPageState extends State<RGBALedPage> {
                 content: SizedBox.expand(
                     child: UploadOTAPage(
                   url:
-                      "http://${widget.device.ip}:${widget.device.port}/update",
+                      "http://${widget.device.addr}:${widget.device.port}/update",
                   key: UniqueKey(),
                 )),
                 actions: <Widget>[
@@ -287,17 +289,17 @@ class _RGBALedPageState extends State<RGBALedPage> {
   _changeSwitchStatus() async {
     String url;
     if (_status[color].alpha == 0) {
-      url = "http://${widget.device.ip}:${widget.device.port}/set?b=255";
+      url = "http://${widget.device.addr}:${widget.device.port}/set?b=255";
     } else {
-      url = "http://${widget.device.ip}:${widget.device.port}/set?b=0";
+      url = "http://${widget.device.addr}:${widget.device.port}/set?b=0";
     }
     try {
       await http
           .get(Uri(
               scheme: 'http',
-              host: widget.device.ip.endsWith(".local")
-                  ? await get_ip_by_domain(widget.device.ip)
-                  : widget.device.ip,
+              host: widget.device.addr.endsWith(".local")
+                  ? await get_ip_by_domain(widget.device.addr)
+                  : widget.device.addr,
               port: widget.device.port,
               path: '/set',
               queryParameters: {"b": _status[color].alpha == 0 ? 255 : 0}))
@@ -316,16 +318,16 @@ class _RGBALedPageState extends State<RGBALedPage> {
   _changeColorStatus(Color c) async {
     Color tempColor = Color.fromARGB(0, c.red, c.green, c.blue);
     String url =
-        "http://${widget.device.ip}:${widget.device.port}/set?c=${tempColor.value.toRadixString(16)}&b=${c.alpha}";
+        "http://${widget.device.addr}:${widget.device.port}/set?c=${tempColor.value.toRadixString(16)}&b=${c.alpha}";
     try {
       if (!_requsting) {
         _requsting = true;
         await http
             .get(Uri(
                 scheme: 'http',
-                host: widget.device.ip.endsWith(".local")
-                    ? await get_ip_by_domain(widget.device.ip)
-                    : widget.device.ip,
+                host: widget.device.addr.endsWith(".local")
+                    ? await get_ip_by_domain(widget.device.addr)
+                    : widget.device.addr,
                 port: widget.device.port,
                 path: '/set',
                 queryParameters: {
@@ -360,14 +362,14 @@ class _RGBALedPageState extends State<RGBALedPage> {
 
   _setMode(int? newValue) async {
     String url =
-        "http://${widget.device.ip}:${widget.device.port}/set?m=${newValue.toString()}";
+        "http://${widget.device.addr}:${widget.device.port}/set?m=${newValue.toString()}";
     try {
       await http
           .get(Uri(
               scheme: 'http',
-              host: widget.device.ip.endsWith(".local")
-                  ? await get_ip_by_domain(widget.device.ip)
-                  : widget.device.ip,
+              host: widget.device.addr.endsWith(".local")
+                  ? await get_ip_by_domain(widget.device.addr)
+                  : widget.device.addr,
               port: widget.device.port,
               path: '/set',
               queryParameters: {
@@ -385,14 +387,14 @@ class _RGBALedPageState extends State<RGBALedPage> {
 
   _setSpeed(String cmd) async {
     String url =
-        "http://${widget.device.ip}:${widget.device.port}/set?s=${cmd}";
+        "http://${widget.device.addr}:${widget.device.port}/set?s=${cmd}";
     try {
       await http
           .get(Uri(
               scheme: 'http',
-              host: widget.device.ip.endsWith(".local")
-                  ? await get_ip_by_domain(widget.device.ip)
-                  : widget.device.ip,
+              host: widget.device.addr.endsWith(".local")
+                  ? await get_ip_by_domain(widget.device.addr)
+                  : widget.device.addr,
               port: widget.device.port,
               path: '/set',
               queryParameters: {

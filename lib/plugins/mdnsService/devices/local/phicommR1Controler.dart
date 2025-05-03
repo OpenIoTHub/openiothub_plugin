@@ -12,12 +12,14 @@ import 'package:openiothub_plugin/openiothub_plugin.dart';
 import 'package:openiothub_plugin/utils/ip.dart';
 import 'package:openiothub_plugin/utils/toast.dart';
 
+import '../../../../models/PortServiceInfo.dart';
+
 class PhicommR1ControlerPage extends StatefulWidget {
   PhicommR1ControlerPage({required Key key, required this.device})
       : super(key: key);
 
   static final String modelName = "com.iotserv.devices.phicomm-r1-controler";
-  final PortService device;
+  final PortServiceInfo device;
 
   @override
   _PhicommR1ControlerPageState createState() => _PhicommR1ControlerPageState();
@@ -232,7 +234,7 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.device.info["name"]!),
+        title: Text(widget.device.info!["name"]!),
         actions: <Widget>[
           IconButton(
               icon: Icon(
@@ -554,15 +556,15 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
       _currentKey = key!;
     });
     String url =
-        "http://${widget.device.ip}:${widget.device.port}/input-keyevent?key=$key";
+        "http://${widget.device.addr}:${widget.device.port}/input-keyevent?key=$key";
     http.Response response;
     try {
       response = await http
           .get(Uri(
               scheme: 'http',
-              host: widget.device.ip.endsWith(".local")
-                  ? await get_ip_by_domain(widget.device.ip)
-                  : widget.device.ip,
+              host: widget.device.addr.endsWith(".local")
+                  ? await get_ip_by_domain(widget.device.addr)
+                  : widget.device.addr,
               port: widget.device.port,
               path: '/input-keyevent',
               queryParameters: {"key": key}))
@@ -579,7 +581,7 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
       _currentPackage = package!;
     });
     String url =
-        "http://${widget.device.ip}:${widget.device.port}/do-cmd?cmd=/system/bin/pm uninstall $package";
+        "http://${widget.device.addr}:${widget.device.port}/do-cmd?cmd=/system/bin/pm uninstall $package";
     http.Response response;
     try {
       showDialog(
@@ -602,9 +604,9 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
                         response = await http
                             .get(Uri(
                                 scheme: 'http',
-                                host: widget.device.ip.endsWith(".local")
-                                    ? await get_ip_by_domain(widget.device.ip)
-                                    : widget.device.ip,
+                                host: widget.device.addr.endsWith(".local")
+                                    ? await get_ip_by_domain(widget.device.addr)
+                                    : widget.device.addr,
                                 port: widget.device.port,
                                 path: '/do-cmd',
                                 queryParameters: {
@@ -629,7 +631,7 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
         builder: (context) {
           return StatefulBuilder(builder: (context, state) {
             String _screenUrl =
-                "http://${widget.device.ip}:${widget.device.port}/get-image?time=${DateTime.now().millisecondsSinceEpoch}";
+                "http://${widget.device.addr}:${widget.device.port}/get-image?time=${DateTime.now().millisecondsSinceEpoch}";
             return AlertDialog(
                 title: Text("屏幕截图:"),
                 content: SizedBox.expand(
@@ -675,7 +677,7 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
                                       () {
                                     state(() {
                                       _screenUrl =
-                                          "http://${widget.device.ip}:${widget.device.port}/get-image?time=${DateTime.now().millisecondsSinceEpoch}";
+                                          "http://${widget.device.addr}:${widget.device.port}/get-image?time=${DateTime.now().millisecondsSinceEpoch}";
                                     });
                                   });
                                 }),
@@ -692,7 +694,7 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
                                       () {
                                     state(() {
                                       _screenUrl =
-                                          "http://${widget.device.ip}:${widget.device.port}/get-image?time=${DateTime.now().millisecondsSinceEpoch}";
+                                          "http://${widget.device.addr}:${widget.device.port}/get-image?time=${DateTime.now().millisecondsSinceEpoch}";
                                     });
                                   });
                                 }),
@@ -704,7 +706,7 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
                                       () {
                                     state(() {
                                       _screenUrl =
-                                          "http://${widget.device.ip}:${widget.device.port}/get-image?time=${DateTime.now().millisecondsSinceEpoch}";
+                                          "http://${widget.device.addr}:${widget.device.port}/get-image?time=${DateTime.now().millisecondsSinceEpoch}";
                                     });
                                   });
                                 }),
@@ -716,7 +718,7 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
                                       () {
                                     state(() {
                                       _screenUrl =
-                                          "http://${widget.device.ip}:${widget.device.port}/get-image?time=${DateTime.now().millisecondsSinceEpoch}";
+                                          "http://${widget.device.addr}:${widget.device.port}/get-image?time=${DateTime.now().millisecondsSinceEpoch}";
                                     });
                                   });
                                 }),
@@ -733,7 +735,7 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
                                       () {
                                     state(() {
                                       _screenUrl =
-                                          "http://${widget.device.ip}:${widget.device.port}/get-image?time=${DateTime.now().millisecondsSinceEpoch}";
+                                          "http://${widget.device.addr}:${widget.device.port}/get-image?time=${DateTime.now().millisecondsSinceEpoch}";
                                     });
                                   });
                                 }),
@@ -749,7 +751,7 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
                                       () {
                                     state(() {
                                       _screenUrl =
-                                          "http://${widget.device.ip}:${widget.device.port}/get-image?time=${DateTime.now().millisecondsSinceEpoch}";
+                                          "http://${widget.device.addr}:${widget.device.port}/get-image?time=${DateTime.now().millisecondsSinceEpoch}";
                                     });
                                   });
                                 }),
@@ -761,7 +763,7 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
                                       () {
                                     state(() {
                                       _screenUrl =
-                                          "http://${widget.device.ip}:${widget.device.port}/get-image?time=${DateTime.now().millisecondsSinceEpoch}";
+                                          "http://${widget.device.addr}:${widget.device.port}/get-image?time=${DateTime.now().millisecondsSinceEpoch}";
                                     });
                                   });
                                 }),
@@ -770,7 +772,7 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
                                 onPressed: () {
                                   state(() {
                                     _screenUrl =
-                                        "http://${widget.device.ip}:${widget.device.port}/get-image?time=${DateTime.now().millisecondsSinceEpoch}";
+                                        "http://${widget.device.addr}:${widget.device.port}/get-image?time=${DateTime.now().millisecondsSinceEpoch}";
                                   });
                                 }),
                           ],
@@ -793,15 +795,15 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
 
   _doCmd(String cmd) async {
     String url =
-        "http://${widget.device.ip}:${widget.device.port}/do-cmd?cmd=$cmd";
+        "http://${widget.device.addr}:${widget.device.port}/do-cmd?cmd=$cmd";
     http.Response response;
     try {
       response = await http
           .get(Uri(
               scheme: 'http',
-              host: widget.device.ip.endsWith(".local")
-                  ? await get_ip_by_domain(widget.device.ip)
-                  : widget.device.ip,
+              host: widget.device.addr.endsWith(".local")
+                  ? await get_ip_by_domain(widget.device.addr)
+                  : widget.device.addr,
               port: widget.device.port,
               path: '/do-cmd',
               queryParameters: {"cmd": cmd}))
@@ -815,15 +817,15 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
 
   _doAdbCmd(String cmd) async {
     String url =
-        "http://${widget.device.ip}:${widget.device.port}/do-adb-cmd?cmd=$cmd";
+        "http://${widget.device.addr}:${widget.device.port}/do-adb-cmd?cmd=$cmd";
     http.Response response;
     try {
       response = await http
           .get(Uri(
               scheme: 'http',
-              host: widget.device.ip.endsWith(".local")
-                  ? await get_ip_by_domain(widget.device.ip)
-                  : widget.device.ip,
+              host: widget.device.addr.endsWith(".local")
+                  ? await get_ip_by_domain(widget.device.addr)
+                  : widget.device.addr,
               port: widget.device.port,
               path: '/do-adb-cmd',
               queryParameters: {"cmd": cmd}))
@@ -837,15 +839,15 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
 
   _getBluetoothStatus() async {
     String url =
-        "http://${widget.device.ip}:${widget.device.port}/do-cmd?cmd=settings get global bluetooth_on";
+        "http://${widget.device.addr}:${widget.device.port}/do-cmd?cmd=settings get global bluetooth_on";
     http.Response response;
     try {
       response = await http
           .get(Uri(
               scheme: 'http',
-              host: widget.device.ip.endsWith(".local")
-                  ? await get_ip_by_domain(widget.device.ip)
-                  : widget.device.ip,
+              host: widget.device.addr.endsWith(".local")
+                  ? await get_ip_by_domain(widget.device.addr)
+                  : widget.device.addr,
               port: widget.device.port,
               path: '/do-cmd',
               queryParameters: {"cmd": "settings get global bluetooth_on"}))
@@ -861,15 +863,15 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
 
   _getInstalledPackages() async {
     String url =
-        "http://${widget.device.ip}:${widget.device.port}/list-packages";
+        "http://${widget.device.addr}:${widget.device.port}/list-packages";
     http.Response response;
     try {
       response = await http
           .get(Uri(
               scheme: 'http',
-              host: widget.device.ip.endsWith(".local")
-                  ? await get_ip_by_domain(widget.device.ip)
-                  : widget.device.ip,
+              host: widget.device.addr.endsWith(".local")
+                  ? await get_ip_by_domain(widget.device.addr)
+                  : widget.device.addr,
               port: widget.device.port,
               path: '/list-packages'))
           .timeout(const Duration(seconds: 7));
@@ -895,7 +897,7 @@ class _PhicommR1ControlerPageState extends State<PhicommR1ControlerPage> {
       return;
     }
     show_success(path.files.single.path!, context);
-    String url = "http://${widget.device.ip}:${widget.device.port}/install-apk";
+    String url = "http://${widget.device.addr}:${widget.device.port}/install-apk";
     Response response;
     try {
       //安装apk

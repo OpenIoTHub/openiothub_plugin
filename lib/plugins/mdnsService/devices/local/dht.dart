@@ -8,11 +8,13 @@ import 'package:openiothub_grpc_api/proto/mobile/mobile.pbgrpc.dart';
 import 'package:openiothub_plugin/openiothub_plugin.dart';
 import 'package:openiothub_plugin/utils/ip.dart';
 
+import '../../../../models/PortServiceInfo.dart';
+
 class DHTPage extends StatefulWidget {
   DHTPage({required Key key, required this.device}) : super(key: key);
 
   static final String modelName = "com.iotserv.devices.dht";
-  final PortService device;
+  final PortServiceInfo device;
 
   @override
   _DHTPageState createState() => _DHTPageState();
@@ -92,7 +94,7 @@ class _DHTPageState extends State<DHTPage> {
     ).toList();
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.device.info["name"]!),
+        title: Text(widget.device.info!["name"]!),
         actions: <Widget>[
           IconButton(
               icon: Icon(
@@ -133,15 +135,15 @@ class _DHTPageState extends State<DHTPage> {
   }
 
   _getCurrentStatus() async {
-    String url = "http://${widget.device.ip}:${widget.device.port}/status";
+    String url = "http://${widget.device.addr}:${widget.device.port}/status";
     http.Response response;
     try {
       response = await http
           .get(Uri(
             scheme: 'http',
-            host: widget.device.ip.endsWith(".local")
-                ? await get_ip_by_domain(widget.device.ip)
-                : widget.device.ip,
+            host: widget.device.addr.endsWith(".local")
+                ? await get_ip_by_domain(widget.device.addr)
+                : widget.device.addr,
             port: widget.device.port,
             path: '/status',
           ))
@@ -166,7 +168,7 @@ class _DHTPageState extends State<DHTPage> {
   _setting() async {
     // TODO 设备设置
     TextEditingController _name_controller = TextEditingController.fromValue(
-        TextEditingValue(text: widget.device.info["name"]!));
+        TextEditingValue(text: widget.device.info!["name"]!));
     return showDialog(
         context: context,
         builder: (_) => AlertDialog(
@@ -199,13 +201,13 @@ class _DHTPageState extends State<DHTPage> {
                     onPressed: () async {
                       try {
                         String url =
-                            "http://${widget.device.ip}:${widget.device.port}/rename?name=${_name_controller.text}";
+                            "http://${widget.device.addr}:${widget.device.port}/rename?name=${_name_controller.text}";
                         http
                             .get(Uri.parse(url))
                             .timeout(const Duration(seconds: 2))
                             .then((_) {
                           setState(() {
-                            widget.device.info["name"] = _name_controller.text;
+                            widget.device.info!["name"] = _name_controller.text;
                           });
                         });
                       } catch (e) {
@@ -241,7 +243,7 @@ class _DHTPageState extends State<DHTPage> {
                 content: SizedBox.expand(
                     child: UploadOTAPage(
                   url:
-                      "http://${widget.device.ip}:${widget.device.port}/update",
+                      "http://${widget.device.addr}:${widget.device.port}/update",
                   key: UniqueKey(),
                 )),
                 actions: <Widget>[

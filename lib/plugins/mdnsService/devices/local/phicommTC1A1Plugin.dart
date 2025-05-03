@@ -8,12 +8,14 @@ import 'package:openiothub_grpc_api/proto/mobile/mobile.pbgrpc.dart';
 import 'package:openiothub_plugin/openiothub_plugin.dart';
 import 'package:openiothub_plugin/utils/ip.dart';
 
+import '../../../../models/PortServiceInfo.dart';
+
 class PhicommTC1A1PluginPage extends StatefulWidget {
   PhicommTC1A1PluginPage({required Key key, required this.device})
       : super(key: key);
 
   static final String modelName = "com.iotserv.devices.phicomm_tc1_a1";
-  final PortService device;
+  final PortServiceInfo device;
 
   @override
   _PhicommTC1A1PluginPageState createState() => _PhicommTC1A1PluginPageState();
@@ -118,7 +120,7 @@ class _PhicommTC1A1PluginPageState extends State<PhicommTC1A1PluginPage> {
     ).toList();
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.device.info["name"]!),
+        title: Text(widget.device.info!["name"]!),
         actions: <Widget>[
           IconButton(
               icon: Icon(
@@ -143,15 +145,15 @@ class _PhicommTC1A1PluginPageState extends State<PhicommTC1A1PluginPage> {
   }
 
   _getCurrentStatus() async {
-    String url = "http://${widget.device.ip}:${widget.device.port}/status";
+    String url = "http://${widget.device.addr}:${widget.device.port}/status";
     http.Response response;
     try {
       response = await http
           .get(Uri(
               scheme: 'http',
-              host: widget.device.ip.endsWith(".local")
-                  ? await get_ip_by_domain(widget.device.ip)
-                  : widget.device.ip,
+              host: widget.device.addr.endsWith(".local")
+                  ? await get_ip_by_domain(widget.device.addr)
+                  : widget.device.addr,
               port: widget.device.port,
               path: '/status'))
           .timeout(const Duration(seconds: 6));
@@ -195,15 +197,15 @@ class _PhicommTC1A1PluginPageState extends State<PhicommTC1A1PluginPage> {
 
   _changeSwitchStatus() async {
     String url =
-        "http://${widget.device.ip}:${widget.device.port}/switch?$slot0=${_status[slot0] ? 1 : 0}&$slot1=${_status[slot1] ? 1 : 0}&$slot2=${_status[slot2] ? 1 : 0}&$slot3=${_status[slot3] ? 1 : 0}&$slot4=${_status[slot4] ? 1 : 0}&$slot5=${_status[slot5] ? 1 : 0}";
+        "http://${widget.device.addr}:${widget.device.port}/switch?$slot0=${_status[slot0] ? 1 : 0}&$slot1=${_status[slot1] ? 1 : 0}&$slot2=${_status[slot2] ? 1 : 0}&$slot3=${_status[slot3] ? 1 : 0}&$slot4=${_status[slot4] ? 1 : 0}&$slot5=${_status[slot5] ? 1 : 0}";
     http.Response response;
     try {
       response = await http
           .get(Uri(
               scheme: 'http',
-              host: widget.device.ip.endsWith(".local")
-                  ? await get_ip_by_domain(widget.device.ip)
-                  : widget.device.ip,
+              host: widget.device.addr.endsWith(".local")
+                  ? await get_ip_by_domain(widget.device.addr)
+                  : widget.device.addr,
               port: widget.device.port,
               path: '/switch',
               queryParameters: {

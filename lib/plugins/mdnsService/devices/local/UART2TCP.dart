@@ -8,11 +8,13 @@ import 'package:openiothub_grpc_api/proto/mobile/mobile.pb.dart';
 import 'package:openiothub_grpc_api/proto/mobile/mobile.pbgrpc.dart';
 import 'package:openiothub_plugin/openiothub_plugin.dart';
 
+import '../../../../models/PortServiceInfo.dart';
+
 class UART2TCPPage extends StatefulWidget {
   UART2TCPPage({required Key key, required this.device}) : super(key: key);
 
   static final String modelName = "com.iotserv.devices.UART2TCP";
-  final PortService device;
+  final PortServiceInfo device;
 
   @override
   State createState() => UART2TCPStatus();
@@ -26,7 +28,7 @@ class UART2TCPStatus extends State<UART2TCPPage> with TickerProviderStateMixin {
 
   @override
   Future initState() async {
-    uartSockt = await Socket.connect(widget.device.ip, widget.device.port);
+    uartSockt = await Socket.connect(widget.device.addr, widget.device.port);
     uartSockt.listen((Uint8List msg) {
       _submitMsg(false, utf8.decode(msg));
     }, cancelOnError: true);
@@ -37,7 +39,7 @@ class UART2TCPStatus extends State<UART2TCPPage> with TickerProviderStateMixin {
   Widget build(BuildContext ctx) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.device.info["name"]!),
+        title: Text(widget.device.info!["name"]!),
         actions: <Widget>[
           IconButton(
               icon: Icon(

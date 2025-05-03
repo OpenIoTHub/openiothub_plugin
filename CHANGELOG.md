@@ -1,3 +1,7 @@
+## [1.0.2+51]
+
+* PortServiceInfo
+
 ## [1.0.2+50]
 
 * plugin combine

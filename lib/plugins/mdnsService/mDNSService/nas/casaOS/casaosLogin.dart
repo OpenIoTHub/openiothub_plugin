@@ -7,6 +7,7 @@ import 'package:openiothub_constants/constants/Config.dart';
 import 'package:openiothub_grpc_api/proto/mobile/mobile.pb.dart';
 import 'package:openiothub_grpc_api/proto/mobile/mobile.pbgrpc.dart';
 import 'package:openiothub_plugin/openiothub_plugin.dart';
+import '../../../../../models/PortServiceInfo.dart';
 import './installedApps.dart';
 import 'package:openiothub_plugin/utils/toast.dart';
 import 'package:tdesign_flutter/tdesign_flutter.dart';
@@ -23,7 +24,7 @@ class CasaOSLoginPage extends StatefulWidget {
 
   // 两种不同形式的端口信息，适配自动发现和手动添加的服务
   // 自动发现的服务
-  final PortService portService;
+  final PortServiceInfo portService;
 
   // 手动添加的服务
   // final PortConfig? portConfig;
@@ -124,7 +125,7 @@ class _CasaOSLoginPageState extends State<CasaOSLoginPage> {
 
   Future<void> login_and_goto_dashboard(String username, password) async {
     final dio = Dio(BaseOptions(
-        baseUrl: "http://${widget.portService.ip}:${widget.portService.port}"));
+        baseUrl: "http://${widget.portService.addr}:${widget.portService.port}"));
     String reqUri = "/v1/users/login";
     try {
       final response = await dio.postUri(Uri.parse(reqUri),

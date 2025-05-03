@@ -9,13 +9,15 @@ import 'package:openiothub_grpc_api/proto/mobile/mobile.pbgrpc.dart';
 import 'package:openiothub_plugin/openiothub_plugin.dart';
 import 'package:openiothub_plugin/utils/ip.dart';
 
+import '../../../models/PortServiceInfo.dart';
+
 //手动注册一些端口到mdns的声明，用于接入一些传统的设备或者服务或者帮助一些不方便注册mdns的设备或服务注册
 //需要选择模型和输入相关配置参数
 class OvifManagerPage extends StatefulWidget {
   OvifManagerPage({required Key key, required this.device}) : super(key: key);
 
   static final String modelName = "com.iotserv.services.OnvifCameraManager";
-  final PortService device;
+  final PortServiceInfo device;
 
   @override
   _OvifManagerPageState createState() => _OvifManagerPageState();
@@ -115,15 +117,15 @@ class _OvifManagerPageState extends State<OvifManagerPage> {
   }
 
   Future _getList() async {
-    String url = "http://${widget.device.ip}:${widget.device.port}/list";
+    String url = "http://${widget.device.addr}:${widget.device.port}/list";
     http.Response response;
     try {
       response = await http
           .get(Uri(
             scheme: 'http',
-            host: widget.device.ip.endsWith(".local")
-                ? await get_ip_by_domain(widget.device.ip)
-                : widget.device.ip,
+            host: widget.device.addr.endsWith(".local")
+                ? await get_ip_by_domain(widget.device.addr)
+                : widget.device.addr,
             port: widget.device.port,
             path: '/list',
           ))
@@ -169,15 +171,15 @@ class _OvifManagerPageState extends State<OvifManagerPage> {
 
   Future _deleteOneDevice(String XAddr) async {
     String url =
-        "http://${widget.device.ip}:${widget.device.port}/delete?XAddr=$XAddr";
+        "http://${widget.device.addr}:${widget.device.port}/delete?XAddr=$XAddr";
     http.Response response;
     try {
       response = await http
           .get(Uri(
               scheme: 'http',
-              host: widget.device.ip.endsWith(".local")
-                  ? await get_ip_by_domain(widget.device.ip)
-                  : widget.device.ip,
+              host: widget.device.addr.endsWith(".local")
+                  ? await get_ip_by_domain(widget.device.addr)
+                  : widget.device.addr,
               port: widget.device.port,
               path: '/delete',
               queryParameters: {
@@ -266,15 +268,15 @@ class _OvifManagerPageState extends State<OvifManagerPage> {
 
   Future _addOneDevice(String Name, XAddr, UserName, Password) async {
     String url =
-        "http://${widget.device.ip}:${widget.device.port}/add?Name=$Name&XAddr=$XAddr&UserName=$UserName&Password=$Password";
+        "http://${widget.device.addr}:${widget.device.port}/add?Name=$Name&XAddr=$XAddr&UserName=$UserName&Password=$Password";
     http.Response response;
     try {
       response = await http
           .get(Uri(
               scheme: 'http',
-              host: widget.device.ip.endsWith(".local")
-                  ? await get_ip_by_domain(widget.device.ip)
-                  : widget.device.ip,
+              host: widget.device.addr.endsWith(".local")
+                  ? await get_ip_by_domain(widget.device.addr)
+                  : widget.device.addr,
               port: widget.device.port,
               path: '/add',
               queryParameters: {

@@ -13,6 +13,7 @@ import 'package:url_launcher/url_launcher_string.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 import 'package:openiothub_plugin/utils/toast.dart';
+import '../../../../../models/PortServiceInfo.dart';
 import './sub/appStore.dart';
 import './sub/files.dart';
 import './sub/settings.dart';
@@ -22,7 +23,7 @@ class InstalledAppsPage extends StatefulWidget {
   const InstalledAppsPage(
       {super.key, required this.portService, required this.data});
 
-  final PortService portService;
+  final PortServiceInfo portService;
   final Map<String, dynamic> data;
 
   @override
@@ -40,7 +41,7 @@ class _InstalledAppsPageState extends State<InstalledAppsPage> {
 
   @override
   void initState() {
-    baseUrl = "http://${widget.portService.ip}:${widget.portService.port}";
+    baseUrl = "http://${widget.portService.addr}:${widget.portService.port}";
     _initListTiles();
     _getVersionInfo();
     _refresh_timer = Timer.periodic(const Duration(seconds: 2), (timer) {
@@ -226,7 +227,7 @@ class _InstalledAppsPageState extends State<InstalledAppsPage> {
       }
       portList.portConfigs.add(PortConfig(
         // TODO 在组建mdns的时候如果是远程映射则在info中添加remoteAddr真实地址
-        device: Device(runId: widget.portService.info["runId"], addr: widget.portService.isLocal?widget.portService.ip:widget.portService.info["remoteAddr"]),
+        device: Device(runId: widget.portService.runId, addr: widget.portService.realAddr!=null?widget.portService.realAddr:widget.portService.addr),
         name: appInfo["name"],
         description: appInfo["name"],
         localProt: 0,
@@ -239,7 +240,7 @@ class _InstalledAppsPageState extends State<InstalledAppsPage> {
     SessionApi.createTcpProxyList(portList);
     // TODO 获取当前服务映射到本机的端口号
     PortList portListRet = await SessionApi.getAllTCP(SessionConfig(
-      runId: widget.portService.info["runId"],
+      runId: widget.portService.info!["runId"],
     ));
     response.data["data"].forEach((appInfo) {
       int localPort = 0;

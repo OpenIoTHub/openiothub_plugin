@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:openiothub_grpc_api/proto/mobile/mobile.pb.dart';
 import 'package:openiothub_grpc_api/proto/mobile/mobile.pbgrpc.dart';
 
+import '../../../models/PortServiceInfo.dart';
 import '../../mdnsService/commWidgets/info.dart';
 
 //手动注册一些端口到mdns的声明，用于接入一些传统的设备或者服务或者帮助一些不方便注册mdns的设备或服务注册
@@ -11,7 +12,7 @@ class MDNSResponserPage extends StatefulWidget {
   MDNSResponserPage({required Key key, required this.device}) : super(key: key);
 
   static final String modelName = "com.iotserv.services.mdnsResponser";
-  final PortService device;
+  final PortServiceInfo device;
 
   @override
   _MDNSResponserPageState createState() => _MDNSResponserPageState();

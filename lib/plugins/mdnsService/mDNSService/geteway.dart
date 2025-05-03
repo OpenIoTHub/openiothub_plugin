@@ -11,13 +11,14 @@ import 'package:openiothub_grpc_api/proto/mobile/mobile.pbgrpc.dart';
 import 'package:openiothub_plugin/l10n/generated/openiothub_plugin_localizations.dart';
 import 'package:openiothub_plugin/utils/toast.dart';
 
+import '../../../models/PortServiceInfo.dart';
 import '../../mdnsService/commWidgets/info.dart';
 
 class Gateway extends StatefulWidget {
   Gateway({required Key key, required this.device}) : super(key: key);
 
   static final String modelName = "com.iotserv.services.gateway";
-  final PortService device;
+  final PortServiceInfo device;
 
   @override
   createState() => GatewayState();
@@ -148,7 +149,7 @@ class GatewayState extends State<Gateway> {
       //使用网关信息将网关登录到服务器
       LoginResponse loginResponse =
           await GatewayLoginManager.LoginServerByToken(
-              gatewayInfo.gatewayJwt, widget.device.ip, widget.device.port);
+              gatewayInfo.gatewayJwt, widget.device.addr, widget.device.port);
 //    自动添加到我的列表
       if (loginResponse.loginStatus) {
         //将网关映射到本机
@@ -176,7 +177,7 @@ class GatewayState extends State<Gateway> {
     try {
       LoginResponse loginResponse =
           await GatewayLoginManager.CheckGatewayLoginStatus(
-              widget.device.ip, widget.device.port);
+              widget.device.addr, widget.device.port);
       _addable = !loginResponse.loginStatus;
     } catch (exception) {
       show_failed("${localizations!.get_gateway_login_status_failed}：$exception", context);
