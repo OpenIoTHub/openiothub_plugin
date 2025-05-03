@@ -1,3 +1,7 @@
+## [1.0.2+52]
+
+* PortServiceInfo
+
 ## [1.0.2+51]
 
 * PortServiceInfo
