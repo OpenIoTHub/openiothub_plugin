@@ -1,3 +1,7 @@
+## [1.0.2+53]
+
+* PortServiceInfo copy
+
 ## [1.0.2+52]
 
 * PortServiceInfo
