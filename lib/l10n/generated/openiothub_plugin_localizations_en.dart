@@ -224,4 +224,11 @@ class OpenIoTHubPluginLocalizationsEn extends OpenIoTHubPluginLocalizations {
   @override
   String get username_and_password_cant_be_empty =>
       'Username and password cant be empty';
+
+  @override
+  String get ok => 'OK';
+
+  @override
+  String get please_input_ssh_username_password =>
+      'Please input ssh username and password';
 }

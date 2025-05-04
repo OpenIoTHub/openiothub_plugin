@@ -1,6 +1,7 @@
 import 'package:openiothub_constants/openiothub_constants.dart';
 import 'package:openiothub_grpc_api/proto/mobile/mobile.pb.dart';
 import 'package:openiothub_grpc_api/proto/mobile/mobile.pbgrpc.dart';
+import 'package:openiothub_plugin/openiothub_plugin.dart';
 
 import '../../models/PortServiceInfo.dart';
 import './components.dart';
@@ -46,8 +47,8 @@ class MDNS2ModelsMap {
     "_home-assistant._tcp":
         getPortServiceByNameModel("HomeAssistant", WebPage.modelName),
     // TODO
-    // "_ssh._tcp":
-    // getPortServiceByNameModel("SSH", SSHWebPage.modelName),
+    "_ssh._tcp":
+    getPortServiceByNameModel("SSH", SSHNativePage.modelName),
     "_casaos._tcp": getPortServiceByNameModel("casaos", WebPage.modelName),
     "_zimaos._tcp": getPortServiceByNameModel("zimaos", WebPage.modelName),
     // UPS

@@ -13,11 +13,11 @@ import 'package:tdesign_flutter/tdesign_flutter.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-import '../../../../../models/PortServiceInfo.dart';
-import './sub/appStore.dart';
-import './sub/files.dart';
-import './sub/settings.dart';
-import 'sub/systemInfo.dart';
+import '../../../../../../models/PortServiceInfo.dart';
+import '../sub/appStore.dart';
+import 'files.dart';
+import '../sub/settings.dart';
+import '../sub/systemInfo.dart';
 
 class InstalledAppsPage extends StatefulWidget {
   const InstalledAppsPage(

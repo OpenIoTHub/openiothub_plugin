@@ -4,6 +4,7 @@ import 'package:openiothub_grpc_api/proto/mobile/mobile.pbgrpc.dart';
 
 import '../../models/PortServiceInfo.dart';
 import './components.dart';
+import 'mDNSService/ssh/SSHPage.dart';
 
 //TODO：为每一个模型添加图标信息
 class ModelsMap {
@@ -147,6 +148,12 @@ class ModelsMap {
     },
     MqttPhicommzM1PluginPage.modelName: (PortServiceInfo device) {
       return MqttPhicommzM1PluginPage(
+        device: device,
+        key: UniqueKey(),
+      );
+    },
+    SSHNativePage.modelName: (PortServiceInfo device) {
+      return SSHNativePage(
         device: device,
         key: UniqueKey(),
       );

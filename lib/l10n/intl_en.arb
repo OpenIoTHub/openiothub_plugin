@@ -77,5 +77,8 @@
   "please_input_user_name": "Please input user name",
   "please_input_password": "Please input password",
   "login": "Login",
-  "username_and_password_cant_be_empty": "Username and password cant be empty"
+  "username_and_password_cant_be_empty": "Username and password cant be empty",
+
+  "ok": "OK",
+  "please_input_ssh_username_password": "Please input ssh username and password"
 }

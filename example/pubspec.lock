@@ -153,14 +153,14 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.0.8"
-  dartssh2_plus:
+  dartssh2:
     dependency: transitive
     description:
-      name: dartssh2_plus
-      sha256: "6e1405e0d49705e5951dec512559baec8630779c97fcdc18556925809fa111b7"
+      name: dartssh2
+      sha256: "126cc9cd3e56beebedef61407d1a1c92c84a6901e4c99b3d8deff647aeb8967d"
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "3.0.0"
+    version: "2.12.0"
   dio:
     dependency: transitive
     description:
@@ -723,7 +723,7 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "1.0.2+49"
+    version: "1.0.2+54"
   path:
     dependency: transitive
     description:

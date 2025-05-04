@@ -71,5 +71,8 @@
   "please_input_user_name": "請輸入用戶名",
   "please_input_password": "請輸入密碼",
   "login": "登錄",
-  "username_and_password_cant_be_empty": "用戶名和密碼不可以為空"
+  "username_and_password_cant_be_empty": "用戶名和密碼不可以為空",
+
+  "ok": "確定",
+  "please_input_ssh_username_password": "請輸入ssh的用戶名和密碼"
 }

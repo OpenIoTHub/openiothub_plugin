@@ -528,6 +528,18 @@ abstract class OpenIoTHubPluginLocalizations {
   /// In en, this message translates to:
   /// **'Username and password cant be empty'**
   String get username_and_password_cant_be_empty;
+
+  /// No description provided for @ok.
+  ///
+  /// In en, this message translates to:
+  /// **'OK'**
+  String get ok;
+
+  /// No description provided for @please_input_ssh_username_password.
+  ///
+  /// In en, this message translates to:
+  /// **'Please input ssh username and password'**
+  String get please_input_ssh_username_password;
 }
 
 class _OpenIoTHubPluginLocalizationsDelegate

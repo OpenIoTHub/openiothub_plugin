@@ -5,14 +5,15 @@ import 'package:openiothub_constants/openiothub_constants.dart';
 import 'package:openiothub_grpc_api/proto/mobile/mobile.pb.dart';
 import 'package:openiothub_grpc_api/proto/mobile/mobile.pbgrpc.dart';
 import 'package:openiothub_plugin/openiothub_plugin.dart';
-import 'package:openiothub_plugin/plugins/mdnsService/mDNSService/ssh/SSHWebPage.dart';
+import 'package:openiothub_plugin/plugins/mdnsService/mDNSService/ssh/SSHPage.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 import '../../utils/portConfig2portService.dart';
 import '../mdnsService/mDNSService/VNCRFBWebPage.dart';
 import '../mdnsService/mDNSService/aria2c.dart';
-import '../mdnsService/mDNSService/nas/casaOS/casaosLogin.dart';
+import '../mdnsService/mDNSService/nas/casaZimaOS/casaosLogin.dart';
+import '../mdnsService/mDNSService/nas/casaZimaOS/zimaLogin.dart';
 
 class OpenWithChoice extends StatelessWidget {
   PortConfig portConfig;
@@ -45,7 +46,10 @@ class OpenWithChoice extends StatelessWidget {
         title: 'RDP Remote Desktop', icon: 'assets/images/ic_discover_nearby.png'));
     listData.add(TAG_CENTER);
     listData.add(ListItem(
-        title: 'CasaOS/ZimaOS', icon: 'assets/images/ic_discover_nearby.png'));
+        title: 'CasaOS', icon: 'assets/images/ic_discover_nearby.png'));
+    listData.add(TAG_CENTER);
+    listData.add(ListItem(
+        title: 'ZimaOS', icon: 'assets/images/ic_discover_nearby.png'));
     listData.add(TAG_END);
   }
 
@@ -161,10 +165,7 @@ class OpenWithChoice extends StatelessWidget {
                                   MaterialPageRoute(builder: (ctx) {
                                 // return SSHWebPage(
                                 return SSHNativePage(
-                                  addr: portConfig.device.addr,
-                                  port: portConfig.localProt,
-                                  userName: _username_controller.text,
-                                  passWord: _password_controller.text,
+                                  device: portConfig2portService(portConfig),
                                   key: UniqueKey(),
                                 );
                               })).then((_) {
@@ -232,11 +233,21 @@ class OpenWithChoice extends StatelessWidget {
             _launchURL(url).then((_) {
               Navigator.of(ctx).pop();
             });
-          } else if (title == 'CasaOS/ZimaOS') {
+          } else if (title == 'CasaOS') {
             Navigator.push(ctx, MaterialPageRoute(builder: (ctx) {
-              return CasaOSLoginPage(
+              return CasaLoginPage(
                 // portService: PortService(ip: Config.webgRpcIp,port:portConfig.localProt),
-                portService: portConfig2portService(portConfig),
+                device: portConfig2portService(portConfig),
+                key: UniqueKey(),
+              );
+            })).then((_) {
+              Navigator.of(ctx).pop();
+            });
+          } else if (title == 'ZimaOS') {
+            Navigator.push(ctx, MaterialPageRoute(builder: (ctx) {
+              return ZimaLoginPage(
+                // portService: PortService(ip: Config.webgRpcIp,port:portConfig.localProt),
+                device: portConfig2portService(portConfig),
                 key: UniqueKey(),
               );
             })).then((_) {
