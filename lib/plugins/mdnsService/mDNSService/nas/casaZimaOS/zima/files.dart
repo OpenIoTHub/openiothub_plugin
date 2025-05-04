@@ -4,13 +4,11 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_breadcrumb/flutter_breadcrumb.dart';
-import 'package:oktoast/oktoast.dart';
 import 'package:openiothub_plugin/generated/assets.dart';
 import 'package:openiothub_plugin/pages/videp_player.dart';
+import 'package:openiothub_plugin/utils/toast.dart';
 import 'package:openiothub_plugin/utils/web.dart';
 import 'package:tdesign_flutter/tdesign_flutter.dart';
-
-import 'package:openiothub_plugin/utils/toast.dart';
 
 class FileManagerPage extends StatefulWidget {
   const FileManagerPage({super.key, required this.baseUrl, required this.data});
@@ -34,15 +32,26 @@ class _FileManagerPageState extends State<FileManagerPage> {
     "webp"
   ];
   static const _video_ext_names = ["mp4", "avi", "flv", "rmvb"];
-  static const _music_ext_names = ["mp3", "wav", "aac", "m4a","flac", "ogg", "wma", "aiff""aif", "amr", "m4r"];
+  static const _music_ext_names = [
+    "mp3",
+    "wav",
+    "aac",
+    "m4a",
+    "flac",
+    "ogg",
+    "wma",
+    "aiff" "aif",
+    "amr",
+    "m4r"
+  ];
   String _current_path = "/DATA";
   List<Map<String, String>> _side_paths = [
-    {"name": "Root", "path": "/"},
-    {"name": "DATA", "path": "/DATA"},
-    {"name": "Documents", "path": "/DATA/Documents"},
-    {"name": "Downloads", "path": "/DATA/Downloads"},
-    {"name": "Gallery", "path": "/DATA/Gallery"},
-    {"name": "Media", "path": "/DATA/Media"}
+    {"name": "ZimaOS-HD", "path": "/media/ZimaOS-HD"},
+    {"name": "Documents", "path": "/media/ZimaOS-HD/Documents"},
+    {"name": "Downloads", "path": "/media/ZimaOS-HD/Downloads"},
+    {"name": "Gallery", "path": "/media/ZimaOS-HD/Gallery"},
+    {"name": "Media", "path": "/media/ZimaOS-HD/Media"},
+    {"name": "Backup", "path": "/media/ZimaOS-HD/Backup"}
   ];
   Widget _files_list_widget = TDLoading(
     size: TDLoadingSize.small,
@@ -175,20 +184,20 @@ class _FileManagerPageState extends State<FileManagerPage> {
     final dio = Dio(BaseOptions(baseUrl: widget.baseUrl, headers: {
       "Authorization": widget.data["data"]["token"]["access_token"]
     }));
-    String reqUri = "/v1/folder";
+    String reqUri = "/v2_1/files/file";
     try {
       final response = await dio.get(reqUri, queryParameters: {"path": path});
-      if (response.data["success"] == 200) {
+      if (response.statusCode == 200) {
         List<Widget> _row_list = [];
         // 一行
         List<Widget> _item_list = [];
-        for (int i = 0; i < response.data["data"]["content"].length; i++) {
+        for (int i = 0; i < response.data["content"].length; i++) {
           if ((i + 1) % _num_one_row == 0) {
             _item_list.add(displayImageItem(
-                response.data["data"]["content"][i]["path"],
-                response.data["data"]["content"][i]["name"],
-                response.data["data"]["content"][i]["is_dir"],
-                response.data["data"]["content"][i]));
+                response.data["content"][i]["path"],
+                response.data["content"][i]["name"],
+                response.data["content"][i]["is_dir"],
+                response.data["content"][i]));
             // 将所有行相加
             _row_list.add(Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -200,18 +209,17 @@ class _FileManagerPageState extends State<FileManagerPage> {
             );
           } else {
             _item_list.add(displayImageItem(
-                response.data["data"]["content"][i]["path"],
-                response.data["data"]["content"][i]["name"],
-                response.data["data"]["content"][i]["is_dir"],
-                response.data["data"]["content"][i]));
+                response.data["content"][i]["path"],
+                response.data["content"][i]["name"],
+                response.data["content"][i]["is_dir"],
+                response.data["content"][i]));
             // 如果遍历完了那这里就得拼接
-            if (i + 1 == response.data["data"]["content"].length) {
+            if (i + 1 == response.data["content"].length) {
               // 填充空组件好让最后一行靠前排列
               for (int i = 0;
                   i <
                       (_num_one_row -
-                          (response.data["data"]["content"].length %
-                              _num_one_row));
+                          (response.data["content"].length % _num_one_row));
                   i++) {
                 _item_list.add(_build_empty_placeholder());
               }
@@ -253,7 +261,7 @@ class _FileManagerPageState extends State<FileManagerPage> {
       if (path.indexOf(RegExp(r'[.]')) != -1 &&
           _picture_ext_names.contains(path.split(RegExp(r'[.]')).last)) {
         // 是图片
-        var ico_file_uri = "/v1/image";
+        var ico_file_uri = "/v2_1/files/thumbnail";
         _image_url =
             "${widget.baseUrl}${ico_file_uri}?path=${path}&token=${widget.data["data"]["token"]["access_token"]}";
       } else {
@@ -297,18 +305,22 @@ class _FileManagerPageState extends State<FileManagerPage> {
               // 预览文件,判断有扩展名
               // 通用的文件访问api，目前视频是使用这个
               var _file_url =
-                  "${widget.baseUrl}/v3/file?path=${path}&token=${widget.data["data"]["token"]["access_token"]}";
+                  "${widget.baseUrl}/v3/file?files=${path}&token=${widget.data["data"]["token"]["access_token"]}&action=preview";
               if (path.indexOf(RegExp(r'[.]')) != -1) {
                 var _ext_name = path.split(RegExp(r'[.]')).last;
                 if (_picture_ext_names.contains(_ext_name)) {
                   // 根据扩展名判断是图片，开始图片预览
+                  var files = [_file_url];
                   TDImageViewer.showImageViewer(
-                    context: context,
-                    // 本文件夹所有图片列表，并定位到当前文件
-                    images: [_image_url],
-                    showIndex: true,
-                    deleteBtn: true,
-                  );
+                      context: context,
+                      // 本文件夹所有图片列表，并定位到当前文件
+                      images: files,
+                      showIndex: true,
+                      deleteBtn: true,
+                      onDelete: (int index) {
+                        show_success("delete ${files[index]}", context);
+                        _delete_file([files[index]]);
+                      });
                 } else if (_video_ext_names.contains(_ext_name)) {
                   // 根据扩展名判断是视频，开始视频预览,如果是移动平台则使用内置平台，如果是pc平台则使用系统浏览器？
                   if (Platform.isWindows || Platform.isLinux) {
@@ -332,7 +344,7 @@ class _FileManagerPageState extends State<FileManagerPage> {
           },
           // TODO 长按或者右键显示菜单:下载，拷贝路径，重新命名，剪切，复制，删除
           onLongPress: () {
-          //   长按操作界面
+            //   长按操作界面
             TDActionSheet(context,
                 visible: true,
                 description: "File Operation",
@@ -345,13 +357,13 @@ class _FileManagerPageState extends State<FileManagerPage> {
                     ),
                   ),
                 ], onSelected: (TDActionSheetItem item, int index) {
-                  switch (index) {
-                    case 0:
-                    // 确认操作
-                      _delete_file([path]);
-                      break;
-                  }
-                });
+              switch (index) {
+                case 0:
+                  // 确认操作
+                  _delete_file([path]);
+                  break;
+              }
+            });
           },
         ),
         const SizedBox(height: 8),
@@ -369,7 +381,7 @@ class _FileManagerPageState extends State<FileManagerPage> {
       "Authorization": widget.data["data"]["token"]["access_token"],
       "Content-Type": "application/json"
     }));
-    String reqUri = "/v1/batch";
+    String reqUri = "/v2_1/files/file/trash";
     final response = await dio.deleteUri(Uri.parse(reqUri), data: filepaths);
     if (response.statusCode == 200) {
       show_success("Delete Success", context);
@@ -400,73 +412,84 @@ class _FileManagerPageState extends State<FileManagerPage> {
 }
 
 // {
-// "success": 200,
-// "message": "ok",
-// "data": {
 // "content": [
 // {
+// "extensions": {
+// "mounted": false
+// },
+// "is_dir": true,
+// "modified": 1746263932,
 // "name": "AppData",
-// "size": 4096,
-// "is_dir": true,
-// "modified": "2025-04-14T14:37:32.476952054+08:00",
-// "sign": "",
-// "thumb": "",
-// "type": 0,
-// "path": "/DATA/AppData",
-// "date": "2025-04-14T14:37:32.476952054+08:00",
-// "extensions": null
+// "path": "/media/ZimaOS-HD/AppData",
+// "size": 4096
 // },
 // {
+// "extensions": {
+// "mounted": false,
+// "pin": true
+// },
+// "is_dir": true,
+// "modified": 1744525252,
+// "name": "Backup",
+// "path": "/media/ZimaOS-HD/Backup",
+// "size": 4096
+// },
+// {
+// "extensions": {
+// "mounted": false,
+// "pin": true
+// },
+// "is_dir": true,
+// "modified": 1744525252,
 // "name": "Documents",
-// "size": 4096,
-// "is_dir": true,
-// "modified": "2025-04-07T15:44:56.213992851+08:00",
-// "sign": "",
-// "thumb": "",
-// "type": 0,
-// "path": "/DATA/Documents",
-// "date": "2025-04-07T15:44:56.213992851+08:00",
-// "extensions": null
+// "path": "/media/ZimaOS-HD/Documents",
+// "size": 4096
 // },
 // {
+// "extensions": {
+// "mounted": false,
+// "pin": true
+// },
+// "is_dir": true,
+// "modified": 1744525252,
 // "name": "Downloads",
-// "size": 4096,
-// "is_dir": true,
-// "modified": "2025-04-07T15:44:56.213992851+08:00",
-// "sign": "",
-// "thumb": "",
-// "type": 0,
-// "path": "/DATA/Downloads",
-// "date": "2025-04-07T15:44:56.213992851+08:00",
-// "extensions": null
+// "path": "/media/ZimaOS-HD/Downloads",
+// "size": 4096
 // },
 // {
+// "extensions": {
+// "mounted": false,
+// "pin": true
+// },
+// "is_dir": true,
+// "modified": 1744525252,
 // "name": "Gallery",
-// "size": 4096,
-// "is_dir": true,
-// "modified": "2025-04-07T15:44:56.213992851+08:00",
-// "sign": "",
-// "thumb": "",
-// "type": 0,
-// "path": "/DATA/Gallery",
-// "date": "2025-04-07T15:44:56.213992851+08:00",
-// "extensions": null
+// "path": "/media/ZimaOS-HD/Gallery",
+// "size": 4096
 // },
 // {
-// "name": "Media",
-// "size": 4096,
+// "extensions": {
+// "mounted": false,
+// "pin": true
+// },
 // "is_dir": true,
-// "modified": "2025-04-07T15:44:56.213992851+08:00",
-// "sign": "",
-// "thumb": "",
-// "type": 0,
-// "path": "/DATA/Media",
-// "date": "2025-04-07T15:44:56.213992851+08:00",
-// "extensions": null
+// "modified": 1744525252,
+// "name": "Media",
+// "path": "/media/ZimaOS-HD/Media",
+// "size": 4096
+// },
+// {
+// "extensions": {
+// "mounted": false
+// },
+// "is_dir": true,
+// "modified": 1744525252,
+// "name": "rauc",
+// "path": "/media/ZimaOS-HD/rauc",
+// "size": 4096
 // }
 // ],
-// "total": 5,
 // "index": 1,
-// "size": 100000
-// }
+// "size": 10000,
+// "total": 7
 // }

@@ -4,13 +4,11 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_breadcrumb/flutter_breadcrumb.dart';
-import 'package:oktoast/oktoast.dart';
 import 'package:openiothub_plugin/generated/assets.dart';
 import 'package:openiothub_plugin/pages/videp_player.dart';
+import 'package:openiothub_plugin/utils/toast.dart';
 import 'package:openiothub_plugin/utils/web.dart';
 import 'package:tdesign_flutter/tdesign_flutter.dart';
-
-import 'package:openiothub_plugin/utils/toast.dart';
 
 class FileManagerPage extends StatefulWidget {
   const FileManagerPage({super.key, required this.baseUrl, required this.data});
@@ -34,7 +32,18 @@ class _FileManagerPageState extends State<FileManagerPage> {
     "webp"
   ];
   static const _video_ext_names = ["mp4", "avi", "flv", "rmvb"];
-  static const _music_ext_names = ["mp3", "wav", "aac", "m4a","flac", "ogg", "wma", "aiff""aif", "amr", "m4r"];
+  static const _music_ext_names = [
+    "mp3",
+    "wav",
+    "aac",
+    "m4a",
+    "flac",
+    "ogg",
+    "wma",
+    "aiff" "aif",
+    "amr",
+    "m4r"
+  ];
   String _current_path = "/DATA";
   List<Map<String, String>> _side_paths = [
     {"name": "Root", "path": "/"},
@@ -302,13 +311,16 @@ class _FileManagerPageState extends State<FileManagerPage> {
                 var _ext_name = path.split(RegExp(r'[.]')).last;
                 if (_picture_ext_names.contains(_ext_name)) {
                   // 根据扩展名判断是图片，开始图片预览
+                  var files = [_image_url];
                   TDImageViewer.showImageViewer(
-                    context: context,
-                    // 本文件夹所有图片列表，并定位到当前文件
-                    images: [_image_url],
-                    showIndex: true,
-                    deleteBtn: true,
-                  );
+                      context: context,
+                      // 本文件夹所有图片列表，并定位到当前文件
+                      images: files,
+                      showIndex: true,
+                      deleteBtn: true,
+                      onDelete: (int index) {
+                        _delete_file([files[index]]);
+                      });
                 } else if (_video_ext_names.contains(_ext_name)) {
                   // 根据扩展名判断是视频，开始视频预览,如果是移动平台则使用内置平台，如果是pc平台则使用系统浏览器？
                   if (Platform.isWindows || Platform.isLinux) {
@@ -332,7 +344,7 @@ class _FileManagerPageState extends State<FileManagerPage> {
           },
           // TODO 长按或者右键显示菜单:下载，拷贝路径，重新命名，剪切，复制，删除
           onLongPress: () {
-          //   长按操作界面
+            //   长按操作界面
             TDActionSheet(context,
                 visible: true,
                 description: "File Operation",
@@ -345,13 +357,13 @@ class _FileManagerPageState extends State<FileManagerPage> {
                     ),
                   ),
                 ], onSelected: (TDActionSheetItem item, int index) {
-                  switch (index) {
-                    case 0:
-                    // 确认操作
-                      _delete_file([path]);
-                      break;
-                  }
-                });
+              switch (index) {
+                case 0:
+                  // 确认操作
+                  _delete_file([path]);
+                  break;
+              }
+            });
           },
         ),
         const SizedBox(height: 8),

@@ -33,9 +33,10 @@ class InstalledAppsPage extends StatefulWidget {
 class _InstalledAppsPageState extends State<InstalledAppsPage> {
   late List<ListTile> _listTiles = <ListTile>[];
   late List<ListTile> _versionListTiles = <ListTile>[];
-  String? current_version;
-  bool? need_update;
-  String? change_log;
+  String? device_model;
+  String? device_name;
+  String? hash;
+  String? os_version;
   late Timer _refresh_timer;
   late String baseUrl;
 
@@ -163,7 +164,7 @@ class _InstalledAppsPageState extends State<InstalledAppsPage> {
                       return TDAlertDialog(
                         title: "Version Info",
                         content:
-                            "current_version:${current_version}\nneed_update:${need_update}\nchange_log:${change_log}",
+                            "device_model: $device_model\ndevice_name: $device_name\nhash: $hash\nos_version: $os_version",
                       );
                     },
                   );
@@ -197,12 +198,13 @@ class _InstalledAppsPageState extends State<InstalledAppsPage> {
     final dio = Dio(BaseOptions(baseUrl: baseUrl, headers: {
       "Authorization": widget.data["data"]["token"]["access_token"]
     }));
-    String reqUri = "/v1/sys/version";
+    String reqUri = "/v2/zimaos/device/info";
     final response = await dio.getUri(Uri.parse(reqUri));
     setState(() {
-      current_version = response.data["data"]["current_version"];
-      need_update = response.data["data"]["need_update"];
-      change_log = response.data["data"]["version"]["change_log"];
+      device_model = response.data["device_model"];
+      device_name = response.data["device_name"];
+      hash = response.data["hash"];
+      os_version = response.data["os_version"];
     });
   }
 

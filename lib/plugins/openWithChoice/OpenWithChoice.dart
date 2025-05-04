@@ -121,59 +121,12 @@ class OpenWithChoice extends StatelessWidget {
               Navigator.of(ctx).pop();
             });
           } else if (title == 'SSH') {
-            TextEditingController _username_controller =
-                TextEditingController.fromValue(TextEditingValue(text: "root"));
-            TextEditingController _password_controller =
-                TextEditingController.fromValue(TextEditingValue(text: ""));
-            showDialog(
-                context: ctx,
-                builder: (_) => AlertDialog(
-                        title: Text("${OpenIoTHubPluginLocalizations.of(ctx).please_input_linux_login_info}："),
-                        content: SizedBox.expand(
-                            child: ListView(
-                          children: <Widget>[
-                            TextFormField(
-                              controller: _username_controller,
-                              decoration: InputDecoration(
-                                contentPadding: EdgeInsets.all(10.0),
-                                labelText: OpenIoTHubPluginLocalizations.of(ctx).username,
-                                helperText: OpenIoTHubPluginLocalizations.of(ctx).linux_username,
-                              ),
-                            ),
-                            TextFormField(
-                              controller: _password_controller,
-                              decoration: InputDecoration(
-                                contentPadding: EdgeInsets.all(10.0),
-                                labelText: OpenIoTHubPluginLocalizations.of(ctx).ssh_password,
-                                helperText: OpenIoTHubPluginLocalizations.of(ctx).above_mentioned_ssh_password,
-                              ),
-                              obscureText: true,
-                            )
-                          ],
-                        )),
-                        actions: <Widget>[
-                          TextButton(
-                            child: Text(OpenIoTHubPluginLocalizations.of(ctx).cancel),
-                            onPressed: () {
-                              Navigator.of(ctx).pop();
-                            },
-                          ),
-                          TextButton(
-                            child: Text(OpenIoTHubPluginLocalizations.of(ctx).connect),
-                            onPressed: () {
-                              Navigator.push(ctx,
-                                  MaterialPageRoute(builder: (ctx) {
-                                // return SSHWebPage(
-                                return SSHNativePage(
-                                  device: portConfig2portService(portConfig),
-                                  key: UniqueKey(),
-                                );
-                              })).then((_) {
-                                Navigator.of(ctx).pop();
-                              });
-                            },
-                          )
-                        ])).then((_) {
+            Navigator.push(ctx, MaterialPageRoute(builder: (ctx) {
+              return SSHNativePage(
+                device: portConfig2portService(portConfig),
+                key: UniqueKey(),
+              );
+            })).then((_) {
               Navigator.of(ctx).pop();
             });
           } else if (title == 'VNC') {

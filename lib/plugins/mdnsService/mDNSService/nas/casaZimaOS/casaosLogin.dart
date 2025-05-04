@@ -45,7 +45,7 @@ class _CasaLoginPageState extends State<CasaLoginPage> {
     _initList();
     return Scaffold(
         appBar: AppBar(
-          title: Text("CasaOS/ZimaOS Login"),
+          title: Text("Casa OS Login"),
         ),
         body: Center(
           child: Container(
