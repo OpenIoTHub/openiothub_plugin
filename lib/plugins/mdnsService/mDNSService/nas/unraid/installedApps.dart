@@ -1,9 +1,10 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:html/dom.dart' as dom;
+import 'package:html/parser.dart' as parser;
 import 'package:openiothub_api/openiothub_api.dart';
 import 'package:openiothub_constants/constants/Config.dart';
 import 'package:openiothub_grpc_api/proto/mobile/mobile.pb.dart';
@@ -13,9 +14,6 @@ import 'package:openiothub_plugin/utils/toast.dart';
 import 'package:tdesign_flutter/tdesign_flutter.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:webview_flutter/webview_flutter.dart';
-import 'package:xml/xml.dart';
-import 'package:html/parser.dart' as parser;
-import 'package:html/dom.dart' as dom;
 
 class InstalledAppsPage extends StatefulWidget {
   const InstalledAppsPage(
@@ -87,45 +85,35 @@ class _InstalledAppsPageState extends State<InstalledAppsPage> {
   }
 
   Future<void> _get_csrf_token() async {
-  //   var csrf_token = "E5FDD8E7277F5CC6";
+    //   var csrf_token = "E5FDD8E7277F5CC6";
     final dio =
     Dio(BaseOptions(baseUrl: baseUrl, headers: {"Cookie": widget.cookie}));
-    String reqUri =
-        "/Main";
+    String reqUri = "/Main";
     final response = await dio.getUri(Uri.parse(reqUri));
     RegExp regExp = RegExp(r'var csrf_token = "(.*?)";'); // 使用非贪婪匹配来获取双引号内的内容
     Match? match = regExp.firstMatch(response.data);
     if (match != null) {
       csrf_token = match.group(1)!; // group(1) 是捕获组的内容
       // print(csrf_token); // 输出: E5FDD8E7277F5CC6
-      show_success(csrf_token, context);
+      // show_success("csrf_token:${csrf_token}", context);
     }
   }
+
   Future<void> _initListTiles() async {
     // 排序
     _listTiles.clear();
     //从API获取已安装应用列表
     final dio =
-        Dio(BaseOptions(baseUrl: baseUrl, headers: {"Cookie": widget.cookie}));
+    Dio(BaseOptions(baseUrl: baseUrl, headers: {"Cookie": widget.cookie}));
     String reqUri =
         "/plugins/dynamix.docker.manager/include/DockerContainers.php";
     final response = await dio.getUri(Uri.parse(reqUri));
-    // 通过正则匹配应用名称，应用的端口，只有Host网络模式才有192.168.124.4:34323/TCP；192.168.124.4:5353/UDP
-    // 分割字符串到列表
-    List<String> lines = response.data.split('\n');
-    // 移除最后一行
-    if (lines.length > 1) {
-      lines.removeLast();
-      lines.removeLast();
-    }
-    // 重新组合字符串
-    String htmlDocument = lines.join('\n');
-
-    var docker_container_list = _get_docker_container_list(htmlDocument);
+    var docker_container_list = _get_docker_container_list(response.data);
 
     // TODO 使用远程网络ID和远程端口临时映射远程端口到本机
     PortList portList = PortList();
     // {"name":name,"id":id,"addr":addr,"port":port}
+    print(docker_container_list.length);
     docker_container_list.forEach((appInfo) {
       // print("remoteHost: ${widget.portConfig.device.addr},remotePort: ${appInfo["port"]}");
       if (appInfo["port"] == 0) {
@@ -141,7 +129,7 @@ class _InstalledAppsPageState extends State<InstalledAppsPage> {
         name: appInfo["name"],
         description: appInfo["name"],
         localProt: 0,
-        remotePort: int.parse(appInfo["port"]),
+        remotePort: appInfo["port"],
         networkProtocol: "tcp",
         // mDNSInfo: PortService(),
       );
@@ -153,11 +141,11 @@ class _InstalledAppsPageState extends State<InstalledAppsPage> {
     PortList portListRet = await SessionApi.getAllTCP(SessionConfig(
       runId: widget.portService.runId!,
     ));
-    response.data["data"].forEach((appInfo) {
+    docker_container_list.forEach((appInfo) {
       int localPort = 0;
       int remotePort = 0;
       try {
-        remotePort = int.parse(appInfo["port"]);
+        remotePort = appInfo["port"];
         // 从remotePort和runid获取映射之后的localPort
         portListRet.portConfigs.forEach((portConfig) {
           if (portConfig.remotePort == remotePort) {
@@ -182,16 +170,7 @@ class _InstalledAppsPageState extends State<InstalledAppsPage> {
             // isOutline: true,
             isLight: true,
           ),
-          leading: _sizedContainer(
-            CachedNetworkImage(
-              progressIndicatorBuilder: (context, url, progress) => Center(
-                child: CircularProgressIndicator(
-                  value: progress.progress,
-                ),
-              ),
-              imageUrl: appInfo["icon"],
-            ),
-          ),
+          leading: Icon(Icons.ac_unit),
           trailing: TDButton(
             // text: 'More',
             icon: Icons.more_horiz,
@@ -247,28 +226,28 @@ class _InstalledAppsPageState extends State<InstalledAppsPage> {
                       ),
                     ),
                   ], onSelected: (TDActionSheetItem item, int index) {
-                switch (index) {
-                  case 0:
-                    // 确认操作
-                    _changeAppStatus(appInfo["name"], "start", "");
-                    break;
-                  case 1:
-                    _changeAppStatus(appInfo["name"], "pause", "");
-                    break;
-                  case 2:
-                    _changeAppStatus(appInfo["name"], "resume", "");
-                    break;
-                  case 3:
-                    _changeAppStatus(appInfo["name"], "stop", "");
-                    break;
-                  case 4:
-                    _changeAppStatus(appInfo["name"], "restart", "");
-                    break;
-                  case 5:
-                    _removeApp(appInfo["name"], false);
-                    break;
-                }
-              });
+                    switch (index) {
+                      case 0:
+                      // 确认操作
+                        _changeAppStatus(appInfo["id"], "start");
+                        break;
+                      case 1:
+                        _changeAppStatus(appInfo["id"], "pause");
+                        break;
+                      case 2:
+                        _changeAppStatus(appInfo["id"], "resume");
+                        break;
+                      case 3:
+                        _changeAppStatus(appInfo["id"], "stop");
+                        break;
+                      case 4:
+                        _changeAppStatus(appInfo["id"], "restart");
+                        break;
+                      case 5:
+                        _removeApp(appInfo["id"], appInfo["name"]);
+                        break;
+                    }
+                  });
             },
           ),
           onTap: () {
@@ -298,11 +277,11 @@ class _InstalledAppsPageState extends State<InstalledAppsPage> {
     }
   }
 
-  _removeApp(String appName, container) async {
+  _removeApp(String container_id, appName) async {
     final dio = Dio(BaseOptions(baseUrl: baseUrl, headers: {
       "Cookie": widget.cookie,
       "Content-Type":
-          "application/x-www-form-urlencoded; charset=UTF-8application/x-www-form-urlencoded; charset=UTF-8"
+      "application/x-www-form-urlencoded; charset=UTF-8application/x-www-form-urlencoded; charset=UTF-8"
     }));
     String reqUri = "/plugins/dynamix.docker.manager/include/Events.php";
     // TODO
@@ -310,7 +289,7 @@ class _InstalledAppsPageState extends State<InstalledAppsPage> {
     final response = await dio.postUri(Uri.parse(reqUri),
         data: FormData.fromMap({
           "action": "remove_container",
-          "container": container,
+          "container": container_id,
           "name": appName,
           "csrf_token": csrf_token
         }));
@@ -319,21 +298,22 @@ class _InstalledAppsPageState extends State<InstalledAppsPage> {
     } else {
       show_failed("Remove App Failed", context);
     }
+    _initListTiles();
   }
 
-  _changeAppStatus(String appName, status, container) async {
+  _changeAppStatus(String container_id, status) async {
     // status: restart,stop,(pause,resume)
     final dio = Dio(BaseOptions(baseUrl: baseUrl, headers: {
       "cookie": widget.cookie,
       "Content-Type":
-          "application/x-www-form-urlencoded; charset=UTF-8application/x-www-form-urlencoded; charset=UTF-8"
+      "application/x-www-form-urlencoded; charset=UTF-8application/x-www-form-urlencoded; charset=UTF-8"
     }));
     String reqUri = "/plugins/dynamix.docker.manager/include/Events.php";
     //Form Data action=stop&container=0fb9fdd30fef&csrf_token=E5FDD8E7277F5CC6
     final response = await dio.postUri(Uri.parse(reqUri),
         data: FormData.fromMap({
           "action": status,
-          "container": container,
+          "container": container_id,
           "csrf_token": csrf_token
         }));
     if (response.statusCode == 200) {
@@ -341,6 +321,7 @@ class _InstalledAppsPageState extends State<InstalledAppsPage> {
     } else {
       show_failed("Change App Status To ${status} Failed", context);
     }
+    _initListTiles();
   }
 
   _openWithWebBrowser(String ip, int port) async {
@@ -385,15 +366,29 @@ class _InstalledAppsPageState extends State<InstalledAppsPage> {
     }
   }
 
-  _get_docker_container_list(String htmlDocument) async {
+  List<Map<String, dynamic>> _get_docker_container_list(String htmlDocument) {
     List<Map<String, dynamic>> docker_container_list = [];
+    // docker.push({name:'ddns-go',id:'566b2ac821d8',state:1,pause:0,update:0});
+    RegExp regExp2 = RegExp(r'docker.push((.*?));');
+    var matchs = regExp2.allMatches(htmlDocument);
+    var num_apps = matchs.length;
+    // 通过正则匹配应用名称，应用的端口，只有Host网络模式才有192.168.124.4:34323/TCP；192.168.124.4:5353/UDP
+    // 分割字符串到列表
+    List<String> lines = htmlDocument.split('\n');
+    // 移除最后一行
+    if (lines.length > 1) {
+      lines.removeLast();
+      lines.removeLast();
+    }
+    // 重新组合字符串
+    htmlDocument = lines.join('\n');
     // var htmlDocument2 = '<html>'+htmlDocument+'<\/html>';
     dom.Document document = parser.parse(htmlDocument);
-    //
-    var num = document.getElementsByClassName("hand").length;
-    print(num);
-    for (int i = 0; i< num; i++) {
-      var addrPortText = document.getElementsByClassName("docker_readmore")[i *2].text.trim();
+    //计算列表应用数量
+    // var num = document.getElementsByClassName("hand").length;
+    for (int i = 0; i < num_apps; i++) {
+      var addrPortText =
+      document.getElementsByClassName("docker_readmore")[i * 2].text.trim();
       RegExp regExp = RegExp(r'\d+.\d+.\d+.\d+:\d+/TCP'); // 使用非贪婪匹配来获取双引号内的内容
       Match? match = regExp.firstMatch(addrPortText);
       String addr = "";
@@ -408,8 +403,14 @@ class _InstalledAppsPageState extends State<InstalledAppsPage> {
       // started, stopped, paused
       var status = document.getElementsByClassName("state")[i].text;
       var id = document.getElementsByClassName("hand")[i].id;
-      var name = document.getElementsByClassName("exec")[i *2].text;
-      docker_container_list.add({"name":name,"id":id,"addr":addr,"port":port,"status":status});
+      var name = document.getElementsByClassName("exec")[i * 2].text;
+      docker_container_list.add({
+        "name": name,
+        "id": id,
+        "addr": addr,
+        "port": port,
+        "status": status
+      });
     }
     return docker_container_list;
   }

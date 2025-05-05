@@ -126,11 +126,11 @@ class _UnraidLoginPageState extends State<UnraidLoginPage> {
     try {
       final response = await dio.postUri(Uri.parse(reqUri),
           data: {'username': username, 'password': password});
-      if (response.data["success"] == 200 || response.data["success"] == 302) {
+      if (response.statusCode == 200 || response.statusCode == 302) {
         //  登录成功
         var set_cookie = response.headers.map["Set-Cookie"].toString();
         // 跳转到已安装应用页面
-        show_success(set_cookie.split(RegExp("; "))[0], context);
+        // show_success(set_cookie.split(RegExp("; "))[0], context);
         Navigator.push(context, MaterialPageRoute(builder: (ctx) {
           return InstalledAppsPage(
               key: UniqueKey(),
