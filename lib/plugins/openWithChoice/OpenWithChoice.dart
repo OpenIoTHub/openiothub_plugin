@@ -14,6 +14,7 @@ import '../mdnsService/mDNSService/VNCRFBWebPage.dart';
 import '../mdnsService/mDNSService/aria2c.dart';
 import '../mdnsService/mDNSService/nas/casaZimaOS/casaosLogin.dart';
 import '../mdnsService/mDNSService/nas/casaZimaOS/zimaLogin.dart';
+import '../mdnsService/mDNSService/nas/unraid/login.dart';
 
 class OpenWithChoice extends StatelessWidget {
   PortConfig portConfig;
@@ -50,6 +51,9 @@ class OpenWithChoice extends StatelessWidget {
     listData.add(TAG_CENTER);
     listData.add(ListItem(
         title: 'ZimaOS', icon: 'assets/images/ic_discover_nearby.png'));
+    listData.add(TAG_CENTER);
+    listData.add(ListItem(
+        title: 'UnRaid', icon: 'assets/images/ic_discover_nearby.png'));
     listData.add(TAG_END);
   }
 
@@ -199,6 +203,16 @@ class OpenWithChoice extends StatelessWidget {
           } else if (title == 'ZimaOS') {
             Navigator.push(ctx, MaterialPageRoute(builder: (ctx) {
               return ZimaLoginPage(
+                // portService: PortService(ip: Config.webgRpcIp,port:portConfig.localProt),
+                device: portConfig2portService(portConfig),
+                key: UniqueKey(),
+              );
+            })).then((_) {
+              Navigator.of(ctx).pop();
+            });
+          } else if (title == 'UnRaid') {
+            Navigator.push(ctx, MaterialPageRoute(builder: (ctx) {
+              return UnraidLoginPage(
                 // portService: PortService(ip: Config.webgRpcIp,port:portConfig.localProt),
                 device: portConfig2portService(portConfig),
                 key: UniqueKey(),

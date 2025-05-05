@@ -15,4 +15,11 @@ main() async {
     //     queryParameters: {
     // });
     // print(uri.toString());
+    var input = 'var csrf_token = "E5FDD8E7277F5CC6";';
+    RegExp regExp = RegExp(r'var csrf_token = "(.*?)";'); // 使用非贪婪匹配来获取双引号内的内容
+    Match? match = regExp.firstMatch(input);
+    if (match != null) {
+        String token = match.group(1)!; // group(1) 是捕获组的内容
+        print(token); // 输出: E5FDD8E7277F5CC6
+    }
 }

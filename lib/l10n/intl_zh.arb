@@ -80,5 +80,5 @@
   "username_and_password_cant_be_empty": "用户名和密码不可以为空",
 
   "ok": "确定",
-  "please_input_ssh_username_password": "请输入输入ssh的用户名和密码"
+  "please_input_ssh_username_password": "请输入ssh的用户名和密码"
 }

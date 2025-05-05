@@ -1,6 +1,6 @@
 name: openiothub_plugin
 description: openiothub_plugin
-version: 1.0.2+56
+version: 1.0.2+57
 homepage: https://github.com/OpenIoTHub
 
 environment:
@@ -51,6 +51,7 @@ dependencies:
   contextmenu: ^3.0.0
   video_player: ^2.9.5
   flutter_inappwebview: ^6.1.5
+  xml: ^6.5.0
 
 dev_dependencies:
   flutter_test:
