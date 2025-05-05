@@ -176,7 +176,7 @@ class _InstalledAppsPageState extends State<InstalledAppsPage> {
           // subtitle: Text(appInfo["status"], style: TextStyle(),),
           subtitle: TDTag(
             appInfo["status"],
-            theme: appInfo["status"] == "running"
+            theme: appInfo["status"] == "started"
                 ? TDTagTheme.success
                 : TDTagTheme.danger,
             // isOutline: true,
@@ -405,9 +405,11 @@ class _InstalledAppsPageState extends State<InstalledAppsPage> {
         port = int.parse(addr_port.split(RegExp(":")).last);
         print("addr port: ${addr}:${port}");
       }
+      // started, stopped, paused
+      var status = document.getElementsByClassName("state")[i].text;
       var id = document.getElementsByClassName("hand")[i].id;
       var name = document.getElementsByClassName("exec")[i *2].text;
-      docker_container_list.add({"name":name,"id":id,"addr":addr,"port":port});
+      docker_container_list.add({"name":name,"id":id,"addr":addr,"port":port,"status":status});
     }
     return docker_container_list;
   }
