@@ -149,6 +149,14 @@ class _InstalledAppsPageState extends State<InstalledAppsPage> {
             //     onPressed: () {
             //       _initListTiles();
             //     })
+            IconButton(
+                icon: Icon(
+                  Icons.open_in_browser,
+                  color: Colors.teal,
+                ),
+                onPressed: () {
+                  _launchURL(baseUrl);
+                }),
             // 版本信息
             IconButton(
                 icon: Icon(

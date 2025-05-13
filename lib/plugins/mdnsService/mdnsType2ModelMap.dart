@@ -26,6 +26,7 @@ class MDNS2ModelsMap {
     portServiceInfo.isLocal = true;
     portServiceInfo.addr = "127.0.0.1";
     portServiceInfo.port = 80;
+    portServiceInfo.info = Map();
     portServiceInfo.info!.addAll(baseInfo);
     return portServiceInfo;
   }
