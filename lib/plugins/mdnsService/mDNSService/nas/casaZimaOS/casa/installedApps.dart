@@ -229,7 +229,7 @@ class _InstalledAppsPageState extends State<InstalledAppsPage> {
     PortList portList = PortList();
     response.data["data"].forEach((appInfo) {
       // print("remoteHost: ${widget.portConfig.device.addr},remotePort: ${appInfo["port"]}");
-      if (appInfo["port"].isEmpty) {
+      if (appInfo["port"] ==null || appInfo["port"].isEmpty) {
         // print("appInfo[\"port\"].isEmpty");
         return;
       }
@@ -290,7 +290,7 @@ class _InstalledAppsPageState extends State<InstalledAppsPage> {
                   value: progress.progress,
                 ),
               ),
-              imageUrl: appInfo["icon"],
+              imageUrl: appInfo["icon"]!=null?appInfo["icon"]:"https://cdn.jsdelivr.net/gh/IceWhaleTech/CasaOS-AppStore@main/Apps/Gateway-go/icon.png",
             ),
           ),
           trailing: TDButton(
