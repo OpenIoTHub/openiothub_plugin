@@ -30,7 +30,9 @@ class SSHNativePageState extends State<SSHNativePage> {
   @override
   void initState() {
     super.initState();
-    initTerminal();
+    Future.delayed(const Duration(seconds: 1), () {
+      initTerminal();
+    });
   }
 
   Future<void> initTerminal() async {
@@ -38,23 +40,19 @@ class SSHNativePageState extends State<SSHNativePage> {
         "${widget.device.addr}:${widget.device.port}@${widget.device.runId}");
     terminal.write('Connecting...\r\n');
     TextEditingController usernameController =
-    TextEditingController.fromValue(
-        TextEditingValue(text: ""));
+        TextEditingController.fromValue(TextEditingValue(text: ""));
     TextEditingController passwordController =
-    TextEditingController.fromValue(
-        TextEditingValue(text: ""));
+        TextEditingController.fromValue(TextEditingValue(text: ""));
     showGeneralDialog(
       context: context,
-      pageBuilder: (BuildContext buildContext,
-          Animation<double> animation,
+      pageBuilder: (BuildContext buildContext, Animation<double> animation,
           Animation<double> secondaryAnimation) {
         return TDAlertDialog(
           title: OpenIoTHubPluginLocalizations.of(context)
               .please_input_ssh_username_password,
           contentWidget: Column(children: <Widget>[
             TDInput(
-              leftLabel:
-              OpenIoTHubPluginLocalizations.of(context).username,
+              leftLabel: OpenIoTHubPluginLocalizations.of(context).username,
               leftLabelSpace: 0,
               hintText: "",
               backgroundColor: Colors.white,
@@ -101,7 +99,9 @@ class SSHNativePageState extends State<SSHNativePage> {
             action: () {
               Navigator.of(context).pop();
               // 弹窗获取用户名密码
-              _connect_ssh(username: usernameController.text, password: passwordController.text);
+              _connect_ssh(
+                  username: usernameController.text,
+                  password: passwordController.text);
             },
           ),
         );
